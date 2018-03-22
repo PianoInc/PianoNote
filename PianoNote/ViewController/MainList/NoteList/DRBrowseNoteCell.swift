@@ -1,5 +1,5 @@
 //
-//  Util.swift
+//  DRBrowseNoteCell.swift
 //  PianoNote
 //
 //  Created by 김경록 on 2018. 3. 22..
@@ -8,9 +8,7 @@
 
 import UIKit
 
-class Util: NSObject {
-    
-    static let share = Util()
+class DRBrowseNoteCell: UITableViewCell {
     
 }
 

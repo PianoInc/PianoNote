@@ -1,5 +1,5 @@
 //
-//  FolderCell.swift
+//  DREmptyFolderCell.swift
 //  PianoNote
 //
 //  Created by 김경록 on 2018. 3. 22..
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FolderCell: UICollectionViewCell {
+class DREmptyFolderCell: UICollectionViewCell {
     
 }
 
