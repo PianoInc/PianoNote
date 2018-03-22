@@ -12,13 +12,21 @@ import RxCocoa
 
 extension NSObject {
     
-    /// StatusBar 높이를 반환한다.
+    /// StatusBar의 높이를 반환한다.
     var statusHeight: CGFloat {
         return UIApplication.shared.statusBarFrame.height
     }
     
+    /// NavigationBar의 높이를 반환한다.
+    var naviHeight: CGFloat {
+        if let navigationController = UIWindow.topVC?.navigationController {
+            return navigationController.navigationBar.frame.height
+        }
+        return 0
+    }
+    
     /// iPhoneX 대응 safeArea Inset값.
-    var safeAreaInset: UIEdgeInsets {
+    var safeInset: UIEdgeInsets {
         if UIScreen.main.bounds.size == CGSize(width: 375, height: 812) {
             return UIEdgeInsets(top: 44, left: 0, bottom: 34, right: 0)
         } else if UIScreen.main.bounds.size == CGSize(width: 812, height: 375) {

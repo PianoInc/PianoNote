@@ -52,11 +52,11 @@ class DRButton: UIButton {
     
     /**
      버튼 title에 해당 font를 적용한다.
-     - parameter type : FontType.
-     - parameter size : 적용하려는 size.
+     - note: [UIFontTextStyle](https://developer.apple.com/documentation/uikit/uifonttextstyle)
+     - parameter font : DRTextStyle.
      */
-    func title(font: SDFontType, size: CGFloat) {
-        titleLabel?.font = UIFont(name: font.rawValue, size: size)
+    func title(font: DRTextStyle) {
+        titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle(font.rawValue))
     }
     
     /**

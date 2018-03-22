@@ -10,5 +10,7 @@ import UIKit
 
 class DRContentFolderCell: UICollectionViewCell {
     
+    let listView = UITableView(frame: .zero, style: .grouped)
+    
 }
 
