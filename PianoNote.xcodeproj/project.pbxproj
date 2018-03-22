@@ -1,0 +1,1091 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		168D199D2063294A005AA85F /* PianoNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D199C2063294A005AA85F /* PianoNoteTests.swift */; };
+		168D19A82063294A005AA85F /* PianoNoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19A72063294A005AA85F /* PianoNoteUITests.swift */; };
+		168D19D420632998005AA85F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168D19B720632998005AA85F /* Assets.xcassets */; };
+		168D19D620632998005AA85F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168D19BA20632998005AA85F /* LaunchScreen.storyboard */; };
+		168D19D720632998005AA85F /* Main1.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168D19BC20632998005AA85F /* Main1.storyboard */; };
+		168D19D920632998005AA85F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 168D19C020632998005AA85F /* Localizable.strings */; };
+		168D19DB20632998005AA85F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168D19C420632998005AA85F /* Main.storyboard */; };
+		168D19DC20632998005AA85F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 168D19C620632998005AA85F /* InfoPlist.strings */; };
+		168D19DD20632998005AA85F /* Main2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168D19C820632998005AA85F /* Main2.storyboard */; };
+		168D19DE20632998005AA85F /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19CB20632998005AA85F /* Util.swift */; };
+		168D19E020632998005AA85F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19CF20632998005AA85F /* AppDelegate.swift */; };
+		168D19E220632998005AA85F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19D320632998005AA85F /* Color.swift */; };
+		168D19EC20632A5F005AA85F /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 168D19EB20632A5F005AA85F /* NotificationCenter.framework */; };
+		168D19EF20632A5F005AA85F /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19EE20632A5F005AA85F /* TodayViewController.swift */; };
+		168D19F220632A5F005AA85F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168D19F020632A5F005AA85F /* MainInterface.storyboard */; };
+		168D19F620632A5F005AA85F /* widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 168D19E920632A5F005AA85F /* widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		168D19FC20632FD5005AA85F /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19FB20632FD5005AA85F /* SplashViewController.swift */; };
+		280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */; };
+		54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A175366D5D2E82F861F0A /* Pods_widget.framework */; };
+		74C96D7681BE6A76499C89F4 /* Pods_PianoNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */; };
+		AC0FAE4C9A74B6BC50C0949B /* Pods_PianoNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		168D19992063294A005AA85F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 168D197C20632949005AA85F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 168D198320632949005AA85F;
+			remoteInfo = PianoNote;
+		};
+		168D19A42063294A005AA85F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 168D197C20632949005AA85F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 168D198320632949005AA85F;
+			remoteInfo = PianoNote;
+		};
+		168D19F420632A5F005AA85F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 168D197C20632949005AA85F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 168D19E820632A5F005AA85F;
+			remoteInfo = widget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		168D19FA20632A5F005AA85F /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				168D19F620632A5F005AA85F /* widget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		168D198420632949005AA85F /* PianoNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		168D19982063294A005AA85F /* PianoNoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PianoNoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		168D199C2063294A005AA85F /* PianoNoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoNoteTests.swift; sourceTree = "<group>"; };
+		168D199E2063294A005AA85F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		168D19A32063294A005AA85F /* PianoNoteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PianoNoteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		168D19A72063294A005AA85F /* PianoNoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoNoteUITests.swift; sourceTree = "<group>"; };
+		168D19A92063294A005AA85F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		168D19B720632998005AA85F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		168D19BB20632998005AA85F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		168D19BD20632998005AA85F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main1.storyboard; sourceTree = "<group>"; };
+		168D19C120632998005AA85F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		168D19C520632998005AA85F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		168D19C720632998005AA85F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		168D19C920632998005AA85F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main2.storyboard; sourceTree = "<group>"; };
+		168D19CB20632998005AA85F /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		168D19CD20632998005AA85F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		168D19CF20632998005AA85F /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		168D19D320632998005AA85F /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		168D19E920632A5F005AA85F /* widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		168D19EB20632A5F005AA85F /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		168D19EE20632A5F005AA85F /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		168D19F120632A5F005AA85F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		168D19F320632A5F005AA85F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		168D19FB20632FD5005AA85F /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		168D19FD206338FB005AA85F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		168D19FE206338FB005AA85F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BEAD3B25C82A9D5AD3AD7F3 /* Pods-PianoNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
+		20EC9305AF23FD8D000CC78B /* Pods-PianoNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNote.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote.release.xcconfig"; sourceTree = "<group>"; };
+		2374EFD468F56D908DCED9DD /* Pods-PianoNoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		273A175366D5D2E82F861F0A /* Pods_widget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_widget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28597A7BFB099977A6426733 /* Pods-widget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-widget.debug.xcconfig"; path = "Pods/Target Support Files/Pods-widget/Pods-widget.debug.xcconfig"; sourceTree = "<group>"; };
+		28E770950988C176B01DB70F /* Pods-PianoNoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests.debug.xcconfig"; sourceTree = "<group>"; };
+		53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B2B6D778206662C5F9CDB89 /* Pods-PianoNoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests.release.xcconfig"; sourceTree = "<group>"; };
+		DA927F2A7BA45CA6512CF273 /* Pods-widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-widget.release.xcconfig"; path = "Pods/Target Support Files/Pods-widget/Pods-widget.release.xcconfig"; sourceTree = "<group>"; };
+		E91A1ED79729DF5EF532D2BD /* Pods-PianoNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		168D198120632949005AA85F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		168D19952063294A005AA85F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC0FAE4C9A74B6BC50C0949B /* Pods_PianoNoteTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		168D19A02063294A005AA85F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74C96D7681BE6A76499C89F4 /* Pods_PianoNoteUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		168D19E620632A5F005AA85F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				168D19EC20632A5F005AA85F /* NotificationCenter.framework in Frameworks */,
+				54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		168D197B20632949005AA85F = {
+			isa = PBXGroup;
+			children = (
+				168D19B520632998005AA85F /* PianoNote */,
+				168D19ED20632A5F005AA85F /* widget */,
+				168D199B2063294A005AA85F /* PianoNoteTests */,
+				168D19A62063294A005AA85F /* PianoNoteUITests */,
+				168D19EA20632A5F005AA85F /* Frameworks */,
+				168D198520632949005AA85F /* Products */,
+				419757B10061036B027FA047 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		168D198520632949005AA85F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				168D198420632949005AA85F /* PianoNote.app */,
+				168D19982063294A005AA85F /* PianoNoteTests.xctest */,
+				168D19A32063294A005AA85F /* PianoNoteUITests.xctest */,
+				168D19E920632A5F005AA85F /* widget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		168D199B2063294A005AA85F /* PianoNoteTests */ = {
+			isa = PBXGroup;
+			children = (
+				168D199C2063294A005AA85F /* PianoNoteTests.swift */,
+				168D199E2063294A005AA85F /* Info.plist */,
+			);
+			path = PianoNoteTests;
+			sourceTree = "<group>";
+		};
+		168D19A62063294A005AA85F /* PianoNoteUITests */ = {
+			isa = PBXGroup;
+			children = (
+				168D19A72063294A005AA85F /* PianoNoteUITests.swift */,
+				168D19A92063294A005AA85F /* Info.plist */,
+			);
+			path = PianoNoteUITests;
+			sourceTree = "<group>";
+		};
+		168D19B520632998005AA85F /* PianoNote */ = {
+			isa = PBXGroup;
+			children = (
+				168D19CF20632998005AA85F /* AppDelegate.swift */,
+				168D19D020632998005AA85F /* ViewController */,
+				168D19CE20632998005AA85F /* View */,
+				168D19CA20632998005AA85F /* Util */,
+				168D19D120632998005AA85F /* Extension */,
+				168D19B620632998005AA85F /* Asset */,
+				168D19CC20632998005AA85F /* Etc */,
+			);
+			path = PianoNote;
+			sourceTree = "<group>";
+		};
+		168D19B620632998005AA85F /* Asset */ = {
+			isa = PBXGroup;
+			children = (
+				168D19B720632998005AA85F /* Assets.xcassets */,
+				168D19BA20632998005AA85F /* LaunchScreen.storyboard */,
+				168D19C420632998005AA85F /* Main.storyboard */,
+				168D19BC20632998005AA85F /* Main1.storyboard */,
+				168D19C820632998005AA85F /* Main2.storyboard */,
+				168D19C020632998005AA85F /* Localizable.strings */,
+				168D19C620632998005AA85F /* InfoPlist.strings */,
+			);
+			path = Asset;
+			sourceTree = "<group>";
+		};
+		168D19CA20632998005AA85F /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				168D19CB20632998005AA85F /* Util.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		168D19CC20632998005AA85F /* Etc */ = {
+			isa = PBXGroup;
+			children = (
+				168D19CD20632998005AA85F /* Info.plist */,
+			);
+			path = Etc;
+			sourceTree = "<group>";
+		};
+		168D19CE20632998005AA85F /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		168D19D020632998005AA85F /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				168D19FB20632FD5005AA85F /* SplashViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		168D19D120632998005AA85F /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				168D19D320632998005AA85F /* Color.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		168D19EA20632A5F005AA85F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				168D19EB20632A5F005AA85F /* NotificationCenter.framework */,
+				53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */,
+				606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */,
+				1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */,
+				273A175366D5D2E82F861F0A /* Pods_widget.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		168D19ED20632A5F005AA85F /* widget */ = {
+			isa = PBXGroup;
+			children = (
+				168D19EE20632A5F005AA85F /* TodayViewController.swift */,
+				168D19F020632A5F005AA85F /* MainInterface.storyboard */,
+				168D19F320632A5F005AA85F /* Info.plist */,
+			);
+			path = widget;
+			sourceTree = "<group>";
+		};
+		419757B10061036B027FA047 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E91A1ED79729DF5EF532D2BD /* Pods-PianoNote.debug.xcconfig */,
+				20EC9305AF23FD8D000CC78B /* Pods-PianoNote.release.xcconfig */,
+				28E770950988C176B01DB70F /* Pods-PianoNoteTests.debug.xcconfig */,
+				7B2B6D778206662C5F9CDB89 /* Pods-PianoNoteTests.release.xcconfig */,
+				2374EFD468F56D908DCED9DD /* Pods-PianoNoteUITests.debug.xcconfig */,
+				1BEAD3B25C82A9D5AD3AD7F3 /* Pods-PianoNoteUITests.release.xcconfig */,
+				28597A7BFB099977A6426733 /* Pods-widget.debug.xcconfig */,
+				DA927F2A7BA45CA6512CF273 /* Pods-widget.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		168D198320632949005AA85F /* PianoNote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 168D19AC2063294A005AA85F /* Build configuration list for PBXNativeTarget "PianoNote" */;
+			buildPhases = (
+				6C80613AAED3F682BF180363 /* [CP] Check Pods Manifest.lock */,
+				168D198020632949005AA85F /* Sources */,
+				168D198120632949005AA85F /* Frameworks */,
+				168D198220632949005AA85F /* Resources */,
+				168D19FA20632A5F005AA85F /* Embed App Extensions */,
+				3D1FE22250FA16777E933F82 /* [CP] Embed Pods Frameworks */,
+				67024A7300FD6C11CC3D4415 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				168D19F520632A5F005AA85F /* PBXTargetDependency */,
+			);
+			name = PianoNote;
+			productName = PianoNote;
+			productReference = 168D198420632949005AA85F /* PianoNote.app */;
+			productType = "com.apple.product-type.application";
+		};
+		168D19972063294A005AA85F /* PianoNoteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 168D19AF2063294A005AA85F /* Build configuration list for PBXNativeTarget "PianoNoteTests" */;
+			buildPhases = (
+				7F0589F9898B7B3361872483 /* [CP] Check Pods Manifest.lock */,
+				168D19942063294A005AA85F /* Sources */,
+				168D19952063294A005AA85F /* Frameworks */,
+				168D19962063294A005AA85F /* Resources */,
+				52E0E2D42139C34C1F4D0000 /* [CP] Embed Pods Frameworks */,
+				5DA5C70DA69289D1480A676A /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				168D199A2063294A005AA85F /* PBXTargetDependency */,
+			);
+			name = PianoNoteTests;
+			productName = PianoNoteTests;
+			productReference = 168D19982063294A005AA85F /* PianoNoteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		168D19A22063294A005AA85F /* PianoNoteUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 168D19B22063294A005AA85F /* Build configuration list for PBXNativeTarget "PianoNoteUITests" */;
+			buildPhases = (
+				A85C550023929AC41954B1AF /* [CP] Check Pods Manifest.lock */,
+				168D199F2063294A005AA85F /* Sources */,
+				168D19A02063294A005AA85F /* Frameworks */,
+				168D19A12063294A005AA85F /* Resources */,
+				1F400FCDEE05B6D12E9E1FBF /* [CP] Embed Pods Frameworks */,
+				53D403E3ECFCE6C5F4B8905F /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				168D19A52063294A005AA85F /* PBXTargetDependency */,
+			);
+			name = PianoNoteUITests;
+			productName = PianoNoteUITests;
+			productReference = 168D19A32063294A005AA85F /* PianoNoteUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		168D19E820632A5F005AA85F /* widget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 168D19F720632A5F005AA85F /* Build configuration list for PBXNativeTarget "widget" */;
+			buildPhases = (
+				B497C95C2D6E46DEF0626FC9 /* [CP] Check Pods Manifest.lock */,
+				168D19E520632A5F005AA85F /* Sources */,
+				168D19E620632A5F005AA85F /* Frameworks */,
+				168D19E720632A5F005AA85F /* Resources */,
+				5D6747BEBB81F0A8756A1F7E /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = widget;
+			productName = widget;
+			productReference = 168D19E920632A5F005AA85F /* widget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		168D197C20632949005AA85F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = piano;
+				TargetAttributes = {
+					168D198320632949005AA85F = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					168D19972063294A005AA85F = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 168D198320632949005AA85F;
+					};
+					168D19A22063294A005AA85F = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 168D198320632949005AA85F;
+					};
+					168D19E820632A5F005AA85F = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 168D197F20632949005AA85F /* Build configuration list for PBXProject "PianoNote" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				ko,
+			);
+			mainGroup = 168D197B20632949005AA85F;
+			productRefGroup = 168D198520632949005AA85F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				168D198320632949005AA85F /* PianoNote */,
+				168D19972063294A005AA85F /* PianoNoteTests */,
+				168D19A22063294A005AA85F /* PianoNoteUITests */,
+				168D19E820632A5F005AA85F /* widget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		168D198220632949005AA85F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				168D19D620632998005AA85F /* LaunchScreen.storyboard in Resources */,
+				168D19D920632998005AA85F /* Localizable.strings in Resources */,
+				168D19DB20632998005AA85F /* Main.storyboard in Resources */,
+				168D19D720632998005AA85F /* Main1.storyboard in Resources */,
+				168D19DC20632998005AA85F /* InfoPlist.strings in Resources */,
+				168D19DD20632998005AA85F /* Main2.storyboard in Resources */,
+				168D19D420632998005AA85F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		168D19962063294A005AA85F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		168D19A12063294A005AA85F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		168D19E720632A5F005AA85F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				168D19F220632A5F005AA85F /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1F400FCDEE05B6D12E9E1FBF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3D1FE22250FA16777E933F82 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyUserDefaults.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		52E0E2D42139C34C1F4D0000 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		53D403E3ECFCE6C5F4B8905F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5D6747BEBB81F0A8756A1F7E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-widget/Pods-widget-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5DA5C70DA69289D1480A676A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		67024A7300FD6C11CC3D4415 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6C80613AAED3F682BF180363 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PianoNote-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F0589F9898B7B3361872483 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PianoNoteTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A85C550023929AC41954B1AF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PianoNoteUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B497C95C2D6E46DEF0626FC9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-widget-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		168D198020632949005AA85F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				168D19FC20632FD5005AA85F /* SplashViewController.swift in Sources */,
+				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
+				168D19DE20632998005AA85F /* Util.swift in Sources */,
+				168D19E220632998005AA85F /* Color.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		168D19942063294A005AA85F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				168D199D2063294A005AA85F /* PianoNoteTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		168D199F2063294A005AA85F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				168D19A82063294A005AA85F /* PianoNoteUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		168D19E520632A5F005AA85F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				168D19EF20632A5F005AA85F /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		168D199A2063294A005AA85F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 168D198320632949005AA85F /* PianoNote */;
+			targetProxy = 168D19992063294A005AA85F /* PBXContainerItemProxy */;
+		};
+		168D19A52063294A005AA85F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 168D198320632949005AA85F /* PianoNote */;
+			targetProxy = 168D19A42063294A005AA85F /* PBXContainerItemProxy */;
+		};
+		168D19F520632A5F005AA85F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 168D19E820632A5F005AA85F /* widget */;
+			targetProxy = 168D19F420632A5F005AA85F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		168D19BA20632998005AA85F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				168D19BB20632998005AA85F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		168D19BC20632998005AA85F /* Main1.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				168D19BD20632998005AA85F /* Base */,
+			);
+			name = Main1.storyboard;
+			sourceTree = "<group>";
+		};
+		168D19C020632998005AA85F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				168D19C120632998005AA85F /* Base */,
+				168D19FD206338FB005AA85F /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		168D19C420632998005AA85F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				168D19C520632998005AA85F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		168D19C620632998005AA85F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				168D19C720632998005AA85F /* Base */,
+				168D19FE206338FB005AA85F /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		168D19C820632998005AA85F /* Main2.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				168D19C920632998005AA85F /* Base */,
+			);
+			name = Main2.storyboard;
+			sourceTree = "<group>";
+		};
+		168D19F020632A5F005AA85F /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				168D19F120632A5F005AA85F /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		168D19AA2063294A005AA85F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		168D19AB2063294A005AA85F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		168D19AD2063294A005AA85F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E91A1ED79729DF5EF532D2BD /* Pods-PianoNote.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				INFOPLIST_FILE = "$(SRCROOT)/PianoNote/Etc/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.piano.PianoNote;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		168D19AE2063294A005AA85F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 20EC9305AF23FD8D000CC78B /* Pods-PianoNote.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				INFOPLIST_FILE = "$(SRCROOT)/PianoNote/Etc/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.piano.PianoNote;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		168D19B02063294A005AA85F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28E770950988C176B01DB70F /* Pods-PianoNoteTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				INFOPLIST_FILE = PianoNoteTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.piano.PianoNoteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PianoNote.app/PianoNote";
+			};
+			name = Debug;
+		};
+		168D19B12063294A005AA85F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B2B6D778206662C5F9CDB89 /* Pods-PianoNoteTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				INFOPLIST_FILE = PianoNoteTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.piano.PianoNoteTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PianoNote.app/PianoNote";
+			};
+			name = Release;
+		};
+		168D19B32063294A005AA85F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2374EFD468F56D908DCED9DD /* Pods-PianoNoteUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				INFOPLIST_FILE = PianoNoteUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.piano.PianoNoteUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PianoNote;
+			};
+			name = Debug;
+		};
+		168D19B42063294A005AA85F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BEAD3B25C82A9D5AD3AD7F3 /* Pods-PianoNoteUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				INFOPLIST_FILE = PianoNoteUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.piano.PianoNoteUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PianoNote;
+			};
+			name = Release;
+		};
+		168D19F820632A5F005AA85F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28597A7BFB099977A6426733 /* Pods-widget.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				INFOPLIST_FILE = widget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.piano.PianoNote.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		168D19F920632A5F005AA85F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA927F2A7BA45CA6512CF273 /* Pods-widget.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				INFOPLIST_FILE = widget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.piano.PianoNote.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		168D197F20632949005AA85F /* Build configuration list for PBXProject "PianoNote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				168D19AA2063294A005AA85F /* Debug */,
+				168D19AB2063294A005AA85F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		168D19AC2063294A005AA85F /* Build configuration list for PBXNativeTarget "PianoNote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				168D19AD2063294A005AA85F /* Debug */,
+				168D19AE2063294A005AA85F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		168D19AF2063294A005AA85F /* Build configuration list for PBXNativeTarget "PianoNoteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				168D19B02063294A005AA85F /* Debug */,
+				168D19B12063294A005AA85F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		168D19B22063294A005AA85F /* Build configuration list for PBXNativeTarget "PianoNoteUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				168D19B32063294A005AA85F /* Debug */,
+				168D19B42063294A005AA85F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		168D19F720632A5F005AA85F /* Build configuration list for PBXNativeTarget "widget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				168D19F820632A5F005AA85F /* Debug */,
+				168D19F920632A5F005AA85F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 168D197C20632949005AA85F /* Project object */;
+}
