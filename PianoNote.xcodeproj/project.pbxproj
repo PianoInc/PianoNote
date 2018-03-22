@@ -193,7 +193,7 @@
 			children = (
 				168D19CF20632998005AA85F /* AppDelegate.swift */,
 				168D19D020632998005AA85F /* ViewController */,
-				168D19CE20632998005AA85F /* View */,
+				6C3130CC206341A1001E7E0F /* View */,
 				168D19CA20632998005AA85F /* Util */,
 				168D19D120632998005AA85F /* Extension */,
 				168D19B620632998005AA85F /* Asset */,
@@ -230,13 +230,6 @@
 				168D19CD20632998005AA85F /* Info.plist */,
 			);
 			path = Etc;
-			sourceTree = "<group>";
-		};
-		168D19CE20632998005AA85F /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		168D19D020632998005AA85F /* ViewController */ = {
@@ -290,6 +283,13 @@
 				DA927F2A7BA45CA6512CF273 /* Pods-widget.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		6C3130CC206341A1001E7E0F /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
