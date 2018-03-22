@@ -26,6 +26,7 @@
 		168D19FC20632FD5005AA85F /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19FB20632FD5005AA85F /* SplashViewController.swift */; };
 		280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */; };
 		54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A175366D5D2E82F861F0A /* Pods_widget.framework */; };
+		6C3130CF206343BC001E7E0F /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3130CE206343BC001E7E0F /* Test.swift */; };
 		74C96D7681BE6A76499C89F4 /* Pods_PianoNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */; };
 		AC0FAE4C9A74B6BC50C0949B /* Pods_PianoNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */; };
 /* End PBXBuildFile section */
@@ -104,6 +105,7 @@
 		28E770950988C176B01DB70F /* Pods-PianoNoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C3130CE206343BC001E7E0F /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		7B2B6D778206662C5F9CDB89 /* Pods-PianoNoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests.release.xcconfig"; sourceTree = "<group>"; };
 		DA927F2A7BA45CA6512CF273 /* Pods-widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-widget.release.xcconfig"; path = "Pods/Target Support Files/Pods-widget/Pods-widget.release.xcconfig"; sourceTree = "<group>"; };
 		E91A1ED79729DF5EF532D2BD /* Pods-PianoNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote.debug.xcconfig"; sourceTree = "<group>"; };
@@ -193,7 +195,7 @@
 			children = (
 				168D19CF20632998005AA85F /* AppDelegate.swift */,
 				168D19D020632998005AA85F /* ViewController */,
-				6C3130CC206341A1001E7E0F /* View */,
+				6C3130CD2063439F001E7E0F /* Views */,
 				168D19CA20632998005AA85F /* Util */,
 				168D19D120632998005AA85F /* Extension */,
 				168D19B620632998005AA85F /* Asset */,
@@ -285,11 +287,12 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		6C3130CC206341A1001E7E0F /* View */ = {
+		6C3130CD2063439F001E7E0F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6C3130CE206343BC001E7E0F /* Test.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -677,6 +680,7 @@
 			files = (
 				168D19FC20632FD5005AA85F /* SplashViewController.swift in Sources */,
 				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
+				6C3130CF206343BC001E7E0F /* Test.swift in Sources */,
 				168D19DE20632998005AA85F /* Util.swift in Sources */,
 				168D19E220632998005AA85F /* Color.swift in Sources */,
 			);
