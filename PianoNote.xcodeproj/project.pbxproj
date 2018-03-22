@@ -24,6 +24,8 @@
 		168D19F220632A5F005AA85F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168D19F020632A5F005AA85F /* MainInterface.storyboard */; };
 		168D19F620632A5F005AA85F /* widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 168D19E920632A5F005AA85F /* widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		168D19FC20632FD5005AA85F /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19FB20632FD5005AA85F /* SplashViewController.swift */; };
+		168D1A0220636501005AA85F /* FolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A0120636501005AA85F /* FolderCell.swift */; };
+		168D1A06206366A5005AA85F /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A05206366A5005AA85F /* MainListViewController.swift */; };
 		280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */; };
 		54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A175366D5D2E82F861F0A /* Pods_widget.framework */; };
 		74C96D7681BE6A76499C89F4 /* Pods_PianoNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */; };
@@ -95,6 +97,8 @@
 		168D19FB20632FD5005AA85F /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		168D19FD206338FB005AA85F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		168D19FE206338FB005AA85F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		168D1A0120636501005AA85F /* FolderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCell.swift; sourceTree = "<group>"; };
+		168D1A05206366A5005AA85F /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 		1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEAD3B25C82A9D5AD3AD7F3 /* Pods-PianoNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		20EC9305AF23FD8D000CC78B /* Pods-PianoNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNote.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote.release.xcconfig"; sourceTree = "<group>"; };
@@ -193,7 +197,7 @@
 			children = (
 				168D19CF20632998005AA85F /* AppDelegate.swift */,
 				168D19D020632998005AA85F /* ViewController */,
-				6C3130CD2063439F001E7E0F /* Views */,
+				168D1A00206364AE005AA85F /* View */,
 				168D19CA20632998005AA85F /* Util */,
 				168D19D120632998005AA85F /* Extension */,
 				168D19B620632998005AA85F /* Asset */,
@@ -235,6 +239,7 @@
 		168D19D020632998005AA85F /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				168D1A032063663C005AA85F /* MainList */,
 				168D19FB20632FD5005AA85F /* SplashViewController.swift */,
 			);
 			path = ViewController;
@@ -270,6 +275,30 @@
 			path = widget;
 			sourceTree = "<group>";
 		};
+		168D1A00206364AE005AA85F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				168D1A0420636649005AA85F /* MainList */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		168D1A032063663C005AA85F /* MainList */ = {
+			isa = PBXGroup;
+			children = (
+				168D1A05206366A5005AA85F /* MainListViewController.swift */,
+			);
+			path = MainList;
+			sourceTree = "<group>";
+		};
+		168D1A0420636649005AA85F /* MainList */ = {
+			isa = PBXGroup;
+			children = (
+				168D1A0120636501005AA85F /* FolderCell.swift */,
+			);
+			path = MainList;
+			sourceTree = "<group>";
+		};
 		419757B10061036B027FA047 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,13 +312,6 @@
 				DA927F2A7BA45CA6512CF273 /* Pods-widget.release.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		6C3130CD2063439F001E7E0F /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -677,7 +699,9 @@
 			files = (
 				168D19FC20632FD5005AA85F /* SplashViewController.swift in Sources */,
 				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
+				168D1A0220636501005AA85F /* FolderCell.swift in Sources */,
 				168D19DE20632998005AA85F /* Util.swift in Sources */,
+				168D1A06206366A5005AA85F /* MainListViewController.swift in Sources */,
 				168D19E220632998005AA85F /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
