@@ -43,16 +43,17 @@ class MainListViewController: UIViewController {
     // Orientation 대응
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        let index = round(listView.contentOffset.x / listView.bounds.width)
+        let prevIndex = round(listView.contentOffset.x / listView.bounds.width)
         func setContentOffset() {
             let width = size.width - safeInset.left - safeInset.right
-            listView.setContentOffset(CGPoint(x: index * width, y: 0), animated: false)
+            listView.setContentOffset(CGPoint(x: prevIndex * width, y: 0), animated: false)
         }
         coordinator.animateAlongsideTransition(in: nil, animation: { context in
             self.initConst()
-            self.listView.reloadData()
+            self.listView.collectionViewLayout.invalidateLayout()
             setContentOffset()
         }, completion: { finished in
+            self.listView.reloadData()
             setContentOffset()
         })
     }
@@ -87,7 +88,7 @@ extension MainListViewController: UICollectionViewDelegate {
     }
     
     private func naviTitle(alpha: CGFloat) {
-        guard let navigationBar = navigationController?.navigationBar else {return}
+        //guard let navigationBar = navigationController?.navigationBar else {return}
         //navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIColor.black.withAlphaComponent(alpha / 100)]
     }
     
@@ -108,14 +109,13 @@ extension MainListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0 {
+        if indexPath.row == 0 { // 둘러보기
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRBrowseFolderCell", for: indexPath) as! DRBrowseFolderCell
-            cell.backgroundColor = .red
+            cell.backgroundColor = .black
             return cell
         }
-        if tempData[indexPath.row].isEmpty {
+        if tempData[indexPath.row].isEmpty { // 빈 노트
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DREmptyFolderCell", for: indexPath) as! DREmptyFolderCell
-            cell.backgroundColor = .blue
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell

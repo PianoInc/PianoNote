@@ -10,5 +10,25 @@ import UIKit
 
 class DRNoteCellHeader: UIView {
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initView()
+        initConst()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+        initConst()
+    }
+    
+    private func initView() {
+        
+    }
+    
+    private func initConst() {
+        
+    }
+    
 }
 

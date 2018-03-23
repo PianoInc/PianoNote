@@ -39,7 +39,7 @@ extension NSObject {
      호출하는 순간의 statusBarOrientation을 참조하여 orientation을 고정/해제한다.
      - parameter lock : 고정여부.
      */
-    func orientation(lock: Bool) {
+    func device(orientationLock: Bool) {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             var orientationMask: UIInterfaceOrientationMask {
                 switch UIApplication.shared.statusBarOrientation {
@@ -51,7 +51,7 @@ extension NSObject {
                     return .portrait
                 }
             }
-            appDelegate.orientationLock = lock ? orientationMask : .allButUpsideDown
+            appDelegate.orientationLock = orientationLock ? orientationMask : .allButUpsideDown
         }
     }
     

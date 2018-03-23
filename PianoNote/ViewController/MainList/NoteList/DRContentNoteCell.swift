@@ -10,5 +10,7 @@ import UIKit
 
 class DRContentNoteCell: UITableViewCell {
     
+    
+    
 }
 

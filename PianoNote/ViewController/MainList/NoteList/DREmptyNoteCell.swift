@@ -10,5 +10,22 @@ import UIKit
 
 class DREmptyNoteCell: UITableViewCell {
     
+    @IBOutlet var emptyLabel: UILabel!
+    
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        emptyLabel.font = UIFont.preferred(font: .body)
+        initConst()
+    }
+    
+    private func initConst() {
+        makeConst(emptyLabel) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
+        }
+    }
+    
 }
 
