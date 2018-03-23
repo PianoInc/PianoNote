@@ -10,20 +10,14 @@ import UIKit
 
 class DRNoteCellHeader: UIView {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        initView()
-        initConst()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
         initView()
         initConst()
     }
     
     private func initView() {
-        
+        backgroundColor = .red
     }
     
     private func initConst() {

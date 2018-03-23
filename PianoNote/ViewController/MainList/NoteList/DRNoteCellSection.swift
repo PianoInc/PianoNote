@@ -10,24 +10,23 @@ import UIKit
 
 class DRNoteCellSection: UITableViewHeaderFooterView {
     
-    override init(reuseIdentifier: String?) {
-        super.init(reuseIdentifier: reuseIdentifier)
-        initView()
-        initConst()
+    let sectionLabel = makeView(UILabel()) {
+        $0.font = UIFont.preferred(font: .title2)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        initView()
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        contentView.addSubview(sectionLabel)
         initConst()
-    }
-    
-    private func initView() {
-        
     }
     
     private func initConst() {
-        
+        makeConst(sectionLabel) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
+        }
     }
     
 }

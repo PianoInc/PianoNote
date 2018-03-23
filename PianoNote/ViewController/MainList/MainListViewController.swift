@@ -33,10 +33,12 @@ class MainListViewController: UIViewController {
     /// Constraints 설정
     private func initConst() {
         makeConst(listView) {
-            $0.leading.equalTo(self.safeInset.left)
-            $0.trailing.equalTo(-self.safeInset.right)
-            $0.top.equalTo(self.statusHeight + self.naviHeight)
-            $0.bottom.equalTo(-self.safeInset.bottom)
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
+            $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
+            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
+            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.centerX.equalToSuperview().priority(.required)
         }
     }
     
@@ -45,8 +47,8 @@ class MainListViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         let prevIndex = round(listView.contentOffset.x / listView.bounds.width)
         func setContentOffset() {
-            let width = size.width - safeInset.left - safeInset.right
-            listView.setContentOffset(CGPoint(x: prevIndex * width, y: 0), animated: false)
+            let offset = CGPoint(x: prevIndex * listView.bounds.width, y: 0)
+            listView.setContentOffset(offset, animated: false)
         }
         coordinator.animateAlongsideTransition(in: nil, animation: { context in
             self.initConst()
@@ -63,6 +65,7 @@ class MainListViewController: UIViewController {
 extension MainListViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // 화면 중앙점을 기준으로 index를 계산한다.
         let centerOffset = CGPoint(x: scrollView.contentOffset.x + scrollView.center.x, y: scrollView.center.y)
         guard let indexPath = listView.indexPathForItem(at: centerOffset) else {return}
         initNavi(item: indexPath.row)
@@ -70,7 +73,7 @@ extension MainListViewController: UICollectionViewDelegate {
     
     /**
      navigationItem의 title 및 image를 설정한다.
-     - parameter observer : 변화된 Value값 통지.
+     - parameter index : 현재 보이지는 화면의 listview index.
      */
     private func initNavi(item index: Int) {
         guard let leftItem = navigationItem.leftBarButtonItem else {return}
