@@ -11,12 +11,15 @@ import UIKit
 class DRNoteCellSection: UITableViewHeaderFooterView {
     
     let sectionLabel = makeView(UILabel()) {
-        $0.font = UIFont.preferred(font: .title2)
+        $0.font = UIFont.preferred(font: 23, weight: .bold)
     }
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
         contentView.addSubview(sectionLabel)
+        device(orientationDidChange: { orientation in
+            self.initConst()
+        })
         initConst()
     }
     

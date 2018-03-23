@@ -15,6 +15,10 @@ class DREmptyFolderCell: UICollectionViewCell {
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        listView.tableHeaderView = header
+        device(orientationDidChange: { orientation in
+            self.initConst()
+        })
         initConst()
     }
     
@@ -25,16 +29,18 @@ class DREmptyFolderCell: UICollectionViewCell {
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }
+        makeConst(header) {
+            $0.width.equalToSuperview()
+            $0.height.equalTo(self.minSize * 0.39)
+        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         listView.reloadData()
-        initHeader()
-    }
-    
-    private func initHeader() {
-        
+        header.contentView.lockImage.backgroundColor = .blue
+        header.contentView.titleLabel.text = "모든메모"
+        header.contentView.newTitleLabel.text = "오늘의 당신은 어떤 사람이었나요?"
     }
     
 }
@@ -42,8 +48,9 @@ class DREmptyFolderCell: UICollectionViewCell {
 extension DREmptyFolderCell: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.bounds.height
+        return tableView.bounds.height - tableView.tableHeaderView!.bounds.height
     }
+    
 }
 
 extension DREmptyFolderCell: UITableViewDataSource {

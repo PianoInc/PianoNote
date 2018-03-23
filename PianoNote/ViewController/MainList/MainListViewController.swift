@@ -27,6 +27,9 @@ class MainListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        device(orientationDidChange: { orientation in
+            self.initConst()
+        })
         initConst()
     }
     
@@ -51,7 +54,6 @@ class MainListViewController: UIViewController {
             listView.setContentOffset(offset, animated: false)
         }
         coordinator.animateAlongsideTransition(in: nil, animation: { context in
-            self.initConst()
             self.listView.collectionViewLayout.invalidateLayout()
             setContentOffset()
         }, completion: { finished in

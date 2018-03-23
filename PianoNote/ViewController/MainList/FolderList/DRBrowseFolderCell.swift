@@ -15,6 +15,10 @@ class DRBrowseFolderCell: UICollectionViewCell {
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        listView.tableHeaderView = header
+        device(orientationDidChange: { orientation in
+            self.initConst()
+        })
         initConst()
     }
     
@@ -25,16 +29,15 @@ class DRBrowseFolderCell: UICollectionViewCell {
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }
+        makeConst(header) {
+            $0.width.equalToSuperview()
+            $0.height.equalTo(150)
+        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         listView.reloadData()
-        initHeader()
-    }
-    
-    private func initHeader() {
-        
     }
     
 }

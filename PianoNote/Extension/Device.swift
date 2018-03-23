@@ -12,6 +12,25 @@ import RxCocoa
 
 extension NSObject {
     
+    /// Device의 가로 세로중 더 작은 방향의 화면크기를 반환한다.
+    var minSize: CGFloat {
+        var size = UIScreen.main.bounds.width
+        if size > UIScreen.main.bounds.height {size = UIScreen.main.bounds.height}
+        return size
+    }
+    
+    /// Device의 가로 세로중 더 큰 방향의 화면크기를 반환한다.
+    var maxSize: CGFloat {
+        var size = UIScreen.main.bounds.width
+        if size < UIScreen.main.bounds.height {size = UIScreen.main.bounds.height}
+        return size
+    }
+    
+    /// Device의 화면크기를 반환한다.
+    var mainSize: CGSize {
+        return UIScreen.main.bounds.size
+    }
+    
     /// StatusBar의 높이를 반환한다.
     var statusHeight: CGFloat {
         return UIApplication.shared.statusBarFrame.height
