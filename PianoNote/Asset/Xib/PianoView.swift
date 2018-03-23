@@ -1,5 +1,5 @@
 //
-//  AnimatableTextsView.swift
+//  PianoView.swift
 //  PianoNote
 //
 //  Created by Kevin Kim on 23/03/2018.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AnimatableTextsView: UIView {
+class PianoView: UIView {
 
     /*
     // Only override draw() if you perform custom drawing.

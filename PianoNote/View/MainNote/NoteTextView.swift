@@ -44,7 +44,7 @@ extension NoteTextView {
         animateSelf()
         animateNavigationBarIfNeeded(for: pianoMode)
         animateToolbar(for: pianoMode)
-        setAnimatableTextsView(for: pianoMode)
+        setPianoView(for: pianoMode)
         setSegmentControl(for: pianoMode)
         setControlView(for: pianoMode)
         
@@ -107,9 +107,9 @@ extension NoteTextView {
         guard let superView = superview else { return }
         if pianoMode {
             guard let segmentControl = superView.subView(tag: ViewTag.PianoSegmentControl) as? PianoSegmentControl,
-                let animatableTextsView = superView.subView(tag: ViewTag.AnimatableTextsView) as? AnimatableTextsView else { return }
+                let PianoView = superView.subView(tag: ViewTag.PianoView) as? PianoView else { return }
             superView.insertSubview(segmentControl, belowSubview: self) //TODO: removefromSuperView 안하고 곧바로 다시 삽입해도 되는 지 체크하기
-            segmentControl.animatableTextsView = animatableTextsView
+            segmentControl.PianoView = PianoView
             segmentControl.snp.makeConstraints({ (make) in
                 make.top.left.right.equalTo(superView)
                 make.height.equalTo(100)
@@ -125,17 +125,17 @@ extension NoteTextView {
         
     }
     
-    private func setAnimatableTextsView(for pianoMode: Bool) {
+    private func setPianoView(for pianoMode: Bool) {
         
         guard let superView = superview else { return }
         if pianoMode {
-            guard let animatableTextsView = superView.subView(tag: ViewTag.AnimatableTextsView) as? AnimatableTextsView else { return }
-            animatableTextsView.snp.makeConstraints({ (make) in
+            guard let PianoView = superView.subView(tag: ViewTag.PianoView) as? PianoView else { return }
+            PianoView.snp.makeConstraints({ (make) in
                 make.top.left.right.bottom.equalTo(superView)
             })
         } else {
-            guard let animatableTextsView = superView.subView(tag: ViewTag.AnimatableTextsView) as? AnimatableTextsView else { return }
-            animatableTextsView.removeFromSuperview()
+            guard let PianoView = superView.subView(tag: ViewTag.PianoView) as? PianoView else { return }
+            PianoView.removeFromSuperview()
         }
         
     }

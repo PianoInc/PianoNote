@@ -12,7 +12,7 @@ import Foundation
 enum ViewTag: Int {
     case PianoButton = 1000
     case PianoSegmentControl = 1001
-    case AnimatableTextsView = 1002
+    case PianoView = 1002
     
     case TempImageView = 2000
     

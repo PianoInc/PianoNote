@@ -11,7 +11,7 @@ import UIKit
 class PianoSegmentControl: UIView {
     
     @IBOutlet var buttons: [UIButton]!
-    weak var animatableTextsView: AnimatableTextsView?
+    weak var PianoView: PianoView?
     
     @IBAction func tap(_ sender: UIButton) {
         
