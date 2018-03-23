@@ -9,15 +9,28 @@
 import UIKit
 import SnapKit
 
+protocol DRFolderCellDelegates:NSObjectProtocol {
+    /**
+     폴더 title의 maxY 값을 전달한다.
+     - parameter value: 폴더 title의 maxY.
+     */
+    func folderTitle(offset value: CGFloat)
+}
+
 class MainListViewController: UIViewController {
     
     @IBOutlet private var listView: UICollectionView!
     
-    private let tempData = ["", "", "폴더1", "폴더2", "폴더3", "폴더4", "폴더5"]
+    private let tempData = ["", "모든메모", "폴더1", "폴더2", "폴더3", "폴더4", ""]
     
     /// 한번만 실행할 Void.
     private lazy var dispatchOnce: Void = {
         listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
+        navigationItem.titleView = makeView(UILabel()) {
+            $0.font = UIFont.preferred(font: 17, weight: .semibold)
+            $0.text = tempData[1]
+            $0.isHidden = true
+        }
     }()
     
     override func viewDidLayoutSubviews() {
@@ -64,6 +77,23 @@ class MainListViewController: UIViewController {
     
 }
 
+extension MainListViewController: DRFolderCellDelegates {
+    
+    func folderTitle(offset value: CGFloat) {
+        naviTitle(alpha: value)
+    }
+    
+    /**
+     NavigationBar title에 주어진 alpha값을 적용한다.
+     - parameter alpha: 적용하려는 alpha값.
+     */
+    private func naviTitle(alpha: CGFloat) {
+        guard let titleView = navigationItem.titleView else {return}
+        titleView.isHidden = (alpha < 1)
+    }
+    
+}
+
 extension MainListViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -80,7 +110,6 @@ extension MainListViewController: UICollectionViewDelegate {
     private func initNavi(item index: Int) {
         guard let leftItem = navigationItem.leftBarButtonItem else {return}
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
-        navigationItem.title = tempData[index]
         if index == 0 {
             leftItem.title = tempData[index]
             rightItem.title = tempData[index]
@@ -90,11 +119,8 @@ extension MainListViewController: UICollectionViewDelegate {
             rightItem.title = tempData[index]
             rightItem.image = nil
         }
-    }
-    
-    private func naviTitle(alpha: CGFloat) {
-        //guard let navigationBar = navigationController?.navigationBar else {return}
-        //navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIColor.black.withAlphaComponent(alpha / 100)]
+        guard let titleView = navigationItem.titleView as? UILabel else {return}
+        titleView.text = tempData[index]
     }
     
 }
@@ -116,15 +142,16 @@ extension MainListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 { // 둘러보기
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRBrowseFolderCell", for: indexPath) as! DRBrowseFolderCell
-            cell.backgroundColor = .black
+            cell.delegates = self
             return cell
         }
         if tempData[indexPath.row].isEmpty { // 빈 노트
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DREmptyFolderCell", for: indexPath) as! DREmptyFolderCell
+            cell.delegates = self
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
-        cell.backgroundColor = .green
+        cell.delegates = self
         return cell
     }
     

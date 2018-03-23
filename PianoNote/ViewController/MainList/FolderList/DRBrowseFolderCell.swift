@@ -10,6 +10,8 @@ import UIKit
 
 class DRBrowseFolderCell: UICollectionViewCell {
     
+    weak var delegates: DRFolderCellDelegates!
+    
     @IBOutlet var listView: UITableView!
     let header = DRNoteCellHeader()
     
@@ -43,6 +45,13 @@ class DRBrowseFolderCell: UICollectionViewCell {
 }
 
 extension DRBrowseFolderCell: UITableViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let header = listView.tableHeaderView as? DRNoteCellHeader {
+            let value = scrollView.contentOffset.y / header.contentView.titleLabel.frame.maxY
+            delegates.folderTitle(offset: value)
+        }
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.bounds.height

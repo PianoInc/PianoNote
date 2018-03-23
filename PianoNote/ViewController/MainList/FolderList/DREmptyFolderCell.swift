@@ -10,6 +10,8 @@ import UIKit
 
 class DREmptyFolderCell: UICollectionViewCell {
     
+    weak var delegates: DRFolderCellDelegates!
+    
     @IBOutlet var listView: UITableView!
     let header = DRNoteCellHeader()
     
@@ -38,14 +40,18 @@ class DREmptyFolderCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         listView.reloadData()
-        header.contentView.lockImage.backgroundColor = .blue
-        header.contentView.titleLabel.text = "모든메모"
-        header.contentView.newTitleLabel.text = "오늘의 당신은 어떤 사람이었나요?"
     }
     
 }
 
 extension DREmptyFolderCell: UITableViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let header = listView.tableHeaderView as? DRNoteCellHeader {
+            let value = scrollView.contentOffset.y / header.contentView.titleLabel.frame.maxY
+            delegates.folderTitle(offset: value)
+        }
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.bounds.height - tableView.tableHeaderView!.bounds.height
