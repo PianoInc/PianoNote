@@ -28,6 +28,7 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.tableHeaderView = header
         let minimumRect = CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude)
         listView.tableFooterView = UIView(frame: minimumRect)
+        listView.contentInset.bottom = minSize * 0.3413
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = 140
         device(orientationDidChange: { _ in self.initConst()})
@@ -51,13 +52,9 @@ class DRContentFolderCell: UICollectionViewCell {
     /// TableView의 normal <-> edit 간의 모드를 전환한다.
     private func editMode() {
         listView.scrollsToTop = !isEditMode
-        UIView.animate(withDuration: 0.15) {
-            for cell in self.listView.visibleCells {
-                if let cell = cell as? DRContentNoteCell {
-                    cell.deleteButton.isHidden = !self.isEditMode
-                    cell.setNeedsLayout()
-                }
-            }
+        for cell in self.listView.visibleCells {
+            (cell as! DRContentNoteCell).deleteButton.isHidden = !self.isEditMode
+            cell.setNeedsLayout()
         }
     }
     

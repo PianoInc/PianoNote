@@ -46,8 +46,9 @@ extension NSObject {
     
     /// ToolBar의 높이를 반환한다.
     var toolHeight: CGFloat {
-        if let toolBar = UIWindow.topVC?.navigationController?.toolbar {
-           return toolBar.frame.height
+        guard let navigationController = UIWindow.topVC?.navigationController else {return 0}
+        if !navigationController.isToolbarHidden {
+            return navigationController.toolbar.frame.height
         }
         return 0
     }

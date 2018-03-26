@@ -33,10 +33,10 @@ class DRBrowseNoteCell: UITableViewCell {
     
     private func initConst() {
         makeConst(roundedView) {
-            $0.leading.equalTo(self.minSize * 0.0533)
-            $0.trailing.equalTo(-(self.minSize * 0.0533))
-            $0.top.equalTo(2)
-            $0.bottom.equalTo(-2)
+            $0.leading.equalTo(self.minSize * 0.04)
+            $0.trailing.equalTo(-(self.minSize * 0.04))
+            $0.top.equalTo(3)
+            $0.bottom.equalTo(-3)
         }
         makeConst(iconImage) {
             $0.leading.equalTo(self.minSize * 0.0466)

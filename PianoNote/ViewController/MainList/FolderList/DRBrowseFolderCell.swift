@@ -18,7 +18,7 @@ class DRBrowseFolderCell: UICollectionViewCell {
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        header.frame.size.height = minSize * 0.4
+        header.frame.size.height = minSize * 0.3466
         listView.tableHeaderView = header
         let minimumRect = CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude)
         listView.tableFooterView = UIView(frame: minimumRect)
@@ -56,7 +56,7 @@ extension DRBrowseFolderCell: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return minSize * 0.1173
+        return minSize * 0.1226
     }
     
 }

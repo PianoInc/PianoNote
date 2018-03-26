@@ -21,7 +21,7 @@ class MainListViewController: UIViewController {
     
     @IBOutlet private var listView: UICollectionView!
     
-    private let tempData = ["둘러보기", "폴더", "빈 폴더"]
+    private let tempData = ["둘러보기", "폴더", ""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ class MainListViewController: UIViewController {
             $0.leading.equalTo(self.safeInset.left).priority(.high)
             $0.trailing.equalTo(-self.safeInset.right).priority(.high)
             $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
-            $0.bottom.equalTo(-(self.toolHeight + self.safeInset.bottom)).priority(.high)
+            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
@@ -98,6 +98,7 @@ extension MainListViewController {
     
     @IBAction private func naviBar(right item: UIBarButtonItem) {
         listView.isScrollEnabled = !listView.isScrollEnabled
+        navigationController?.isToolbarHidden = listView.isScrollEnabled
         guard let leftItem = navigationItem.leftBarButtonItem else {return}
         leftItem.title = listView.isScrollEnabled ? "manageFolder".locale : "selectAll".locale
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
@@ -156,6 +157,7 @@ extension MainListViewController: UICollectionViewDelegate {
     private func initNavi(item index: Int) {
         guard let titleView = navigationItem.titleView as? UILabel else {return}
         titleView.text = tempData[index]
+        titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
         rightItem.title = (index == 0) ? "" : "select".locale
         rightItem.image = (index == 0) ? nil : nil
