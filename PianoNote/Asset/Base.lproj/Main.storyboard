@@ -203,12 +203,48 @@
                                                         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DRContentNoteCell" id="O6i-jg-i1s" customClass="DRContentNoteCell" customModule="PianoNote" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="145.5" width="50" height="44"/>
                                                             <autoresizingMask key="autoresizingMask"/>
-                                                            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="O6i-jg-i1s" id="dZQ-Bp-K2r">
+                                                            <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="O6i-jg-i1s" id="dZQ-Bp-K2r">
                                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="44"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
+                                                                <subviews>
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aIu-1p-fsS">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        <subviews>
+                                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J1U-y8-lvD">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
+                                                                                <color key="backgroundColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            </button>
+                                                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YV0-lg-v5L">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                                                <subviews>
+                                                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HqR-xd-HN6">
+                                                                                        <rect key="frame" x="0.0" y="-0.5" width="50" height="50"/>
+                                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                                        <color key="backgroundColor" red="0.91764705882352937" green="0.92156862745098034" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                    </view>
+                                                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rab-LW-lqL">
+                                                                                        <rect key="frame" x="0.0" y="-0.5" width="50" height="50"/>
+                                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                    </view>
+                                                                                </subviews>
+                                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            </view>
+                                                                        </subviews>
+                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    </stackView>
+                                                                </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </tableViewCellContentView>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <connections>
+                                                                <outlet property="backRoundedView" destination="HqR-xd-HN6" id="KOg-Ao-dI9"/>
+                                                                <outlet property="contentsView" destination="YV0-lg-v5L" id="WTS-lq-bJA"/>
+                                                                <outlet property="deleteButton" destination="J1U-y8-lvD" id="ZBY-sH-hQV"/>
+                                                                <outlet property="roundedView" destination="Rab-LW-lqL" id="rBb-mF-HE8"/>
+                                                                <outlet property="stackView" destination="aIu-1p-fsS" id="EbO-yS-dHY"/>
+                                                            </connections>
                                                         </tableViewCell>
                                                     </prototypes>
                                                     <sections/>
@@ -254,8 +290,16 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="Qp2-yp-MEe">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="BdC-8p-g1J"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="undo" id="Uqi-0K-urL"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="BdC-8p-g1J">
+                            <connections>
+                                <action selector="naviBarWithLeft:" destination="hXS-0I-ej6" id="mYc-e8-RoD"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="Uqi-0K-urL">
+                            <connections>
+                                <action selector="naviBarWithRight:" destination="hXS-0I-ej6" id="fTB-KK-4Xc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>

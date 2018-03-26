@@ -81,7 +81,7 @@ extension DREmptyFolderCell: UITableViewDataSource {
         guard let header = tableView.tableHeaderView as? DRNoteCellHeader else {return}
         header.contentView.lockImage.backgroundColor = .clear
         header.contentView.titleLabel.text = "빈 폴더"
-        header.contentView.newTitleLabel.text = "빈 폴더 오늘은..."
+        header.contentView.newTitleLabel.text = "오늘은..."
     }
     
 }

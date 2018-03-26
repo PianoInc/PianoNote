@@ -21,7 +21,7 @@ class MainListViewController: UIViewController {
     
     @IBOutlet private var listView: UICollectionView!
     
-    private let tempData = ["둘러보기", "모든메모", ""]
+    private let tempData = ["둘러보기", "폴더", "빈 폴더"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +69,8 @@ class MainListViewController: UIViewController {
         }
         guard let leftItem = navigationItem.leftBarButtonItem else {return}
         leftItem.title = "manageFolder".locale
+        guard let rightItem = navigationItem.rightBarButtonItem else {return}
+        rightItem.title = "select".locale
     }()
     
     override func viewDidLayoutSubviews() {
@@ -87,6 +89,21 @@ extension MainListViewController {
         navigationController?.toolbarItems = toolbarItems
         if let centerItem = navigationController?.toolbarItems?[2] {
             centerItem.title = "moveToNext".locale
+        }
+    }
+    
+    @IBAction private func naviBar(left item: UIBarButtonItem) {
+        
+    }
+    
+    @IBAction private func naviBar(right item: UIBarButtonItem) {
+        listView.isScrollEnabled = !listView.isScrollEnabled
+        guard let leftItem = navigationItem.leftBarButtonItem else {return}
+        leftItem.title = listView.isScrollEnabled ? "manageFolder".locale : "selectAll".locale
+        guard let rightItem = navigationItem.rightBarButtonItem else {return}
+        rightItem.title = listView.isScrollEnabled ? "select".locale : "done".locale
+        if let contentNoteCell = listView.visibleCells.first as? DRContentFolderCell {
+            contentNoteCell.isEditMode = !listView.isScrollEnabled
         }
     }
     

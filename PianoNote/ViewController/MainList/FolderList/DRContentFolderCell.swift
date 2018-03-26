@@ -14,7 +14,12 @@ class DRContentFolderCell: UICollectionViewCell {
     
     @IBOutlet var listView: UITableView!
     let header = DRNoteCellHeader()
-    let data = [["note1-1", "note1-2"], ["note2-1", "not2-2"], ["note3-1", "note3-2", "note3-3"]]
+    let data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2"],
+                ["note3-1", "note3-2", "note3-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
+    
+    var isEditMode = false {
+        didSet {editMode()}
+    }
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -23,6 +28,8 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.tableHeaderView = header
         let minimumRect = CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude)
         listView.tableFooterView = UIView(frame: minimumRect)
+        listView.rowHeight = UITableViewAutomaticDimension
+        listView.estimatedRowHeight = 140
         device(orientationDidChange: { _ in self.initConst()})
         initConst()
     }
@@ -41,6 +48,19 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.reloadData()
     }
     
+    /// TableView의 normal <-> edit 간의 모드를 전환한다.
+    private func editMode() {
+        listView.scrollsToTop = !isEditMode
+        UIView.animate(withDuration: 0.15) {
+            for cell in self.listView.visibleCells {
+                if let cell = cell as? DRContentNoteCell {
+                    cell.deleteButton.isHidden = !self.isEditMode
+                    cell.setNeedsLayout()
+                }
+            }
+        }
+    }
+    
 }
 
 extension DRContentFolderCell: UITableViewDelegate {
@@ -50,10 +70,6 @@ extension DRContentFolderCell: UITableViewDelegate {
             let value = scrollView.contentOffset.y / header.contentView.titleLabel.frame.maxY
             delegates.folderTitle(offset: value)
         }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.bounds.height
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -81,7 +97,8 @@ extension DRContentFolderCell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DRContentNoteCell") as! DRContentNoteCell
         table(viewHeaderView: tableView)
-        cell.backgroundColor = .blue
+        cell.position = cells(position: tableView, indexPath: indexPath)
+        cell.deleteButton.isHidden = !isEditMode
         return cell
     }
     
@@ -93,7 +110,23 @@ extension DRContentFolderCell: UITableViewDataSource {
         guard let header = tableView.tableHeaderView as? DRNoteCellHeader else {return}
         header.contentView.lockImage.backgroundColor = .blue
         header.contentView.titleLabel.text = "폴더"
-        header.contentView.newTitleLabel.text = "폴더 오늘은..."
+        header.contentView.newTitleLabel.text = "오늘은..."
+    }
+    
+    /**
+     해당 indexPath의 cell이 어떤 모습을 가져야 하는지 판별한다.
+     - note: DRContentRoundShape 참조.
+     - parameter indexPath: 셀의 indexPath.
+     */
+    private func cells(position tableView: UITableView, indexPath: IndexPath) -> DRContentNotePosition {
+        if tableView.numberOfRows(inSection: indexPath.section) == 1 {
+            return DRContentNotePosition.single
+        } else if indexPath.row == 0 {
+            return DRContentNotePosition.top
+        } else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            return DRContentNotePosition.bottom
+        }
+        return DRContentNotePosition.middle
     }
     
 }
