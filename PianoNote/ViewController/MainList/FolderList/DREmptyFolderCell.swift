@@ -14,14 +14,14 @@ class DREmptyFolderCell: UICollectionViewCell {
     
     @IBOutlet var listView: UITableView!
     let header = DRNoteCellHeader()
-    var data = ""
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        header.frame.size.height = minSize * 0.4
         listView.tableHeaderView = header
-        device(orientationDidChange: { orientation in
-            self.initConst()
-        })
+        let minimumRect = CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude)
+        listView.tableFooterView = UIView(frame: minimumRect)
+        device(orientationDidChange: { _ in self.initConst()})
         initConst()
     }
     
@@ -34,7 +34,7 @@ class DREmptyFolderCell: UICollectionViewCell {
         }
         makeConst(header) {
             $0.width.equalToSuperview()
-            $0.height.equalTo(self.minSize * 0.39)
+            $0.height.equalTo(self.minSize * 0.4)
         }
     }
     
@@ -79,9 +79,9 @@ extension DREmptyFolderCell: UITableViewDataSource {
      */
     private func table(viewHeaderView tableView: UITableView) {
         guard let header = tableView.tableHeaderView as? DRNoteCellHeader else {return}
-        header.contentView.lockImage.backgroundColor = .blue
-        header.contentView.titleLabel.text = data
-        header.contentView.newTitleLabel.text = data + "오늘은..."
+        header.contentView.lockImage.backgroundColor = .clear
+        header.contentView.titleLabel.text = "빈 폴더"
+        header.contentView.newTitleLabel.text = "빈 폴더 오늘은..."
     }
     
 }

@@ -15,9 +15,7 @@ class DREmptyNoteCell: UITableViewCell {
     override func didMoveToWindow() {
         super.didMoveToWindow()
         emptyLabel.font = UIFont.preferred(font: 17, weight: .regular)
-        device(orientationDidChange: { orientation in
-            self.initConst()
-        })
+        device(orientationDidChange: { _ in self.initConst()})
         initConst()
     }
     

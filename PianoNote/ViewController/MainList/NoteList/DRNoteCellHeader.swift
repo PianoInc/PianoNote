@@ -43,7 +43,7 @@ class DRNoteCellHeaderContentView: UIView {
     let titleLabel = makeView(UILabel()) {
         $0.font = UIFont.preferred(font: 34, weight: .bold)
     }
-    private let newView = makeView(UIView()) {
+    let newView = makeView(UIView()) {
         $0.backgroundColor = UIColor(hex6: "eaebed")
         $0.layer.cornerRadius = 14
     }
@@ -69,9 +69,7 @@ class DRNoteCellHeaderContentView: UIView {
         newView.addSubview(newSubLabel)
         newView.addSubview(newTitleLabel)
         newView.addSubview(newPlusImage)
-        device(orientationDidChange: { orientation in
-            self.initConst()
-        })
+        device(orientationDidChange: { _ in self.initConst()})
         initConst()
     }
     

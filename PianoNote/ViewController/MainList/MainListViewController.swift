@@ -21,14 +21,12 @@ class MainListViewController: UIViewController {
     
     @IBOutlet private var listView: UICollectionView!
     
-    private let tempData = ["", "모든메모", "폴더1", "폴더2", "폴더3", "폴더4", ""]
+    private let tempData = ["둘러보기", "모든메모", ""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initNavigation()
-        device(orientationDidChange: { orientation in
-            self.initConst()
-        })
+        device(orientationDidChange: { _ in self.initConst()})
         initConst()
     }
     
@@ -69,6 +67,8 @@ class MainListViewController: UIViewController {
             $0.text = tempData[1]
             $0.alpha = 0
         }
+        guard let leftItem = navigationItem.leftBarButtonItem else {return}
+        leftItem.title = "manageFolder".locale
     }()
     
     override func viewDidLayoutSubviews() {
@@ -116,8 +116,8 @@ extension MainListViewController: DRFolderCellDelegates {
      */
     private func naviTitle(alpha: CGFloat) {
         guard let titleView = navigationItem.titleView else {return}
-        UIView.animate(withDuration: 0.2) {
-            titleView.alpha = (alpha < 0) ? 0 : 1
+        UIView.animate(withDuration: 0.25) {
+            titleView.alpha = (alpha < 0.8) ? 0 : 1
         }
     }
     
@@ -137,19 +137,11 @@ extension MainListViewController: UICollectionViewDelegate {
      - parameter index : 현재 보이지는 화면의 listview index.
      */
     private func initNavi(item index: Int) {
-        guard let leftItem = navigationItem.leftBarButtonItem else {return}
-        guard let rightItem = navigationItem.rightBarButtonItem else {return}
-        if index == 0 {
-            leftItem.title = tempData[index]
-            rightItem.title = tempData[index]
-            rightItem.image = nil
-        } else {
-            leftItem.title = tempData[index]
-            rightItem.title = tempData[index]
-            rightItem.image = nil
-        }
         guard let titleView = navigationItem.titleView as? UILabel else {return}
         titleView.text = tempData[index]
+        guard let rightItem = navigationItem.rightBarButtonItem else {return}
+        rightItem.title = (index == 0) ? "" : "select".locale
+        rightItem.image = (index == 0) ? nil : nil
     }
     
 }
