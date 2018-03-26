@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		16233D082064D128008317D1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16233D072064D128008317D1 /* String.swift */; };
 		16520F7B2063B9BA008EFEF6 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16520F7A2063B9BA008EFEF6 /* Font.swift */; };
+		1664D35A2068660B00BAA54B /* DRClearNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664D3592068660B00BAA54B /* DRClearNavigationController.swift */; };
 		168D199D2063294A005AA85F /* PianoNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D199C2063294A005AA85F /* PianoNoteTests.swift */; };
 		168D19A82063294A005AA85F /* PianoNoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19A72063294A005AA85F /* PianoNoteUITests.swift */; };
 		168D19D420632998005AA85F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168D19B720632998005AA85F /* Assets.xcassets */; };
@@ -88,6 +89,7 @@
 /* Begin PBXFileReference section */
 		16233D072064D128008317D1 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		16520F7A2063B9BA008EFEF6 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		1664D3592068660B00BAA54B /* DRClearNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRClearNavigationController.swift; sourceTree = "<group>"; };
 		168D198420632949005AA85F /* PianoNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168D19982063294A005AA85F /* PianoNoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PianoNoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		168D199C2063294A005AA85F /* PianoNoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoNoteTests.swift; sourceTree = "<group>"; };
@@ -180,6 +182,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1664D358206865F600BAA54B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1664D3592068660B00BAA54B /* DRClearNavigationController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		168D197B20632949005AA85F = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +237,7 @@
 			children = (
 				168D19CF20632998005AA85F /* AppDelegate.swift */,
 				168D19D020632998005AA85F /* ViewController */,
+				1664D358206865F600BAA54B /* Controller */,
 				168D1A00206364AE005AA85F /* View */,
 				168D19CA20632998005AA85F /* Util */,
 				168D19D120632998005AA85F /* Extension */,
@@ -756,6 +767,7 @@
 				168D1A262063B410005AA85F /* DRBrowseNoteCell.swift in Sources */,
 				168D1A282063B469005AA85F /* DRContentNoteCell.swift in Sources */,
 				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
+				1664D35A2068660B00BAA54B /* DRClearNavigationController.swift in Sources */,
 				168D1A1E206383F0005AA85F /* DRBrowseFolderCell.swift in Sources */,
 				168D1A0C20636BF2005AA85F /* Device.swift in Sources */,
 				168D1A20206383F3005AA85F /* DRContentFolderCell.swift in Sources */,

@@ -44,6 +44,14 @@ extension NSObject {
         return 0
     }
     
+    /// ToolBar의 높이를 반환한다.
+    var toolHeight: CGFloat {
+        if let toolBar = UIWindow.topVC?.navigationController?.toolbar {
+           return toolBar.frame.height
+        }
+        return 0
+    }
+    
     /// iPhoneX 대응 safeArea Inset값.
     var safeInset: UIEdgeInsets {
         if UIScreen.main.bounds.size == CGSize(width: 375, height: 812) {

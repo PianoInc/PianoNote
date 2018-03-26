@@ -14,6 +14,7 @@ class DREmptyFolderCell: UICollectionViewCell {
     
     @IBOutlet var listView: UITableView!
     let header = DRNoteCellHeader()
+    var data = ""
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -67,8 +68,20 @@ extension DREmptyFolderCell: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DREmptyNoteCell") as! DREmptyNoteCell
+        table(viewHeaderView: tableView)
         cell.emptyLabel.text = "메모 없음"
         return cell
+    }
+    
+    /**
+     TableView의 headerView에 대한 정의를 한다.
+     - parameter tableView: 해당 headerView를 가지는 tableView.
+     */
+    private func table(viewHeaderView tableView: UITableView) {
+        guard let header = tableView.tableHeaderView as? DRNoteCellHeader else {return}
+        header.contentView.lockImage.backgroundColor = .blue
+        header.contentView.titleLabel.text = data
+        header.contentView.newTitleLabel.text = data + "오늘은..."
     }
     
 }

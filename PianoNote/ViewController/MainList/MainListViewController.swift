@@ -23,23 +23,9 @@ class MainListViewController: UIViewController {
     
     private let tempData = ["", "모든메모", "폴더1", "폴더2", "폴더3", "폴더4", ""]
     
-    /// 한번만 실행할 Void.
-    private lazy var dispatchOnce: Void = {
-        listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
-        navigationItem.titleView = makeView(UILabel()) {
-            $0.font = UIFont.preferred(font: 17, weight: .semibold)
-            $0.text = tempData[1]
-            $0.isHidden = true
-        }
-    }()
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        _ = dispatchOnce
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        initNavigation()
         device(orientationDidChange: { orientation in
             self.initConst()
         })
@@ -52,7 +38,7 @@ class MainListViewController: UIViewController {
             $0.leading.equalTo(self.safeInset.left).priority(.high)
             $0.trailing.equalTo(-self.safeInset.right).priority(.high)
             $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
-            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
+            $0.bottom.equalTo(-(self.toolHeight + self.safeInset.bottom)).priority(.high)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
@@ -75,6 +61,47 @@ class MainListViewController: UIViewController {
         })
     }
     
+    /// One time dispatch code.
+    private lazy var dispatchOnce: Void = {
+        listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
+        navigationItem.titleView = makeView(UILabel()) {
+            $0.font = UIFont.preferred(font: 17, weight: .semibold)
+            $0.text = tempData[1]
+            $0.alpha = 0
+        }
+    }()
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        _ = dispatchOnce
+    }
+    
+}
+
+// Navigation configuration.
+extension MainListViewController {
+    
+    /// Navigation 설정
+    private func initNavigation() {
+        // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
+        navigationController?.toolbarItems = toolbarItems
+        if let centerItem = navigationController?.toolbarItems?[2] {
+            centerItem.title = "moveToNext".locale
+        }
+    }
+    
+    @IBAction private func toolBar(left item: UIBarButtonItem) {
+        
+    }
+    
+    @IBAction private func toolBar(center item: UIBarButtonItem) {
+        
+    }
+    
+    @IBAction private func toolBar(right item: UIBarButtonItem) {
+        
+    }
+    
 }
 
 extension MainListViewController: DRFolderCellDelegates {
@@ -89,7 +116,9 @@ extension MainListViewController: DRFolderCellDelegates {
      */
     private func naviTitle(alpha: CGFloat) {
         guard let titleView = navigationItem.titleView else {return}
-        titleView.isHidden = (alpha < 1)
+        UIView.animate(withDuration: 0.2) {
+            titleView.alpha = (alpha < 0) ? 0 : 1
+        }
     }
     
 }
