@@ -17,6 +17,7 @@ class DRContentFolderCell: UICollectionViewCell {
     private let header = DRNoteCellHeader()
     let data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
     
+    var selectedIndex = [IndexPath]()
     var isEditMode = false {
         didSet {editMode()}
     }
@@ -61,6 +62,24 @@ class DRContentFolderCell: UICollectionViewCell {
             (cell as! DRContentNoteCell).deleteButton.isHidden = !self.isEditMode
             cell.setNeedsLayout()
         }
+        selectedIndex.removeAll()
+    }
+    
+}
+
+extension DRContentFolderCell: DRContentNoteDelegates {
+    
+    func select(indexPath: IndexPath) {
+        guard isEditMode else {return}
+        if selectedIndex.contains(indexPath) {
+            selectedIndex.remove(at: selectedIndex.index(of: indexPath)!)
+        } else {
+            selectedIndex.append(indexPath)
+        }
+        if let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell {
+            cell.select = selectedIndex.contains(indexPath)
+            cell.setNeedsLayout()
+        }
     }
     
 }
@@ -99,8 +118,11 @@ extension DRContentFolderCell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DRContentNoteCell") as! DRContentNoteCell
         table(viewHeaderView: tableView)
+        cell.delegates = self
+        cell.indexPath = indexPath
         cell.position = cells(position: tableView, indexPath: indexPath)
         cell.deleteButton.isHidden = !isEditMode
+        cell.select = selectedIndex.contains(indexPath)
         return cell
     }
     

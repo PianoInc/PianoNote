@@ -8,6 +8,14 @@
 
 import UIKit
 
+protocol DRContentNoteDelegates: NSObjectProtocol {
+    /**
+     선택된 셀의 indexPath를 전달한다.
+     - parameter indexPath: 선택된 셀의 indexPath.
+     */
+    func select(indexPath: IndexPath)
+}
+
 /**
  DRContentNoteCell의 위치가 자신의
  group내에서 어디에 위치하는지에 대한 option값.
@@ -19,6 +27,8 @@ enum DRContentNotePosition {
 /// NoteCell의 외형을 만들어주는 역활을 하는 Cell.
 class DRContentNoteCell: UITableViewCell {
     
+    weak var delegates: DRContentNoteDelegates!
+    
     @IBOutlet private var stackView: UIStackView!
     @IBOutlet var deleteButton: UIButton!
     @IBOutlet private var contentsView: UIView!
@@ -27,8 +37,11 @@ class DRContentNoteCell: UITableViewCell {
     
     /// NoteCell의 실제 note content를 가지는 view.
     @IBOutlet var noteView: DRContentNoteView!
+    @IBOutlet private var button: UIButton!
     
     var position: DRContentNotePosition = .single
+    var indexPath: IndexPath!
+    var select = false
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -40,6 +53,9 @@ class DRContentNoteCell: UITableViewCell {
     private func initView() {
         backRoundedView.layer.cornerRadius = 14
         roundedView.layer.cornerRadius = 10
+        noteView.layer.cornerRadius = 10
+        noteView.layer.borderColor = UIColor(hex6: "b5b5b5").cgColor
+        noteView.layer.borderWidth = 0.5
     }
     
     private func initConst() {
@@ -63,6 +79,12 @@ class DRContentNoteCell: UITableViewCell {
             $0.height.equalTo(self.minSize * 0.3413)
         }
         makeConst(noteView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
+        }
+        makeConst(button) {
             $0.leading.equalTo(0)
             $0.trailing.equalTo(0)
             $0.top.equalTo(0)
@@ -114,6 +136,13 @@ class DRContentNoteCell: UITableViewCell {
                 $0.top.equalTo(3)
             }
         }
+        // 선택 effect.
+        noteView.layer.borderColor = UIColor(hex6: select ? "1784ff" : "b5b5b5").cgColor
+        noteView.layer.borderWidth = select ? 2 : 0.5
+    }
+    
+    @IBAction private func action(_ button: UIButton) {
+        delegates.select(indexPath: indexPath)
     }
     
 }
@@ -137,9 +166,6 @@ class DRContentNoteView: UIView {
     }
     
     private func initView() {
-        layer.cornerRadius = 10
-        layer.borderColor = UIColor(hex6: "b5b5b5").cgColor
-        layer.borderWidth = 0.5
         dateLabel.font = UIFont.preferred(font: 13, weight: .regular)
         titleLabel.font = UIFont.preferred(font: 28, weight: .bold)
         contentLabel.font = UIFont.preferred(font: 16, weight: .regular)

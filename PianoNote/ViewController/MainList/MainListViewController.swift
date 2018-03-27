@@ -25,8 +25,8 @@ class MainListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initNavigation()
         device(orientationDidChange: { _ in self.initConst()})
+        initToolBar()
         initConst()
     }
     
@@ -59,6 +59,11 @@ class MainListViewController: UIViewController {
         })
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        _ = dispatchOnce
+    }
+    
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
         listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
@@ -73,18 +78,13 @@ class MainListViewController: UIViewController {
         }
     }()
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        _ = dispatchOnce
-    }
-    
 }
 
 // Navigation configuration.
 extension MainListViewController {
     
-    /// Navigation 설정
-    private func initNavigation() {
+    /// ToolBar 설정
+    private func initToolBar() {
         // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
         navigationController?.toolbarItems = toolbarItems
         if let centerItem = navigationController?.toolbarItems?[2] {

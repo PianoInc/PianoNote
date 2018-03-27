@@ -38,9 +38,9 @@ extension UIViewController {
      주어진 identifier를 통해 pushViewController를 진행한다.
      - parameter id : UIViewController Identifier.
      */
-    func present(id: String) {
+    func present(id: String, animated: Bool = true) {
         if let navigation = navigationController {
-            navigation.pushViewController(UIStoryboard.view(id: id), animated: true)
+            navigation.pushViewController(UIStoryboard.view(id: id), animated: animated)
         }
     }
     
@@ -48,16 +48,16 @@ extension UIViewController {
      주어진 viewController를 통해 pushViewController를 진행한다.
      - parameter view : UIViewController self.
      */
-    func present(view: UIViewController) {
+    func present(view: UIViewController, animated: Bool = true) {
         if let navigation = navigationController {
-            navigation.pushViewController(view, animated: true)
+            navigation.pushViewController(view, animated: animated)
         }
     }
     
     /// 이전 viewController로 dismiss를 진행한다.
-    func dismiss() {
+    func dismiss(_ animated: Bool = true) {
         if let navigation = navigationController {
-            navigation.popViewController(animated: true)
+            navigation.popViewController(animated: animated)
         }
     }
     
@@ -65,9 +65,9 @@ extension UIViewController {
      주어진 identifier를 통해 popToViewController를 진행한다.
      - parameter id : UIViewController Identifier.
      */
-    func dismiss(to id: String) {
+    func dismiss(to id: String, animated: Bool = true) {
         if let navigation = navigationController, let target = navigation.viewControllers.first(where: {String(describing: type(of: $0)) == id}) {
-            navigation.popToViewController(target, animated: true)
+            navigation.popToViewController(target, animated: animated)
         }
     }
     
@@ -75,9 +75,19 @@ extension UIViewController {
      주어진 viewController를 통해 pushViewController를 진행한다.
      - parameter view : UIViewController self.
      */
-    func dismiss(to view: UIViewController) {
+    func dismiss(to view: UIViewController, animated: Bool = true) {
         if let navigation = navigationController, let target = navigation.viewControllers.first(where: {$0 == view}) {
-            navigation.popToViewController(target, animated: true)
+            navigation.popToViewController(target, animated: animated)
+        }
+    }
+    
+    /**
+     NavigationController 및 navigationItem에 대한 설정 closure.
+     - parameter config : 설정 closure.
+     */
+    func navi(config: ((UINavigationController, UINavigationItem) -> ())) {
+        if let navigationController = navigationController {
+            config(navigationController, navigationItem)
         }
     }
     

@@ -17,7 +17,8 @@ class DRNoteCellSection: UITableViewHeaderFooterView {
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        backgroundColor = .clear
+        backgroundView = UIView()
+        backgroundView?.backgroundColor = .clear
         contentView.addSubview(sectionLabel)
         device(orientationDidChange: { _ in self.initConst()})
         initConst()

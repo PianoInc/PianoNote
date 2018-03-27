@@ -12,7 +12,9 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        present(id: "MainListViewController")
+        UIView.transition(with: navigationController!.view, duration: 0.5, options: [.transitionCrossDissolve], animations: {
+            self.present(id: "MainListViewController", animated: false)
+        })
     }
     
 }

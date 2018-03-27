@@ -89,7 +89,7 @@ class DRBrowseNoteCell: UITableViewCell {
     /// IndexPath따른 각 메뉴 설정.
     private func initContent() {
         if indexPath.row == DRBrowseMenu.recycle.rawValue {
-            titleLabel.text = "deletedMeno".locale
+            titleLabel.text = "deletedMemo".locale
         } else if indexPath.row == DRBrowseMenu.info.rawValue {
             titleLabel.text = "infomation".locale
         } else if indexPath.row == DRBrowseMenu.makeUp.rawValue {

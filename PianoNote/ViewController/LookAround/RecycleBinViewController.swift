@@ -15,8 +15,14 @@ class RecycleBinViewController: UIViewController {
     private let header = DRNoteCellHeader()
     let data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
     
+    var selectedIndex = [IndexPath]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navi { (navi, item) in
+            navi.isToolbarHidden = false
+        }
+        initToolBar()
         initView()
         device(orientationDidChange: { _ in self.initConst()})
         initConst()
@@ -42,6 +48,79 @@ class RecycleBinViewController: UIViewController {
             $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        _ = dispatchOnce
+    }
+    
+    /// One time dispatch code.
+    private lazy var dispatchOnce: Void = {
+        guard let rightItem = navigationItem.rightBarButtonItem else {return}
+        rightItem.title = "selectAll".locale
+        navigationItem.titleView = makeView(UILabel()) {
+            $0.font = UIFont.preferred(font: 17, weight: .semibold)
+            $0.text = "deletedMemo".locale
+            $0.alpha = 0
+        }
+    }()
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navi { (navi, item) in
+            navi.isToolbarHidden = true
+        }
+    }
+    
+}
+
+// Navigation configuration.
+extension RecycleBinViewController {
+    
+    /// ToolBar 설정
+    private func initToolBar() {
+        // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
+        navigationController?.toolbarItems = toolbarItems
+        if let toolbarItems = navigationController?.toolbarItems {
+            toolbarItems[0].title = "restore".locale
+        }
+    }
+    
+    @IBAction private func naviBar(left item: UIBarButtonItem) {
+        
+    }
+    
+    @IBAction private func naviBar(right item: UIBarButtonItem) {
+        
+    }
+    
+    @IBAction private func toolBar(left item: UIBarButtonItem) {
+        
+    }
+    
+    @IBAction private func toolBar(center item: UIBarButtonItem) {
+        
+    }
+    
+    @IBAction private func toolBar(right item: UIBarButtonItem) {
+        
+    }
+    
+}
+
+extension RecycleBinViewController: DRContentNoteDelegates {
+    
+    func select(indexPath: IndexPath) {
+        if selectedIndex.contains(indexPath) {
+            selectedIndex.remove(at: selectedIndex.index(of: indexPath)!)
+        } else {
+            selectedIndex.append(indexPath)
+        }
+        if let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell {
+            cell.select = selectedIndex.contains(indexPath)
+            cell.setNeedsLayout()
         }
     }
     
@@ -84,7 +163,10 @@ extension RecycleBinViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DRContentNoteCell") as! DRContentNoteCell
         table(viewHeaderView: tableView)
+        cell.delegates = self
+        cell.indexPath = indexPath
         cell.position = cells(position: tableView, indexPath: indexPath)
+        cell.select = selectedIndex.contains(indexPath)
         return cell
     }
     
