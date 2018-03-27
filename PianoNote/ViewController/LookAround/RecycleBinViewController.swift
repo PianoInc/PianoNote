@@ -88,19 +88,22 @@ extension RecycleBinViewController {
         }
     }
     
-    @IBAction private func naviBar(left item: UIBarButtonItem) {
-        
-    }
-    
     @IBAction private func naviBar(right item: UIBarButtonItem) {
-        
+        let indexData = data.enumerated().flatMap { (section, data) in
+            data.enumerated().map { (row, data) in
+                IndexPath(row: row, section: section)
+            }
+        }
+        selectedIndex.removeAll()
+        indexData.forEach {selectedIndex.append($0)}
+        for cell in listView.visibleCells {
+            (cell as! DRContentNoteCell).select = true
+            cell.setNeedsLayout()
+        }
+        naviUpdate()
     }
     
     @IBAction private func toolBar(left item: UIBarButtonItem) {
-        
-    }
-    
-    @IBAction private func toolBar(center item: UIBarButtonItem) {
         
     }
     
@@ -121,6 +124,18 @@ extension RecycleBinViewController: DRContentNoteDelegates {
         if let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell {
             cell.select = selectedIndex.contains(indexPath)
             cell.setNeedsLayout()
+        }
+        naviUpdate()
+    }
+    
+    private func naviUpdate() {
+        // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
+        if let toolbarItems = navigationController?.toolbarItems {
+            if selectedIndex.count > 0 {
+                toolbarItems[2].title = String(format: "selectMemoCount".locale, selectedIndex.count)
+            } else {
+                toolbarItems[2].title = ""
+            }
         }
     }
     

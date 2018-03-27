@@ -11,5 +11,5 @@
 "selectAll" = "전체선택";
 "done" = "완료";
 "restore" = "복원";
-"selectCount" = "개 메모 선택됨";
+"selectMemoCount" = "%d개 메모 선택됨";
 

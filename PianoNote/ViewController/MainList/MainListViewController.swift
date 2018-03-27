@@ -93,7 +93,23 @@ extension MainListViewController {
     }
     
     @IBAction private func naviBar(left item: UIBarButtonItem) {
-        
+        if item.title! == "manageFolder".locale {
+            
+        } else {
+            if let cell = listView.visibleCells.first as? DRContentFolderCell {
+                let indexData = cell.data.enumerated().flatMap { (section, data) in
+                    data.enumerated().map { (row, data) in
+                        IndexPath(row: row, section: section)
+                    }
+                }
+                cell.selectedIndex.removeAll()
+                indexData.forEach {cell.selectedIndex.append($0)}
+                for cell in cell.listView.visibleCells {
+                    (cell as! DRContentNoteCell).select = true
+                    cell.setNeedsLayout()
+                }
+            }
+        }
     }
     
     @IBAction private func naviBar(right item: UIBarButtonItem) {

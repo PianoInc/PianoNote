@@ -127,11 +127,11 @@
                     <toolbarItems>
                         <barButtonItem title="Item" id="dME-dZ-50J">
                             <connections>
-                                <action selector="toolBarWithLeft:" destination="hXS-0I-ej6" id="GH9-Na-gD0"/>
+                                <action selector="toolBarWithLeft:" destination="6Eh-mY-w51" id="bIP-fS-XKf"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="rEW-Mv-vR7"/>
-                        <barButtonItem title="Item" id="RdL-Tn-4rW">
+                        <barButtonItem id="RdL-Tn-4rW">
                             <connections>
                                 <action selector="toolBarWithCenter:" destination="hXS-0I-ej6" id="hS9-IS-q4R"/>
                             </connections>
@@ -139,12 +139,16 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="L00-TQ-p7y"/>
                         <barButtonItem systemItem="trash" id="zPf-9l-cEE">
                             <connections>
-                                <action selector="toolBarWithRight:" destination="hXS-0I-ej6" id="SkF-7D-YHM"/>
+                                <action selector="toolBarWithRight:" destination="6Eh-mY-w51" id="QNn-2f-Zgh"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="3r4-f2-8Rg">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="GVR-q9-nv7"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="GVR-q9-nv7">
+                            <connections>
+                                <action selector="naviBarWithRight:" destination="6Eh-mY-w51" id="URf-kI-CaL"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
