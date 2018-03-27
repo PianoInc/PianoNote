@@ -12,4 +12,6 @@
 "done" = "완료";
 "restore" = "복원";
 "selectMemoCount" = "%d개 메모 선택됨";
+"facebookNotice" = "페이스북 아이디로 로그인 해야\n내용을 볼 수 있어요.";
+"facebookLogin" = "  페이스북으로 로그인";
 

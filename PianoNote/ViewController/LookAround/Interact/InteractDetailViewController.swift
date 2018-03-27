@@ -1,5 +1,5 @@
 //
-//  InteractViewController.swift
+//  InteractDetailViewController.swift
 //  PianoNote
 //
 //  Created by 김경록 on 2018. 3. 27..
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class InteractViewController: UIViewController {
-
+class InteractDetailViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
