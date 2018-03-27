@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKCoreKit
 
 class InteractViewController: UIViewController {
     
@@ -15,7 +16,7 @@ class InteractViewController: UIViewController {
     @IBOutlet private var listView: UITableView!
     
     private let header = DRNoteCellHeader()
-    let data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
+    private var data = [DRFBPosts]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +41,6 @@ class InteractViewController: UIViewController {
         attr.append(str)
         facebookButton.setAttributedTitle(attr, for: .normal)
         
-        listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.contentInset.bottom = minSize * 0.3413
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = 140
@@ -49,6 +49,14 @@ class InteractViewController: UIViewController {
         listView.tableHeaderView = header
         let minimumRect = CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude)
         listView.tableFooterView = UIView(frame: minimumRect)
+        
+        DRFBService.share.rxPost.subscribe {
+            self.data = $0
+            self.listView.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.listView.reloadData()
+            }
+        }
     }
     
     private func initConst() {
@@ -81,6 +89,9 @@ class InteractViewController: UIViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
+        if FBSDKAccessToken.current() != nil {
+            DRFBService.share.facebook(post: "602234013303895")
+        }
         navigationItem.titleView = makeView(UILabel()) {
             $0.font = UIFont.preferred(font: 17, weight: .semibold)
             $0.text = "deletedMemo".locale
@@ -88,8 +99,17 @@ class InteractViewController: UIViewController {
         }
     }()
     
+}
+
+// Login and swiching 기능.
+extension InteractViewController{
+    
     @IBAction private func action(login: UIButton) {
-        
+        DRFBService.share.facebook(login: self) { success in
+            if success {
+                DRFBService.share.facebook(post: "602234013303895")
+            }
+        }
     }
     
 }
@@ -114,26 +134,12 @@ extension InteractViewController: UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return minSize * 0.1466
-    }
-    
 }
 
 extension InteractViewController: UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return data.count
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data[section].count
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
-        sections.sectionLabel.text = "Section \(section)"
-        return sections
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -142,6 +148,11 @@ extension InteractViewController: UITableViewDataSource {
         cell.delegates = self
         cell.indexPath = indexPath
         cell.position = cells(position: tableView, indexPath: indexPath)
+        
+        cell.noteView.dateLabel.text = data[indexPath.row].updated
+        cell.noteView.titleLabel.text = data[indexPath.row].name
+        cell.noteView.contentLabel.text = data[indexPath.row].msg
+        
         return cell
     }
     

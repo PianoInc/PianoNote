@@ -53,9 +53,8 @@ class DRContentNoteCell: UITableViewCell {
     private func initView() {
         backRoundedView.layer.cornerRadius = 14
         roundedView.layer.cornerRadius = 10
-        noteView.layer.cornerRadius = 10
-        noteView.layer.borderColor = UIColor(hex6: "b5b5b5").cgColor
-        noteView.layer.borderWidth = 0.5
+        roundedView.layer.borderColor = UIColor(hex6: "b5b5b5").cgColor
+        roundedView.layer.borderWidth = 0.5
     }
     
     private func initConst() {
@@ -76,13 +75,13 @@ class DRContentNoteCell: UITableViewCell {
             $0.trailing.equalTo(0)
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
-            $0.height.equalTo(self.minSize * 0.3413)
         }
         makeConst(noteView) {
-            $0.leading.equalTo(0)
-            $0.trailing.equalTo(0)
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(0)
+            $0.leading.equalTo(6)
+            $0.trailing.equalTo(-6)
+            $0.top.equalTo(6)
+            $0.bottom.equalTo(-6)
+            $0.height.greaterThanOrEqualTo(self.minSize * 0.3413)
         }
         makeConst(button) {
             $0.leading.equalTo(0)
@@ -137,8 +136,8 @@ class DRContentNoteCell: UITableViewCell {
             }
         }
         // 선택 effect.
-        noteView.layer.borderColor = UIColor(hex6: select ? "1784ff" : "b5b5b5").cgColor
-        noteView.layer.borderWidth = select ? 2 : 0.5
+        roundedView.layer.borderColor = UIColor(hex6: select ? "1784ff" : "b5b5b5").cgColor
+        roundedView.layer.borderWidth = select ? 2 : 0.5
     }
     
     @IBAction private func action(_ button: UIButton) {
@@ -159,10 +158,6 @@ class DRContentNoteView: UIView {
         initView()
         device(orientationDidChange: { _ in self.initConst()})
         initConst()
-        
-        dateLabel.text = "12월 17월, 2017"
-        titleLabel.text = "끄적끄적"
-        contentLabel.text = "어떻게 기다려야 하는지 아는 자에게\n적절한 시기에 모든 것이 주어진다. - 빈센트 -"
     }
     
     private func initView() {
@@ -188,6 +183,7 @@ class DRContentNoteView: UIView {
             $0.leading.equalTo(self.minSize * 0.04)
             $0.trailing.equalTo(-(self.minSize * 0.04))
             $0.top.equalTo(self.minSize * 0.19)
+            $0.bottom.equalTo(-(self.minSize * 0.04))
             $0.height.greaterThanOrEqualTo(0)
         }
     }
