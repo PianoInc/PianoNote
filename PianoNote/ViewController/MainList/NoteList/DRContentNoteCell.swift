@@ -24,6 +24,7 @@ class DRContentNoteCell: UITableViewCell {
     @IBOutlet private var contentsView: UIView!
     @IBOutlet private var backRoundedView: UIView!
     @IBOutlet private var roundedView: UIView!
+    
     /// NoteCell의 실제 note content를 가지는 view.
     @IBOutlet var noteView: DRContentNoteView!
     

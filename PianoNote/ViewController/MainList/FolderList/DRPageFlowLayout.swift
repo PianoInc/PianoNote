@@ -21,10 +21,7 @@ class DRPageFlowLayout: UICollectionViewFlowLayout {
      마치 paging이 되는것처럼 보이도록 contentOffset을 조정한다.
      */
     override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
-        guard let collectionView = self.collectionView else {
-            return proposedContentOffset
-        }
-        
+        guard let collectionView = self.collectionView else {return proposedContentOffset}
         let viewSize = collectionView.bounds.size
         let proposedRect = CGRect(x: proposedContentOffset.x, y: 0, width: viewSize.width, height: viewSize.height)
         
@@ -51,10 +48,7 @@ class DRPageFlowLayout: UICollectionViewFlowLayout {
             }
         }
         
-        guard candidateAttribute != nil else {
-            return proposedContentOffset
-        }
-        
+        guard candidateAttribute != nil else {return proposedContentOffset}
         var newOffsetX = candidateAttribute!.center.x - viewSize.width / 2
         let offset = newOffsetX - collectionView.contentOffset.x
         

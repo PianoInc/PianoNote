@@ -13,17 +13,22 @@ class DRBrowseFolderCell: UICollectionViewCell {
     weak var delegates: DRFolderCellDelegates!
     
     @IBOutlet var listView: UITableView!
-    let header = DRNoteCellHeader()
+    
+    private let header = DRNoteCellHeader()
     let data = ["deletedMeno".locale, "infomation".locale, "makeUp".locale, "communication".locale]
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        initView()
+        device(orientationDidChange: { _ in self.initConst()})
+        initConst()
+    }
+    
+    private func initView() {
         header.frame.size.height = minSize * 0.3466
         listView.tableHeaderView = header
         let minimumRect = CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude)
         listView.tableFooterView = UIView(frame: minimumRect)
-        device(orientationDidChange: { _ in self.initConst()})
-        initConst()
     }
     
     private func initConst() {
@@ -70,6 +75,7 @@ extension DRBrowseFolderCell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DRBrowseNoteCell") as! DRBrowseNoteCell
         table(viewHeaderView: tableView)
+        cell.indexPath = indexPath
         return cell
     }
     

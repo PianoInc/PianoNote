@@ -12,7 +12,7 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        performSegue(withIdentifier: "MainListViewController", sender: nil)
+        present(id: "MainListViewController")
     }
     
 }

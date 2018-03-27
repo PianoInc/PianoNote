@@ -10,6 +10,8 @@
 		16233D082064D128008317D1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16233D072064D128008317D1 /* String.swift */; };
 		16520F7B2063B9BA008EFEF6 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16520F7A2063B9BA008EFEF6 /* Font.swift */; };
 		1664D35A2068660B00BAA54B /* DRClearNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664D3592068660B00BAA54B /* DRClearNavigationController.swift */; };
+		1679D5612069B48700E6D98E /* RecycleBinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1679D5602069B48700E6D98E /* RecycleBinViewController.swift */; };
+		1679D5632069B73000E6D98E /* InteractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1679D5622069B73000E6D98E /* InteractViewController.swift */; };
 		168D199D2063294A005AA85F /* PianoNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D199C2063294A005AA85F /* PianoNoteTests.swift */; };
 		168D19A82063294A005AA85F /* PianoNoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19A72063294A005AA85F /* PianoNoteUITests.swift */; };
 		168D19D420632998005AA85F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168D19B720632998005AA85F /* Assets.xcassets */; };
@@ -90,6 +92,8 @@
 		16233D072064D128008317D1 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		16520F7A2063B9BA008EFEF6 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		1664D3592068660B00BAA54B /* DRClearNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRClearNavigationController.swift; sourceTree = "<group>"; };
+		1679D5602069B48700E6D98E /* RecycleBinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinViewController.swift; sourceTree = "<group>"; };
+		1679D5622069B73000E6D98E /* InteractViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractViewController.swift; sourceTree = "<group>"; };
 		168D198420632949005AA85F /* PianoNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168D19982063294A005AA85F /* PianoNoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PianoNoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		168D199C2063294A005AA85F /* PianoNoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoNoteTests.swift; sourceTree = "<group>"; };
@@ -190,6 +194,15 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		1679D55F2069B47800E6D98E /* LookAround */ = {
+			isa = PBXGroup;
+			children = (
+				1679D5602069B48700E6D98E /* RecycleBinViewController.swift */,
+				1679D5622069B73000E6D98E /* InteractViewController.swift */,
+			);
+			path = LookAround;
+			sourceTree = "<group>";
+		};
 		168D197B20632949005AA85F = {
 			isa = PBXGroup;
 			children = (
@@ -281,6 +294,7 @@
 		168D19D020632998005AA85F /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1679D55F2069B47800E6D98E /* LookAround */,
 				168D1A032063663C005AA85F /* MainList */,
 				168D19FB20632FD5005AA85F /* SplashViewController.swift */,
 			);
@@ -770,12 +784,14 @@
 				1664D35A2068660B00BAA54B /* DRClearNavigationController.swift in Sources */,
 				168D1A1E206383F0005AA85F /* DRBrowseFolderCell.swift in Sources */,
 				168D1A0C20636BF2005AA85F /* Device.swift in Sources */,
+				1679D5632069B73000E6D98E /* InteractViewController.swift in Sources */,
 				168D1A20206383F3005AA85F /* DRContentFolderCell.swift in Sources */,
 				168D1A16206382E2005AA85F /* DRPageFlowLayout.swift in Sources */,
 				168D1A0E20637292005AA85F /* DRBinder.swift in Sources */,
 				168D1A1420637AB0005AA85F /* DRButton.swift in Sources */,
 				16520F7B2063B9BA008EFEF6 /* Font.swift in Sources */,
 				168D1A1C206383EB005AA85F /* DREmptyFolderCell.swift in Sources */,
+				1679D5612069B48700E6D98E /* RecycleBinViewController.swift in Sources */,
 				168D1A06206366A5005AA85F /* MainListViewController.swift in Sources */,
 				168D1A2C2063B4A7005AA85F /* DRNoteCellSection.swift in Sources */,
 				168D19E220632998005AA85F /* Color.swift in Sources */,

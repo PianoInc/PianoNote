@@ -62,15 +62,15 @@ class MainListViewController: UIViewController {
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
         listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
+        guard let leftItem = navigationItem.leftBarButtonItem else {return}
+        leftItem.title = "manageFolder".locale
+        guard let rightItem = navigationItem.rightBarButtonItem else {return}
+        rightItem.title = "select".locale
         navigationItem.titleView = makeView(UILabel()) {
             $0.font = UIFont.preferred(font: 17, weight: .semibold)
             $0.text = tempData[1]
             $0.alpha = 0
         }
-        guard let leftItem = navigationItem.leftBarButtonItem else {return}
-        leftItem.title = "manageFolder".locale
-        guard let rightItem = navigationItem.rightBarButtonItem else {return}
-        rightItem.title = "select".locale
     }()
     
     override func viewDidLayoutSubviews() {
@@ -97,14 +97,18 @@ extension MainListViewController {
     }
     
     @IBAction private func naviBar(right item: UIBarButtonItem) {
-        listView.isScrollEnabled = !listView.isScrollEnabled
-        navigationController?.isToolbarHidden = listView.isScrollEnabled
-        guard let leftItem = navigationItem.leftBarButtonItem else {return}
-        leftItem.title = listView.isScrollEnabled ? "manageFolder".locale : "selectAll".locale
-        guard let rightItem = navigationItem.rightBarButtonItem else {return}
-        rightItem.title = listView.isScrollEnabled ? "select".locale : "done".locale
-        if let contentNoteCell = listView.visibleCells.first as? DRContentFolderCell {
-            contentNoteCell.isEditMode = !listView.isScrollEnabled
+        if let _ = listView.visibleCells.first as? DRBrowseFolderCell {
+            
+        } else if let cell = listView.visibleCells.first as? DRContentFolderCell {
+            listView.isScrollEnabled = !listView.isScrollEnabled
+            navigationController?.isToolbarHidden = listView.isScrollEnabled
+            guard let leftItem = navigationItem.leftBarButtonItem else {return}
+            leftItem.title = listView.isScrollEnabled ? "manageFolder".locale : "selectAll".locale
+            guard let rightItem = navigationItem.rightBarButtonItem else {return}
+            rightItem.title = listView.isScrollEnabled ? "select".locale : "done".locale
+            cell.isEditMode = !listView.isScrollEnabled
+        } else {
+            
         }
     }
     
@@ -147,20 +151,23 @@ extension MainListViewController: UICollectionViewDelegate {
         // 화면 중앙점을 기준으로 index를 계산한다.
         let centerOffset = CGPoint(x: scrollView.contentOffset.x + scrollView.center.x, y: scrollView.center.y)
         guard let indexPath = listView.indexPathForItem(at: centerOffset) else {return}
-        initNavi(item: indexPath.row)
+        initNavi(item: indexPath)
     }
     
     /**
      navigationItem의 title 및 image를 설정한다.
-     - parameter index : 현재 보이지는 화면의 listview index.
+     - parameter indexPath : 현재 보이지는 cell의 indexPath.
      */
-    private func initNavi(item index: Int) {
+    private func initNavi(item indexPath: IndexPath) {
         guard let titleView = navigationItem.titleView as? UILabel else {return}
-        titleView.text = tempData[index]
+        titleView.text = tempData[indexPath.row]
         titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
-        rightItem.title = (index == 0) ? "" : "select".locale
-        rightItem.image = (index == 0) ? nil : nil
+        rightItem.title = (indexPath.row == 0) ? "" : "select".locale
+        rightItem.image = (indexPath.row == 0) ? nil : nil
+        guard let _ = listView.cellForItem(at: indexPath) as? DREmptyFolderCell else {return}
+        rightItem.title = ""
+        rightItem.image = nil
     }
     
 }

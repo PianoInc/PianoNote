@@ -17,6 +17,10 @@ class DRNoteCellHeader: UIView {
     /// HeaderView의 content를 가지는 view.
     let contentView = DRNoteCellHeaderContentView()
     
+    convenience init(height: CGFloat) {
+        self.init(frame: CGRect(x: 0, y: 0, width: 0, height: height))
+    }
+    
     override func didMoveToWindow() {
         super.didMoveToWindow()
         backgroundColor = .clear

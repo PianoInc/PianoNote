@@ -13,16 +13,21 @@ class DREmptyFolderCell: UICollectionViewCell {
     weak var delegates: DRFolderCellDelegates!
     
     @IBOutlet var listView: UITableView!
-    let header = DRNoteCellHeader()
+    
+    private let header = DRNoteCellHeader()
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        initView()
+        device(orientationDidChange: { _ in self.initConst()})
+        initConst()
+    }
+    
+    private func initView() {
         header.frame.size.height = minSize * 0.4
         listView.tableHeaderView = header
         let minimumRect = CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude)
         listView.tableFooterView = UIView(frame: minimumRect)
-        device(orientationDidChange: { _ in self.initConst()})
-        initConst()
     }
     
     private func initConst() {
