@@ -11,7 +11,7 @@ import UIKit
 class PianoSegmentControl: UIView {
     
     @IBOutlet var buttons: [UIButton]!
-    weak var PianoView: PianoView?
+    weak var pianoView: PianoView?
     
     @IBAction func tap(_ sender: UIButton) {
         
@@ -19,6 +19,8 @@ class PianoSegmentControl: UIView {
             button.alpha = sender != button ? 0.2 : 1
         }
         
+        guard let attributes = PianoAttributes(rawValue: sender.tag) else { return }
+        pianoView?.attributes = attributes
         //TODO: animatableView에게 통신을 보내야함 효과에 대해서 넘겨줘야함
         
     }

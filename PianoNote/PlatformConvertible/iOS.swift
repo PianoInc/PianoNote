@@ -13,6 +13,7 @@ typealias View = UIView
 public typealias Font = UIFont
 public typealias Color = UIColor
 public typealias MutableParagraphStyle = NSMutableParagraphStyle
+public typealias ParagraphStyle = NSParagraphStyle
 public typealias TextAlignment = NSTextAlignment
 public typealias TextView = UITextView
 public typealias FontStyle = UIFontTextStyle

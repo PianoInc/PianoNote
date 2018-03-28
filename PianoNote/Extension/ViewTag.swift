@@ -1,5 +1,5 @@
 //
-//  Temp.swift
+//  ViewTag.swift
 //  PianoNote
 //
 //  Created by Kevin Kim on 23/03/2018.
@@ -7,6 +7,22 @@
 //
 
 import Foundation
+
+
+enum ViewTag: Int {
+    case PianoButton = 1000
+    case PianoSegmentControl = 1001
+    case PianoView = 1002
+    case PianoControl = 1003
+    case PianoTextView = 1004
+    case PianoCoverView = 1005
+    
+    case TempImageView = 2000
+    
+    var identifier: String {
+        return String(describing: self)
+    }
+}
 
 extension View {
     
@@ -18,8 +34,9 @@ extension View {
         let nib = Nib(nibName: tag.identifier, bundle: nil)
         let view = nib.instantiate(withOwner: nil, options: nil).first as! View
         view.tag = tag.rawValue
-        self.addSubview(view)
+
         return view
         
     }
+
 }
