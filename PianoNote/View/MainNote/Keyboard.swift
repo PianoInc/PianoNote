@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-extension NoteTextView {
+extension NoteViewController {
     
     internal func registerKeyboardNotification(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
@@ -26,13 +26,13 @@ extension NoteTextView {
         
         guard let userInfo = notification.userInfo,
             let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue?.height,
-            let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval,
-            let superView = superview else { return }
-        UIView.animate(withDuration: duration, animations: {
-            superView.constraints.forEach({ (constraint) in
+            let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+
+        UIView.animate(withDuration: duration, animations: { [weak self] in
+            self?.view.constraints.forEach({ (constraint) in
                 if constraint.identifier == ConstraintIdentifier.pianoTextViewBottom {
                     constraint.constant = kbHeight
-                    superView.layoutIfNeeded()
+                    self?.view.layoutIfNeeded()
                     return
                 }
             })
@@ -43,13 +43,12 @@ extension NoteTextView {
     @objc private func keyboardWillHide(notification: Notification) {
         
         guard let userInfo = notification.userInfo,
-            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
-            let superView = superview else { return }
-        UIView.animate(withDuration: duration) {
-            superView.constraints.forEach({ (constraint) in
+            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
+        UIView.animate(withDuration: duration) { [weak self] in
+            self?.view.constraints.forEach({ (constraint) in
                 if constraint.identifier == ConstraintIdentifier.pianoTextViewBottom {
                     constraint.constant = 0
-                    superView.layoutIfNeeded()
+                    self?.view.layoutIfNeeded()
                     return
                 }
             })
@@ -72,14 +71,14 @@ extension NoteTextView {
     
     private func attachBackingImageView(height: CGFloat) {
         
-        guard let superView = superview,
-            let imageView = superView.subView(tag: ViewTag.TempImageView) as? UIImageView else { return }
-        superView.insertSubview(imageView, belowSubview: self)
+        guard let imageView = view.subView(tag: ViewTag.TempImageView) as? UIImageView,
+            let textView = view.subView(tag: ViewTag.PianoTextView) as? PianoTextView else { return }
+        view.insertSubview(imageView, belowSubview: textView)
         let num = arc4random_uniform(20) + 1
         imageView.image = UIImage(named: "pianoLogo\(num)")
         
         imageView.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalTo(superView)
+            make.left.right.bottom.equalTo(view)
             make.height.equalTo(height)
         }
         
@@ -88,8 +87,7 @@ extension NoteTextView {
     
     private func detachBackingImageView() {
         
-        guard let superView = superview,
-            let imageView = superView.subView(tag: ViewTag.TempImageView) as? UIImageView else { return }
+        guard let imageView = view.subView(tag: ViewTag.TempImageView) as? UIImageView else { return }
         imageView.removeFromSuperview()
         
     }
