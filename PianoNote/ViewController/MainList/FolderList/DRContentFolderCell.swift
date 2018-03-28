@@ -123,7 +123,7 @@ extension DRContentFolderCell: UITableViewDataSource {
         cell.position = cells(position: tableView, indexPath: indexPath)
         cell.deleteButton.isHidden = !isEditMode
         cell.select = selectedIndex.contains(indexPath)
-        cell.noteView.data = "등산하는 사람들이 서로 부르거나, 외치는 소리. 주로 정상에서 외친다."
+        cell.noteView.data = "\(indexPath)등산하는 사람들이 서로 부르거나, 외치는 소리. 주로 정상에서 외친다. 등산하는 사람들이 서로 부르거나, 외치는 소리. 주로 정상에서 외친다."
         return cell
     }
     

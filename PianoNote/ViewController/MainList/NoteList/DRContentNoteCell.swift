@@ -153,7 +153,9 @@ class DRContentNoteView: UIView {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var contentLabel: UILabel!
     
-    var data = ""
+    var data = "" {
+        didSet {continuousText()}
+    }
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -197,12 +199,10 @@ class DRContentNoteView: UIView {
     
     /// titleLabel과 contentLabel의 Text가 하나의 문장으로 이어지도록 만든다.
     private func continuousText() {
-        if !data.isEmpty {
-            titleLabel.text = data
-            let firstLineText = titleLabel.firstLineText
-            contentLabel.text = data.sub(firstLineText.count...)
-            titleLabel.text = firstLineText
-        }
+        titleLabel.text = data
+        let firstLineText = titleLabel.firstLineText
+        titleLabel.text = firstLineText
+        contentLabel.text = data.sub(firstLineText.count...)
     }
     
 }

@@ -188,8 +188,7 @@ extension InteractViewController: UITableViewDataSource {
             formatter.dateFormat = "yyyy.MM.dd"
             cell.noteView.dateLabel.text = formatter.string(from: updated)
         }
-        cell.noteView.titleLabel.text = postData.name
-        cell.noteView.contentLabel.text = postData.msg
+        cell.noteView.data = postData.msg
         
         return cell
     }
