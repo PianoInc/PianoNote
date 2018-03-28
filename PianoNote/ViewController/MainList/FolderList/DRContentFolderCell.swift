@@ -123,7 +123,7 @@ extension DRContentFolderCell: UITableViewDataSource {
         cell.position = cells(position: tableView, indexPath: indexPath)
         cell.deleteButton.isHidden = !isEditMode
         cell.select = selectedIndex.contains(indexPath)
-        cell.noteView.contentLabel.text = "Take for example the TEXT type. It can contain 65535 bytes of data. UTF-8 contains multi-byte characters. Therefore, if you filled the field using only the danish characteyou would only get 32767 characters, as that UTF-8 character is composed of lti-byte characters"
+        cell.noteView.data = "등산하는 사람들이 서로 부르거나, 외치는 소리. 주로 정상에서 외친다."
         return cell
     }
     

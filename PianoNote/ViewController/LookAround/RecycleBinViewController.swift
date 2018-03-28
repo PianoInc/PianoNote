@@ -182,6 +182,7 @@ extension RecycleBinViewController: UITableViewDataSource {
         cell.indexPath = indexPath
         cell.position = cells(position: tableView, indexPath: indexPath)
         cell.select = selectedIndex.contains(indexPath)
+        cell.noteView.data = "Take for example the TEXT type. It can contain 65535 bytes of data."
         return cell
     }
     

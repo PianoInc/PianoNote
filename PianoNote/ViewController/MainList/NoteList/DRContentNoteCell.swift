@@ -75,13 +75,13 @@ class DRContentNoteCell: UITableViewCell {
             $0.trailing.equalTo(0)
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
+            $0.height.greaterThanOrEqualTo(self.minSize * 0.3413)
         }
         makeConst(noteView) {
             $0.leading.equalTo(6)
             $0.trailing.equalTo(-6)
             $0.top.equalTo(6)
             $0.bottom.equalTo(-6)
-            $0.height.greaterThanOrEqualTo(self.minSize * 0.3413)
         }
         makeConst(button) {
             $0.leading.equalTo(0)
@@ -153,6 +153,8 @@ class DRContentNoteView: UIView {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var contentLabel: UILabel!
     
+    var data = ""
+    
     override func didMoveToWindow() {
         super.didMoveToWindow()
         initView()
@@ -185,6 +187,21 @@ class DRContentNoteView: UIView {
             $0.top.equalTo(self.minSize * 0.19)
             $0.bottom.equalTo(-(self.minSize * 0.04))
             $0.height.greaterThanOrEqualTo(0)
+        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        continuousText()
+    }
+    
+    /// titleLabel과 contentLabel의 Text가 하나의 문장으로 이어지도록 만든다.
+    private func continuousText() {
+        if !data.isEmpty {
+            titleLabel.text = data
+            let firstLineText = titleLabel.firstLineText
+            contentLabel.text = data.sub(firstLineText.count...)
+            titleLabel.text = firstLineText
         }
     }
     

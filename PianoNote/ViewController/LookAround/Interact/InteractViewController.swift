@@ -53,9 +53,7 @@ class InteractViewController: UIViewController {
         DRFBService.share.rxPost.subscribe {
             self.data = $0
             self.listView.isHidden = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.listView.reloadData()
-            }
+            self.listView.reloadData()
         }
     }
     
