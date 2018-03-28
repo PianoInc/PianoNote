@@ -16,7 +16,7 @@ class InteractViewController: UIViewController {
     @IBOutlet private var listView: UITableView!
     
     private let header = DRNoteCellHeader()
-    private var data = [DRFBPosts]()
+    private var data = [String : [DRFBPosts]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +41,7 @@ class InteractViewController: UIViewController {
         attr.append(str)
         facebookButton.setAttributedTitle(attr, for: .normal)
         
+        listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.contentInset.bottom = minSize * 0.3413
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = 140
@@ -51,7 +52,7 @@ class InteractViewController: UIViewController {
         listView.tableFooterView = UIView(frame: minimumRect)
         
         DRFBService.share.rxPost.subscribe {
-            self.data = $0
+            self.data = self.group(time: $0)
             self.listView.isHidden = false
             self.listView.reloadData()
         }
@@ -99,8 +100,8 @@ class InteractViewController: UIViewController {
     
 }
 
-// Login and swiching 기능.
-extension InteractViewController{
+// Login and data swiching 기능.
+extension InteractViewController {
     
     @IBAction private func action(login: UIButton) {
         DRFBService.share.facebook(login: self) { success in
@@ -108,6 +109,23 @@ extension InteractViewController{
                 DRFBService.share.facebook(post: "602234013303895")
             }
         }
+    }
+    
+    /**
+     지정된 timeFormat에 따라 data를 grouping하여 반환한다.
+     - parameter data: Non-grouped data.
+     */
+    private func group(time data: [DRFBPosts]) -> [String : [DRFBPosts]] {
+        var result = [String : [DRFBPosts]]()
+        for data in data {
+            let key = timeFormat(data.updated)
+            if result.keys.contains(key) {
+                result[key]?.append(data)
+            } else {
+                result[key] = [data]
+            }
+        }
+        return result
     }
     
 }
@@ -132,12 +150,26 @@ extension InteractViewController: UITableViewDelegate {
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return minSize * 0.1333
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
+        sections.sectionLabel.text = data[data.index(data.startIndex, offsetBy: section)].key
+        return sections
+    }
+    
 }
 
 extension InteractViewController: UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return data.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data[data.index(data.startIndex, offsetBy: section)].value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -147,9 +179,17 @@ extension InteractViewController: UITableViewDataSource {
         cell.indexPath = indexPath
         cell.position = cells(position: tableView, indexPath: indexPath)
         
-        cell.noteView.dateLabel.text = data[indexPath.row].updated
-        cell.noteView.titleLabel.text = data[indexPath.row].name
-        cell.noteView.contentLabel.text = data[indexPath.row].msg
+        let dataIndex = data.index(data.startIndex, offsetBy: indexPath.section)
+        let postData = data[dataIndex].value[indexPath.row]
+        
+        cell.noteView.dateLabel.text = ""
+        if let updated = postData.updated {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy.MM.dd"
+            cell.noteView.dateLabel.text = formatter.string(from: updated)
+        }
+        cell.noteView.titleLabel.text = postData.name
+        cell.noteView.contentLabel.text = postData.msg
         
         return cell
     }

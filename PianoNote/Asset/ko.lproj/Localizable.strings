@@ -14,4 +14,10 @@
 "selectMemoCount" = "%d개 메모 선택됨";
 "facebookNotice" = "페이스북 아이디로 로그인 해야\n내용을 볼 수 있어요.";
 "facebookLogin" = "  페이스북으로 로그인";
+"dateYearPast" = "%d년 %d월";
+"dateYear" = "%d개월 전";
+"dateMonth" = "최근 한달";
+"dateWeek" = "최근 일주일";
+"dateYesterday" = "어제";
+"dateToday" = "오늘";
 

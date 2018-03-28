@@ -11,7 +11,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import SwiftyJSON
 
-typealias DRFBPosts = (updated: String, id: String, name: String, msg: String)
+typealias DRFBPosts = (updated: Date?, id: String, name: String, msg: String)
 typealias DRFBComments = (tag: Int?, msg: String, reply: [String]?)
 
 class DRFBService: NSObject {
@@ -66,7 +66,10 @@ class DRFBService: NSObject {
             
             if let data = json["data"].array {
                 for data in data {
-                    let updated = data["updated_time"].string ?? ""
+                    let formatter = ISO8601DateFormatter()
+                    formatter.formatOptions = [.withFullDate, .withDashSeparatorInDate,
+                                               .withTime, .withColonSeparatorInTime]
+                    let updated = formatter.date(from: data["updated_time"].string ?? "")
                     let id = data["id"].string ?? ""
                     let name = data["name"].string ?? ""
                     guard let msg = data["message"].string else {continue}
