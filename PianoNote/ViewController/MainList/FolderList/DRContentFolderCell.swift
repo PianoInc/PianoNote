@@ -10,22 +10,20 @@ import UIKit
 
 class DRContentFolderCell: UICollectionViewCell {
     
-    @IBOutlet var listView: UITableView! {
-        didSet {
-            listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
-            listView.contentInset.bottom = minSize * 0.3413
-            listView.initHeaderView(minSize * 0.4)
-            listView.rowHeight = UITableViewAutomaticDimension
-            listView.estimatedRowHeight = 140
-        }
-    }
+    @IBOutlet var listView: UITableView! { didSet {
+        listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
+        listView.contentInset.bottom = minSize * 0.3413
+        listView.initHeaderView(minSize * 0.4)
+        listView.rowHeight = UITableViewAutomaticDimension
+        listView.estimatedRowHeight = 140
+        }}
     
     var selectedIndex = [IndexPath]()
     var data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
     
-    var isEditMode = false {
-        didSet {editMode()}
-    }
+    var isEditMode = false { didSet {
+        editMode()
+        }}
     
     override func didMoveToWindow() {
         super.didMoveToWindow()

@@ -18,27 +18,19 @@ enum DRBrowseMenu: Int {
 
 class DRBrowseNoteCell: UITableViewCell {
     
-    @IBOutlet private var roundedView: UIView! {
-        didSet {
-            roundedView.layer.cornerRadius = 14
-        }
-    }
+    @IBOutlet private var roundedView: UIView! { didSet {
+        roundedView.layer.cornerRadius = 14
+        }}
     @IBOutlet private var iconImage: UIImageView!
-    @IBOutlet private var titleLabel: UILabel! {
-        didSet {
-            titleLabel.font = UIFont.preferred(font: 12, weight: .semibold)
-        }
-    }
-    @IBOutlet private var notiLabel: UILabel! {
-        didSet {
-            notiLabel.font = UIFont.preferred(font: 12, weight: .semibold)
-        }
-    }
-    @IBOutlet private var notiImage: UIImageView! {
-        didSet {
-            notiImage.layer.cornerRadius = 3.5
-        }
-    }
+    @IBOutlet private var titleLabel: UILabel! { didSet {
+        titleLabel.font = UIFont.preferred(font: 12, weight: .semibold)
+        }}
+    @IBOutlet private var notiLabel: UILabel! { didSet {
+        notiLabel.font = UIFont.preferred(font: 12, weight: .semibold)
+        }}
+    @IBOutlet private var notiImage: UIImageView! { didSet {
+        notiImage.layer.cornerRadius = 3.5
+        }}
     @IBOutlet private var button: UIButton!
     
     var indexPath: IndexPath!

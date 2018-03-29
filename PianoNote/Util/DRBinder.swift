@@ -12,9 +12,9 @@ class DRBinder<T>: NSObject {
     
     typealias Observer = (T) -> ()
     var observer: Observer?
-    var value: T {
-        didSet {observer?(value)}
-    }
+    var value: T { didSet {
+        observer?(value)
+        }}
     
     init(_ value: T) {
         self.value = value

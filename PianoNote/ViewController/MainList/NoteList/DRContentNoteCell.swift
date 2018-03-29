@@ -32,18 +32,14 @@ class DRContentNoteCell: UITableViewCell {
     @IBOutlet private var stackView: UIStackView!
     @IBOutlet var deleteButton: UIButton!
     @IBOutlet private var contentsView: UIView!
-    @IBOutlet private var backRoundedView: UIView! {
-        didSet {
-            backRoundedView.layer.cornerRadius = 14
-        }
-    }
-    @IBOutlet private var roundedView: UIView! {
-        didSet {
-            roundedView.layer.borderColor = UIColor(hex6: "b5b5b5").cgColor
-            roundedView.layer.borderWidth = 0.5
-            roundedView.layer.cornerRadius = 10
-        }
-    }
+    @IBOutlet private var backRoundedView: UIView! { didSet {
+        backRoundedView.layer.cornerRadius = 14
+        }}
+    @IBOutlet private var roundedView: UIView! { didSet {
+        roundedView.layer.borderColor = UIColor(hex6: "b5b5b5").cgColor
+        roundedView.layer.borderWidth = 0.5
+        roundedView.layer.cornerRadius = 10
+        }}
     
     /// NoteCell의 실제 note content를 가지는 view.
     @IBOutlet var noteView: DRContentNoteView!
@@ -154,25 +150,19 @@ class DRContentNoteCell: UITableViewCell {
 /// NoteCell의 실제 note content를 가지는 view.
 class DRContentNoteView: UIView {
     
-    @IBOutlet var dateLabel: UILabel! {
-        didSet {
-            dateLabel.font = UIFont.preferred(font: 13, weight: .regular)
-        }
-    }
-    @IBOutlet var titleLabel: UILabel! {
-        didSet {
-            titleLabel.font = UIFont.preferred(font: 28, weight: .bold)
-        }
-    }
-    @IBOutlet var contentLabel: UILabel!{
-        didSet {
-            contentLabel.font = UIFont.preferred(font: 16, weight: .regular)
-        }
-    }
+    @IBOutlet var dateLabel: UILabel! { didSet {
+        dateLabel.font = UIFont.preferred(font: 13, weight: .regular)
+        }}
+    @IBOutlet var titleLabel: UILabel! { didSet {
+        titleLabel.font = UIFont.preferred(font: 28, weight: .bold)
+        }}
+    @IBOutlet var contentLabel: UILabel!{ didSet {
+        contentLabel.font = UIFont.preferred(font: 16, weight: .regular)
+        }}
     
-    var data = "" {
-        didSet {continuousText()}
-    }
+    var data = "" { didSet {
+        continuousText()
+        }}
     
     override func didMoveToWindow() {
         super.didMoveToWindow()

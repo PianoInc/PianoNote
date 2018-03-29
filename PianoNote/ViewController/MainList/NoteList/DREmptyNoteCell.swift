@@ -10,11 +10,9 @@ import UIKit
 
 class DREmptyNoteCell: UITableViewCell {
     
-    @IBOutlet var emptyLabel: UILabel! {
-        didSet {
-            emptyLabel.font = UIFont.preferred(font: 17, weight: .regular)
-        }
-    }
+    @IBOutlet var emptyLabel: UILabel! { didSet {
+        emptyLabel.font = UIFont.preferred(font: 17, weight: .regular)
+        }}
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -22,13 +20,16 @@ class DREmptyNoteCell: UITableViewCell {
     }
     
     private func initConst() {
-        makeConst(emptyLabel) {
-            $0.leading.equalTo(0)
-            $0.trailing.equalTo(0)
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(0)
+        func constraint() {
+            makeConst(emptyLabel) {
+                $0.leading.equalTo(0)
+                $0.trailing.equalTo(0)
+                $0.top.equalTo(0)
+                $0.bottom.equalTo(0)
+            }
         }
-        device(orientationDidChange: { _ in self.initConst()})
+        constraint()
+        device(orientationDidChange: { _ in constraint()})
     }
     
 }

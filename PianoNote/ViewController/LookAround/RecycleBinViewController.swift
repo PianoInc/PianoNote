@@ -10,15 +10,13 @@ import UIKit
 
 class RecycleBinViewController: UIViewController {
     
-    @IBOutlet private var listView: UITableView! {
-        didSet {
-            listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
-            listView.contentInset.bottom = minSize * 0.3413
-            listView.initHeaderView(minSize * 0.2133)
-            listView.rowHeight = UITableViewAutomaticDimension
-            listView.estimatedRowHeight = 140
-        }
-    }
+    @IBOutlet private var listView: UITableView! { didSet {
+        listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
+        listView.contentInset.bottom = minSize * 0.3413
+        listView.initHeaderView(minSize * 0.2133)
+        listView.rowHeight = UITableViewAutomaticDimension
+        listView.estimatedRowHeight = 140
+        }}
     
     private var selectedIndex = [IndexPath]()
     var data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]

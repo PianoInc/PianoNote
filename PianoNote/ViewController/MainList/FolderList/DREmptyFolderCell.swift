@@ -10,11 +10,9 @@ import UIKit
 
 class DREmptyFolderCell: UICollectionViewCell {
     
-    @IBOutlet var listView: UITableView! {
-        didSet {
-            listView.initHeaderView(minSize * 0.4)
-        }
-    }
+    @IBOutlet var listView: UITableView! { didSet {
+        listView.initHeaderView(minSize * 0.4)
+        }}
     
     override func didMoveToWindow() {
         super.didMoveToWindow()

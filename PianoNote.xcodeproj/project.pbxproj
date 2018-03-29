@@ -15,6 +15,8 @@
 		1679D5612069B48700E6D98E /* RecycleBinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1679D5602069B48700E6D98E /* RecycleBinViewController.swift */; };
 		1679D5632069B73000E6D98E /* InteractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1679D5622069B73000E6D98E /* InteractViewController.swift */; };
 		1689AD47206C56BD0059573B /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1689AD46206C56BD0059573B /* Table.swift */; };
+		1689AD4A206C6A7A0059573B /* DRDetailCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1689AD49206C6A7A0059573B /* DRDetailCommentCell.swift */; };
+		1689AD4C206C6F9B0059573B /* DRDetailReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1689AD4B206C6F9B0059573B /* DRDetailReplyCell.swift */; };
 		168D199D2063294A005AA85F /* PianoNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D199C2063294A005AA85F /* PianoNoteTests.swift */; };
 		168D19A82063294A005AA85F /* PianoNoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19A72063294A005AA85F /* PianoNoteUITests.swift */; };
 		168D19D420632998005AA85F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168D19B720632998005AA85F /* Assets.xcassets */; };
@@ -101,6 +103,8 @@
 		1679D5602069B48700E6D98E /* RecycleBinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinViewController.swift; sourceTree = "<group>"; };
 		1679D5622069B73000E6D98E /* InteractViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractViewController.swift; sourceTree = "<group>"; };
 		1689AD46206C56BD0059573B /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
+		1689AD49206C6A7A0059573B /* DRDetailCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRDetailCommentCell.swift; sourceTree = "<group>"; };
+		1689AD4B206C6F9B0059573B /* DRDetailReplyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDetailReplyCell.swift; sourceTree = "<group>"; };
 		168D198420632949005AA85F /* PianoNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168D19982063294A005AA85F /* PianoNoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PianoNoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		168D199C2063294A005AA85F /* PianoNoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoNoteTests.swift; sourceTree = "<group>"; };
@@ -209,6 +213,16 @@
 				1679D5602069B48700E6D98E /* RecycleBinViewController.swift */,
 			);
 			path = LookAround;
+			sourceTree = "<group>";
+		};
+		1689AD48206C6A510059573B /* InteractDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */,
+				1689AD49206C6A7A0059573B /* DRDetailCommentCell.swift */,
+				1689AD4B206C6F9B0059573B /* DRDetailReplyCell.swift */,
+			);
+			path = InteractDetailView;
 			sourceTree = "<group>";
 		};
 		168D197B20632949005AA85F = {
@@ -391,8 +405,8 @@
 		16F647A9206A0C59004BF276 /* Interact */ = {
 			isa = PBXGroup;
 			children = (
+				1689AD48206C6A510059573B /* InteractDetailView */,
 				1679D5622069B73000E6D98E /* InteractViewController.swift */,
-				16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */,
 			);
 			path = Interact;
 			sourceTree = "<group>";
@@ -802,7 +816,9 @@
 				168D1A262063B410005AA85F /* DRBrowseNoteCell.swift in Sources */,
 				168D1A282063B469005AA85F /* DRContentNoteCell.swift in Sources */,
 				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
+				1689AD4C206C6F9B0059573B /* DRDetailReplyCell.swift in Sources */,
 				1664D35A2068660B00BAA54B /* DRClearNavigationController.swift in Sources */,
+				1689AD4A206C6A7A0059573B /* DRDetailCommentCell.swift in Sources */,
 				168D1A1E206383F0005AA85F /* DRBrowseFolderCell.swift in Sources */,
 				168D1A0C20636BF2005AA85F /* Device.swift in Sources */,
 				1679D5632069B73000E6D98E /* InteractViewController.swift in Sources */,

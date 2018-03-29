@@ -10,11 +10,9 @@ import UIKit
 
 class DRBrowseFolderCell: UICollectionViewCell {
     
-    @IBOutlet var listView: UITableView! {
-        didSet {
-            listView.initHeaderView(minSize * 0.3466)
-        }
-    }
+    @IBOutlet var listView: UITableView! { didSet {
+        listView.initHeaderView(minSize * 0.3466)
+        }}
     
     var data = ["deletedMeno".locale, "infomation".locale, "makeUp".locale, "communication".locale]
     
