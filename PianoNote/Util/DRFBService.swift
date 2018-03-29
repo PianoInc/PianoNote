@@ -11,8 +11,9 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import SwiftyJSON
 
-typealias DRFBPosts = (updated: Date?, id: String, title: String, msg: String)
-typealias DRFBComments = (tag: Int?, msg: String, reply: [String]?)
+typealias DRFBPost = (create: Date, id: String, title: String, msg: String)
+typealias DRFBComment = (create: Date, count: Int, msg: String, reply: [DRFBReply]?)
+typealias DRFBReply = (create: Date, msg: String)
 
 class DRFBService: NSObject {
     
@@ -24,17 +25,17 @@ class DRFBService: NSObject {
     private var postState = DRFBCursor(state: .next, cursor: "")
     private var commentState = DRFBCursor(state: .next, cursor: "")
     
-    private var postData = [DRFBPosts]()
-    private var commentData = [DRFBComments]()
+    private var postData = [DRFBPost]()
+    private var commentData = [DRFBComment]()
     
     private let postLimit = "10"
     private let commentLimit = "50"
     
     /// postData을 감시하며 self return한다.
-    var rxPost = DRBinder([DRFBPosts]())
+    var rxPost = DRBinder([DRFBPost]())
     
     /// commentData을 감시하며 self return한다.
-    var rxComment = DRBinder([DRFBComments]())
+    var rxComment = DRBinder([DRFBComment]())
     
     /**
      Facebook 로그인
@@ -58,22 +59,23 @@ class DRFBService: NSObject {
     func facebook(post pageID: String) {
         guard postState.state == .next else {return}
         
-        let params = ["fields" : "updated_time, name, message", "limit" : postLimit]
+        let params = ["fields" : "created_time, name, message", "limit" : postLimit]
         let request = FBSDKGraphRequest(graphPath: "/\(pageID)/posts", parameters: params)!
         request.start { (connect, result, error) in
             guard let result = result else {return}
             let json = JSON(result)
             
             if let data = json["data"].array {
+                let formatter = ISO8601DateFormatter()
+                formatter.formatOptions = [.withFullDate, .withDashSeparatorInDate,
+                                           .withTime, .withColonSeparatorInTime]
                 for data in data {
-                    let formatter = ISO8601DateFormatter()
-                    formatter.formatOptions = [.withFullDate, .withDashSeparatorInDate,
-                                               .withTime, .withColonSeparatorInTime]
-                    let updated = formatter.date(from: data["updated_time"].string ?? "")
                     let id = data["id"].string ?? ""
                     let title = data["name"].string ?? ""
                     guard let msg = data["message"].string else {continue}
-                    self.postData.append(DRFBPosts(updated: updated, id: id, title: title, msg: msg))
+                    guard let created_time = data["created_time"].string else {continue}
+                    let create = formatter.date(from: created_time)!
+                    self.postData.append(DRFBPost(create: create, id: id, title: title, msg: msg))
                 }
                 self.rxPost.value = self.postData
                 self.postData.removeAll()
@@ -100,29 +102,32 @@ class DRFBService: NSObject {
     func facebook(comment postID: String) {
         guard commentState.state == .next else {return}
         
-        let params = ["fields" : "comments.limit(\(commentLimit)){updated_time, message, comments{updated_time, message}}"]
+        let params = ["fields" : "comments.limit(\(commentLimit)){created_time, comment_count, message, comments{created_time, message}}"]
         let request = FBSDKGraphRequest(graphPath: postID, parameters: params)!
         request.start { (connect, result, error) in
             guard let result = result else {return}
             let json = JSON(result)
             
             if let comments = json["comments"].dictionary, let data = comments["data"]?.array  {
+                let formatter = ISO8601DateFormatter()
+                formatter.formatOptions = [.withFullDate, .withDashSeparatorInDate,
+                                           .withTime, .withColonSeparatorInTime]
                 for data in data {
+                    let count = data["comment_count"].int ?? 0
                     guard let msg = data["message"].string else {continue}
-                    var reply = [String]()
+                    guard let created_time = data["created_time"].string else {continue}
+                    let create = formatter.date(from: created_time)!
+                    var reply = [DRFBReply]()
                     if let comments = data["comments"].dictionary, let data = comments["data"]?.array  {
                         for data in data {
                             if let msg = data["message"].string, !msg.isEmpty {
-                                reply.append(msg)
+                                guard let created_time = data["created_time"].string else {continue}
+                                let create = formatter.date(from: created_time)!
+                                reply.append(DRFBReply(create: create, msg: msg))
                             }
                         }
                     }
-                    self.commentData.append(DRFBComments(tag: nil, msg: msg, reply: nil))
-                    if let firstReply = reply.first {
-                        reply.remove(at: 0)
-                        reply.reverse()
-                        self.commentData.append(DRFBComments(tag: nil, msg: firstReply, reply: reply))
-                    }
+                    self.commentData.append(DRFBComment(create: create, count: count, msg: msg, reply: reply.isEmpty ? nil : reply))
                 }
                 self.rxComment.value = self.commentData
                 self.commentData.removeAll()

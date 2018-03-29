@@ -89,7 +89,9 @@ extension DRContentFolderCell: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
+        
         sections.sectionLabel.text = "Section \(section)"
+        
         return sections
     }
     

@@ -34,7 +34,7 @@ class InteractViewController: UIViewController {
         listView.estimatedRowHeight = 140
         }}
     
-    private var data = [String : [DRFBPosts]]()
+    private var data = [[String : [DRFBPost]]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,15 +81,6 @@ class InteractViewController: UIViewController {
             $0.text = "interact".locale
             $0.alpha = 0
         }
-        // Facebook data가 수정됐을 때의 처리
-        DRFBService.share.rxPost.subscribe {
-            self.data = self.group(time: $0)
-            self.listView.isHidden = false
-            self.listView.reloadData()
-        }
-        DRFBService.share.rxComment.subscribe { data in
-            print(data)
-        }
     }()
     
 }
@@ -108,20 +99,26 @@ extension InteractViewController {
         self.facebookLabel.isHidden = true
         self.facebookButton.isHidden = true
         DRFBService.share.facebook(post: postID)
+        DRFBService.share.rxPost.subscribe {
+            self.data = self.group(time: $0)
+            self.listView.isHidden = false
+            self.listView.reloadData()
+        }
     }
     
     /**
      지정된 timeFormat에 따라 data를 grouping하여 반환한다.
      - parameter data: Non-grouped data.
      */
-    private func group(time data: [DRFBPosts]) -> [String : [DRFBPosts]] {
-        var result = [String : [DRFBPosts]]()
+    private func group(time data: [DRFBPost]) -> [[String : [DRFBPost]]] {
+        var result = [[String : [DRFBPost]]]()
         for data in data {
-            let key = data.updated?.timeFormat ?? ""
-            if result.keys.contains(key) {
-                result[key]?.append(data)
+            let key = data.create.timeFormat
+            if result.contains(where: {$0.contains {$0.0 == key}}) {
+                let idx = result.index(where: {$0.contains {$0.0 == key}})!
+                result[idx][key]?.append(data)
             } else {
-                result[key] = [data]
+                result.append([key : [data]])
             }
         }
         return result
@@ -133,6 +130,12 @@ extension InteractViewController: DRContentNoteDelegates {
     
     func select(indexPath: IndexPath) {
         DRFBService.share.facebook(comment: post(data: indexPath).id)
+        DRFBService.share.rxComment.subscribe { data in
+            let viewContoller = UIStoryboard.view(type: InteractDetailViewController.self)
+            viewContoller.postTitle = self.post(data: indexPath).title
+            viewContoller.data = data
+            self.present(view: viewContoller)
+        }
     }
     
 }
@@ -149,7 +152,9 @@ extension InteractViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
-        sections.sectionLabel.text = data[data.index(data.startIndex, offsetBy: section)].key
+        
+        sections.sectionLabel.text = data[section].first!.key
+        
         return sections
     }
     
@@ -162,7 +167,7 @@ extension InteractViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data[data.index(data.startIndex, offsetBy: section)].value.count
+        return data[section].first!.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -171,12 +176,9 @@ extension InteractViewController: UITableViewDataSource {
         cell.indexPath = indexPath
         cell.delegates = self
         
-        cell.noteView.dateLabel.text = ""
-        if let updated = post(data: indexPath).updated {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy.MM.dd"
-            cell.noteView.dateLabel.text = formatter.string(from: updated)
-        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        cell.noteView.dateLabel.text = formatter.string(from: post(data: indexPath).create)
         cell.noteView.data = post(data: indexPath).msg
         
         return cell
@@ -186,9 +188,8 @@ extension InteractViewController: UITableViewDataSource {
      해당 indexPath에 맞는 data를 반환한다.
      - parameter indexPath: 찾고자 하는 indexPath.
      */
-    private func post(data indexPath: IndexPath) -> DRFBPosts {
-        let dataIndex = data.index(data.startIndex, offsetBy: indexPath.section)
-        return data[dataIndex].value[indexPath.row]
+    private func post(data indexPath: IndexPath) -> DRFBPost {
+        return data[indexPath.section].first!.value[indexPath.row]
     }
     
 }

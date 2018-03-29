@@ -218,9 +218,9 @@
 		1689AD48206C6A510059573B /* InteractDetailView */ = {
 			isa = PBXGroup;
 			children = (
-				16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */,
 				1689AD49206C6A7A0059573B /* DRDetailCommentSection.swift */,
 				1689AD4B206C6F9B0059573B /* DRDetailReplyCell.swift */,
+				16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */,
 			);
 			path = InteractDetailView;
 			sourceTree = "<group>";

@@ -27,9 +27,6 @@ class DRDetailReplyCell: UITableViewCell {
         }}
     
     @IBOutlet var toolView: UIView!
-    @IBOutlet var replyLabel: UILabel! { didSet {
-        replyLabel.font = UIFont.preferred(font: 12, weight: .regular)
-        }}
     @IBOutlet var timeLabel: UILabel! { didSet {
         timeLabel.font = UIFont.preferred(font: 12, weight: .regular)
         }}
@@ -70,13 +67,8 @@ class DRDetailReplyCell: UITableViewCell {
                 $0.top.equalTo(self.contentsView.snp.bottom)
                 $0.bottom.equalTo(0)
             }
-            makeConst(replyLabel) {
-                $0.leading.equalTo(self.minSize * 0.2933)
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
             makeConst(timeLabel) {
-                $0.leading.equalTo(self.replyLabel.snp.trailing).offset(self.minSize * 0.0266)
+                $0.leading.equalTo(self.minSize * 0.2933)
                 $0.top.equalTo(0)
                 $0.bottom.equalTo(0)
             }
