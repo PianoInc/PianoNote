@@ -9,37 +9,32 @@
 import UIKit
 import SnapKit
 
-protocol DRFolderCellDelegates:NSObjectProtocol {
-    /**
-     폴더 title의 maxY 값을 전달한다.
-     - parameter value: 폴더 title의 maxY.
-     */
-    func folderTitle(offset value: CGFloat)
-}
-
 class MainListViewController: UIViewController {
     
     @IBOutlet private var listView: UICollectionView!
     
-    private let tempData = ["둘러보기", "폴더", ""]
+    private var tempData = ["둘러보기", "폴더", ""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        device(orientationDidChange: { _ in self.initConst()})
-        initToolBar()
+        initNaviBar()
         initConst()
     }
     
     /// Constraints 설정
     private func initConst() {
-        makeConst(listView) {
-            $0.leading.equalTo(self.safeInset.left).priority(.high)
-            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
-            $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
-            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
-            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
-            $0.centerX.equalToSuperview().priority(.required)
+        func constraint() {
+            makeConst(listView) {
+                $0.leading.equalTo(self.safeInset.left).priority(.high)
+                $0.trailing.equalTo(-self.safeInset.right).priority(.high)
+                $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
+                $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
+                $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+                $0.centerX.equalToSuperview().priority(.required)
+            }
         }
+        constraint()
+        device(orientationDidChange: { _ in constraint()})
     }
     
     // Orientation 대응
@@ -83,8 +78,8 @@ class MainListViewController: UIViewController {
 // Navigation configuration.
 extension MainListViewController {
     
-    /// ToolBar 설정
-    private func initToolBar() {
+    /// Navigation 설정
+    private func initNaviBar() {
         // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
         navigationController?.toolbarItems = toolbarItems
         if let centerItem = navigationController?.toolbarItems?[2] {
@@ -142,25 +137,6 @@ extension MainListViewController {
     
 }
 
-extension MainListViewController: DRFolderCellDelegates {
-    
-    func folderTitle(offset value: CGFloat) {
-        naviTitle(alpha: value)
-    }
-    
-    /**
-     NavigationBar title에 주어진 alpha값을 적용한다.
-     - parameter alpha: 적용하려는 alpha값.
-     */
-    private func naviTitle(alpha: CGFloat) {
-        guard let titleView = navigationItem.titleView else {return}
-        UIView.animate(withDuration: 0.25) {
-            titleView.alpha = (alpha < 0.8) ? 0 : 1
-        }
-    }
-    
-}
-
 extension MainListViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -205,16 +181,13 @@ extension MainListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 { // 둘러보기
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRBrowseFolderCell", for: indexPath) as! DRBrowseFolderCell
-            cell.delegates = self
             return cell
         }
         if tempData[indexPath.row].isEmpty { // 빈 노트
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DREmptyFolderCell", for: indexPath) as! DREmptyFolderCell
-            cell.delegates = self
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
-        cell.delegates = self
         return cell
     }
     

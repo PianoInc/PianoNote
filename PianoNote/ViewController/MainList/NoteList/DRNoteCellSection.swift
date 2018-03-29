@@ -20,17 +20,20 @@ class DRNoteCellSection: UITableViewHeaderFooterView {
         backgroundView = UIView()
         backgroundView?.backgroundColor = .clear
         contentView.addSubview(sectionLabel)
-        device(orientationDidChange: { _ in self.initConst()})
         initConst()
     }
     
     private func initConst() {
-        makeConst(sectionLabel) {
-            $0.leading.equalTo(self.minSize * 0.08)
-            $0.trailing.equalTo(0)
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(0)
+        func constraint() {
+            makeConst(sectionLabel) {
+                $0.leading.equalTo(self.minSize * 0.08)
+                $0.trailing.equalTo(0)
+                $0.top.equalTo(0)
+                $0.bottom.equalTo(0)
+            }
         }
+        constraint()
+        device(orientationDidChange: { _ in constraint()})
     }
     
 }

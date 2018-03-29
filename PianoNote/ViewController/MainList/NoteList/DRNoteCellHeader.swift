@@ -29,12 +29,16 @@ class DRNoteCellHeader: UIView {
     }
     
     private func initConst() {
-        makeConst(contentView) {
-            $0.leading.equalTo(0)
-            $0.trailing.equalTo(0)
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(0)
+        func constraint() {
+            makeConst(contentView) {
+                $0.leading.equalTo(0)
+                $0.trailing.equalTo(0)
+                $0.top.equalTo(0)
+                $0.bottom.equalTo(0)
+            }
         }
+        constraint()
+        device(orientationDidChange: { _ in constraint()})
     }
     
 }
@@ -73,47 +77,50 @@ class DRNoteCellHeaderContentView: UIView {
         newView.addSubview(newSubLabel)
         newView.addSubview(newTitleLabel)
         newView.addSubview(newPlusImage)
-        device(orientationDidChange: { _ in self.initConst()})
         initConst()
     }
     
     private func initConst() {
-        makeConst(lockImage) {
-            $0.leading.equalTo(self.minSize * 0.0613)
-            $0.top.equalTo(self.minSize * 0.0266)
-            $0.height.equalTo(15)
-            $0.width.equalTo(15)
+        func constraint() {
+            makeConst(lockImage) {
+                $0.leading.equalTo(self.minSize * 0.0613)
+                $0.top.equalTo(self.minSize * 0.0266)
+                $0.height.equalTo(15)
+                $0.width.equalTo(15)
+            }
+            makeConst(titleLabel) {
+                $0.leading.equalTo(self.minSize * 0.0613)
+                $0.trailing.equalTo(-(self.minSize * 0.0613))
+                $0.top.equalTo(self.lockImage.snp.bottom)
+                $0.height.greaterThanOrEqualTo(0)
+            }
+            makeConst(newView) {
+                $0.leading.equalTo(self.minSize * 0.0533)
+                $0.trailing.equalTo(-(self.minSize * 0.0533))
+                $0.bottom.equalTo(0)
+                $0.height.equalTo(self.minSize * 0.16)
+            }
+            makeConst(newSubLabel) {
+                $0.leading.equalTo(self.minSize * 0.0533)
+                $0.trailing.equalTo(-(self.minSize * 0.0533))
+                $0.top.equalTo(0)
+                $0.height.equalToSuperview().multipliedBy(0.5)
+            }
+            makeConst(newPlusImage) {
+                $0.trailing.equalTo(-(self.minSize * 0.04))
+                $0.bottom.equalTo(-(self.minSize * 0.032))
+                $0.height.equalTo(20)
+                $0.width.equalTo(20)
+            }
+            makeConst(newTitleLabel) {
+                $0.leading.equalTo(self.minSize * 0.0533)
+                $0.trailing.equalTo(self.newPlusImage.snp.leading)
+                $0.bottom.equalTo(0)
+                $0.height.equalToSuperview().multipliedBy(0.7)
+            }
         }
-        makeConst(titleLabel) {
-            $0.leading.equalTo(self.minSize * 0.0613)
-            $0.trailing.equalTo(-(self.minSize * 0.0613))
-            $0.top.equalTo(self.lockImage.snp.bottom)
-            $0.height.greaterThanOrEqualTo(0)
-        }
-        makeConst(newView) {
-            $0.leading.equalTo(self.minSize * 0.0533)
-            $0.trailing.equalTo(-(self.minSize * 0.0533))
-            $0.bottom.equalTo(0)
-            $0.height.equalTo(self.minSize * 0.16)
-        }
-        makeConst(newSubLabel) {
-            $0.leading.equalTo(self.minSize * 0.0533)
-            $0.trailing.equalTo(-(self.minSize * 0.0533))
-            $0.top.equalTo(0)
-            $0.height.equalToSuperview().multipliedBy(0.5)
-        }
-        makeConst(newPlusImage) {
-            $0.trailing.equalTo(-(self.minSize * 0.04))
-            $0.bottom.equalTo(-(self.minSize * 0.032))
-            $0.height.equalTo(20)
-            $0.width.equalTo(20)
-        }
-        makeConst(newTitleLabel) {
-            $0.leading.equalTo(self.minSize * 0.0533)
-            $0.trailing.equalTo(self.newPlusImage.snp.leading)
-            $0.bottom.equalTo(0)
-            $0.height.equalToSuperview().multipliedBy(0.7)
-        }
+        constraint()
+        device(orientationDidChange: { _ in constraint()})
     }
     
 }

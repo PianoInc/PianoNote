@@ -32,8 +32,18 @@ class DRContentNoteCell: UITableViewCell {
     @IBOutlet private var stackView: UIStackView!
     @IBOutlet var deleteButton: UIButton!
     @IBOutlet private var contentsView: UIView!
-    @IBOutlet private var backRoundedView: UIView!
-    @IBOutlet private var roundedView: UIView!
+    @IBOutlet private var backRoundedView: UIView! {
+        didSet {
+            backRoundedView.layer.cornerRadius = 14
+        }
+    }
+    @IBOutlet private var roundedView: UIView! {
+        didSet {
+            roundedView.layer.borderColor = UIColor(hex6: "b5b5b5").cgColor
+            roundedView.layer.borderWidth = 0.5
+            roundedView.layer.cornerRadius = 10
+        }
+    }
     
     /// NoteCell의 실제 note content를 가지는 view.
     @IBOutlet var noteView: DRContentNoteView!
@@ -45,50 +55,45 @@ class DRContentNoteCell: UITableViewCell {
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        initView()
-        device(orientationDidChange: { _ in self.initConst()})
         initConst()
     }
     
-    private func initView() {
-        backRoundedView.layer.cornerRadius = 14
-        roundedView.layer.cornerRadius = 10
-        roundedView.layer.borderColor = UIColor(hex6: "b5b5b5").cgColor
-        roundedView.layer.borderWidth = 0.5
-    }
-    
     private func initConst() {
-        makeConst(stackView) {
-            $0.leading.equalTo(self.minSize * 0.0333)
-            $0.trailing.equalTo(-(self.minSize * 0.0333))
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(0)
+        func constraint() {
+            makeConst(stackView) {
+                $0.leading.equalTo(self.minSize * 0.0333)
+                $0.trailing.equalTo(-(self.minSize * 0.0333))
+                $0.top.equalTo(0)
+                $0.bottom.equalTo(0)
+            }
+            makeConst(deleteButton) {
+                $0.leading.equalTo(0)
+                $0.top.equalTo(0)
+                $0.bottom.equalTo(0)
+                $0.width.equalTo(self.minSize * 0.1066)
+            }
+            makeConst(contentsView) {
+                $0.leading.equalTo(self.deleteButton.snp.trailing)
+                $0.trailing.equalTo(0)
+                $0.top.equalTo(0)
+                $0.bottom.equalTo(0)
+                $0.height.greaterThanOrEqualTo(self.minSize * 0.3413)
+            }
+            makeConst(noteView) {
+                $0.leading.equalTo(6)
+                $0.trailing.equalTo(-6)
+                $0.top.equalTo(6)
+                $0.bottom.equalTo(-6)
+            }
+            makeConst(button) {
+                $0.leading.equalTo(0)
+                $0.trailing.equalTo(0)
+                $0.top.equalTo(0)
+                $0.bottom.equalTo(0)
+            }
         }
-        makeConst(deleteButton) {
-            $0.leading.equalTo(0)
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(0)
-            $0.width.equalTo(self.minSize * 0.1066)
-        }
-        makeConst(contentsView) {
-            $0.leading.equalTo(self.deleteButton.snp.trailing)
-            $0.trailing.equalTo(0)
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(0)
-            $0.height.greaterThanOrEqualTo(self.minSize * 0.3413)
-        }
-        makeConst(noteView) {
-            $0.leading.equalTo(6)
-            $0.trailing.equalTo(-6)
-            $0.top.equalTo(6)
-            $0.bottom.equalTo(-6)
-        }
-        makeConst(button) {
-            $0.leading.equalTo(0)
-            $0.trailing.equalTo(0)
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(0)
-        }
+        constraint()
+        device(orientationDidChange: { _ in constraint()})
     }
     
     override func layoutSubviews() {
@@ -149,9 +154,21 @@ class DRContentNoteCell: UITableViewCell {
 /// NoteCell의 실제 note content를 가지는 view.
 class DRContentNoteView: UIView {
     
-    @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var contentLabel: UILabel!
+    @IBOutlet var dateLabel: UILabel! {
+        didSet {
+            dateLabel.font = UIFont.preferred(font: 13, weight: .regular)
+        }
+    }
+    @IBOutlet var titleLabel: UILabel! {
+        didSet {
+            titleLabel.font = UIFont.preferred(font: 28, weight: .bold)
+        }
+    }
+    @IBOutlet var contentLabel: UILabel!{
+        didSet {
+            contentLabel.font = UIFont.preferred(font: 16, weight: .regular)
+        }
+    }
     
     var data = "" {
         didSet {continuousText()}
@@ -159,37 +176,33 @@ class DRContentNoteView: UIView {
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        initView()
-        device(orientationDidChange: { _ in self.initConst()})
         initConst()
     }
     
-    private func initView() {
-        dateLabel.font = UIFont.preferred(font: 13, weight: .regular)
-        titleLabel.font = UIFont.preferred(font: 28, weight: .bold)
-        contentLabel.font = UIFont.preferred(font: 16, weight: .regular)
-    }
-    
     private func initConst() {
-        makeConst(dateLabel) {
-            $0.leading.equalTo(self.minSize * 0.04)
-            $0.trailing.equalTo(-(self.minSize * 0.04))
-            $0.top.equalTo(self.minSize * 0.02)
-            $0.height.greaterThanOrEqualTo(0)
+        func constraint() {
+            makeConst(dateLabel) {
+                $0.leading.equalTo(self.minSize * 0.04)
+                $0.trailing.equalTo(-(self.minSize * 0.04))
+                $0.top.equalTo(self.minSize * 0.02)
+                $0.height.greaterThanOrEqualTo(0)
+            }
+            makeConst(titleLabel) {
+                $0.leading.equalTo(self.minSize * 0.04)
+                $0.trailing.equalTo(-(self.minSize * 0.04))
+                $0.top.equalTo(self.minSize * 0.08)
+                $0.height.greaterThanOrEqualTo(0)
+            }
+            makeConst(contentLabel) {
+                $0.leading.equalTo(self.minSize * 0.04)
+                $0.trailing.equalTo(-(self.minSize * 0.04))
+                $0.top.equalTo(self.minSize * 0.19)
+                $0.bottom.equalTo(-(self.minSize * 0.04))
+                $0.height.greaterThanOrEqualTo(0)
+            }
         }
-        makeConst(titleLabel) {
-            $0.leading.equalTo(self.minSize * 0.04)
-            $0.trailing.equalTo(-(self.minSize * 0.04))
-            $0.top.equalTo(self.minSize * 0.08)
-            $0.height.greaterThanOrEqualTo(0)
-        }
-        makeConst(contentLabel) {
-            $0.leading.equalTo(self.minSize * 0.04)
-            $0.trailing.equalTo(-(self.minSize * 0.04))
-            $0.top.equalTo(self.minSize * 0.19)
-            $0.bottom.equalTo(-(self.minSize * 0.04))
-            $0.height.greaterThanOrEqualTo(0)
-        }
+        constraint()
+        device(orientationDidChange: { _ in constraint()})
     }
     
     override func layoutSubviews() {

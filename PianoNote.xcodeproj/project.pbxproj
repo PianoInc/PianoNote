@@ -14,6 +14,7 @@
 		166F6AE5206B4F5200499596 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166F6AE4206B4F5200499596 /* Date.swift */; };
 		1679D5612069B48700E6D98E /* RecycleBinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1679D5602069B48700E6D98E /* RecycleBinViewController.swift */; };
 		1679D5632069B73000E6D98E /* InteractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1679D5622069B73000E6D98E /* InteractViewController.swift */; };
+		1689AD47206C56BD0059573B /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1689AD46206C56BD0059573B /* Table.swift */; };
 		168D199D2063294A005AA85F /* PianoNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D199C2063294A005AA85F /* PianoNoteTests.swift */; };
 		168D19A82063294A005AA85F /* PianoNoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19A72063294A005AA85F /* PianoNoteUITests.swift */; };
 		168D19D420632998005AA85F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 168D19B720632998005AA85F /* Assets.xcassets */; };
@@ -36,7 +37,6 @@
 		168D1A0E20637292005AA85F /* DRBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A0D20637292005AA85F /* DRBinder.swift */; };
 		168D1A10206374F5005AA85F /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A0F206374F5005AA85F /* Window.swift */; };
 		168D1A122063752D005AA85F /* DRAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A112063752D005AA85F /* DRAuth.swift */; };
-		168D1A1420637AB0005AA85F /* DRButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A1320637AB0005AA85F /* DRButton.swift */; };
 		168D1A16206382E2005AA85F /* DRPageFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A15206382E2005AA85F /* DRPageFlowLayout.swift */; };
 		168D1A19206383B9005AA85F /* DREmptyNoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A18206383B9005AA85F /* DREmptyNoteCell.swift */; };
 		168D1A1C206383EB005AA85F /* DREmptyFolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A1B206383EB005AA85F /* DREmptyFolderCell.swift */; };
@@ -100,6 +100,7 @@
 		166F6AE4206B4F5200499596 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		1679D5602069B48700E6D98E /* RecycleBinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinViewController.swift; sourceTree = "<group>"; };
 		1679D5622069B73000E6D98E /* InteractViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractViewController.swift; sourceTree = "<group>"; };
+		1689AD46206C56BD0059573B /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		168D198420632949005AA85F /* PianoNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168D19982063294A005AA85F /* PianoNoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PianoNoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		168D199C2063294A005AA85F /* PianoNoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoNoteTests.swift; sourceTree = "<group>"; };
@@ -131,7 +132,6 @@
 		168D1A0D20637292005AA85F /* DRBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRBinder.swift; sourceTree = "<group>"; };
 		168D1A0F206374F5005AA85F /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		168D1A112063752D005AA85F /* DRAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRAuth.swift; sourceTree = "<group>"; };
-		168D1A1320637AB0005AA85F /* DRButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRButton.swift; sourceTree = "<group>"; };
 		168D1A15206382E2005AA85F /* DRPageFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRPageFlowLayout.swift; sourceTree = "<group>"; };
 		168D1A18206383B9005AA85F /* DREmptyNoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DREmptyNoteCell.swift; sourceTree = "<group>"; };
 		168D1A1B206383EB005AA85F /* DREmptyFolderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DREmptyFolderCell.swift; sourceTree = "<group>"; };
@@ -317,6 +317,7 @@
 				16233D072064D128008317D1 /* String.swift */,
 				16520F7A2063B9BA008EFEF6 /* Font.swift */,
 				166F6AE4206B4F5200499596 /* Date.swift */,
+				1689AD46206C56BD0059573B /* Table.swift */,
 				168D1A0920636BE7005AA85F /* View.swift */,
 				168D1A0F206374F5005AA85F /* Window.swift */,
 				168D1A0B20636BF2005AA85F /* Device.swift */,
@@ -349,7 +350,6 @@
 		168D1A00206364AE005AA85F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				168D1A1320637AB0005AA85F /* DRButton.swift */,
 				166F6AE1206B225F00499596 /* DRFolderControl.swift */,
 			);
 			path = View;
@@ -797,6 +797,7 @@
 			files = (
 				168D1A0A20636BE7005AA85F /* View.swift in Sources */,
 				168D19FC20632FD5005AA85F /* SplashViewController.swift in Sources */,
+				1689AD47206C56BD0059573B /* Table.swift in Sources */,
 				168D1A2A2063B4A0005AA85F /* DRNoteCellHeader.swift in Sources */,
 				168D1A262063B410005AA85F /* DRBrowseNoteCell.swift in Sources */,
 				168D1A282063B469005AA85F /* DRContentNoteCell.swift in Sources */,
@@ -809,7 +810,6 @@
 				166F6AE5206B4F5200499596 /* Date.swift in Sources */,
 				168D1A16206382E2005AA85F /* DRPageFlowLayout.swift in Sources */,
 				168D1A0E20637292005AA85F /* DRBinder.swift in Sources */,
-				168D1A1420637AB0005AA85F /* DRButton.swift in Sources */,
 				16520F7B2063B9BA008EFEF6 /* Font.swift in Sources */,
 				168D1A1C206383EB005AA85F /* DREmptyFolderCell.swift in Sources */,
 				1679D5612069B48700E6D98E /* RecycleBinViewController.swift in Sources */,
