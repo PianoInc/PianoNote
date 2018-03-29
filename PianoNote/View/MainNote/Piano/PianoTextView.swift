@@ -10,13 +10,38 @@ import UIKit
 
 class PianoTextView: UITextView {
 
+    override var typingAttributes: [String : Any] {
+        get {
+            
+            var attributes: [String : Any] = [:]
+            FormAttributes.defaultAttributes.forEach { (key, value) in
+                attributes[key.rawValue] = value
+            }
+            return attributes
+
+        } set {
+
+        }
+    }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         setup()
         tag = ViewTag.PianoTextView.rawValue
+        textContainerInset.top = 20
+        
+        
     }
+    
+//    override func replacementObject(for aCoder: NSCoder) -> Any? {
+//
+//        let textViewST = PianoTextView(coder: aCoder)
+//
+//
+//        let textView
+//
+//    }
     
     private func setup() {
         textContainer.lineFragmentPadding = 0
@@ -44,16 +69,12 @@ extension PianoTextView {
         self.snp.makeConstraints { [weak self](make) in
             guard let superView = self?.superview else { return }
             
+            make.top.equalTo(superView).labeled(ConstraintIdentifier.pianoTextViewTop)
+            make.bottom.equalTo(superView).labeled(ConstraintIdentifier.pianoTextViewBottom)
             if #available(iOS 11.0, *) {
-                make.top.equalTo(superView).labeled(ConstraintIdentifier.pianoTextViewTop)
                 make.left.right.equalTo(superView.safeAreaLayoutGuide)
-                make.bottom.equalTo(superView).labeled(ConstraintIdentifier.pianoTextViewBottom)
-                
             } else {
-                make.top.equalTo(superView)
-                make.left.equalTo(superView)
-                make.right.equalTo(superView)
-                make.bottom.equalTo(superView)
+                make.left.right.equalTo(superView)
             }
         }
     }
