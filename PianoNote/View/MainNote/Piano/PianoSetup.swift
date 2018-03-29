@@ -23,27 +23,31 @@ extension PianoTextView: PianoType {
     
     internal func setupPianoControl(for pianoMode: Bool, to view: UIView) {
         
-        guard let pianoControl = subView(tag: ViewTag.PianoControl) as? PianoControl,
-            let pianoView = view.subView(tag: ViewTag.PianoView) as? PianoView else { return }
         if pianoMode {
-            pianoControl.textAnimatable = pianoView
-            pianoControl.effectable = self
-            attach(control: pianoControl)
+            attachControl()
         } else {
-            detach(control: pianoControl)
+            detachControl()
         }
     }
     
-    private func attach(control: PianoControl) {
+    internal func attachControl() {
+        
+        guard let control = subView(tag: ViewTag.PianoControl) as? PianoControl,
+            let pianoView = superview?.subView(tag: ViewTag.PianoView) as? PianoView else { return }
         control.removeFromSuperview()
+        control.textAnimatable = pianoView
+        control.effectable = self
         let point = CGPoint(x: 0, y: contentOffset.y + contentInset.top)
         var size = bounds.size
         size.height -= (contentInset.top + contentInset.bottom)
         control.frame = CGRect(origin: point, size: size)
         addSubview(control)
+        
     }
     
-    private func detach(control: PianoControl) {
+    internal func detachControl() {
+        
+        guard let control = subView(tag: ViewTag.PianoControl) as? PianoControl else { return }
         control.removeFromSuperview()
     }
     
