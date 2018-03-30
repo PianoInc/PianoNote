@@ -317,9 +317,9 @@
 		168D19D020632998005AA85F /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				168D19FB20632FD5005AA85F /* SplashViewController.swift */,
 				1679D55F2069B47800E6D98E /* LookAround */,
 				168D1A032063663C005AA85F /* MainList */,
-				168D19FB20632FD5005AA85F /* SplashViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";

@@ -29,7 +29,7 @@ class DRFBService: NSObject {
     private var commentData = [DRFBComment]()
     
     private let postLimit = "10"
-    private let commentLimit = "50"
+    private let commentLimit = "10"
     
     /// postData을 감시하며 self return한다.
     var rxPost = DRBinder([DRFBPost]())
@@ -57,9 +57,10 @@ class DRFBService: NSObject {
      - parameter pageID : 가져오고자 하는 page의 id.
      */
     func facebook(post pageID: String) {
+        print("postState :", postState)
         guard postState.state == .next else {return}
         
-        let params = ["fields" : "created_time, name, message", "limit" : postLimit]
+        let params = ["fields" : "created_time, name, message", "limit" : postLimit, "after" : postState.cursor]
         let request = FBSDKGraphRequest(graphPath: "/\(pageID)/posts", parameters: params)!
         request.start { (connect, result, error) in
             guard let result = result else {return}
@@ -72,25 +73,19 @@ class DRFBService: NSObject {
                 for data in data {
                     let id = data["id"].string ?? ""
                     let title = data["name"].string ?? ""
-                    guard let msg = data["message"].string else {continue}
-                    guard let created_time = data["created_time"].string else {continue}
-                    let create = formatter.date(from: created_time)!
+                    let msg = data["message"].string ?? ""
+                    let create = formatter.date(from: data["created_time"].stringValue)!
                     self.postData.append(DRFBPost(create: create, id: id, title: title, msg: msg))
                 }
                 self.rxPost.value = self.postData
                 self.postData.removeAll()
             }
             
-            if let paging = json["paging"].dictionary {
-                if let next = paging["next"]?.string {
-                    let from = next.index(lastOf: "=")
-                    let cursor = next.sub(from...)
-                    self.postState.state = .next
-                    self.postState.cursor = cursor
-                } else {
-                    self.postState.state = .finish
-                    self.postState.cursor = ""
-                }
+            self.postState.state = .finish
+            self.postState.cursor = ""
+            if let paging = json["paging"].dictionary, let next = paging["next"]?.string {
+                self.postState.state = .next
+                self.postState.cursor = next.sub(next.index(lastOf: "=")...)
             }
         }
     }
@@ -101,8 +96,7 @@ class DRFBService: NSObject {
      */
     func facebook(comment postID: String) {
         guard commentState.state == .next else {return}
-        
-        let params = ["fields" : "comments.limit(\(commentLimit)){created_time, comment_count, message, comments{created_time, message}}"]
+        let params = ["fields" : "comments.limit(\(commentLimit)){created_time, comment_count, message, comments{created_time, message}}", "after" : commentState.cursor]
         let request = FBSDKGraphRequest(graphPath: postID, parameters: params)!
         request.start { (connect, result, error) in
             guard let result = result else {return}
@@ -114,9 +108,8 @@ class DRFBService: NSObject {
                                            .withTime, .withColonSeparatorInTime]
                 for data in data {
                     let count = data["comment_count"].int ?? 0
-                    guard let msg = data["message"].string else {continue}
-                    guard let created_time = data["created_time"].string else {continue}
-                    let create = formatter.date(from: created_time)!
+                    let msg = data["message"].string ?? ""
+                    let create = formatter.date(from: data["created_time"].stringValue)!
                     var reply = [DRFBReply]()
                     if let comments = data["comments"].dictionary, let data = comments["data"]?.array  {
                         for data in data {
@@ -133,18 +126,25 @@ class DRFBService: NSObject {
                 self.commentData.removeAll()
             }
             
-            if let paging = json["paging"].dictionary {
-                if let next = paging["next"]?.string {
-                    let from = next.index(lastOf: "=")
-                    let cursor = next.sub(from...)
-                    self.commentState.state = .next
-                    self.commentState.cursor = cursor
-                } else {
-                    self.commentState.state = .finish
-                    self.commentState.cursor = ""
-                }
+            self.commentState.state = .finish
+            self.commentState.cursor = ""
+            if let paging = json["paging"].dictionary, let next = paging["next"]?.string {
+                self.commentState.state = .next
+                self.commentState.cursor = next.sub(next.index(lastOf: "=")...)
             }
         }
+    }
+    
+    // postState 초기화.
+    func resetPost() {
+        postState = DRFBCursor(state: .next, cursor: "")
+        postData.removeAll()
+    }
+    
+    // commentState 초기화.
+    func resetComment() {
+        commentState = DRFBCursor(state: .next, cursor: "")
+        commentData.removeAll()
     }
     
 }

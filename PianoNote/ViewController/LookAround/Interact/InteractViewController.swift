@@ -39,6 +39,20 @@ class InteractViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initConst()
+        
+        if FBSDKAccessToken.current() != nil {
+            DRFBService.share.facebook(post: "602234013303895")
+            DRFBService.share.rxPost.subscribe {
+                self.facebookLabel.isHidden = true
+                self.facebookButton.isHidden = true
+                self.group(time: $0)
+                self.listView.reloadData()
+                UIView.animate(withDuration: 0.3) {self.listView.alpha = 1}
+            }
+        } else {
+            self.facebookLabel.isHidden = false
+            self.facebookButton.isHidden = false
+        }
     }
     
     private func initConst() {
@@ -75,13 +89,17 @@ class InteractViewController: UIViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
-        if FBSDKAccessToken.current() != nil {requestLoad()}
         navigationItem.titleView = makeView(UILabel()) {
             $0.font = UIFont.preferred(font: 17, weight: .semibold)
             $0.text = "interact".locale
             $0.alpha = 0
         }
     }()
+    
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        DRFBService.share.resetPost()
+    }
     
 }
 
@@ -90,38 +108,25 @@ extension InteractViewController {
     
     @IBAction private func action(login: UIButton) {
         DRFBService.share.facebook(login: self) {
-            if $0 {self.requestLoad()}
-        }
-    }
-    
-    /// Post data의 load를 요청한다.
-    private func requestLoad(_ postID: String = "602234013303895") {
-        self.facebookLabel.isHidden = true
-        self.facebookButton.isHidden = true
-        DRFBService.share.facebook(post: postID)
-        DRFBService.share.rxPost.subscribe {
-            self.data = self.group(time: $0)
-            self.listView.isHidden = false
-            self.listView.reloadData()
+            guard $0 else {return}
+            DRFBService.share.facebook(post: "602234013303895")
         }
     }
     
     /**
-     지정된 timeFormat에 따라 data를 grouping하여 반환한다.
+     지정된 timeFormat에 따라 data를 grouping한다.
      - parameter data: Non-grouped data.
      */
-    private func group(time data: [DRFBPost]) -> [[String : [DRFBPost]]] {
-        var result = [[String : [DRFBPost]]]()
+    private func group(time data: [DRFBPost]) {
         for data in data {
             let key = data.create.timeFormat
-            if result.contains(where: {$0.contains {$0.0 == key}}) {
-                let idx = result.index(where: {$0.contains {$0.0 == key}})!
-                result[idx][key]?.append(data)
+            if self.data.contains(where: {$0.contains {$0.0 == key}}) {
+                let idx = self.data.index(where: {$0.contains {$0.0 == key}})!
+                self.data[idx][key]?.append(data)
             } else {
-                result.append([key : [data]])
+                self.data.append([key : [data]])
             }
         }
-        return result
     }
     
 }
@@ -129,18 +134,23 @@ extension InteractViewController {
 extension InteractViewController: DRContentNoteDelegates {
     
     func select(indexPath: IndexPath) {
-        DRFBService.share.facebook(comment: post(data: indexPath).id)
-        DRFBService.share.rxComment.subscribe { data in
-            let viewContoller = UIStoryboard.view(type: InteractDetailViewController.self)
-            viewContoller.postTitle = self.post(data: indexPath).title
-            viewContoller.data = data
-            self.present(view: viewContoller)
-        }
+        guard let postData = post(data: indexPath) else {return}
+        let viewContoller = UIStoryboard.view(type: InteractDetailViewController.self)
+        viewContoller.postData = (id: postData.id, title: postData.title)
+        self.present(view: viewContoller)
     }
     
 }
 
 extension InteractViewController: UITableViewDelegate {
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height + scrollView.contentInset.bottom
+        if  currentOffset / maximumOffset > 0.9 {
+            DRFBService.share.facebook(post: "602234013303895")
+        }
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         naviTitleShowing(scrollView)
@@ -167,7 +177,7 @@ extension InteractViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data[section].first!.value.count
+        return data[section].first?.value.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -176,10 +186,12 @@ extension InteractViewController: UITableViewDataSource {
         cell.indexPath = indexPath
         cell.delegates = self
         
+        guard let data = post(data: indexPath) else {return cell}
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
-        cell.noteView.dateLabel.text = formatter.string(from: post(data: indexPath).create)
-        cell.noteView.data = post(data: indexPath).msg
+        cell.noteView.dateLabel.text = formatter.string(from: data.create)
+        cell.noteView.data = data.msg
         
         return cell
     }
@@ -188,8 +200,8 @@ extension InteractViewController: UITableViewDataSource {
      해당 indexPath에 맞는 data를 반환한다.
      - parameter indexPath: 찾고자 하는 indexPath.
      */
-    private func post(data indexPath: IndexPath) -> DRFBPost {
-        return data[indexPath.section].first!.value[indexPath.row]
+    private func post(data indexPath: IndexPath) -> DRFBPost? {
+        return data[indexPath.section].first?.value[indexPath.row]
     }
     
 }
