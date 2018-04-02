@@ -12,7 +12,6 @@ class RecycleBinViewController: UIViewController {
     
     @IBOutlet private var listView: UITableView! { didSet {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
-        listView.contentInset.bottom = minSize * 0.3413
         listView.initHeaderView(minSize * 0.2133)
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = 140

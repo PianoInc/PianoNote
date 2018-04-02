@@ -12,7 +12,6 @@ class InteractDetailViewController: UIViewController {
     
     @IBOutlet private var listView: UITableView! { didSet {
         listView.register(DRDetailCommentSection.self, forHeaderFooterViewReuseIdentifier: "DRDetailCommentSection")
-        listView.contentInset.bottom = minSize * 0.3413
         listView.initHeaderView(minSize * 0.2666)
         listView.sectionHeaderHeight = UITableViewAutomaticDimension
         listView.estimatedSectionHeaderHeight = 140
@@ -26,8 +25,6 @@ class InteractDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initConst()
-        
-        DRFBService.share.facebook(comment: postData.id)
         DRFBService.share.rxComment.subscribe {
             $0.forEach {self.data.append($0)}
             self.listView.reloadData()
@@ -35,6 +32,7 @@ class InteractDetailViewController: UIViewController {
                 self.listView.alpha = 1
             }
         }
+        DRFBService.share.facebook(comment: postData.id)
     }
     
     private func initConst() {
@@ -91,7 +89,7 @@ extension InteractDetailViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height + scrollView.contentInset.bottom
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         if  currentOffset / maximumOffset > 0.9 {
             DRFBService.share.facebook(comment: postData.id)
         }
@@ -106,11 +104,11 @@ extension InteractDetailViewController: UITableViewDelegate {
         
         view.nameLabel.text = "이름"
         view.contentLabel.text = data[section].msg
+        view.timeLabel.text = data[section].create.timeFormat
         view.replyLabel.text = "답글 없음"
         if data[section].count > 0 {
             view.replyLabel.text = "답글 \(data[section].count)개"
         }
-        view.timeLabel.text = data[section].create.timeFormat
         
         return view
     }
@@ -147,4 +145,7 @@ extension InteractDetailViewController: UITableViewDataSource {
     }
     
 }
+
+
+
 

@@ -28,7 +28,6 @@ class InteractViewController: UIViewController {
         }}
     @IBOutlet private var listView: UITableView! { didSet {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
-        listView.contentInset.bottom = minSize * 0.3413
         listView.initHeaderView(minSize * 0.2133)
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = 140
@@ -39,16 +38,15 @@ class InteractViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initConst()
-        
+        DRFBService.share.rxPost.subscribe {
+            self.facebookLabel.isHidden = true
+            self.facebookButton.isHidden = true
+            self.group(time: $0)
+            self.listView.reloadData()
+            UIView.animate(withDuration: 0.3) {self.listView.alpha = 1}
+        }
         if FBSDKAccessToken.current() != nil {
             DRFBService.share.facebook(post: "602234013303895")
-            DRFBService.share.rxPost.subscribe {
-                self.facebookLabel.isHidden = true
-                self.facebookButton.isHidden = true
-                self.group(time: $0)
-                self.listView.reloadData()
-                UIView.animate(withDuration: 0.3) {self.listView.alpha = 1}
-            }
         } else {
             self.facebookLabel.isHidden = false
             self.facebookButton.isHidden = false
@@ -146,7 +144,7 @@ extension InteractViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height + scrollView.contentInset.bottom
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         if  currentOffset / maximumOffset > 0.9 {
             DRFBService.share.facebook(post: "602234013303895")
         }
@@ -205,4 +203,7 @@ extension InteractViewController: UITableViewDataSource {
     }
     
 }
+
+
+
 

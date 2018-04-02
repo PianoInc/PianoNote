@@ -41,8 +41,17 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
         $0.font = UIFont.preferred(font: 12, weight: .regular)
     }
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        initView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
+    
+    private func initView() {
         backgroundColor = .clear
         contentView.addSubview(contentsView)
         contentsView.addSubview(portraitImage)
@@ -110,4 +119,5 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
     }
     
 }
+
 
