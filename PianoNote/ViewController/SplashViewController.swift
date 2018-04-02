@@ -15,6 +15,16 @@ class SplashViewController: UIViewController {
         UIView.transition(with: navigationController!.view, duration: 0.5, options: [.transitionCrossDissolve], animations: {
             self.present(id: "MainListViewController", animated: false)
         })
+        /*
+         let textView = DRTextView()
+         view.addSubview(textView)
+         makeConst(textView) {
+         $0.leading.equalTo(0)
+         $0.trailing.equalTo(0)
+         $0.top.equalTo(0)
+         $0.bottom.equalTo(0)
+         }
+         */
     }
     
 }

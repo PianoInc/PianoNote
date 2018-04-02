@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		16233D082064D128008317D1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16233D072064D128008317D1 /* String.swift */; };
+		164AC2482071C61B00714703 /* DRTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AC2472071C61B00714703 /* DRTextView.swift */; };
+		164AC24A2071DE6B00714703 /* DRInputViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AC2492071DE6B00714703 /* DRInputViewManager.swift */; };
+		164AC24C2071EEA600714703 /* DRMagnifyAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AC24B2071EEA600714703 /* DRMagnifyAccessoryView.swift */; };
+		164AC24E2071EEAA00714703 /* DRMenuAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AC24D2071EEAA00714703 /* DRMenuAccessoryView.swift */; };
 		16520F7B2063B9BA008EFEF6 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16520F7A2063B9BA008EFEF6 /* Font.swift */; };
 		1664D35A2068660B00BAA54B /* DRClearNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664D3592068660B00BAA54B /* DRClearNavigationController.swift */; };
 		166F6AE2206B225F00499596 /* DRFolderControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166F6AE1206B225F00499596 /* DRFolderControl.swift */; };
@@ -96,6 +100,10 @@
 
 /* Begin PBXFileReference section */
 		16233D072064D128008317D1 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		164AC2472071C61B00714703 /* DRTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTextView.swift; sourceTree = "<group>"; };
+		164AC2492071DE6B00714703 /* DRInputViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRInputViewManager.swift; sourceTree = "<group>"; };
+		164AC24B2071EEA600714703 /* DRMagnifyAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRMagnifyAccessoryView.swift; sourceTree = "<group>"; };
+		164AC24D2071EEAA00714703 /* DRMenuAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRMenuAccessoryView.swift; sourceTree = "<group>"; };
 		16520F7A2063B9BA008EFEF6 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		1664D3592068660B00BAA54B /* DRClearNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRClearNavigationController.swift; sourceTree = "<group>"; };
 		166F6AE1206B225F00499596 /* DRFolderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFolderControl.swift; sourceTree = "<group>"; };
@@ -198,6 +206,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		164AC2462071C52300714703 /* InputView */ = {
+			isa = PBXGroup;
+			children = (
+				164AC2472071C61B00714703 /* DRTextView.swift */,
+				164AC2492071DE6B00714703 /* DRInputViewManager.swift */,
+				164AC24B2071EEA600714703 /* DRMagnifyAccessoryView.swift */,
+				164AC24D2071EEAA00714703 /* DRMenuAccessoryView.swift */,
+			);
+			path = InputView;
+			sourceTree = "<group>";
+		};
 		1664D358206865F600BAA54B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +318,7 @@
 		168D19CA20632998005AA85F /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				164AC2462071C52300714703 /* InputView */,
 				168D1A0D20637292005AA85F /* DRBinder.swift */,
 				168D1A112063752D005AA85F /* DRAuth.swift */,
 				16BA3069206A1C4E00200C0A /* DRFBService.swift */,
@@ -519,7 +539,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = piano;
 				TargetAttributes = {
 					168D198320632949005AA85F = {
@@ -822,15 +842,19 @@
 				168D1A1E206383F0005AA85F /* DRBrowseFolderCell.swift in Sources */,
 				168D1A0C20636BF2005AA85F /* Device.swift in Sources */,
 				1679D5632069B73000E6D98E /* InteractViewController.swift in Sources */,
+				164AC2482071C61B00714703 /* DRTextView.swift in Sources */,
 				168D1A20206383F3005AA85F /* DRContentFolderCell.swift in Sources */,
+				164AC24A2071DE6B00714703 /* DRInputViewManager.swift in Sources */,
 				166F6AE5206B4F5200499596 /* Date.swift in Sources */,
 				168D1A16206382E2005AA85F /* DRPageFlowLayout.swift in Sources */,
 				168D1A0E20637292005AA85F /* DRBinder.swift in Sources */,
 				16520F7B2063B9BA008EFEF6 /* Font.swift in Sources */,
 				168D1A1C206383EB005AA85F /* DREmptyFolderCell.swift in Sources */,
+				164AC24C2071EEA600714703 /* DRMagnifyAccessoryView.swift in Sources */,
 				1679D5612069B48700E6D98E /* RecycleBinViewController.swift in Sources */,
 				168D1A06206366A5005AA85F /* MainListViewController.swift in Sources */,
 				168D1A2C2063B4A7005AA85F /* DRNoteCellSection.swift in Sources */,
+				164AC24E2071EEAA00714703 /* DRMenuAccessoryView.swift in Sources */,
 				168D19E220632998005AA85F /* Color.swift in Sources */,
 				16F647AB206A0C79004BF276 /* InteractDetailViewController.swift in Sources */,
 				168D1A10206374F5005AA85F /* Window.swift in Sources */,
@@ -963,6 +987,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -970,6 +995,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1021,6 +1047,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1028,6 +1055,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
