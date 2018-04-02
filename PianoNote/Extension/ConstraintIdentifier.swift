@@ -11,5 +11,6 @@ import Foundation
 struct ConstraintIdentifier {
     static let pianoTextViewTop = "pianoTextViewTop"
     static let pianoTextViewBottom = "pianoTextViewBottom"
+    static let pianoSegmentControlTop = "pianoSegmentControlTop"
     
 }
