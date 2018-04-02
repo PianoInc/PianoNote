@@ -93,3 +93,25 @@ extension UILabel {
     
 }
 
+extension UITextView {
+    
+    typealias WordRange = (word: String, range: UITextRange)
+    
+    /**
+     해당 point의 WordRange를 반환한다.
+     - parameter point : 찾고자 하는 point.
+     - returns : 해당 point에 있는 word와 range.
+     */
+    func word(from point: CGPoint) ->  WordRange? {
+        if let position = closestPosition(to: point) {
+            if let range = tokenizer.rangeEnclosingPosition(position, with: .word, inDirection: 1) {
+                if let text = text(in: range) {
+                    return WordRange(word: text, range: range)
+                }
+            }
+        }
+        return nil
+    }
+    
+}
+
