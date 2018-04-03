@@ -6,4 +6,20 @@
 //  Copyright © 2018년 piano. All rights reserved.
 //
 
-import Foundation
+import CloudKit
+
+class CloudNotificationCenter: NSObject {
+    
+    static let shared = CloudNotificationCenter()
+    
+    
+    //Post whenever iCloud User account has changed.
+    func postICloudUserChanged() {
+        NotificationCenter.default.post(name: NSNotification.Name.RealmConfigHasChanged, object: nil)
+    }
+    
+}
+
+extension Notification.Name {
+    public static let RealmConfigHasChanged: NSNotification.Name = NSNotification.Name(rawValue: "RealmConfigHasChanged")
+}
