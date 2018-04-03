@@ -53,15 +53,15 @@ class DRInputViewManager: NSObject {
             }
         }
         constraint()
-        device(orientationDidChange: { _ in constraint()})
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func keyboard() {
-        device(keyboardWillShow: { height in
-            self.textView.inputAccessoryView?.isHidden = false
+        device(keyboardWillShow: { [weak self] height in
+            self?.textView.inputAccessoryView?.isHidden = false
         })
-        device(keyboardDidHide: { height in
-            self.textView.inputAccessoryView?.isHidden = true
+        device(keyboardDidHide: { [weak self] height in
+            self?.textView.inputAccessoryView?.isHidden = true
         })
     }
     

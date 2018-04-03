@@ -74,7 +74,7 @@ class DRDetailReplyCell: UITableViewCell {
             }
         }
         constraint()
-        device(orientationDidChange: { _ in constraint()})
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
 }

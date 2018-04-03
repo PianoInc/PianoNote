@@ -30,18 +30,22 @@ class NoteViewController: UIViewController {
             }
         }
         constraint()
-        device(orientationDidChange: { _ in constraint()})
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func keyboard() {
-        device(keyboardWillShow: { height in
-            self.textView.contentInset.bottom = height
-            self.textView.scrollIndicatorInsets.bottom = height - 43
+        device(keyboardWillShow: { [weak self] height in
+            self?.textView.contentInset.bottom = height
+            self?.textView.scrollIndicatorInsets.bottom = height - 43
         })
-        device(keyboardDidHide: { height in
-            self.textView.contentInset.bottom = 0
-            self.textView.scrollIndicatorInsets.bottom = 0
+        device(keyboardDidHide: { [weak self] height in
+            self?.textView.contentInset.bottom = 0
+            self?.textView.scrollIndicatorInsets.bottom = 0
         })
+    }
+    
+    deinit {
+        print("deinit :", self)
     }
     
 }

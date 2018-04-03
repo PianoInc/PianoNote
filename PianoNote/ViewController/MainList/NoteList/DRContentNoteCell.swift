@@ -73,13 +73,13 @@ class DRContentNoteCell: UITableViewCell {
                 $0.trailing.equalTo(0)
                 $0.top.equalTo(0)
                 $0.bottom.equalTo(0)
-                $0.height.greaterThanOrEqualTo(self.minSize * 0.3413)
             }
             makeConst(noteView) {
                 $0.leading.equalTo(6)
                 $0.trailing.equalTo(-6)
                 $0.top.equalTo(6)
                 $0.bottom.equalTo(-6)
+                $0.height.greaterThanOrEqualTo(self.minSize * 0.3413)
             }
             makeConst(button) {
                 $0.leading.equalTo(0)
@@ -89,7 +89,7 @@ class DRContentNoteCell: UITableViewCell {
             }
         }
         constraint()
-        device(orientationDidChange: { _ in constraint()})
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {
@@ -192,7 +192,7 @@ class DRContentNoteView: UIView {
             }
         }
         constraint()
-        device(orientationDidChange: { _ in constraint()})
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {

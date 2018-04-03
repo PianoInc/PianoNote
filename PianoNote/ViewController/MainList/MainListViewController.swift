@@ -14,6 +14,7 @@ class MainListViewController: UIViewController {
     @IBOutlet private var listView: UICollectionView!
     
     private var tempData = ["둘러보기", "폴더", ""]
+    private var destIndexPath: IndexPath!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +35,7 @@ class MainListViewController: UIViewController {
             }
         }
         constraint()
-        device(orientationDidChange: { _ in constraint()})
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     // Orientation 대응
@@ -162,6 +163,29 @@ extension MainListViewController: UICollectionViewDelegate {
         rightItem.image = nil
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        destIndexPath = indexPath
+        // 폴더간 이동시 노트 리스트를 처음 위치로 초기화 시킨다.
+        if let emptyFolderCell = cell as? DREmptyFolderCell {
+            emptyFolderCell.listView.setContentOffset(.zero, animated: false)
+        }
+        if let browseFolderCell = cell as? DRBrowseFolderCell {
+            browseFolderCell.listView.setContentOffset(.zero, animated: false)
+        }
+        if let contentFolderCell = cell as? DRContentFolderCell {
+            contentFolderCell.listView.setContentOffset(.zero, animated: false)
+        }
+        // 폴더간 이동시 navigation titleView의 alpha값을 초기화 시킨다.
+        guard let titleView = navigationItem.titleView else {return}
+        titleView.alpha = 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        // 기존의 cell로 다시 돌아왔다면 alpha값 복원.
+        guard let titleView = navigationItem.titleView else {return}
+        titleView.alpha = (destIndexPath == indexPath) ? 1 : 0
+    }
+    
 }
 
 extension MainListViewController: UICollectionViewDelegateFlowLayout {
@@ -189,13 +213,6 @@ extension MainListViewController: UICollectionViewDataSource {
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        // 폴더간 이동시 노트 리스트를 처음 위치로 초기화 시킨다.
-        if let contentFolderCell = cell as? DRContentFolderCell {
-            contentFolderCell.listView.setContentOffset(.zero, animated: false)
-        }
     }
     
 }

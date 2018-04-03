@@ -38,7 +38,7 @@ class RecycleBinViewController: UIViewController {
             }
         }
         constraint()
-        device(orientationDidChange: { _ in constraint()})
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func viewDidLayoutSubviews() {
@@ -62,6 +62,10 @@ class RecycleBinViewController: UIViewController {
         navi { (navi, item) in
             navi.isToolbarHidden = true
         }
+    }
+    
+    deinit {
+        print("deinit :", self)
     }
     
 }

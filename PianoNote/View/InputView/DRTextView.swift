@@ -45,8 +45,4 @@ extension DRTextView: UITextViewDelegate {
     }
     
 }
- /*
- textView : {0, 0} Optional(<_UITextKitTextRange: 0x60c00023a2a0> (0, 0)F)
- targetView : {0, 0} Optional(<_UITextKitTextRange: 0x60c00023a2a0> (0, 0)F)
 
- */
