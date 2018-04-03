@@ -13,6 +13,7 @@ target 'PianoNote' do
   pod 'FBSDKLoginKit'
   pod 'SwiftyJSON'
   pod 'SwiftyUserDefaults'
+  pod 'CryptoSwift'
 
   target 'PianoNoteTests' do
     inherit! :search_paths
