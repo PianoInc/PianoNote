@@ -10,21 +10,21 @@ import UIKit
 
 class DRMenuAccessoryView: UIView {
     
-    private weak var textView: UITextView!
+    private weak var targetView: UITextView!
     
     let switchButton = makeView(UIButton(type: .custom)) {
         $0.backgroundColor = .black
     }
-    let backgroundView = makeView(UIView()) {
+    private let backgroundView = makeView(UIView()) {
         $0.backgroundColor = UIColor(hex6: "fafafa")
     }
-    let separatorView = makeView(UIView()) {
+    private let separatorView = makeView(UIView()) {
         $0.backgroundColor = UIColor(hex6: "b2b2b2")
     }
     
-    convenience init(_ textView: UITextView, frame rect: CGRect) {
+    convenience init(_ targetView: UITextView, frame rect: CGRect) {
         self.init(frame: rect)
-        self.textView = textView
+        self.targetView = targetView
         initView()
         initConst()
     }

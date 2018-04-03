@@ -103,12 +103,13 @@ extension UITextView {
      - returns : 해당 point에 있는 word와 range.
      */
     func word(from point: CGPoint) ->  WordRange? {
-        if let position = closestPosition(to: point) {
-            if let range = tokenizer.rangeEnclosingPosition(position, with: .word, inDirection: 1) {
-                if let text = text(in: range) {
-                    return WordRange(word: text, range: range)
-                }
-            }
+        guard let range = selectedTextRange else {return nil}
+        guard let position = closestPosition(to: point, within: range) else {return nil}
+        if let range = tokenizer.rangeEnclosingPosition(position, with: .word, inDirection: 1) {
+            if let text = text(in: range) {return WordRange(word: text, range: range)}
+        }
+        if let range = tokenizer.rangeEnclosingPosition(position, with: .word, inDirection: 2) {
+            if let text = text(in: range) {return WordRange(word: text, range: range)}
         }
         return nil
     }

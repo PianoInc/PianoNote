@@ -12,7 +12,7 @@ class DRContentFolderCell: UICollectionViewCell {
     
     @IBOutlet var listView: UITableView! { didSet {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
-          listView.initHeaderView(minSize * 0.4)
+        listView.initHeaderView(minSize * 0.4)
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = 140
         }}
@@ -62,15 +62,18 @@ class DRContentFolderCell: UICollectionViewCell {
 extension DRContentFolderCell: DRContentNoteDelegates {
     
     func select(indexPath: IndexPath) {
-        guard isEditMode else {return}
-        if selectedIndex.contains(indexPath) {
-            selectedIndex.remove(at: selectedIndex.index(of: indexPath)!)
-        } else {
-            selectedIndex.append(indexPath)
-        }
-        if let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell {
-            cell.select = selectedIndex.contains(indexPath)
-            cell.setNeedsLayout()
+        if isEditMode {
+            if selectedIndex.contains(indexPath) {
+                selectedIndex.remove(at: selectedIndex.index(of: indexPath)!)
+            } else {
+                selectedIndex.append(indexPath)
+            }
+            if let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell {
+                cell.select = selectedIndex.contains(indexPath)
+                cell.setNeedsLayout()
+            }
+        } else if let mainListView = UIWindow.topVC as? MainListViewController {
+            mainListView.present(id: "NoteViewController")
         }
     }
     

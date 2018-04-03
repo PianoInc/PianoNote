@@ -16,6 +16,7 @@
 		16513F672072EC7000085AE0 /* DRCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16513F662072EC7000085AE0 /* DRCameraView.swift */; };
 		16513F692072EC7400085AE0 /* DRAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16513F682072EC7400085AE0 /* DRAlbumView.swift */; };
 		16513F6B2072EC7700085AE0 /* DRDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16513F6A2072EC7700085AE0 /* DRDrawingView.swift */; };
+		16513F6D2072F62700085AE0 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16513F6C2072F62700085AE0 /* NoteViewController.swift */; };
 		16520F7B2063B9BA008EFEF6 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16520F7A2063B9BA008EFEF6 /* Font.swift */; };
 		1664D35A2068660B00BAA54B /* DRClearNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664D3592068660B00BAA54B /* DRClearNavigationController.swift */; };
 		166F6AE2206B225F00499596 /* DRFolderControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166F6AE1206B225F00499596 /* DRFolderControl.swift */; };
@@ -112,6 +113,7 @@
 		16513F662072EC7000085AE0 /* DRCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCameraView.swift; sourceTree = "<group>"; };
 		16513F682072EC7400085AE0 /* DRAlbumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRAlbumView.swift; sourceTree = "<group>"; };
 		16513F6A2072EC7700085AE0 /* DRDrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDrawingView.swift; sourceTree = "<group>"; };
+		16513F6C2072F62700085AE0 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		16520F7A2063B9BA008EFEF6 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		1664D3592068660B00BAA54B /* DRClearNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRClearNavigationController.swift; sourceTree = "<group>"; };
 		166F6AE1206B225F00499596 /* DRFolderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFolderControl.swift; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 				168D19FB20632FD5005AA85F /* SplashViewController.swift */,
 				1679D55F2069B47800E6D98E /* LookAround */,
 				168D1A032063663C005AA85F /* MainList */,
+				16513F6C2072F62700085AE0 /* NoteViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -882,6 +885,7 @@
 				168D1A282063B469005AA85F /* DRContentNoteCell.swift in Sources */,
 				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
 				1689AD4C206C6F9B0059573B /* DRDetailReplyCell.swift in Sources */,
+				16513F6D2072F62700085AE0 /* NoteViewController.swift in Sources */,
 				1664D35A2068660B00BAA54B /* DRClearNavigationController.swift in Sources */,
 				1689AD4A206C6A7A0059573B /* DRDetailCommentSection.swift in Sources */,
 				168D1A1E206383F0005AA85F /* DRBrowseFolderCell.swift in Sources */,

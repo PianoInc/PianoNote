@@ -10,31 +10,32 @@ import UIKit
 
 class DRMagnifyAccessoryView: UIView {
     
-    private weak var textView: UITextView!
+    private weak var targetView: UITextView!
     
     let switchButton = makeView(UIButton(type: .custom)) {
         $0.backgroundColor = .black
     }
-    let backgroundView = makeView(UIView()) {
+    private let backgroundView = makeView(UIView()) {
         $0.backgroundColor = UIColor(hex6: "fafafa")
     }
-    let separatorView = makeView(UIView()) {
+    private let separatorView = makeView(UIView()) {
         $0.backgroundColor = UIColor(hex6: "b2b2b2")
     }
     var magnifyView: DRMagnifyView!
-    let eraseButton = makeView(UIButton(type: .custom)) {
+    private let eraseButton = makeView(UIButton(type: .custom)) {
         $0.backgroundColor = .blue
     }
     
-    convenience init(_ textView: UITextView, frame rect: CGRect) {
+    convenience init(_ targetView: UITextView, frame rect: CGRect) {
         self.init(frame: rect)
-        self.textView = textView
+        self.targetView = targetView
         initView()
         initConst()
     }
     
     private func initView() {
-        magnifyView = DRMagnifyView(textView)
+        magnifyView = DRMagnifyView(targetView)
+        eraseButton.addTarget(self, action: #selector(action(erase:)), for: .touchUpInside)
         addSubview(switchButton)
         addSubview(backgroundView)
         addSubview(separatorView)
@@ -82,6 +83,13 @@ class DRMagnifyAccessoryView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         switchButton.layer.cornerRadius = switchButton.bounds.width / 2
+    }
+    
+    @objc private func action(erase: UIButton) {
+        guard let textRange = targetView.selectedTextRange else {return}
+        let point = targetView.firstRect(for: textRange).origin
+        guard let wordRange = targetView.word(from: point) else {return}
+        targetView.replace(wordRange.range, withText: "")
     }
     
 }

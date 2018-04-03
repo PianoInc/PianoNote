@@ -57,7 +57,6 @@ class DRFBService: NSObject {
      - parameter pageID : 가져오고자 하는 page의 id.
      */
     func facebook(post pageID: String) {
-        print("postState :", postState)
         guard postState.state == .next else {return}
         
         let params = ["fields" : "created_time, name, message", "limit" : postLimit, "after" : postState.cursor]

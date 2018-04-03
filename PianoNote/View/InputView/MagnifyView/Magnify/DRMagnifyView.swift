@@ -97,7 +97,7 @@ class DRMagnifyView: UIScrollView {
         }
         // Cursor를 화면 중간에 위치하도록 하는 inset
         if contentInset.left == 0 {
-            let offset = UIScreen.main.bounds.width / 2 - bounds.width / 2
+            let offset = UIScreen.main.bounds.width / 2 - bounds.width / 2 - frame.origin.x
             contentInset.left = bounds.width / 2 + offset
             contentInset.right = bounds.width / 2 - offset
         }
@@ -155,7 +155,7 @@ extension DRMagnifyView {
     /// cursor가 중앙에 고정 될 수 있도록 auto scrolling을 진행한다
     private func scroll() {
         let frontWidth = mLineAttr.attributedSubstring(from: frontRange).size().width
-        contentOffset.x = frontWidth - UIScreen.main.bounds.width / 2
+        contentOffset.x = frontWidth - (UIScreen.main.bounds.width / 2 - frame.origin.x)
     }
     
     /// targetView의 cursor 또는 user가 KeyboardView를 tap한 location에 따라 cursor 위치를 변경한다
@@ -170,15 +170,11 @@ extension DRMagnifyView {
         }
         
         if let point = point {
-            // point로 cursor 변환시 selection effect가 있다면 해제
-            targetView.selectedTextRange = nil
             selectionView.isHidden = true
             cursorView.isHidden = false
             
             // point로 index 및 range 추출
             guard let glyphIndex = glyphIndex(from: point) else {return}
-            
-            // targetView의 cursor 작업
             let cursorRange = NSMakeRange(0, glyphIndex)
             let frontText = mLineAttr.attributedSubstring(from: cursorRange).string
             let lineRange = (targetView.text as NSString).paragraphRange(for: targetView.selectedRange)
