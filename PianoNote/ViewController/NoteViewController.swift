@@ -14,14 +14,34 @@ class NoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeConst(textView) {
-            $0.leading.equalTo(self.safeInset.left).priority(.high)
-            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
-            $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
-            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
-            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
-            $0.centerX.equalToSuperview().priority(.required)
+        initConst()
+        keyboard()
+    }
+    
+    private func initConst() {
+        func constraint() {
+            makeConst(textView) {
+                $0.leading.equalTo(self.safeInset.left).priority(.high)
+                $0.trailing.equalTo(-self.safeInset.right).priority(.high)
+                $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
+                $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
+                $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+                $0.centerX.equalToSuperview().priority(.required)
+            }
         }
+        constraint()
+        device(orientationDidChange: { _ in constraint()})
+    }
+    
+    private func keyboard() {
+        device(keyboardWillShow: { height in
+            self.textView.contentInset.bottom = height
+            self.textView.scrollIndicatorInsets.bottom = height - 43
+        })
+        device(keyboardDidHide: { height in
+            self.textView.contentInset.bottom = 0
+            self.textView.scrollIndicatorInsets.bottom = 0
+        })
     }
     
 }

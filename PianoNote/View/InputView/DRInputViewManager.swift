@@ -29,12 +29,12 @@ class DRInputViewManager: NSObject {
         
         magnifyAccessoryView = DRMagnifyAccessoryView(textView, frame: rect)
         magnifyAccessoryView.switchButton.addTarget(self, action: #selector(action(switchs:)), for: .touchUpInside)
-        textView.inputAccessoryView?.addSubview(magnifyAccessoryView)
+        backgroundView.addSubview(magnifyAccessoryView)
         
         menuAccessoryView = DRMenuAccessoryView(textView, frame: rect)
         menuAccessoryView.switchButton.addTarget(self, action: #selector(action(switchs:)), for: .touchUpInside)
         menuAccessoryView.isHidden = true
-        textView.inputAccessoryView?.addSubview(menuAccessoryView)
+        backgroundView.addSubview(menuAccessoryView)
     }
     
     private func initConst() {
@@ -56,16 +56,6 @@ class DRInputViewManager: NSObject {
         device(orientationDidChange: { _ in constraint()})
     }
     
-    @objc private func action(switchs: UIButton) {
-        magnifyAccessoryView.isHidden = !magnifyAccessoryView.isHidden
-        menuAccessoryView.isHidden = !menuAccessoryView.isHidden
-    }
-    
-}
-
-extension DRInputViewManager {
-    
-    /// Keyboard 대응.
     private func keyboard() {
         device(keyboardWillShow: { height in
             self.textView.inputAccessoryView?.isHidden = false
@@ -73,6 +63,11 @@ extension DRInputViewManager {
         device(keyboardDidHide: { height in
             self.textView.inputAccessoryView?.isHidden = true
         })
+    }
+    
+    @objc private func action(switchs: UIButton) {
+        magnifyAccessoryView.isHidden = !magnifyAccessoryView.isHidden
+        menuAccessoryView.isHidden = !menuAccessoryView.isHidden
     }
     
 }

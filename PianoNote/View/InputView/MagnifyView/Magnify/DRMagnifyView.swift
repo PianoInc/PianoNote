@@ -101,8 +101,6 @@ class DRMagnifyView: UIScrollView {
             contentInset.left = bounds.width / 2 + offset
             contentInset.right = bounds.width / 2 - offset
         }
-        // text가 없을때 user action block
-        isUserInteractionEnabled = !targetView.text.isEmpty
     }
     
 }
@@ -215,6 +213,7 @@ extension DRMagnifyView {
 extension DRMagnifyView {
     
     @objc private func action(tap: UITapGestureRecognizer) {
+        guard !targetView.text.isEmpty else {return}
         magnifyState = .tapped
         cursor(tap.location(in: self))
         magnifyState = .normal
@@ -244,6 +243,7 @@ extension DRMagnifyView {
     @objc private func action(longPress: UITapGestureRecognizer) {
         switch longPress.state {
         case .began, .changed:
+            guard !targetView.text.isEmpty else {return}
             magnifyState = .tapped
             cursor(longPress.location(in: self))
             magnifyState = .normal

@@ -187,7 +187,7 @@ class DRContentNoteView: UIView {
                 $0.leading.equalTo(self.minSize * 0.04)
                 $0.trailing.equalTo(-(self.minSize * 0.04))
                 $0.top.equalTo(self.minSize * 0.19)
-                $0.bottom.equalTo(-(self.minSize * 0.04))
+                $0.bottom.equalTo(-round(self.minSize * 0.04))
                 $0.height.greaterThanOrEqualTo(0)
             }
         }

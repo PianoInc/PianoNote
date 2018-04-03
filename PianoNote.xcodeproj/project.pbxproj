@@ -57,6 +57,7 @@
 		168D1A282063B469005AA85F /* DRContentNoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A272063B469005AA85F /* DRContentNoteCell.swift */; };
 		168D1A2A2063B4A0005AA85F /* DRNoteCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A292063B4A0005AA85F /* DRNoteCellHeader.swift */; };
 		168D1A2C2063B4A7005AA85F /* DRNoteCellSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A2B2063B4A7005AA85F /* DRNoteCellSection.swift */; };
+		168F23BE207338370033D91F /* DRMenuCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168F23BD207338370033D91F /* DRMenuCollectionView.swift */; };
 		16BA306A206A1C4E00200C0A /* DRFBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BA3069206A1C4E00200C0A /* DRFBService.swift */; };
 		16F647AB206A0C79004BF276 /* InteractDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */; };
 		280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */; };
@@ -163,6 +164,7 @@
 		168D1A272063B469005AA85F /* DRContentNoteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRContentNoteCell.swift; sourceTree = "<group>"; };
 		168D1A292063B4A0005AA85F /* DRNoteCellHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRNoteCellHeader.swift; sourceTree = "<group>"; };
 		168D1A2B2063B4A7005AA85F /* DRNoteCellSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRNoteCellSection.swift; sourceTree = "<group>"; };
+		168F23BD207338370033D91F /* DRMenuCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRMenuCollectionView.swift; sourceTree = "<group>"; };
 		16BA3069206A1C4E00200C0A /* DRFBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFBService.swift; sourceTree = "<group>"; };
 		16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractDetailViewController.swift; sourceTree = "<group>"; };
 		1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -231,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				16513F632072EC4C00085AE0 /* Menu */,
+				168F23BD207338370033D91F /* DRMenuCollectionView.swift */,
 				164AC24D2071EEAA00714703 /* DRMenuAccessoryView.swift */,
 			);
 			path = MenuView;
@@ -903,6 +906,7 @@
 				16520F7B2063B9BA008EFEF6 /* Font.swift in Sources */,
 				168D1A1C206383EB005AA85F /* DREmptyFolderCell.swift in Sources */,
 				164AC24C2071EEA600714703 /* DRMagnifyAccessoryView.swift in Sources */,
+				168F23BE207338370033D91F /* DRMenuCollectionView.swift in Sources */,
 				1679D5612069B48700E6D98E /* RecycleBinViewController.swift in Sources */,
 				168D1A06206366A5005AA85F /* MainListViewController.swift in Sources */,
 				168D1A2C2063B4A7005AA85F /* DRNoteCellSection.swift in Sources */,
