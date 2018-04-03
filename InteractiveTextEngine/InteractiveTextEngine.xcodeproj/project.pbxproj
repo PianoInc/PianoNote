@@ -1,0 +1,659 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6C3130D1206373FD001E7E0F /* InteractiveTextView_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3130D0206373FD001E7E0F /* InteractiveTextView_iOS.swift */; };
+		6C3130D32063747F001E7E0F /* TypeAliases_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3130D22063747F001E7E0F /* TypeAliases_iOS.swift */; };
+		6C3130D5206374AD001E7E0F /* InteractiveTextView_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3130D4206374AD001E7E0F /* InteractiveTextView_macOS.swift */; };
+		6C31310620649891001E7E0F /* InteractiveTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C31310520649891001E7E0F /* InteractiveTextStorage.swift */; };
+		6C31310720649891001E7E0F /* InteractiveTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C31310520649891001E7E0F /* InteractiveTextStorage.swift */; };
+		6C313109206498AA001E7E0F /* InteractiveLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C313108206498AA001E7E0F /* InteractiveLayoutManager.swift */; };
+		6C31310A206498AA001E7E0F /* InteractiveLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C313108206498AA001E7E0F /* InteractiveLayoutManager.swift */; };
+		6C31310F2064CE26001E7E0F /* InteractiveAttachmentCell_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C31310E2064CE26001E7E0F /* InteractiveAttachmentCell_iOS.swift */; };
+		6C72A8782063247200D124EA /* InteractiveTextEngine_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C72A8762063247200D124EA /* InteractiveTextEngine_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6C72A8852063249100D124EA /* InteractiveTextEngine_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C72A8832063249100D124EA /* InteractiveTextEngine_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6C72A894206325E300D124EA /* TypeAliases_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72A893206325E300D124EA /* TypeAliases_macOS.swift */; };
+		6C72A896206326A000D124EA /* InteractiveTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72A895206326A000D124EA /* InteractiveTextView.swift */; };
+		6C72A897206326A900D124EA /* InteractiveTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72A895206326A000D124EA /* InteractiveTextView.swift */; };
+		6C72A8992063277800D124EA /* InteractiveTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72A8982063277800D124EA /* InteractiveTextAttachment.swift */; };
+		6C72A89A2063277800D124EA /* InteractiveTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72A8982063277800D124EA /* InteractiveTextAttachment.swift */; };
+		75E9936964F92376D8CB5393 /* InteractiveAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */; };
+		75E993D477DF5EB52A338D44 /* InteractiveAttachmentCellDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */; };
+		75E9964E0AABC9510D2B8E04 /* InteractiveAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */; };
+		75E998269299F6921E98F788 /* InteractiveAttachmentCellDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6C3130D0206373FD001E7E0F /* InteractiveTextView_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveTextView_iOS.swift; sourceTree = "<group>"; };
+		6C3130D22063747F001E7E0F /* TypeAliases_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeAliases_iOS.swift; sourceTree = "<group>"; };
+		6C3130D4206374AD001E7E0F /* InteractiveTextView_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveTextView_macOS.swift; sourceTree = "<group>"; };
+		6C31310520649891001E7E0F /* InteractiveTextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveTextStorage.swift; sourceTree = "<group>"; };
+		6C313108206498AA001E7E0F /* InteractiveLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveLayoutManager.swift; sourceTree = "<group>"; };
+		6C31310E2064CE26001E7E0F /* InteractiveAttachmentCell_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveAttachmentCell_iOS.swift; sourceTree = "<group>"; };
+		6C72A8732063247200D124EA /* InteractiveTextEngine_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InteractiveTextEngine_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C72A8762063247200D124EA /* InteractiveTextEngine_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InteractiveTextEngine_iOS.h; sourceTree = "<group>"; };
+		6C72A8772063247200D124EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6C72A8812063249100D124EA /* InteractiveTextEngine_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InteractiveTextEngine_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C72A8832063249100D124EA /* InteractiveTextEngine_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InteractiveTextEngine_macOS.h; sourceTree = "<group>"; };
+		6C72A8842063249100D124EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6C72A893206325E300D124EA /* TypeAliases_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeAliases_macOS.swift; sourceTree = "<group>"; };
+		6C72A895206326A000D124EA /* InteractiveTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveTextView.swift; sourceTree = "<group>"; };
+		6C72A8982063277800D124EA /* InteractiveTextAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveTextAttachment.swift; sourceTree = "<group>"; };
+		75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveAttachmentCell.swift; sourceTree = "<group>"; };
+		75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveAttachmentCellDispatcher.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6C72A86F2063247200D124EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C72A87D2063249100D124EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6C31310D2064CE09001E7E0F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6C3130D0206373FD001E7E0F /* InteractiveTextView_iOS.swift */,
+				6C31310E2064CE26001E7E0F /* InteractiveAttachmentCell_iOS.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		6C72A8672063245400D124EA = {
+			isa = PBXGroup;
+			children = (
+				6C72A889206324D000D124EA /* Common */,
+				6C72A8752063247200D124EA /* InteractiveTextEngine_iOS */,
+				6C72A8822063249100D124EA /* InteractiveTextEngine_macOS */,
+				6C72A8742063247200D124EA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6C72A8742063247200D124EA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6C72A8732063247200D124EA /* InteractiveTextEngine_iOS.framework */,
+				6C72A8812063249100D124EA /* InteractiveTextEngine_macOS.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6C72A8752063247200D124EA /* InteractiveTextEngine_iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6C31310D2064CE09001E7E0F /* Classes */,
+				6C3130D22063747F001E7E0F /* TypeAliases_iOS.swift */,
+				6C72A8772063247200D124EA /* Info.plist */,
+				6C72A8762063247200D124EA /* InteractiveTextEngine_iOS.h */,
+			);
+			path = InteractiveTextEngine_iOS;
+			sourceTree = "<group>";
+		};
+		6C72A8822063249100D124EA /* InteractiveTextEngine_macOS */ = {
+			isa = PBXGroup;
+			children = (
+				6C72A893206325E300D124EA /* TypeAliases_macOS.swift */,
+				6C3130D4206374AD001E7E0F /* InteractiveTextView_macOS.swift */,
+				6C72A8842063249100D124EA /* Info.plist */,
+				6C72A8832063249100D124EA /* InteractiveTextEngine_macOS.h */,
+			);
+			path = InteractiveTextEngine_macOS;
+			sourceTree = "<group>";
+		};
+		6C72A889206324D000D124EA /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6C31310520649891001E7E0F /* InteractiveTextStorage.swift */,
+				6C313108206498AA001E7E0F /* InteractiveLayoutManager.swift */,
+				6C72A895206326A000D124EA /* InteractiveTextView.swift */,
+				6C72A8982063277800D124EA /* InteractiveTextAttachment.swift */,
+				75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */,
+				75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6C72A8702063247200D124EA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C72A8782063247200D124EA /* InteractiveTextEngine_iOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C72A87E2063249100D124EA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C72A8852063249100D124EA /* InteractiveTextEngine_macOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6C72A8722063247200D124EA /* InteractiveTextEngine_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6C72A8792063247200D124EA /* Build configuration list for PBXNativeTarget "InteractiveTextEngine_iOS" */;
+			buildPhases = (
+				6C72A86E2063247200D124EA /* Sources */,
+				6C72A86F2063247200D124EA /* Frameworks */,
+				6C72A8702063247200D124EA /* Headers */,
+				6C72A8712063247200D124EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = InteractiveTextEngine_iOS;
+			productName = InteractiveTextEngine_iOS;
+			productReference = 6C72A8732063247200D124EA /* InteractiveTextEngine_iOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6C72A8802063249100D124EA /* InteractiveTextEngine_macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6C72A8862063249100D124EA /* Build configuration list for PBXNativeTarget "InteractiveTextEngine_macOS" */;
+			buildPhases = (
+				6C72A87C2063249100D124EA /* Sources */,
+				6C72A87D2063249100D124EA /* Frameworks */,
+				6C72A87E2063249100D124EA /* Headers */,
+				6C72A87F2063249100D124EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = InteractiveTextEngine_macOS;
+			productName = InteractiveTextEngine_macOS;
+			productReference = 6C72A8812063249100D124EA /* InteractiveTextEngine_macOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6C72A8682063245400D124EA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					6C72A8722063247200D124EA = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					6C72A8802063249100D124EA = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 6C72A86B2063245400D124EA /* Build configuration list for PBXProject "InteractiveTextEngine" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6C72A8672063245400D124EA;
+			productRefGroup = 6C72A8742063247200D124EA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6C72A8722063247200D124EA /* InteractiveTextEngine_iOS */,
+				6C72A8802063249100D124EA /* InteractiveTextEngine_macOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6C72A8712063247200D124EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C72A87F2063249100D124EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6C72A86E2063247200D124EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C3130D32063747F001E7E0F /* TypeAliases_iOS.swift in Sources */,
+				6C31310F2064CE26001E7E0F /* InteractiveAttachmentCell_iOS.swift in Sources */,
+				6C72A8992063277800D124EA /* InteractiveTextAttachment.swift in Sources */,
+				6C3130D1206373FD001E7E0F /* InteractiveTextView_iOS.swift in Sources */,
+				6C313109206498AA001E7E0F /* InteractiveLayoutManager.swift in Sources */,
+				6C72A897206326A900D124EA /* InteractiveTextView.swift in Sources */,
+				75E9936964F92376D8CB5393 /* InteractiveAttachmentCell.swift in Sources */,
+				75E993D477DF5EB52A338D44 /* InteractiveAttachmentCellDispatcher.swift in Sources */,
+				6C31310620649891001E7E0F /* InteractiveTextStorage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C72A87C2063249100D124EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C72A894206325E300D124EA /* TypeAliases_macOS.swift in Sources */,
+				6C72A89A2063277800D124EA /* InteractiveTextAttachment.swift in Sources */,
+				6C72A896206326A000D124EA /* InteractiveTextView.swift in Sources */,
+				6C31310A206498AA001E7E0F /* InteractiveLayoutManager.swift in Sources */,
+				75E9964E0AABC9510D2B8E04 /* InteractiveAttachmentCell.swift in Sources */,
+				75E998269299F6921E98F788 /* InteractiveAttachmentCellDispatcher.swift in Sources */,
+				6C3130D5206374AD001E7E0F /* InteractiveTextView_macOS.swift in Sources */,
+				6C31310720649891001E7E0F /* InteractiveTextStorage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6C72A86C2063245400D124EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		6C72A86D2063245400D124EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+			};
+			name = Release;
+		};
+		6C72A87A2063247200D124EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = InteractiveTextEngine_iOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.piano.InteractiveTextEngine-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		6C72A87B2063247200D124EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = InteractiveTextEngine_iOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.piano.InteractiveTextEngine-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		6C72A8872063249100D124EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = InteractiveTextEngine_macOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.piano.InteractiveTextEngine-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		6C72A8882063249100D124EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = U9KHV9D7LV;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = InteractiveTextEngine_macOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.piano.InteractiveTextEngine-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6C72A86B2063245400D124EA /* Build configuration list for PBXProject "InteractiveTextEngine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6C72A86C2063245400D124EA /* Debug */,
+				6C72A86D2063245400D124EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6C72A8792063247200D124EA /* Build configuration list for PBXNativeTarget "InteractiveTextEngine_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6C72A87A2063247200D124EA /* Debug */,
+				6C72A87B2063247200D124EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6C72A8862063249100D124EA /* Build configuration list for PBXNativeTarget "InteractiveTextEngine_macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6C72A8872063249100D124EA /* Debug */,
+				6C72A8882063249100D124EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6C72A8682063245400D124EA /* Project object */;
+}
