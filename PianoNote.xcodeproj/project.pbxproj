@@ -178,7 +178,6 @@
 		16BB04162074893000ED2AB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		16BB04182074893500ED2AB5 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		16BB041C2074932F00ED2AB5 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
-		16BB041E2074A23E00ED2AB5 /* PianoNote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PianoNote.entitlements; sourceTree = "<group>"; };
 		16BB041F2074A25200ED2AB5 /* widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = widget.entitlements; sourceTree = "<group>"; };
 		16BB04202074A2EE00ED2AB5 /* PianoNote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PianoNote.entitlements; sourceTree = "<group>"; };
 		16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractDetailViewController.swift; sourceTree = "<group>"; };
@@ -301,8 +300,7 @@
 		1689AD48206C6A510059573B /* InteractDetailView */ = {
 			isa = PBXGroup;
 			children = (
-				1689AD49206C6A7A0059573B /* DRDetailCommentSection.swift */,
-				1689AD4B206C6F9B0059573B /* DRDetailReplyCell.swift */,
+				16BB04212074A36F00ED2AB5 /* DetailCell */,
 				16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */,
 			);
 			path = InteractDetailView;
@@ -353,7 +351,6 @@
 		168D19B520632998005AA85F /* PianoNote */ = {
 			isa = PBXGroup;
 			children = (
-				16BB04202074A2EE00ED2AB5 /* PianoNote.entitlements */,
 				168D19CF20632998005AA85F /* AppDelegate.swift */,
 				168D19D020632998005AA85F /* ViewController */,
 				1664D358206865F600BAA54B /* Controller */,
@@ -383,9 +380,9 @@
 		168D19CA20632998005AA85F /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				16BA3069206A1C4E00200C0A /* DRFBService.swift */,
 				168D1A0D20637292005AA85F /* DRBinder.swift */,
 				168D1A112063752D005AA85F /* DRAuth.swift */,
-				16BA3069206A1C4E00200C0A /* DRFBService.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -393,7 +390,7 @@
 		168D19CC20632998005AA85F /* Etc */ = {
 			isa = PBXGroup;
 			children = (
-				16BB041E2074A23E00ED2AB5 /* PianoNote.entitlements */,
+				16BB04202074A2EE00ED2AB5 /* PianoNote.entitlements */,
 				168D19CD20632998005AA85F /* Info.plist */,
 			);
 			path = Etc;
@@ -440,8 +437,8 @@
 		168D19ED20632A5F005AA85F /* widget */ = {
 			isa = PBXGroup;
 			children = (
-				16BB041C2074932F00ED2AB5 /* Extension.swift */,
 				168D19EE20632A5F005AA85F /* TodayViewController.swift */,
+				16BB041C2074932F00ED2AB5 /* Extension.swift */,
 				168D19F020632A5F005AA85F /* MainInterface.storyboard */,
 				16BB04152074893000ED2AB5 /* Localizable.strings */,
 				16359E3B207481C600B9CBE9 /* InfoPlist.strings */,
@@ -454,8 +451,8 @@
 		168D1A00206364AE005AA85F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				166F6AE1206B225F00499596 /* DRFolderControl.swift */,
 				164AC2462071C52300714703 /* InputView */,
+				166F6AE1206B225F00499596 /* DRFolderControl.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -463,14 +460,13 @@
 		168D1A032063663C005AA85F /* MainList */ = {
 			isa = PBXGroup;
 			children = (
-				168D1A1A206383DA005AA85F /* FolderList */,
-				168D1A172063838C005AA85F /* NoteList */,
+				168D1A1A206383DA005AA85F /* FolderCell */,
 				168D1A05206366A5005AA85F /* MainListViewController.swift */,
 			);
 			path = MainList;
 			sourceTree = "<group>";
 		};
-		168D1A172063838C005AA85F /* NoteList */ = {
+		168D1A172063838C005AA85F /* NoteCell */ = {
 			isa = PBXGroup;
 			children = (
 				168D1A292063B4A0005AA85F /* DRNoteCellHeader.swift */,
@@ -479,18 +475,28 @@
 				168D1A252063B410005AA85F /* DRBrowseNoteCell.swift */,
 				168D1A272063B469005AA85F /* DRContentNoteCell.swift */,
 			);
-			path = NoteList;
+			path = NoteCell;
 			sourceTree = "<group>";
 		};
-		168D1A1A206383DA005AA85F /* FolderList */ = {
+		168D1A1A206383DA005AA85F /* FolderCell */ = {
 			isa = PBXGroup;
 			children = (
+				168D1A172063838C005AA85F /* NoteCell */,
 				168D1A15206382E2005AA85F /* DRPageFlowLayout.swift */,
 				168D1A1B206383EB005AA85F /* DREmptyFolderCell.swift */,
 				168D1A1D206383F0005AA85F /* DRBrowseFolderCell.swift */,
 				168D1A1F206383F3005AA85F /* DRContentFolderCell.swift */,
 			);
-			path = FolderList;
+			path = FolderCell;
+			sourceTree = "<group>";
+		};
+		16BB04212074A36F00ED2AB5 /* DetailCell */ = {
+			isa = PBXGroup;
+			children = (
+				1689AD49206C6A7A0059573B /* DRDetailCommentSection.swift */,
+				1689AD4B206C6F9B0059573B /* DRDetailReplyCell.swift */,
+			);
+			path = DetailCell;
 			sourceTree = "<group>";
 		};
 		16F647A9206A0C59004BF276 /* Interact */ = {
@@ -1203,7 +1209,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = PianoNote/PianoNote.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PianoNote/Etc/PianoNote.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U9KHV9D7LV;
 				INFOPLIST_FILE = "$(SRCROOT)/PianoNote/Etc/Info.plist";
@@ -1222,7 +1228,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = PianoNote/PianoNote.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PianoNote/Etc/PianoNote.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U9KHV9D7LV;
 				INFOPLIST_FILE = "$(SRCROOT)/PianoNote/Etc/Info.plist";
