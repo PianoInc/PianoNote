@@ -7,10 +7,18 @@
 //
 
 import UIKit
+import CryptoSwift
 
 class Util: NSObject {
     
     static let share = Util()
     
+    func getUniqueID() -> String {
+        
+        let dateString = "\(Date().timeIntervalSinceReferenceDate)"
+        let uuidString = UIDevice.current.identifierForVendor?.uuidString ?? "default_uuid"
+        
+        return (uuidString + dateString).sha256()
+    }
 }
 
