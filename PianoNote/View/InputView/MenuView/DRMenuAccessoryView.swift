@@ -31,7 +31,7 @@ class DRMenuAccessoryView: UIView {
     }
     
     private func initView() {
-        menuListView = DRMenuCollectionView(frame: bounds, collectionViewLayout: UICollectionViewFlowLayout())
+        menuListView = DRMenuCollectionView(targetView, frame: bounds)
         addSubview(switchButton)
         addSubview(backgroundView)
         addSubview(separatorView)

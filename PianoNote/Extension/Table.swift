@@ -44,7 +44,7 @@ extension UITableViewDelegate {
 extension UITableViewDataSource {
     
     /**
-     해당 indexPath의 cell이 section내에서 어디에 위치하는지를 판별한다.
+     해당 indexPath의 DRContentNoteCell이 section내에서 어디에 위치하는지를 판별한다.
      - note: DRContentNotePosition 참조.
      - parameter indexPath: 셀의 indexPath.
      */

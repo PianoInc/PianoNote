@@ -10,16 +10,28 @@ import UIKit
 
 class DRMenuCollectionView: UICollectionView {
     
+    private weak var targetView: UITextView! { didSet {
+        _ = targetView.rx.text.orEmpty.takeUntil(targetView.rx.deallocated).subscribe { text in
+            if let _ = self.targetView.undoManager {
+                
+            }
+        }
+        }}
+    
     private let data = ["Undo", "Redo", "Camera", "Album", "Draw"]
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    convenience init(_ targetView: UITextView, frame rect: CGRect) {
+        self.init(frame: rect, collectionViewLayout: UICollectionViewFlowLayout())
+        self.targetView = targetView
+        initView()
+    }
+    
+    private func initView() {
         register(DRMenuCollectionCell.self, forCellWithReuseIdentifier: "DRMenuCollectionCell")
         backgroundColor = .clear
         allowsSelection = false
         dataSource = self
         delegate = self
-        
         guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else {return}
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0

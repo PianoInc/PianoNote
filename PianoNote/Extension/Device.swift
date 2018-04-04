@@ -89,6 +89,7 @@ extension NSObject {
     
     /**
      Device의 orientation 변화를 감지하고 통지한다.
+     - warning : Use unowned or weak for avoid memory leak.
      - parameter completion : 변화된 orientation값.
      */
     func device(orientationDidChange completion: @escaping (UIDeviceOrientation) -> ()) {
@@ -106,6 +107,7 @@ extension NSObject {
     
     /**
      Device의 keyboard가 올라오려는 순간을 감지하고 통지한다.
+     - warning : Use unowned or weak for avoid memory leak.
      - parameter completion : 올라온 keyboard의 height.
      */
     func device(keyboardWillShow completion: @escaping (CGFloat) -> ()) {
@@ -122,6 +124,7 @@ extension NSObject {
     
     /**
      Device의 keyboard가 내려간 순간을 감지하고 통지한다.
+     - warning : Use unowned or weak for avoid memory leak.
      - parameter completion : 내려간 keyboard의 height.
      */
     func device(keyboardDidHide completion: @escaping (CGFloat) -> ()) {

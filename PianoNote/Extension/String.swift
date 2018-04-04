@@ -98,7 +98,7 @@ extension UITextView {
     typealias WordRange = (word: String, range: UITextRange)
     
     /**
-     해당 point의 WordRange를 반환한다.
+     해당 point와 맞닿고 있는 WordRange를 반환한다.
      - parameter point : 찾고자 하는 point.
      - returns : 해당 point에 있는 word와 range.
      */
