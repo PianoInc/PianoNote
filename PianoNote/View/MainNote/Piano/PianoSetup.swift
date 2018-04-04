@@ -17,11 +17,11 @@ extension PianoTextView: PianoSetup {
         
         changeStates(for: pianoMode)
         animate(for: pianoMode, to: view)
-        setupPianoControl(for: pianoMode, to: view)
+        setupPianoControl(for: pianoMode)
         
     }
     
-    internal func setupPianoControl(for pianoMode: Bool, to view: UIView) {
+    internal func setupPianoControl(for pianoMode: Bool) {
         
         if pianoMode {
             attachControl()
