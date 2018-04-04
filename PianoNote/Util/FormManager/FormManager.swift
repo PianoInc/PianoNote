@@ -73,6 +73,37 @@ public struct FormManager {
         }
     }
     
+    static func textStorage(_ textStorage: TextStorage, willProcessEditing editedMask: TextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {
+        
+        guard delta > 0 else { return }
+        
+        let font: Font
+        if let pianoBullet = PianoBullet(text: textStorage.string, selectedRange: editedRange) {
+            switch pianoBullet.string {
+            case "♩":
+                font = Font.preferredFont(forTextStyle: .title3)
+            case "♪":
+                font = Font.preferredFont(forTextStyle: .title2)
+            case "♫":
+                font = Font.preferredFont(forTextStyle: .title1)
+            default:
+                font = Font.preferredFont(forTextStyle: .body)
+            }
+        } else {
+            font = Font.preferredFont(forTextStyle: .body)
+        }
+        
+        textStorage.addAttributes([.font : font], range: editedRange)
+        
+        //문단 서식 검사를 하고, 대체해야할 게 있다면 대체하기
+        //서식 사이에 글자가 들어가면 숫자 + 점의 경우 색상을 풀고 폰트를 바꿔줘야 하며, 특수문자의 경우 대체하고 색상을 바꿔야함
+        
+    }
+    
+    public static func convertToPianoNoteStyle(text: String) {
+        
+    }
+    
 }
 
 //ShouldChange

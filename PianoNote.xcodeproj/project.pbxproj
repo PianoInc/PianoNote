@@ -293,6 +293,8 @@
 		168D19CA20632998005AA85F /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				7CD881762068DACF009C6C5F /* FormManager */,
+				7CD881592065BDB3009C6C5F /* Piano */,
 				168D19CB20632998005AA85F /* Util.swift */,
 				7CD8813C2064C76F009C6C5F /* AppNavigator.swift */,
 			);
@@ -415,8 +417,6 @@
 			isa = PBXGroup;
 			children = (
 				7C9926D120649293000327AD /* TempImageView.xib */,
-				7CD881762068DACF009C6C5F /* FormManager */,
-				7CD881592065BDB3009C6C5F /* Piano */,
 			);
 			path = MainNote;
 			sourceTree = "<group>";

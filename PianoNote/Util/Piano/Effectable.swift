@@ -85,7 +85,7 @@ extension PianoTextView: Effectable {
         return attrText.string.enumerated().map(
             { (index, character) -> AnimatableText in
                 var origin = layoutManager.location(forGlyphAt: range.location + index)
-                origin.y = rect.origin.y + textContainerInset.top + textContainer.lineFragmentPadding - contentOffset.y
+                origin.y = rect.origin.y + textContainerInset.top - contentOffset.y
                 origin.y += self.frame.origin.y
                 origin.x += self.textContainerInset.left
                 let text = String(character)

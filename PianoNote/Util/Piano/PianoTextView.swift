@@ -31,7 +31,6 @@ class PianoTextView: UITextView {
         tag = ViewTag.PianoTextView.rawValue
         textContainerInset.top = 20
         
-        
     }
     
 //    override func replacementObject(for aCoder: NSCoder) -> Any? {

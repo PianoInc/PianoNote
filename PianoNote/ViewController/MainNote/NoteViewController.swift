@@ -32,7 +32,6 @@ class NoteViewController: UIViewController {
             textView.textContainerInset.right = 0
         }
         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
