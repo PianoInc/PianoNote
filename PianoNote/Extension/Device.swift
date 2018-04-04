@@ -13,9 +13,8 @@ import RxCocoa
 extension NSObject {
     
     /**
-     Device의 가로 세로중 더 작은 방향의 화면크기 값,
-     iPhone의 최대 minSize인 414를 넘을시엔
-     기기간 일정비율 유지를 위해서 414를 반환한다.
+     Device의 가로 세로중 더 작은 방향의 화면크기 값, iPhone의 최대 minSize인
+     414를 넘을시엔 기기간 일정비율 유지를 위해서 414를 반환한다.
      */
     var minSize: CGFloat {
         var size = UIScreen.main.bounds.width

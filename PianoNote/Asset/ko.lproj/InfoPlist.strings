@@ -1,3 +1,4 @@
 
-CFBundleDisplayName = "PianoNote";
+"CFBundleDisplayName" = "PianoNote";
+"CFBundleName" = "PianoNote";
 

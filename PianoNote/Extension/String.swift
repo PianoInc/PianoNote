@@ -84,7 +84,9 @@ extension UILabel {
         attStr.addAttributes([NSAttributedStringKey.font : font], range: NSMakeRange(0, attStr.length))
         
         let frameSetter = CTFramesetterCreateWithAttributedString(attStr)
-        let path = CGPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width, height: maxSize), transform: nil)
+        let maxWidth = CGFloat.greatestFiniteMagnitude
+        let rect =  CGRect(x: 0, y: 0, width: bounds.size.width, height: maxWidth)
+        let path = CGPath(rect: rect, transform: nil)
         let frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, nil)
         
         guard let line = (CTFrameGetLines(frame) as! [CTLine]).first else {return ""}
