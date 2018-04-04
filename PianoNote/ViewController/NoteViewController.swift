@@ -44,9 +44,5 @@ class NoteViewController: UIViewController {
         })
     }
     
-    deinit {
-        print("deinit :", self)
-    }
-    
 }
 

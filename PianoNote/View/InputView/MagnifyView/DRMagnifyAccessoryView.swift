@@ -86,10 +86,30 @@ class DRMagnifyAccessoryView: UIView {
     }
     
     @objc private func action(erase: UIButton) {
-        guard let textRange = targetView.selectedTextRange else {return}
-        let point = targetView.firstRect(for: textRange).origin
-        guard let wordRange = targetView.word(from: point) else {return}
-        targetView.replace(wordRange.range, withText: "")
+        guard targetView.selectedRange.location != 0 else {return}
+        /// 주어진 location과 selectedRange.location사이의 range를 delete한다.
+        func deleteWord(at location: Int) {
+            let range = NSMakeRange(location, targetView.selectedRange.location - location)
+            targetView.layoutManager.textStorage?.deleteCharacters(in: range)
+            targetView.selectedRange = NSRange(location: location, length: 0)
+        }
+        let begin = targetView.beginningOfDocument
+        var location = targetView.selectedRange.location
+        var hasWord = false
+        while location > 0 {
+            guard let start = targetView.position(from: begin, offset: location - 1) else {return}
+            guard let end = targetView.position(from: start, offset: 1) else {return}
+            guard let range = targetView.textRange(from: start, to: end) else {return}
+            guard let text = targetView.text(in: range) else {return}
+            if text.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) == nil {
+                hasWord = true
+            } else if hasWord {
+                deleteWord(at: location)
+                break
+            }
+            location -= 1
+            if location == 0 {deleteWord(at: location)}
+        }
     }
     
 }

@@ -64,10 +64,6 @@ class RecycleBinViewController: UIViewController {
         }
     }
     
-    deinit {
-        print("deinit :", self)
-    }
-    
 }
 
 // Navigation configuration.
