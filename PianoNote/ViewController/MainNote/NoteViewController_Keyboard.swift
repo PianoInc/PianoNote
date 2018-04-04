@@ -31,7 +31,7 @@ extension NoteViewController {
         UIView.animate(withDuration: duration, animations: { [weak self] in
             self?.view.constraints.forEach({ (constraint) in
                 if constraint.identifier == ConstraintIdentifier.pianoTextViewBottom {
-                    constraint.constant = kbHeight
+                    constraint.constant = -kbHeight
                     self?.view.layoutIfNeeded()
                     return
                 }
@@ -71,11 +71,12 @@ extension NoteViewController {
     
     private func attachBackingImageView(height: CGFloat) {
         
-        guard let imageView = view.subView(tag: ViewTag.TempImageView) as? UIImageView,
-            let textView = view.subView(tag: ViewTag.PianoTextView) as? PianoTextView else { return }
+        guard let imageView = view.subView(tag: ViewTag.TempImageView) as? UIImageView else { return }
         view.insertSubview(imageView, belowSubview: textView)
         let num = arc4random_uniform(20) + 1
         imageView.image = UIImage(named: "pianoLogo\(num)")
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .white
         
         imageView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalTo(view)

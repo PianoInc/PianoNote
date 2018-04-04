@@ -80,36 +80,5 @@ extension NoteViewController {
         
     }
     
-    private func setNavigationController(for pianoMode: Bool) {
-        
-        navigationController?.setNavigationBarHidden(pianoMode, animated: true)
-        
-        let flexibleSpace = UIBarButtonItem(
-            barButtonSystemItem: .flexibleSpace,
-            target: nil,
-            action: nil)
-        let done = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(tapPianoDone(sender:)))
-        let info = UIBarButtonItem(
-            image: UIImage(named: "info"),
-            style: .plain,
-            target: self,
-            action: #selector(tapPianoInfo(sender:)))
-        
-        self.setToolbarItems([flexibleSpace, done, flexibleSpace, info], animated: true)
-        navigationController?.setToolbarHidden(!pianoMode, animated: true)
-        
-    }
-    
-    @objc func tapPianoDone(sender: Any) {
-        setup(pianoMode: false)
-    }
-    
-    @objc func tapPianoInfo(sender: Any) {
-        
-    }
-    
 }
 
