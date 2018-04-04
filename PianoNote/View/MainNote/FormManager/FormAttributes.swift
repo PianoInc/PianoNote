@@ -11,7 +11,9 @@ import CoreGraphics
 
 public class FormAttributes {
     
-    public static var headIndent: CGFloat = 30
+    public static var headIndent: CGFloat {
+        return font.pointSize + 13
+    }
     public static var tailIndent: CGFloat = -20
     public static var font: Font = Font.preferredFont(forTextStyle: .body) {
         didSet {
@@ -22,11 +24,11 @@ public class FormAttributes {
     public static var numFont: Font {
         return Font(name: "Avenir Next", size: FormAttributes.font.pointSize)!
     }
-    public static var textColor: Color = Color(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+    public static var textColor: Color = Color.black
     public static var punctuationColor: Color = Color.lightGray
-    public static var effectColor: Color = Color(red: 255/255, green: 82/255, blue: 82/255, alpha: 1)
+    public static var effectColor: Color = Color.point
     public static var alignment: TextAlignment = TextAlignment.natural
-    public static var lineSpacing: CGFloat = 8
+    public static var lineSpacing: CGFloat = 10
     
     static var defaultParagraphStyle: MutableParagraphStyle = makeDefaultParaStyle()
     static var defaultAttributes: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: false)
@@ -71,47 +73,6 @@ public class FormAttributes {
         
     }
     
-    internal static func fontStyle(_ textView: TextView,by text: String) -> FontStyle {
-        
-        let fontStyle: FontStyle
-        switch text {
-        case "♩":
-            fontStyle = .title3
-        case "♪":
-            fontStyle = .title2
-        case "♫":
-            fontStyle = .title1
-        default:
-            fontStyle = .body
-        }
-        
-        return fontStyle
-    }
-    
-    internal static func makeUnorderedParagraphStyle(whitespaceWidth: CGFloat, formatString: String) -> MutableParagraphStyle {
-        let paragraphStyle = MutableParagraphStyle()
-        
-        let orderedWidth = NSAttributedString(string: "4", attributes: [
-            .font : numFont]).size().width
-        let punctuationMarkWidth = NSAttributedString(string: ".", attributes: [
-            .font : font]).size().width
-        let spaceWidth = NSAttributedString(string: " ", attributes: [
-            .font : font]).size().width
-        let formatStringWidth = NSAttributedString(string: formatString, attributes: [
-            .font : font]).size().width
-        
-        let firstLineHeadIndent =
-            formatStringWidth > orderedWidth + punctuationMarkWidth ?
-                headIndent - (spaceWidth + formatStringWidth) :
-                headIndent - (spaceWidth + (orderedWidth + punctuationMarkWidth + formatStringWidth )/2)
-        
-        paragraphStyle.firstLineHeadIndent = firstLineHeadIndent
-        paragraphStyle.headIndent = headIndent + whitespaceWidth
-        paragraphStyle.tailIndent = tailIndent
-        paragraphStyle.lineSpacing = lineSpacing
-        return paragraphStyle
-    }
-    
     internal static func makeDefaultParaStyle() ->  MutableParagraphStyle {
         let paragraphStyle = MutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = headIndent
@@ -126,7 +87,8 @@ public class FormAttributes {
         var paragraphStyle = [ .foregroundColor: textColor,
                                .underlineStyle: 0,
                                .strikethroughStyle: 0,
-                               .kern: 0
+                               .kern: 0,
+                               .font: Font.preferredFont(forTextStyle: .body)
             ] as [NSAttributedStringKey : Any]
         if !keepParagraphStyle {
             paragraphStyle[.paragraphStyle] = defaultParagraphStyle
@@ -147,11 +109,9 @@ public class FormAttributes {
     
     internal static func updateAttributes() {
         
+        defaultParagraphStyle = makeDefaultParaStyle()
         defaultAttributes = makeDefaultAttributes(keepParagraphStyle: false)
         defaultAttributesWithoutParagraphStyle = makeDefaultAttributes(keepParagraphStyle: true)
-        //        circleKern = makeFormatKern(formatString: AutoListFormat.defaultFormatsLinker[0])
-        //        emptyCircleKern = makeFormatKern(formatString: AutoListFormat.defaultFormatsLinker[1])
-        //        starKern = makeFormatKern(formatString: AutoListFormat.defaultFormatsLinker[2])
         
     }
 }

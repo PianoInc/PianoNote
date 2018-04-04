@@ -53,18 +53,20 @@ public struct FormManager {
     public static func textViewDidChange(_ textView: TextView) {
         
         guard var bullet = PianoBullet(text: textView.text, selectedRange: textView.selectedRange) else {
+            let paraRange = (textView.text as NSString).paragraphRange(for: textView.selectedRange)
+            textView.textStorage.addAttributes([.paragraphStyle : FormAttributes.defaultParagraphStyle], range: paraRange)
             return
         }
         
         switch bullet.type {
         case .number:
             adjust(textView, bullet: &bullet)
-            colorBullet(textView, bullet: bullet)
+            addAttributesToBullet(textView, bullet: bullet)
             adjustAfter(textView, bullet: &bullet)
             
         case .key:
             change(textView, bullet: bullet)
-            colorBullet(textView, bullet: bullet)
+            addAttributesToBullet(textView, bullet: bullet)
             
         case .value:
             ()
@@ -176,6 +178,8 @@ extension FormManager {
             //나머지는 그대로 진행하면 됨
             ()
         }
+        let enter = NSAttributedString(string: "\n")
+        mutableAttrString.insert(enter, at: 0)
         textView.insertBulletString(mutableAttrString)
         return false
         
@@ -241,16 +245,16 @@ extension FormManager {
         
     }
     
-    private static func colorBullet(_ textView: TextView, bullet: PianoBullet) {
+    private static func addAttributesToBullet(_ textView: TextView, bullet: PianoBullet) {
         
         guard !bullet.isOverflow else { return }
-        
         
         switch bullet.type {
         case .number:
             textView.textStorage.addAttributes(
                 [.font : FormAttributes.numFont,
-                 .foregroundColor : FormAttributes.effectColor],
+                 .foregroundColor : FormAttributes.effectColor
+                ],
                 range: bullet.range)
             textView.textStorage.addAttributes(
                 [.font : FormAttributes.font,

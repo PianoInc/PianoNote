@@ -11,8 +11,8 @@ import UIKit
 extension UITextView {
     
     func insertBulletString(_ attrString: NSAttributedString) {
+//        textStorage.replaceCharacters(in: selectedRange, with: "\n")
         
-        insertText("\n")
         textStorage.replaceCharacters(in: selectedRange, with: attrString)
         selectedRange.location += attrString.length
         
