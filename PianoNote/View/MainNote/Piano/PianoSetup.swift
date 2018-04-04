@@ -8,42 +8,46 @@
 
 import UIKit
 
-protocol PianoType {
+protocol PianoSetup {
     func setup(for pianoMode: Bool, to view: UIView)
 }
 
-extension PianoTextView: PianoType {
+extension PianoTextView: PianoSetup {
     func setup(for pianoMode: Bool, to view: UIView) {
         
         changeStates(for: pianoMode)
-        animate(for: pianoMode)
-        setupPianoControl(for: pianoMode, to: view)
+        animate(for: pianoMode, to: view)
+        setupPianoControl(for: pianoMode)
         
     }
     
-    internal func setupPianoControl(for pianoMode: Bool, to view: UIView) {
+    internal func setupPianoControl(for pianoMode: Bool) {
         
-        guard let pianoControl = subView(tag: ViewTag.PianoControl) as? PianoControl,
-            let pianoView = view.subView(tag: ViewTag.PianoView) as? PianoView else { return }
         if pianoMode {
-            pianoControl.textAnimatable = pianoView
-            pianoControl.effectable = self
-            attach(control: pianoControl)
+            attachControl()
         } else {
-            detach(control: pianoControl)
+            detachControl()
         }
     }
     
-    private func attach(control: PianoControl) {
+    internal func attachControl() {
+        
+        guard let control = subView(tag: ViewTag.PianoControl) as? PianoControl,
+            let pianoView = superview?.subView(tag: ViewTag.PianoView) as? PianoView else { return }
         control.removeFromSuperview()
+        control.textAnimatable = pianoView
+        control.effectable = self
         let point = CGPoint(x: 0, y: contentOffset.y + contentInset.top)
         var size = bounds.size
         size.height -= (contentInset.top + contentInset.bottom)
         control.frame = CGRect(origin: point, size: size)
         addSubview(control)
+        
     }
     
-    private func detach(control: PianoControl) {
+    internal func detachControl() {
+        
+        guard let control = subView(tag: ViewTag.PianoControl) as? PianoControl else { return }
         control.removeFromSuperview()
     }
     
@@ -54,15 +58,14 @@ extension PianoTextView: PianoType {
         
     }
     
-    private func animate(for pianoMode: Bool) {
+    private func animate(for pianoMode: Bool, to view: UIView) {
         
-        guard let superview = superview else { return }
-        superview.constraints.forEach { (constraint) in
+        view.constraints.forEach { (constraint) in
             if let identifier = constraint.identifier,
                 identifier == ConstraintIdentifier.pianoTextViewTop {
                 constraint.constant = pianoMode ? 100 : 0
                 UIView.animate(withDuration: 0.3) {
-                    superview.layoutIfNeeded()
+                    view.layoutIfNeeded()
                 }
                 return
             }
@@ -71,7 +74,7 @@ extension PianoTextView: PianoType {
     }
 }
 
-extension PianoView: PianoType {
+extension PianoView: PianoSetup {
     func setup(for pianoMode: Bool, to view: UIView) {
         
         if pianoMode {
@@ -94,7 +97,7 @@ extension PianoView: PianoType {
     }
 }
 
-extension PianoSegmentControl: PianoType {
+extension PianoSegmentControl: PianoSetup {
     func setup(for pianoMode: Bool, to view: UIView) {
         
         if pianoMode {
@@ -104,21 +107,32 @@ extension PianoSegmentControl: PianoType {
             view.insertSubview(segmentControl, belowSubview: textView)
             segmentControl.pianoView = pianoView
             segmentControl.snp.makeConstraints({ (make) in
-                make.top.left.right.equalTo(view)
+                make.top.equalTo(view).labeled(ConstraintIdentifier.pianoSegmentControlTop)
+                make.left.right.equalTo(view)
                 make.height.equalTo(100)
             })
             
         } else {
-
-            UIView.transition(with: view, duration: 0.33, options: [], animations: {
-                guard let segmentControl = view.subView(tag: ViewTag.PianoSegmentControl) as? PianoSegmentControl else { return }
-                segmentControl.removeFromSuperview()
-            }, completion: nil)
+            guard let segmentControl = view.subView(tag: ViewTag.PianoSegmentControl) as? PianoSegmentControl else { return }
+            UIView.animate(withDuration: 0.33, animations: {
+                view.constraints.forEach { (constraint) in
+                    if let identifier = constraint.identifier,
+                        identifier == ConstraintIdentifier.pianoSegmentControlTop {
+                        constraint.constant = pianoMode ? 0 : -100
+                        view.layoutIfNeeded()
+                        return
+                    }
+                }
+            }, completion: { (bool) in
+                if bool {
+                    segmentControl.removeFromSuperview()
+                }
+            })
         }
     }
 }
 
-extension PianoControl: PianoType {
+extension PianoControl: PianoSetup {
     func setup(for pianoMode: Bool, to view: UIView) {
 
         if pianoMode {

@@ -19,13 +19,11 @@ extension PianoTextView: Effectable {
     func preparePiano(at touch: UITouch) -> AnimatableTextsTrigger {
         
         return { [weak self] in
+            guard let strongSelf = self,
+                let info: (rect: CGRect, range: NSRange, attrText: NSAttributedString)
+                = strongSelf.animatableInfo(touch: touch) else { return nil }
             
-            guard let strongSelf = self else { return nil }
-            let info: (
-                rect: CGRect,
-                range: NSRange,
-                attrText: NSAttributedString
-                ) = strongSelf.animatableInfo(touch: touch)
+            
             
             //TODO: animatableText == nil 이면 애니메이션 할 필요 없음(텍스트가 없거나, 이미지 문단일 경우)
             guard !strongSelf.attributedText.containsAttachments(in: info.range),
@@ -69,8 +67,8 @@ extension PianoTextView: Effectable {
         
     }
     
-    private func animatableInfo(touch: UITouch) -> (CGRect, NSRange, NSAttributedString) {
-        
+    private func animatableInfo(touch: UITouch) -> (CGRect, NSRange, NSAttributedString)? {
+        guard attributedText.length != 0 else { return nil }
         let point = touch.location(in: self)
         let index = layoutManager.glyphIndex(for: point, in: textContainer)
         var lineRange = NSRange()
@@ -87,16 +85,14 @@ extension PianoTextView: Effectable {
         return attrText.string.enumerated().map(
             { (index, character) -> AnimatableText in
                 var origin = layoutManager.location(forGlyphAt: range.location + index)
-                origin.y += (rect.origin.y + textContainerInset.top + textContainer.lineFragmentPadding - contentOffset.y)  //1은 버그이거나 연산하는 과정에서 손실된 값 같음. 실험해보고 뺌
-                //TODO: 이 값의 정체를 알아내야함
-                origin.y += 84
-//                origin.x -= 0.2
+                origin.y = rect.origin.y + textContainerInset.top + textContainer.lineFragmentPadding - contentOffset.y
+                origin.y += self.frame.origin.y
+                origin.x += self.textContainerInset.left
                 let text = String(character)
-                let attrs = attrText.attributes(at: index, effectiveRange: nil)
+                var attrs = attrText.attributes(at: index, effectiveRange: nil)
                 let range = NSMakeRange(range.location + index, 1)
-                var attrsForLabel = attrs
-                attrsForLabel[.paragraphStyle] = NSParagraphStyle()
-                let attrText = NSAttributedString(string: text, attributes: attrsForLabel)
+                attrs[.paragraphStyle] = nil
+                let attrText = NSAttributedString(string: text, attributes: attrs)
                 let label = UILabel(frame: CGRect(origin: origin, size: CGSize.zero))
                 label.attributedText = attrText
                 label.sizeToFit()
@@ -107,12 +103,13 @@ extension PianoTextView: Effectable {
         
     }
     
-    
     internal func addCoverView(rect: CGRect) {
-        
+        var correctRect = rect
+        correctRect.origin.y += textContainerInset.top
         let coverView = subView(tag: ViewTag.PianoCoverView)
         let control = subView(tag: ViewTag.PianoControl)
-        coverView.frame = rect
+        coverView.backgroundColor = self.backgroundColor
+        coverView.frame = correctRect
         insertSubview(coverView, belowSubview: control)
 
     }

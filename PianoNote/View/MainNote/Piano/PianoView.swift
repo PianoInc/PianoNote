@@ -12,12 +12,10 @@ class PianoView: UIView {
 
 //    //MARK: Public
     public var attributes = PianoAttributes.foregroundColor
-    private var defaultTag = 1000
+    
     internal var animatableTexts: [AnimatableText]? {
         didSet {
-            
             if let animatableTexts = animatableTexts {
-                
                 attachLabels(for: animatableTexts)
                 displayLink(on: true)
             } else {
@@ -78,6 +76,7 @@ class PianoView: UIView {
     }
 
     internal func updateCoordinateXs(with pointX: CGFloat) {
+        
         leftEndTouchX = leftEndTouchX ?? pointX
         rightEndTouchX = rightEndTouchX ?? pointX
         currentTouchX = pointX
@@ -118,10 +117,7 @@ class PianoView: UIView {
 
     private func applyAttrToLabel(index: Int, animatableText: AnimatableText, at touchX: CGFloat) {
 
-        guard let operate = operate(
-            index: index,
-            animatableText: animatableText,
-            at: touchX) else { return }
+        guard let operate = operate(index: index, animatableText: animatableText,at: touchX) else { return }
         
         switch operate {
         case .apply:
@@ -174,6 +170,8 @@ class PianoView: UIView {
         
         guard let animatableTexts = animatableTexts else { return }
         animating = true
+        
+        displayLink(on: false)
 
         UIView.animate(withDuration: animationDuration, animations: { [weak self] in
             self?.backgroundColor = UIColor.white.withAlphaComponent(0)
