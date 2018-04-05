@@ -73,7 +73,6 @@ extension PianoTextView: Effectable {
         let index = layoutManager.glyphIndex(for: point, in: textContainer)
         var lineRange = NSRange()
         let lineRect = layoutManager.lineFragmentRect(forGlyphAt: index, effectiveRange: &lineRange)
-        print("lineRect: \(lineRect)")
         let (rect, range) = exclusiveBulletArea(rect: lineRect, in: lineRange)
         let attrText = attributedText.attributedSubstring(from: range)
         return (rect, range, attrText)
@@ -86,8 +85,9 @@ extension PianoTextView: Effectable {
         return attrText.string.enumerated().map(
             { (index, character) -> AnimatableText in
                 var origin = layoutManager.location(forGlyphAt: range.location + index)
-                origin.y = rect.origin.y + textContainerInset.top + textContainer.lineFragmentPadding - contentOffset.y
+                origin.y = rect.origin.y + textContainerInset.top - contentOffset.y
                 origin.y += self.frame.origin.y
+                origin.x += self.textContainerInset.left
                 let text = String(character)
                 var attrs = attrText.attributes(at: index, effectiveRange: nil)
                 let range = NSMakeRange(range.location + index, 1)

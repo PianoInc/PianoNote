@@ -68,7 +68,13 @@
 		6CE1C84B20760EF0005CC28C /* NoteViewController_NSTextStorageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE1C84720760EEF005CC28C /* NoteViewController_NSTextStorageDelegate.swift */; };
 		6CE1C84C20760EF0005CC28C /* NoteViewController_Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE1C84820760EEF005CC28C /* NoteViewController_Keyboard.swift */; };
 		74C96D7681BE6A76499C89F4 /* Pods_PianoNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */; };
+		7C33B69D20745CAD0075661E /* NoteSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33B69C20745CAD0075661E /* NoteSettingViewController.swift */; };
+		7C33B69F20745DA40075661E /* SegueIdentifer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33B69E20745DA40075661E /* SegueIdentifer.swift */; };
+		7C3EF787206C558500938DF3 /* NoteViewController_TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3EF786206C558500938DF3 /* NoteViewController_TextViewDelegate.swift */; };
+		7C3EF78B206C6DC600938DF3 /* NoteViewController_NavigationItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3EF78A206C6DC600938DF3 /* NoteViewController_NavigationItems.swift */; };
+		7C3EF78D206C780800938DF3 /* NoteViewController_NSTextStorageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3EF78C206C780800938DF3 /* NoteViewController_NSTextStorageDelegate.swift */; };
 		7C9926C320647A8C000327AD /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9926C220647A8C000327AD /* NoteViewController.swift */; };
+		7C9926C920647C84000327AD /* NoteViewController_Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9926C820647C84000327AD /* NoteViewController_Keyboard.swift */; };
 		7C9926CD20648FDC000327AD /* iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9926CC20648FDC000327AD /* iOS.swift */; };
 		7C9926CF20649025000327AD /* ViewTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9926CE20649025000327AD /* ViewTag.swift */; };
 		7C9926D220649293000327AD /* TempImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C9926D120649293000327AD /* TempImageView.xib */; };
@@ -88,6 +94,7 @@
 		7CD8815D2065BE3A009C6C5F /* Effectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8815C2065BE3A009C6C5F /* Effectable.swift */; };
 		7CD8815F2065BE72009C6C5F /* iOS&mac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8815E2065BE72009C6C5F /* iOS&mac.swift */; };
 		7CD881652068778C009C6C5F /* PianoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD881642068778C009C6C5F /* PianoTextView.swift */; };
+		7CD8816720687D5D009C6C5F /* PianoSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8816620687D5D009C6C5F /* PianoSetup.swift */; };
 		7CD881702068DACC009C6C5F /* FormManager_mac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8816A2068DACB009C6C5F /* FormManager_mac.swift */; };
 		7CD881712068DACC009C6C5F /* DivisionLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8816B2068DACB009C6C5F /* DivisionLine.swift */; };
 		7CD881722068DACC009C6C5F /* FormManager_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8816C2068DACB009C6C5F /* FormManager_iOS.swift */; };
@@ -225,7 +232,13 @@
 		6CE1C84720760EEF005CC28C /* NoteViewController_NSTextStorageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_NSTextStorageDelegate.swift; sourceTree = "<group>"; };
 		6CE1C84820760EEF005CC28C /* NoteViewController_Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_Keyboard.swift; sourceTree = "<group>"; };
 		7B2B6D778206662C5F9CDB89 /* Pods-PianoNoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests.release.xcconfig"; sourceTree = "<group>"; };
+		7C33B69C20745CAD0075661E /* NoteSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteSettingViewController.swift; sourceTree = "<group>"; };
+		7C33B69E20745DA40075661E /* SegueIdentifer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueIdentifer.swift; sourceTree = "<group>"; };
+		7C3EF786206C558500938DF3 /* NoteViewController_TextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController_TextViewDelegate.swift; sourceTree = "<group>"; };
+		7C3EF78A206C6DC600938DF3 /* NoteViewController_NavigationItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController_NavigationItems.swift; sourceTree = "<group>"; };
+		7C3EF78C206C780800938DF3 /* NoteViewController_NSTextStorageDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController_NSTextStorageDelegate.swift; sourceTree = "<group>"; };
 		7C9926C220647A8C000327AD /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
+		7C9926C820647C84000327AD /* NoteViewController_Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController_Keyboard.swift; sourceTree = "<group>"; };
 		7C9926CC20648FDC000327AD /* iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS.swift; sourceTree = "<group>"; };
 		7C9926CE20649025000327AD /* ViewTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTag.swift; sourceTree = "<group>"; };
 		7C9926D120649293000327AD /* TempImageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TempImageView.xib; sourceTree = "<group>"; };
@@ -245,6 +258,7 @@
 		7CD8815C2065BE3A009C6C5F /* Effectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effectable.swift; sourceTree = "<group>"; };
 		7CD8815E2065BE72009C6C5F /* iOS&mac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOS&mac.swift"; sourceTree = "<group>"; };
 		7CD881642068778C009C6C5F /* PianoTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoTextView.swift; sourceTree = "<group>"; };
+		7CD8816620687D5D009C6C5F /* PianoSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoSetup.swift; sourceTree = "<group>"; };
 		7CD8816A2068DACB009C6C5F /* FormManager_mac.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormManager_mac.swift; sourceTree = "<group>"; };
 		7CD8816B2068DACB009C6C5F /* DivisionLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DivisionLine.swift; sourceTree = "<group>"; };
 		7CD8816C2068DACB009C6C5F /* FormManager_iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormManager_iOS.swift; sourceTree = "<group>"; };
@@ -343,6 +357,7 @@
 				6CE16F972072133200231863 /* PianoNote.entitlements */,
 				168D19CF20632998005AA85F /* AppDelegate.swift */,
 				168D19D020632998005AA85F /* ViewController */,
+				7C33B69920745C670075661E /* NoteSetting */,
 				168D1A00206364AE005AA85F /* View */,
 				168D19CA20632998005AA85F /* Util */,
 				168D19D120632998005AA85F /* Extension */,
@@ -370,6 +385,8 @@
 		168D19CA20632998005AA85F /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				7CD881762068DACF009C6C5F /* FormManager */,
+				7CD881592065BDB3009C6C5F /* Piano */,
 				6C72709820730257003A4640 /* TextEngineModels */,
 				6C7270732072F4C5003A4640 /* RealmModels */,
 				6CE16F90207200C700231863 /* CloudModels */,
@@ -411,6 +428,7 @@
 				6CE16FA320721A5800231863 /* CKAsset+UIImage.swift */,
 				6C7270AC20730BEF003A4640 /* UIImage+resize.swift */,
 				7CD881772069020D009C6C5F /* Text.swift */,
+				7C33B69E20745DA40075661E /* SegueIdentifer.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -479,6 +497,12 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		7C33B69920745C670075661E /* NoteSetting */ = {
+			isa = PBXGroup;
+			children = (
+				7C33B69C20745CAD0075661E /* NoteSettingViewController.swift */,
+			);
+			path = NoteSetting;
 		6C7270732072F4C5003A4640 /* RealmModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -573,6 +597,10 @@
 				6CE1C84720760EEF005CC28C /* NoteViewController_NSTextStorageDelegate.swift */,
 				6CE1C84620760EEF005CC28C /* NoteViewController_TextViewDelegate.swift */,
 				7C9926C220647A8C000327AD /* NoteViewController.swift */,
+				7C3EF78A206C6DC600938DF3 /* NoteViewController_NavigationItems.swift */,
+				7C3EF786206C558500938DF3 /* NoteViewController_TextViewDelegate.swift */,
+				7C3EF78C206C780800938DF3 /* NoteViewController_NSTextStorageDelegate.swift */,
+				7C9926C820647C84000327AD /* NoteViewController_Keyboard.swift */,
 			);
 			path = MainNote;
 			sourceTree = "<group>";
@@ -581,8 +609,6 @@
 			isa = PBXGroup;
 			children = (
 				7C9926D120649293000327AD /* TempImageView.xib */,
-				7CD881762068DACF009C6C5F /* FormManager */,
-				7CD881592065BDB3009C6C5F /* Piano */,
 			);
 			path = MainNote;
 			sourceTree = "<group>";
@@ -599,6 +625,7 @@
 		7CD881592065BDB3009C6C5F /* Piano */ = {
 			isa = PBXGroup;
 			children = (
+				7CD8816620687D5D009C6C5F /* PianoSetup.swift */,
 				7CD881642068778C009C6C5F /* PianoTextView.swift */,
 				7CD8814F2064E1AA009C6C5F /* PianoAttributes.swift */,
 				7CD881552065BD78009C6C5F /* AnimatableText.swift */,
@@ -723,7 +750,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = piano;
 				TargetAttributes = {
 					168D198320632949005AA85F = {
@@ -1046,20 +1073,26 @@
 				7C9926C320647A8C000327AD /* NoteViewController.swift in Sources */,
 				7CD8815F2065BE72009C6C5F /* iOS&mac.swift in Sources */,
 				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
+				7C9926C920647C84000327AD /* NoteViewController_Keyboard.swift in Sources */,
 				7CD8814D2064D552009C6C5F /* PianoView.swift in Sources */,
 				7CD881562065BD78009C6C5F /* AnimatableText.swift in Sources */,
 				7CD881542065357F009C6C5F /* PianoControl.swift in Sources */,
 				6CE1C84A20760EF0005CC28C /* NoteViewController_TextViewDelegate.swift in Sources */,
 				7CD8813B2064C6B1009C6C5F /* ConstraintIdentifier.swift in Sources */,
 				7CD881722068DACC009C6C5F /* FormManager_iOS.swift in Sources */,
+				7C3EF787206C558500938DF3 /* NoteViewController_TextViewDelegate.swift in Sources */,
 				7C9926CD20648FDC000327AD /* iOS.swift in Sources */,
 				168D1A0220636501005AA85F /* FolderCell.swift in Sources */,
+				7CD8816720687D5D009C6C5F /* PianoSetup.swift in Sources */,
+				7C33B69F20745DA40075661E /* SegueIdentifer.swift in Sources */,
 				6C72708F207300F4003A4640 /* LinkAttribute.swift in Sources */,
 				6C72707A2072FD1F003A4640 /* Diff3.swift in Sources */,
 				6C72709D207302E6003A4640 /* ImageAttachment.swift in Sources */,
 				6CE16F9D2072140D00231863 /* CloudDatabase.swift in Sources */,
 				7C9926CF20649025000327AD /* ViewTag.swift in Sources */,
 				7CD8813D2064C76F009C6C5F /* AppNavigator.swift in Sources */,
+				7C3EF78D206C780800938DF3 /* NoteViewController_NSTextStorageDelegate.swift in Sources */,
+				7C33B69D20745CAD0075661E /* NoteSettingViewController.swift in Sources */,
 				7CD8815B2065BE33009C6C5F /* TextAnimatable.swift in Sources */,
 				7CD881782069020D009C6C5F /* Text.swift in Sources */,
 				7CD881732068DACC009C6C5F /* FormManager.swift in Sources */,
@@ -1074,6 +1107,7 @@
 				168D1A06206366A5005AA85F /* MainListViewController.swift in Sources */,
 				7CD8815D2065BE3A009C6C5F /* Effectable.swift in Sources */,
 				7CD881652068778C009C6C5F /* PianoTextView.swift in Sources */,
+				7C3EF78B206C6DC600938DF3 /* NoteViewController_NavigationItems.swift in Sources */,
 				6CE1C84B20760EF0005CC28C /* NoteViewController_NSTextStorageDelegate.swift in Sources */,
 				7CD881502064E1AA009C6C5F /* PianoAttributes.swift in Sources */,
 				7CD881712068DACC009C6C5F /* DivisionLine.swift in Sources */,
@@ -1219,6 +1253,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1226,6 +1261,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1277,6 +1313,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1284,6 +1321,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

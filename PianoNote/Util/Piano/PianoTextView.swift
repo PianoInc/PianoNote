@@ -31,7 +31,6 @@ class PianoTextView: UITextView {
         tag = ViewTag.PianoTextView.rawValue
         textContainerInset.top = 20
         
-        
     }
     
 //    override func replacementObject(for aCoder: NSCoder) -> Any? {
@@ -63,12 +62,12 @@ extension PianoTextView {
      개발자가 어떻게 컨스트레인트를 지정했더라도 다시 피아노에 맞춰 새롭게 지정해줌
      */
     private func resetConstraints() {
-        
+
         removeAllConstraints()
-        
+
         self.snp.makeConstraints { [weak self](make) in
             guard let superView = self?.superview else { return }
-            
+
             make.top.equalTo(superView).labeled(ConstraintIdentifier.pianoTextViewTop)
             make.bottom.equalTo(superView).labeled(ConstraintIdentifier.pianoTextViewBottom)
             if #available(iOS 11.0, *) {

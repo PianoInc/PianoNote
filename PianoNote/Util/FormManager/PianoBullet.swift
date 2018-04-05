@@ -50,6 +50,7 @@ struct PianoBullet {
     init?(text: String, lineRange: NSRange) {
         
         let nsText = text as NSString
+        guard nsText.length != 0 else { return nil }
         let paraRange = nsText.paragraphRange(for: lineRange)
         for (type, regex) in regexs {
             if let (string, range) = text.detect(searchRange: lineRange, regex: regex) {
@@ -66,8 +67,6 @@ struct PianoBullet {
         
         return nil
     }
-    
-    
     
     public let type: PianoBulletType
     public let whitespaces: (string: String, range: NSRange)
