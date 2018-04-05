@@ -8,7 +8,17 @@
 
 import UIKit
 
+protocol DRDetailDelegates: NSObjectProtocol {
+    /**
+     선택된 section이 가지는 댓댓글 row를 expand한다.
+     - parameter indexPath : 선택된 section의 indexPath.
+     */
+    func extend(reply indexPath: IndexPath)
+}
+
 class DRDetailCommentSection: UITableViewHeaderFooterView {
+    
+    weak var delegates: DRDetailDelegates!
     
     let contentsView = makeView(UIView()) {
         $0.backgroundColor = .white
@@ -34,12 +44,15 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
     let arrowImage = makeView(UIImageView()) {
         $0.contentMode = .scaleAspectFit
     }
-    let replyLabel = makeView(UILabel()) {
-        $0.font = UIFont.preferred(font: 12, weight: .regular)
+    let replyButton = makeView(UIButton(type: .system)) {
+        $0.addTarget(nil, action: #selector(action(reply:)), for: .touchUpInside)
+        $0.titleLabel?.font = UIFont.preferred(font: 12, weight: .semibold)
     }
     let timeLabel = makeView(UILabel()) {
         $0.font = UIFont.preferred(font: 12, weight: .regular)
     }
+    
+    var indexPath: IndexPath!
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -59,7 +72,7 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
         contentsView.addSubview(contentLabel)
         contentView.addSubview(toolView)
         toolView.addSubview(arrowImage)
-        toolView.addSubview(replyLabel)
+        toolView.addSubview(replyButton)
         toolView.addSubview(timeLabel)
         initConst()
     }
@@ -103,19 +116,23 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
                 $0.width.equalTo(15)
                 $0.height.equalTo(15)
             }
-            makeConst(replyLabel) {
+            makeConst(replyButton) {
                 $0.leading.equalTo(self.arrowImage.snp.trailing).offset(self.minSize * 0.0266)
                 $0.top.equalTo(0)
                 $0.bottom.equalTo(0)
             }
             makeConst(timeLabel) {
-                $0.leading.equalTo(self.replyLabel.snp.trailing).offset(self.minSize * 0.0266)
+                $0.leading.equalTo(self.replyButton.snp.trailing).offset(self.minSize * 0.0266)
                 $0.top.equalTo(0)
                 $0.bottom.equalTo(0)
             }
         }
         constraint()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
+    }
+    
+    @objc private func action(reply: UIButton) {
+        delegates.extend(reply: indexPath)
     }
     
 }

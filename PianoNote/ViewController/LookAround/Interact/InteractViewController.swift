@@ -38,18 +38,21 @@ class InteractViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initConst()
-        DRFBService.share.rxPost.subscribe {
-            self.facebookLabel.isHidden = true
-            self.facebookButton.isHidden = true
-            self.group(time: $0)
-            self.listView.reloadData()
-            UIView.animate(withDuration: 0.3) {self.listView.alpha = 1}
-        }
+        attachData()
         if FBSDKAccessToken.current() != nil {
             DRFBService.share.facebook(post: "602234013303895")
         } else {
             self.facebookLabel.isHidden = false
             self.facebookButton.isHidden = false
+        }
+    }
+    
+    @IBAction private func action(login: UIButton) {
+        DRFBService.share.facebook(login: self) {
+            guard $0 else {return}
+            self.facebookLabel.isHidden = true
+            self.facebookButton.isHidden = true
+            DRFBService.share.facebook(post: "602234013303895")
         }
     }
     
@@ -94,20 +97,12 @@ class InteractViewController: UIViewController {
         }
     }()
     
-    override func willMove(toParentViewController parent: UIViewController?) {
-        super.willMove(toParentViewController: parent)
-        DRFBService.share.resetPost()
-    }
-    
-}
-
-// Login and data 기능.
-extension InteractViewController {
-    
-    @IBAction private func action(login: UIButton) {
-        DRFBService.share.facebook(login: self) {
-            guard $0 else {return}
-            DRFBService.share.facebook(post: "602234013303895")
+    /// Data의 변화를 감지하여 listView에 이어 붙인다.
+    private func attachData() {
+        DRFBService.share.rxPost.subscribe {
+            self.group(time: $0)
+            self.listView.reloadData()
+            UIView.animate(withDuration: 0.3) {self.listView.alpha = 1}
         }
     }
     
@@ -127,15 +122,9 @@ extension InteractViewController {
         }
     }
     
-}
-
-extension InteractViewController: DRContentNoteDelegates {
-    
-    func select(indexPath: IndexPath) {
-        guard let postData = post(data: indexPath) else {return}
-        let viewContoller = UIStoryboard.view(type: InteractDetailViewController.self)
-        viewContoller.postData = (id: postData.id, title: postData.title)
-        self.present(view: viewContoller)
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+        DRFBService.share.resetPost()
     }
     
 }
@@ -160,15 +149,13 @@ extension InteractViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
-        
         sections.sectionLabel.text = data[section].first!.key
-        
         return sections
     }
     
 }
 
-extension InteractViewController: UITableViewDataSource {
+extension InteractViewController: UITableViewDataSource, DRContentNoteDelegates {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return data.count
@@ -185,7 +172,6 @@ extension InteractViewController: UITableViewDataSource {
         cell.delegates = self
         
         guard let data = post(data: indexPath) else {return cell}
-        
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
         cell.noteView.dateLabel.text = formatter.string(from: data.create)
@@ -200,6 +186,13 @@ extension InteractViewController: UITableViewDataSource {
      */
     private func post(data indexPath: IndexPath) -> DRFBPost? {
         return data[indexPath.section].first?.value[indexPath.row]
+    }
+    
+    func select(indexPath: IndexPath) {
+        guard let postData = post(data: indexPath) else {return}
+        let viewContoller = UIStoryboard.view(type: InteractDetailViewController.self)
+        viewContoller.postData = (id: postData.id, title: postData.title)
+        self.present(view: viewContoller)
     }
     
 }

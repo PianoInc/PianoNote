@@ -25,13 +25,7 @@ class InteractDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initConst()
-        DRFBService.share.rxComment.subscribe {
-            $0.forEach {self.data.append($0)}
-            self.listView.reloadData()
-            UIView.animate(withDuration: 0.3) {
-                self.listView.alpha = 1
-            }
-        }
+        attachData()
         DRFBService.share.facebook(comment: postData.id)
     }
     
@@ -57,7 +51,16 @@ class InteractDetailViewController: UIViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
-        // DetailView에서는 기존의 모습과 다른 모습이라 titleLabel을 재정의 한다.
+        updateHeaderView()
+        navigationItem.titleView = makeView(UILabel()) {
+            $0.font = UIFont.preferred(font: 17, weight: .semibold)
+            $0.text = postData.title
+            $0.alpha = 0
+        }
+    }()
+    
+    // DRNoteCellHeader를 활용하기 위한 재정의 작업.
+    private func updateHeaderView() {
         if let headerView = listView.tableHeaderView as? DRNoteCellHeader {
             headerView.contentView.subviews.forEach {$0.isHidden = true}
             headerView.contentView.titleLabel.isHidden = false
@@ -71,12 +74,18 @@ class InteractDetailViewController: UIViewController {
             }
             headerView.contentView.titleLabel.text = postData.title
         }
-        navigationItem.titleView = makeView(UILabel()) {
-            $0.font = UIFont.preferred(font: 17, weight: .semibold)
-            $0.text = postData.title
-            $0.alpha = 0
+    }
+    
+    /// Data의 변화를 감지하여 listView에 이어 붙인다.
+    private func attachData() {
+        DRFBService.share.rxComment.subscribe {
+            $0.forEach {self.data.append($0)}
+            self.listView.reloadData()
+            UIView.animate(withDuration: 0.3) {
+                self.listView.alpha = 1
+            }
         }
-    }()
+    }
     
     override func willMove(toParentViewController parent: UIViewController?) {
         super.willMove(toParentViewController: parent)
@@ -85,7 +94,7 @@ class InteractDetailViewController: UIViewController {
     
 }
 
-extension InteractDetailViewController: UITableViewDelegate {
+extension InteractDetailViewController: UITableViewDelegate, DRDetailDelegates {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentOffset = scrollView.contentOffset.y
@@ -101,16 +110,27 @@ extension InteractDetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRDetailCommentSection") as! DRDetailCommentSection
+        view.indexPath = IndexPath(row: 0, section: section)
+        view.delegates = self
         
         view.nameLabel.text = "이름"
         view.contentLabel.text = data[section].msg
         view.timeLabel.text = data[section].create.timeFormat
-        view.replyLabel.text = "답글 없음"
+        
+        view.replyButton.isEnabled = false
+        view.replyButton.setTitle("facebookNoReply".locale, for: .normal)
         if data[section].count > 0 {
-            view.replyLabel.text = "답글 \(data[section].count)개"
+            view.replyButton.isEnabled = true
+            let replyText = String(format: "facebookReply".locale, data[section].count)
+            view.replyButton.setTitle(replyText, for: .normal)
         }
         
         return view
+    }
+    
+    func extend(reply indexPath: IndexPath) {
+        data[indexPath.section].expend = true
+        listView.reloadData()
     }
     
 }
@@ -122,7 +142,7 @@ extension InteractDetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data[section].reply?.count ?? 0
+        return data[section].expend ? (data[section].reply?.count ?? 0) : 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -12,7 +12,7 @@ import FBSDKLoginKit
 import SwiftyJSON
 
 typealias DRFBPost = (create: Date, id: String, title: String, msg: String)
-typealias DRFBComment = (create: Date, count: Int, msg: String, reply: [DRFBReply]?)
+typealias DRFBComment = (create: Date, count: Int, msg: String, expend: Bool, reply: [DRFBReply]?)
 typealias DRFBReply = (create: Date, msg: String)
 
 class DRFBService: NSObject {
@@ -53,7 +53,7 @@ class DRFBService: NSObject {
     }
     
     /**
-     Facebook의 해당 page에 올려져있는 post들을 load 한다.
+     Facebook의 해당 page에 올려져있는 post들을 load를 요청한다.
      - parameter pageID : 가져오고자 하는 page의 id.
      */
     func facebook(post pageID: String) {
@@ -90,7 +90,7 @@ class DRFBService: NSObject {
     }
     
     /**
-     Facebook의 해당 post에 달려있는 comment들을 load 한다.
+     Facebook의 해당 post에 달려있는 comment들을 load를 요청한다.
      - parameter postID : 가져오고자 하는 post의 id.
      */
     func facebook(comment postID: String) {
@@ -119,7 +119,7 @@ class DRFBService: NSObject {
                             }
                         }
                     }
-                    self.commentData.append(DRFBComment(create: create, count: count, msg: msg, reply: reply.isEmpty ? nil : reply))
+                    self.commentData.append(DRFBComment(create: create, count: count, msg: msg, expend: false, reply: reply.isEmpty ? nil : reply))
                 }
                 self.rxComment.value = self.commentData
                 self.commentData.removeAll()
