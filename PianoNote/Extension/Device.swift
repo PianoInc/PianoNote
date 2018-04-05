@@ -66,6 +66,27 @@ extension NSObject {
         return .zero
     }
     
+    /// 기본 input keyboard height.
+    var inputHeight: CGFloat {
+        let isPortrait = UIApplication.shared.statusBarOrientation.isPortrait
+        let screenSize = [UIScreen.main.bounds.width, UIScreen.main.bounds.height]
+        if screenSize.contains(568) { // 5
+            return isPortrait ? 216 : 162
+        } else if screenSize.contains(667) { // 8
+            return isPortrait ? 216 : 162
+        } else if screenSize.contains(736) { // 8+
+            return isPortrait ? 226 : 162
+        } else if screenSize.contains(812) { // x
+            return isPortrait ? 291 : 171
+        } else if screenSize.contains(1024) { // pad
+            return isPortrait ? 265 : 353
+        } else if screenSize.contains(1112) { // pad pro 10.5
+            return isPortrait ? 265 : 353
+        } else { // pad pro 12.9 (1366)
+            return isPortrait ? 328 : 423
+        }
+    }
+    
     /**
      호출하는 순간의 statusBarOrientation을 참조하여 orientation을 고정/해제한다.
      - parameter lock : 고정여부.

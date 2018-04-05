@@ -45,7 +45,6 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
         $0.contentMode = .scaleAspectFit
     }
     let replyButton = makeView(UIButton(type: .system)) {
-        $0.addTarget(nil, action: #selector(action(reply:)), for: .touchUpInside)
         $0.titleLabel?.font = UIFont.preferred(font: 12, weight: .semibold)
     }
     let timeLabel = makeView(UILabel()) {
@@ -66,6 +65,7 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
     
     private func initView() {
         backgroundColor = .clear
+        replyButton.addTarget(self, action: #selector(action(reply:)), for: .touchUpInside)
         contentView.addSubview(contentsView)
         contentsView.addSubview(portraitImage)
         contentsView.addSubview(nameLabel)

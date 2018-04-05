@@ -72,7 +72,7 @@ class DRMagnifyAccessoryView: UIView {
             makeConst(eraseButton) {
                 $0.leading.equalTo(self.magnifyView.snp.trailing)
                 $0.trailing.equalTo(-self.safeInset.right)
-                $0.top.equalTo(self.minSize * 0.1173)
+                $0.top.equalTo(self.minSize * 0.1146)
                 $0.bottom.equalTo(0)
             }
         }

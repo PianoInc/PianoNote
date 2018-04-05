@@ -60,7 +60,7 @@ class DRMagnifyView: UIScrollView {
         mirrorView.isHidden = true
         addSubview(mirrorView)
         
-        mirrorView.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 32)
+        mirrorView.font = UIFont.preferred(font: 28, weight: .regular)
         mirrorSizetoFit()
         
         tapGesture.addTarget(self, action: #selector(action(tap:)))
