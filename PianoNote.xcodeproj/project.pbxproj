@@ -1038,7 +1038,6 @@
 				6C72707E2072FDCB003A4640 /* NoteSynchronizer.swift in Sources */,
 				6C72709F20730306003A4640 /* LinkAttachment.swift in Sources */,
 				7C9926C320647A8C000327AD /* NoteViewController.swift in Sources */,
-				168D19FC20632FD5005AA85F /* SplashViewController.swift in Sources */,
 				7CD8815F2065BE72009C6C5F /* iOS&mac.swift in Sources */,
 				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
 				7C9926C920647C84000327AD /* Keyboard.swift in Sources */,
