@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160C39FA2075DE1C00A3DE41 /* DRDrawingUndoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C39F92075DE1C00A3DE41 /* DRDrawingUndoManager.swift */; };
+		160C39FC2075DE5B00A3DE41 /* DRCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C39FB2075DE5B00A3DE41 /* DRCanvasView.swift */; };
 		16233D082064D128008317D1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16233D072064D128008317D1 /* String.swift */; };
 		16359E3D207481C700B9CBE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 16359E3B207481C600B9CBE9 /* InfoPlist.strings */; };
 		164AC2482071C61B00714703 /* DRTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AC2472071C61B00714703 /* DRTextView.swift */; };
@@ -112,6 +114,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		160C39F92075DE1C00A3DE41 /* DRDrawingUndoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRDrawingUndoManager.swift; sourceTree = "<group>"; };
+		160C39FB2075DE5B00A3DE41 /* DRCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCanvasView.swift; sourceTree = "<group>"; };
 		16233D072064D128008317D1 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		16359E3C207481C600B9CBE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		16359E3E207481CA00B9CBE9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -232,6 +236,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		160C39F82075D9E700A3DE41 /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				16513F6A2072EC7700085AE0 /* DRDrawingView.swift */,
+				160C39FB2075DE5B00A3DE41 /* DRCanvasView.swift */,
+				160C39F92075DE1C00A3DE41 /* DRDrawingUndoManager.swift */,
+			);
+			path = Drawing;
+			sourceTree = "<group>";
+		};
 		164AC2462071C52300714703 /* InputView */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,9 +287,9 @@
 		16513F632072EC4C00085AE0 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				160C39F82075D9E700A3DE41 /* Drawing */,
 				16513F662072EC7000085AE0 /* DRCameraView.swift */,
 				16513F682072EC7400085AE0 /* DRAlbumView.swift */,
-				16513F6A2072EC7700085AE0 /* DRDrawingView.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -933,6 +947,7 @@
 				168D1A1E206383F0005AA85F /* DRBrowseFolderCell.swift in Sources */,
 				168D1A0C20636BF2005AA85F /* Device.swift in Sources */,
 				1679D5632069B73000E6D98E /* InteractViewController.swift in Sources */,
+				160C39FC2075DE5B00A3DE41 /* DRCanvasView.swift in Sources */,
 				164AC2482071C61B00714703 /* DRTextView.swift in Sources */,
 				168D1A20206383F3005AA85F /* DRContentFolderCell.swift in Sources */,
 				16513F652072EC6600085AE0 /* DRMagnifyView.swift in Sources */,
@@ -952,6 +967,7 @@
 				164AC24E2071EEAA00714703 /* DRMenuAccessoryView.swift in Sources */,
 				168D19E220632998005AA85F /* Color.swift in Sources */,
 				16F647AB206A0C79004BF276 /* InteractDetailViewController.swift in Sources */,
+				160C39FA2075DE1C00A3DE41 /* DRDrawingUndoManager.swift in Sources */,
 				168D1A10206374F5005AA85F /* Window.swift in Sources */,
 				16233D082064D128008317D1 /* String.swift in Sources */,
 				168D1A19206383B9005AA85F /* DREmptyNoteCell.swift in Sources */,

@@ -8,6 +8,15 @@
 
 import UIKit
 
+protocol DRMenuDelegates: NSObjectProtocol {
+    /**
+     Drawing 화면을 close한다.
+     - parameter image : 그림의 전체 image.
+     - parameter drawRect : 실제로 그림이 그려진 부분의 rect값.
+     */
+    func close(drawing image: UIImage?, drawingRect: CGRect)
+}
+
 class DRMenuCollectionView: UICollectionView {
     
     private weak var targetView: UITextView!
@@ -43,6 +52,15 @@ class DRMenuCollectionView: UICollectionView {
     
 }
 
+extension DRMenuCollectionView: DRMenuDelegates {
+    
+    func close(drawing image: UIImage?, drawingRect: CGRect) {
+        targetView.inputView = nil
+        targetView.reloadInputViews()
+    }
+    
+}
+
 extension DRMenuCollectionView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -51,7 +69,7 @@ extension DRMenuCollectionView: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension DRMenuCollectionView: UICollectionViewDataSource, DRMenuDelegates {
+extension DRMenuCollectionView: UICollectionViewDataSource, DRMenuCellDelegates {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return data.count
@@ -76,12 +94,24 @@ extension DRMenuCollectionView: UICollectionViewDataSource, DRMenuDelegates {
             let viewRect = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: inputHeight)
             device(orientationLock: false)
             if indexPath.row == 2 {
-                loadCustomInput(view: UIView(frame: viewRect))
-                device(orientationLock: true)
+                DRAuth.share.request(camera: {
+                    let drawingView = DRDrawingView(rect: viewRect, image: nil)
+                    drawingView.delegates = self
+                    self.loadCustomInput(view: drawingView)
+                    self.device(orientationLock: true)
+                })
             } else if indexPath.row == 3 {
-                loadCustomInput(view: UIView(frame: viewRect))
+                DRAuth.share.request(photo: {
+                    let drawingView = DRDrawingView(rect: viewRect, image: nil)
+                    drawingView.delegates = self
+                    self.loadCustomInput(view: drawingView)
+                })
             } else {
-                loadCustomInput(view: UIView(frame: viewRect))
+                DRAuth.share.request(photo: {
+                    let drawingView = DRDrawingView(rect: viewRect, image: nil)
+                    drawingView.delegates = self
+                    self.loadCustomInput(view: drawingView)
+                })
             }
         }
     }
@@ -93,38 +123,18 @@ extension DRMenuCollectionView: UICollectionViewDataSource, DRMenuDelegates {
     private func loadCustomInput(view: UIView) {
         targetView.inputView = view
         targetView.reloadInputViews()
-        animateCustomInput()
-    }
-    
-    /// InputView를 전체화면으로 animate 한다.
-    private func animateCustomInput() {
-        guard let accessoryView = targetView.inputAccessoryView else {return}
-        guard let inputView = targetView.inputView else {return}
-        let offsetY = accessoryView.bounds.height
-        let height = UIScreen.main.bounds.height
-        
-        for const in inputView.constraints where const.firstAttribute == .height {
-            const.constant = height
-        }
-        
-        UIView.animate(withDuration: 0.3) {
-            accessoryView.superview?.frame.origin.y = offsetY
-            accessoryView.superview?.frame.size.height = height
-            inputView.superview?.frame.origin.y = offsetY
-            inputView.superview?.frame.size.height = height
-            inputView.frame.size.height = height
-        }
+        fillCustomInput()
     }
     
 }
 
-protocol DRMenuDelegates: NSObjectProtocol {
+protocol DRMenuCellDelegates: NSObjectProtocol {
     func action(select indexPath: IndexPath)
 }
 
 class DRMenuCollectionCell: UICollectionViewCell {
     
-    fileprivate weak var delegates: DRMenuDelegates!
+    fileprivate weak var delegates: DRMenuCellDelegates!
     
     fileprivate let button = makeView(UIButton(type: .custom)) {
         $0.titleLabel?.font = UIFont.preferred(font: 17, weight: .regular)
