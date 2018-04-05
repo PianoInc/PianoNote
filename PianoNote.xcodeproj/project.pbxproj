@@ -28,6 +28,45 @@
 		168D1A06206366A5005AA85F /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A05206366A5005AA85F /* MainListViewController.swift */; };
 		280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */; };
 		54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A175366D5D2E82F861F0A /* Pods_widget.framework */; };
+		6C7270752072F4D6003A4640 /* LocalDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270742072F4D6003A4640 /* LocalDatabase.swift */; };
+		6C7270782072FCCB003A4640 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270772072FCCB003A4640 /* Diff.swift */; };
+		6C72707A2072FD1F003A4640 /* Diff3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270792072FD1F003A4640 /* Diff3.swift */; };
+		6C72707C2072FD8E003A4640 /* ConflictResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72707B2072FD8E003A4640 /* ConflictResolver.swift */; };
+		6C72707E2072FDCB003A4640 /* NoteSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72707D2072FDCB003A4640 /* NoteSynchronizer.swift */; };
+		6C7270812072FFBD003A4640 /* PianoAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270802072FFBD003A4640 /* PianoAttribute.swift */; };
+		6C7270842072FFF3003A4640 /* InteractiveTextEngine_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7270822072FFEE003A4640 /* InteractiveTextEngine_iOS.framework */; };
+		6C7270852072FFF3003A4640 /* InteractiveTextEngine_iOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7270822072FFEE003A4640 /* InteractiveTextEngine_iOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6C72708820730084003A4640 /* FontAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72708720730084003A4640 /* FontAttribute.swift */; };
+		6C72708A207300A6003A4640 /* AttachmentAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C727089207300A6003A4640 /* AttachmentAttribute.swift */; };
+		6C72708D207300D9003A4640 /* ImageAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72708C207300D9003A4640 /* ImageAttribute.swift */; };
+		6C72708F207300F4003A4640 /* LinkAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72708E207300F4003A4640 /* LinkAttribute.swift */; };
+		6C72709120730139003A4640 /* AddressAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72709020730139003A4640 /* AddressAttribute.swift */; };
+		6C72709320730158003A4640 /* ContactAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72709220730158003A4640 /* ContactAttribute.swift */; };
+		6C7270952073016F003A4640 /* EventAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270942073016F003A4640 /* EventAttribute.swift */; };
+		6C72709720730193003A4640 /* ReminderAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72709620730193003A4640 /* ReminderAttribute.swift */; };
+		6C72709A2073026C003A4640 /* FastTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270992073026C003A4640 /* FastTextView.swift */; };
+		6C72709D207302E6003A4640 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72709C207302E6003A4640 /* ImageAttachment.swift */; };
+		6C72709F20730306003A4640 /* LinkAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C72709E20730306003A4640 /* LinkAttachment.swift */; };
+		6C7270A120730324003A4640 /* AddressAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270A020730324003A4640 /* AddressAttachment.swift */; };
+		6C7270A32073033B003A4640 /* ContactAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270A22073033B003A4640 /* ContactAttachment.swift */; };
+		6C7270A520730352003A4640 /* EventAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270A420730352003A4640 /* EventAttachment.swift */; };
+		6C7270A720730368003A4640 /* ReminderAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270A620730368003A4640 /* ReminderAttachment.swift */; };
+		6C7270A920730633003A4640 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270A820730633003A4640 /* FontManager.swift */; };
+		6C7270AB20730A6D003A4640 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270AA20730A6D003A4640 /* ModelManager.swift */; };
+		6C7270AD20730BEF003A4640 /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270AC20730BEF003A4640 /* UIImage+resize.swift */; };
+		6CE16F92207200EC00231863 /* RealmDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F91207200EC00231863 /* RealmDataModel.swift */; };
+		6CE16F94207202E900231863 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F93207202E900231863 /* CloudManager.swift */; };
+		6CE16F9620720FED00231863 /* CKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F9520720FED00231863 /* CKError.swift */; };
+		6CE16F992072133500231863 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE16F982072133500231863 /* CloudKit.framework */; };
+		6CE16F9B207213D800231863 /* CloudNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F9A207213D800231863 /* CloudNotificationCenter.swift */; };
+		6CE16F9D2072140D00231863 /* CloudDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F9C2072140D00231863 /* CloudDatabase.swift */; };
+		6CE16FA02072183900231863 /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F9F2072183900231863 /* Sync.swift */; };
+		6CE16FA22072187D00231863 /* Realm+CloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16FA12072187D00231863 /* Realm+CloudKit.swift */; };
+		6CE16FA420721A5800231863 /* CKAsset+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16FA320721A5800231863 /* CKAsset+UIImage.swift */; };
+		6CE1C84920760EF0005CC28C /* NoteViewController_NavigationItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE1C84520760EEF005CC28C /* NoteViewController_NavigationItems.swift */; };
+		6CE1C84A20760EF0005CC28C /* NoteViewController_TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE1C84620760EEF005CC28C /* NoteViewController_TextViewDelegate.swift */; };
+		6CE1C84B20760EF0005CC28C /* NoteViewController_NSTextStorageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE1C84720760EEF005CC28C /* NoteViewController_NSTextStorageDelegate.swift */; };
+		6CE1C84C20760EF0005CC28C /* NoteViewController_Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE1C84820760EEF005CC28C /* NoteViewController_Keyboard.swift */; };
 		74C96D7681BE6A76499C89F4 /* Pods_PianoNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */; };
 		7C33B69D20745CAD0075661E /* NoteSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33B69C20745CAD0075661E /* NoteSettingViewController.swift */; };
 		7C33B69F20745DA40075661E /* SegueIdentifer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33B69E20745DA40075661E /* SegueIdentifer.swift */; };
@@ -102,6 +141,17 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6C7270862072FFF3003A4640 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6C7270852072FFF3003A4640 /* InteractiveTextEngine_iOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -142,6 +192,45 @@
 		28E770950988C176B01DB70F /* Pods-PianoNoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C7270742072F4D6003A4640 /* LocalDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDatabase.swift; sourceTree = "<group>"; };
+		6C7270772072FCCB003A4640 /* Diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
+		6C7270792072FD1F003A4640 /* Diff3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diff3.swift; sourceTree = "<group>"; };
+		6C72707B2072FD8E003A4640 /* ConflictResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictResolver.swift; sourceTree = "<group>"; };
+		6C72707D2072FDCB003A4640 /* NoteSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteSynchronizer.swift; sourceTree = "<group>"; };
+		6C7270802072FFBD003A4640 /* PianoAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoAttribute.swift; sourceTree = "<group>"; };
+		6C7270822072FFEE003A4640 /* InteractiveTextEngine_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InteractiveTextEngine_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C72708720730084003A4640 /* FontAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontAttribute.swift; sourceTree = "<group>"; };
+		6C727089207300A6003A4640 /* AttachmentAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentAttribute.swift; sourceTree = "<group>"; };
+		6C72708C207300D9003A4640 /* ImageAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAttribute.swift; sourceTree = "<group>"; };
+		6C72708E207300F4003A4640 /* LinkAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAttribute.swift; sourceTree = "<group>"; };
+		6C72709020730139003A4640 /* AddressAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressAttribute.swift; sourceTree = "<group>"; };
+		6C72709220730158003A4640 /* ContactAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactAttribute.swift; sourceTree = "<group>"; };
+		6C7270942073016F003A4640 /* EventAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAttribute.swift; sourceTree = "<group>"; };
+		6C72709620730193003A4640 /* ReminderAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderAttribute.swift; sourceTree = "<group>"; };
+		6C7270992073026C003A4640 /* FastTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastTextView.swift; sourceTree = "<group>"; };
+		6C72709C207302E6003A4640 /* ImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAttachment.swift; sourceTree = "<group>"; };
+		6C72709E20730306003A4640 /* LinkAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAttachment.swift; sourceTree = "<group>"; };
+		6C7270A020730324003A4640 /* AddressAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressAttachment.swift; sourceTree = "<group>"; };
+		6C7270A22073033B003A4640 /* ContactAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactAttachment.swift; sourceTree = "<group>"; };
+		6C7270A420730352003A4640 /* EventAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAttachment.swift; sourceTree = "<group>"; };
+		6C7270A620730368003A4640 /* ReminderAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderAttachment.swift; sourceTree = "<group>"; };
+		6C7270A820730633003A4640 /* FontManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
+		6C7270AA20730A6D003A4640 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
+		6C7270AC20730BEF003A4640 /* UIImage+resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+resize.swift"; sourceTree = "<group>"; };
+		6CE16F91207200EC00231863 /* RealmDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDataModel.swift; sourceTree = "<group>"; };
+		6CE16F93207202E900231863 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
+		6CE16F9520720FED00231863 /* CKError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKError.swift; sourceTree = "<group>"; };
+		6CE16F972072133200231863 /* PianoNote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PianoNote.entitlements; sourceTree = "<group>"; };
+		6CE16F982072133500231863 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		6CE16F9A207213D800231863 /* CloudNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNotificationCenter.swift; sourceTree = "<group>"; };
+		6CE16F9C2072140D00231863 /* CloudDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDatabase.swift; sourceTree = "<group>"; };
+		6CE16F9F2072183900231863 /* Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
+		6CE16FA12072187D00231863 /* Realm+CloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Realm+CloudKit.swift"; sourceTree = "<group>"; };
+		6CE16FA320721A5800231863 /* CKAsset+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKAsset+UIImage.swift"; sourceTree = "<group>"; };
+		6CE1C84520760EEF005CC28C /* NoteViewController_NavigationItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_NavigationItems.swift; sourceTree = "<group>"; };
+		6CE1C84620760EEF005CC28C /* NoteViewController_TextViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_TextViewDelegate.swift; sourceTree = "<group>"; };
+		6CE1C84720760EEF005CC28C /* NoteViewController_NSTextStorageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_NSTextStorageDelegate.swift; sourceTree = "<group>"; };
+		6CE1C84820760EEF005CC28C /* NoteViewController_Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_Keyboard.swift; sourceTree = "<group>"; };
 		7B2B6D778206662C5F9CDB89 /* Pods-PianoNoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests.release.xcconfig"; sourceTree = "<group>"; };
 		7C33B69C20745CAD0075661E /* NoteSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteSettingViewController.swift; sourceTree = "<group>"; };
 		7C33B69E20745DA40075661E /* SegueIdentifer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueIdentifer.swift; sourceTree = "<group>"; };
@@ -187,6 +276,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */,
+				6C7270842072FFF3003A4640 /* InteractiveTextEngine_iOS.framework in Frameworks */,
+				6CE16F992072133500231863 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +354,7 @@
 		168D19B520632998005AA85F /* PianoNote */ = {
 			isa = PBXGroup;
 			children = (
+				6CE16F972072133200231863 /* PianoNote.entitlements */,
 				168D19CF20632998005AA85F /* AppDelegate.swift */,
 				168D19D020632998005AA85F /* ViewController */,
 				7C33B69920745C670075661E /* NoteSetting */,
@@ -295,7 +387,13 @@
 			children = (
 				7CD881762068DACF009C6C5F /* FormManager */,
 				7CD881592065BDB3009C6C5F /* Piano */,
+				6C72709820730257003A4640 /* TextEngineModels */,
+				6C7270732072F4C5003A4640 /* RealmModels */,
+				6CE16F90207200C700231863 /* CloudModels */,
+				6C72707F2072FF0F003A4640 /* PianoAttributes */,
 				168D19CB20632998005AA85F /* Util.swift */,
+				6C7270A820730633003A4640 /* FontManager.swift */,
+				6C7270AA20730A6D003A4640 /* ModelManager.swift */,
 				7CD8813C2064C76F009C6C5F /* AppNavigator.swift */,
 			);
 			path = Util;
@@ -325,6 +423,10 @@
 				7CD8813A2064C6B1009C6C5F /* ConstraintIdentifier.swift */,
 				7C9926CE20649025000327AD /* ViewTag.swift */,
 				168D19D320632998005AA85F /* Color.swift */,
+				6CE16F9520720FED00231863 /* CKError.swift */,
+				6CE16FA12072187D00231863 /* Realm+CloudKit.swift */,
+				6CE16FA320721A5800231863 /* CKAsset+UIImage.swift */,
+				6C7270AC20730BEF003A4640 /* UIImage+resize.swift */,
 				7CD881772069020D009C6C5F /* Text.swift */,
 				7C33B69E20745DA40075661E /* SegueIdentifer.swift */,
 			);
@@ -334,6 +436,8 @@
 		168D19EA20632A5F005AA85F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6C7270822072FFEE003A4640 /* InteractiveTextEngine_iOS.framework */,
+				6CE16F982072133500231863 /* CloudKit.framework */,
 				168D19EB20632A5F005AA85F /* NotificationCenter.framework */,
 				53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */,
 				606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */,
@@ -399,11 +503,99 @@
 				7C33B69C20745CAD0075661E /* NoteSettingViewController.swift */,
 			);
 			path = NoteSetting;
+		6C7270732072F4C5003A4640 /* RealmModels */ = {
+			isa = PBXGroup;
+			children = (
+				6CE16F91207200EC00231863 /* RealmDataModel.swift */,
+				6C7270742072F4D6003A4640 /* LocalDatabase.swift */,
+			);
+			path = RealmModels;
+			sourceTree = "<group>";
+		};
+		6C7270762072FCBA003A4640 /* Merge */ = {
+			isa = PBXGroup;
+			children = (
+				6C7270772072FCCB003A4640 /* Diff.swift */,
+				6C7270792072FD1F003A4640 /* Diff3.swift */,
+				6C72707B2072FD8E003A4640 /* ConflictResolver.swift */,
+				6C72707D2072FDCB003A4640 /* NoteSynchronizer.swift */,
+			);
+			path = Merge;
+			sourceTree = "<group>";
+		};
+		6C72707F2072FF0F003A4640 /* PianoAttributes */ = {
+			isa = PBXGroup;
+			children = (
+				6C72708B207300BF003A4640 /* AttachmentAttributes */,
+				6C7270802072FFBD003A4640 /* PianoAttribute.swift */,
+				6C72708720730084003A4640 /* FontAttribute.swift */,
+			);
+			path = PianoAttributes;
+			sourceTree = "<group>";
+		};
+		6C72708B207300BF003A4640 /* AttachmentAttributes */ = {
+			isa = PBXGroup;
+			children = (
+				6C727089207300A6003A4640 /* AttachmentAttribute.swift */,
+				6C72708C207300D9003A4640 /* ImageAttribute.swift */,
+				6C72708E207300F4003A4640 /* LinkAttribute.swift */,
+				6C72709020730139003A4640 /* AddressAttribute.swift */,
+				6C72709220730158003A4640 /* ContactAttribute.swift */,
+				6C7270942073016F003A4640 /* EventAttribute.swift */,
+				6C72709620730193003A4640 /* ReminderAttribute.swift */,
+			);
+			path = AttachmentAttributes;
+			sourceTree = "<group>";
+		};
+		6C72709820730257003A4640 /* TextEngineModels */ = {
+			isa = PBXGroup;
+			children = (
+				6C72709B207302C6003A4640 /* Attachments */,
+				6C7270992073026C003A4640 /* FastTextView.swift */,
+			);
+			path = TextEngineModels;
+			sourceTree = "<group>";
+		};
+		6C72709B207302C6003A4640 /* Attachments */ = {
+			isa = PBXGroup;
+			children = (
+				6C72709C207302E6003A4640 /* ImageAttachment.swift */,
+				6C72709E20730306003A4640 /* LinkAttachment.swift */,
+				6C7270A020730324003A4640 /* AddressAttachment.swift */,
+				6C7270A22073033B003A4640 /* ContactAttachment.swift */,
+				6C7270A420730352003A4640 /* EventAttachment.swift */,
+				6C7270A620730368003A4640 /* ReminderAttachment.swift */,
+			);
+			path = Attachments;
+			sourceTree = "<group>";
+		};
+		6CE16F90207200C700231863 /* CloudModels */ = {
+			isa = PBXGroup;
+			children = (
+				6C7270762072FCBA003A4640 /* Merge */,
+				6CE16F9E2072182100231863 /* Sync */,
+				6CE16F93207202E900231863 /* CloudManager.swift */,
+				6CE16F9A207213D800231863 /* CloudNotificationCenter.swift */,
+				6CE16F9C2072140D00231863 /* CloudDatabase.swift */,
+			);
+			path = CloudModels;
+			sourceTree = "<group>";
+		};
+		6CE16F9E2072182100231863 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				6CE16F9F2072183900231863 /* Sync.swift */,
+			);
+			path = Sync;
 			sourceTree = "<group>";
 		};
 		7C9926C120647A75000327AD /* MainNote */ = {
 			isa = PBXGroup;
 			children = (
+				6CE1C84820760EEF005CC28C /* NoteViewController_Keyboard.swift */,
+				6CE1C84520760EEF005CC28C /* NoteViewController_NavigationItems.swift */,
+				6CE1C84720760EEF005CC28C /* NoteViewController_NSTextStorageDelegate.swift */,
+				6CE1C84620760EEF005CC28C /* NoteViewController_TextViewDelegate.swift */,
 				7C9926C220647A8C000327AD /* NoteViewController.swift */,
 				7C3EF78A206C6DC600938DF3 /* NoteViewController_NavigationItems.swift */,
 				7C3EF786206C558500938DF3 /* NoteViewController_TextViewDelegate.swift */,
@@ -478,6 +670,7 @@
 				168D19FA20632A5F005AA85F /* Embed App Extensions */,
 				3D1FE22250FA16777E933F82 /* [CP] Embed Pods Frameworks */,
 				67024A7300FD6C11CC3D4415 /* [CP] Copy Pods Resources */,
+				6C7270862072FFF3003A4640 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -563,6 +756,17 @@
 					168D198320632949005AA85F = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					168D19972063294A005AA85F = {
 						CreatedOnToolsVersion = 9.2;
@@ -670,6 +874,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
@@ -683,6 +888,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
@@ -852,14 +1058,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C9926C320647A8C000327AD /* NoteViewController.swift in Sources */,
+				6CE16FA420721A5800231863 /* CKAsset+UIImage.swift in Sources */,
+				6C7270A120730324003A4640 /* AddressAttachment.swift in Sources */,
+				6C7270A32073033B003A4640 /* ContactAttachment.swift in Sources */,
+				6C72708A207300A6003A4640 /* AttachmentAttribute.swift in Sources */,
+				6C7270AB20730A6D003A4640 /* ModelManager.swift in Sources */,
 				168D19FC20632FD5005AA85F /* SplashViewController.swift in Sources */,
+				6C72709320730158003A4640 /* ContactAttribute.swift in Sources */,
+				6C72709720730193003A4640 /* ReminderAttribute.swift in Sources */,
+				6CE16FA22072187D00231863 /* Realm+CloudKit.swift in Sources */,
+				6C7270752072F4D6003A4640 /* LocalDatabase.swift in Sources */,
+				6C72707E2072FDCB003A4640 /* NoteSynchronizer.swift in Sources */,
+				6C72709F20730306003A4640 /* LinkAttachment.swift in Sources */,
+				7C9926C320647A8C000327AD /* NoteViewController.swift in Sources */,
 				7CD8815F2065BE72009C6C5F /* iOS&mac.swift in Sources */,
 				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
 				7C9926C920647C84000327AD /* NoteViewController_Keyboard.swift in Sources */,
 				7CD8814D2064D552009C6C5F /* PianoView.swift in Sources */,
 				7CD881562065BD78009C6C5F /* AnimatableText.swift in Sources */,
 				7CD881542065357F009C6C5F /* PianoControl.swift in Sources */,
+				6CE1C84A20760EF0005CC28C /* NoteViewController_TextViewDelegate.swift in Sources */,
 				7CD8813B2064C6B1009C6C5F /* ConstraintIdentifier.swift in Sources */,
 				7CD881722068DACC009C6C5F /* FormManager_iOS.swift in Sources */,
 				7C3EF787206C558500938DF3 /* NoteViewController_TextViewDelegate.swift in Sources */,
@@ -867,6 +1085,10 @@
 				168D1A0220636501005AA85F /* FolderCell.swift in Sources */,
 				7CD8816720687D5D009C6C5F /* PianoSetup.swift in Sources */,
 				7C33B69F20745DA40075661E /* SegueIdentifer.swift in Sources */,
+				6C72708F207300F4003A4640 /* LinkAttribute.swift in Sources */,
+				6C72707A2072FD1F003A4640 /* Diff3.swift in Sources */,
+				6C72709D207302E6003A4640 /* ImageAttachment.swift in Sources */,
+				6CE16F9D2072140D00231863 /* CloudDatabase.swift in Sources */,
 				7C9926CF20649025000327AD /* ViewTag.swift in Sources */,
 				7CD8813D2064C76F009C6C5F /* AppNavigator.swift in Sources */,
 				7C3EF78D206C780800938DF3 /* NoteViewController_NSTextStorageDelegate.swift in Sources */,
@@ -878,15 +1100,35 @@
 				7CD881752068DACC009C6C5F /* FormAttributes.swift in Sources */,
 				7CD881462064CC1D009C6C5F /* PianoSegmentControl.swift in Sources */,
 				7CD881742068DACC009C6C5F /* PianoBullet.swift in Sources */,
+				6CE1C84920760EF0005CC28C /* NoteViewController_NavigationItems.swift in Sources */,
 				7CD881582065BD92009C6C5F /* PianoResult.swift in Sources */,
 				168D19DE20632998005AA85F /* Util.swift in Sources */,
+				6CE16F92207200EC00231863 /* RealmDataModel.swift in Sources */,
 				168D1A06206366A5005AA85F /* MainListViewController.swift in Sources */,
 				7CD8815D2065BE3A009C6C5F /* Effectable.swift in Sources */,
 				7CD881652068778C009C6C5F /* PianoTextView.swift in Sources */,
 				7C3EF78B206C6DC600938DF3 /* NoteViewController_NavigationItems.swift in Sources */,
+				6CE1C84B20760EF0005CC28C /* NoteViewController_NSTextStorageDelegate.swift in Sources */,
 				7CD881502064E1AA009C6C5F /* PianoAttributes.swift in Sources */,
 				7CD881712068DACC009C6C5F /* DivisionLine.swift in Sources */,
 				168D19E220632998005AA85F /* Color.swift in Sources */,
+				6CE16F9620720FED00231863 /* CKError.swift in Sources */,
+				6C7270A920730633003A4640 /* FontManager.swift in Sources */,
+				6CE1C84C20760EF0005CC28C /* NoteViewController_Keyboard.swift in Sources */,
+				6C72708D207300D9003A4640 /* ImageAttribute.swift in Sources */,
+				6CE16F94207202E900231863 /* CloudManager.swift in Sources */,
+				6CE16FA02072183900231863 /* Sync.swift in Sources */,
+				6C72709A2073026C003A4640 /* FastTextView.swift in Sources */,
+				6C7270782072FCCB003A4640 /* Diff.swift in Sources */,
+				6C72708820730084003A4640 /* FontAttribute.swift in Sources */,
+				6CE16F9B207213D800231863 /* CloudNotificationCenter.swift in Sources */,
+				6C7270A720730368003A4640 /* ReminderAttachment.swift in Sources */,
+				6C7270A520730352003A4640 /* EventAttachment.swift in Sources */,
+				6C72709120730139003A4640 /* AddressAttribute.swift in Sources */,
+				6C7270812072FFBD003A4640 /* PianoAttribute.swift in Sources */,
+				6C7270AD20730BEF003A4640 /* UIImage+resize.swift in Sources */,
+				6C7270952073016F003A4640 /* EventAttribute.swift in Sources */,
+				6C72707C2072FD8E003A4640 /* ConflictResolver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1115,12 +1357,13 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PianoNote/PianoNote.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U9KHV9D7LV;
 				INFOPLIST_FILE = "$(SRCROOT)/PianoNote/Etc/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.piano.PianoNote;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pianoNoteApp.PianoNote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1133,12 +1376,13 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PianoNote/PianoNote.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U9KHV9D7LV;
 				INFOPLIST_FILE = "$(SRCROOT)/PianoNote/Etc/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.piano.PianoNote;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pianoNoteApp.PianoNote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
