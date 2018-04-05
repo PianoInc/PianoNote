@@ -87,7 +87,10 @@ class CategoryManageViewController: UIViewController {
         tableView.estimatedRowHeight = 60
         tableView.setEditing(true, animated: false)
         
-        
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
+        navigationController?.title = "카테고리 관리"
     }
 
     func tagsChanged(oldValue: String, newValue: String) {
