@@ -2,3 +2,4 @@ Pods
 *.lock
 *.xcuserdatad
 */xcuserdata/*
+.idea/*
