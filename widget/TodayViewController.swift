@@ -45,16 +45,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        preferredContentSize = maxSize
         if activeDisplayMode == .expanded {
-            let height = (minSize * 0.244 * CGFloat(data.count)) + (minSize * 0.12)
-            preferredContentSize = CGSize(width: maxSize.width, height: height)
-            listView.snp.updateConstraints {$0.bottom.equalTo(-(minSize * 0.12))}
-            button.isHidden = false
-        } else {
-            preferredContentSize = maxSize
-            listView.snp.updateConstraints {$0.bottom.equalTo(0)}
-            button.isHidden = true
+            preferredContentSize.height = (minSize * 0.244 * CGFloat(data.count)) + (minSize * 0.12)
         }
+        listView.reloadData()
     }
     
 }
@@ -62,7 +57,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 extension TodayViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return minSize * 0.244
+        return minSize * ((extensionContext?.widgetActiveDisplayMode == .expanded) ? 0.244 : 0.14)
     }
     
 }
@@ -79,6 +74,7 @@ extension TodayViewController: UITableViewDataSource {
         cell.folderLabel.text = "폴더_01"
         cell.timeLabel.text = "어제"
         cell.data = "\(indexPath)등산하는 사람들이 서로 부르거나, 외치는 소리. 주로 정상에서 외친다. 등산하는 사람들이 서로 부르거나, 외치는 소리. 주로 정상에서 외친다."
+        cell.isExpanded = extensionContext?.widgetActiveDisplayMode == .expanded
         
         return cell
     }
@@ -106,6 +102,7 @@ class DRTodayListCell: UITableViewCell {
     fileprivate var data = "" { didSet {
         continuousText()
         }}
+    fileprivate var isExpanded = true
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -128,21 +125,12 @@ class DRTodayListCell: UITableViewCell {
             $0.trailing.equalTo(self.timeLabel.snp.leading)
             $0.top.equalTo(minSize * 0.0346)
         }
-        makeConst(titleLabel) {
-            $0.leading.equalTo(minSize * 0.0306)
-            $0.trailing.equalTo(-(minSize * 0.0306))
-            $0.top.equalTo(minSize * 0.1)
-        }
-        makeConst(contentLabel) {
-            $0.leading.equalTo(minSize * 0.0306)
-            $0.trailing.equalTo(-(minSize * 0.0306))
-            $0.top.equalTo(minSize * 0.148)
-        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         continuousText()
+        updateShape()
     }
     
     /// titleLabel과 contentLabel의 Text가 하나의 문장으로 이어지도록 만든다.
@@ -151,6 +139,23 @@ class DRTodayListCell: UITableViewCell {
         let firstLineText = titleLabel.firstLineText
         titleLabel.text = firstLineText
         contentLabel.text = data.sub(firstLineText.count...)
+    }
+    
+    /// 위젯 mode에 따라 cell의 모습을 바꾼다.
+    private func updateShape() {
+        timeLabel.isHidden = !isExpanded
+        folderLabel.isHidden = !isExpanded
+        makeConst(contentLabel) {
+            $0.leading.equalTo(minSize * 0.0306)
+            $0.trailing.equalTo(-(minSize * 0.0306))
+            let offset: CGFloat = self.isExpanded ? 0.036 : 0.013
+            $0.bottom.equalTo(self.roundedView.snp.bottom).offset(-(minSize * offset))
+        }
+        makeConst(titleLabel) {
+            $0.leading.equalTo(minSize * 0.0306)
+            $0.trailing.equalTo(-(minSize * 0.0306))
+            $0.bottom.equalTo(self.contentLabel.snp.top).offset(-(minSize * 0.012))
+        }
     }
     
 }

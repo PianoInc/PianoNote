@@ -27,7 +27,7 @@ class DRFolderControl: UIPageControl {
     private func updateDots() {
         for (idx, view) in subviews.enumerated() {
             if let imageView = view.subviews.first(where: {$0 is UIImageView}) {
-                imageView.alpha = (idx == currentPage) ? 1 : 0.5
+                imageView.alpha = (idx == currentPage) ? 1 : 0.3
             } else {
                 let imageView = UIImageView(frame: view.bounds)
                 imageView.backgroundColor = (idx == 0) ? .clear : .white
