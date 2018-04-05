@@ -19,10 +19,17 @@ class CategoryManageViewController: UIViewController {
     var token: NotificationToken?
     var array = stride(from: 0, to: 40, by: 1).map{ String($0) }
     var boolArray = [Bool](repeating: false, count: 40)
+    var realmForTableView: Realm!
+    var lockFlag = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let realm = try? Realm() {
+            realmForTableView = realm
+        } else {
+            //fatalError
+        }
         setObserver()
         setUIConfigs()
     }
@@ -38,7 +45,7 @@ class CategoryManageViewController: UIViewController {
             let realm = try Realm()
             guard let tags = realm.objects(RealmTagsModel.self).first else { return }
 
-            array = tags.tags == "!" ? [""]: tags.tags.components(separatedBy: "!")
+            array = tags.tags.components(separatedBy: RealmTagsModel.tagSeparator)
             array.remove(at: 0)
             boolArray = [Bool](repeating: false, count: array.count)
 
@@ -79,89 +86,72 @@ class CategoryManageViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
         tableView.setEditing(true, animated: false)
+        
+        
     }
 
     func tagsChanged(oldValue: String, newValue: String) {
-
-        //TODO: empty cases!!!!
-        let diffMaker = DiffMaker(aString: oldValue, bString: newValue, separator: "!")
-        let diffChunks = diffMaker.parseTwoStrings()
-
-
-        var additions: [Int] = []
-        var deletions: [Int] = []
-        var modifications: [Int] = []
-
-        var offset = 0
-        diffChunks.forEach {
-            switch $0 {
-                case .add(let index, let range):
-                    let addChunks = Array<String>(diffMaker.bChunks[range.lowerBound ..< range.upperBound]).map{$0.replacingOccurrences(of: "!", with: "")}
-                    let boolSubArray = [Bool](repeating: false, count: addChunks.count)
-                    
-                    array.insert(contentsOf: addChunks, at: index+offset-1)
-                    boolArray.insert(contentsOf: boolSubArray, at: index+offset-1)
-
-                    offset += range.length
-                    additions.append(contentsOf: range.lowerBound-1 ..< range.upperBound-1 )
-
-                case .delete(let range, _):
-                    array.removeSubrange(range.lowerBound+offset-1 ..< range.upperBound+offset-1)
-                    boolArray.removeSubrange(range.lowerBound+offset-1 ..< range.upperBound+offset-1)
-
-                    offset -= range.length
-                    deletions.append(contentsOf: range.lowerBound-1 ..< range.upperBound-1)
-
-                case .change(let myRange, let newRange):
-                    let addChunks = Array<String>(diffMaker.bChunks[newRange.lowerBound ..< newRange.upperBound]).map{$0.replacingOccurrences(of: "!", with: "")}.map{$0.replacingOccurrences(of: "!", with: "")}
-                    let boolSubArray = [Bool](repeating: false, count: addChunks.count)
-                    
-                    array.replaceSubrange(myRange.lowerBound+offset-1 ..< myRange.upperBound+offset-1,
-                            with: addChunks)
-                    boolArray.replaceSubrange(myRange.lowerBound+offset-1 ..< myRange.upperBound+offset-1,
-                                              with: boolSubArray)
-
-                    offset += newRange.length - myRange.length
-                    
-                    if myRange.length > newRange.length {
-                        modifications.append(contentsOf: myRange.lowerBound-1 ..< myRange.lowerBound-1+newRange.length)
-                        deletions.append(contentsOf: myRange.lowerBound-1+newRange.length ..< myRange.upperBound-1)
-                    } else if myRange.length < newRange.length {
-                        modifications.append(contentsOf: myRange.lowerBound-1 ..< myRange.upperBound-1)
-                        additions.append(contentsOf: myRange.upperBound-1 ..< myRange.upperBound-1+newRange.length-myRange.length)
-                    } else {
-                        modifications.append(contentsOf: myRange.lowerBound-1 ..< myRange.upperBound-1)
-                    }
-
-                default: return
-            }
+        var oldArray = oldValue.components(separatedBy: RealmTagsModel.tagSeparator)
+        var newArray = newValue.components(separatedBy: RealmTagsModel.tagSeparator)
+        
+        oldArray.removeFirst()
+        newArray.removeFirst()
+        
+        let additions: [Int] = oldArray.count > newArray.count ? [] : Array<Int>(stride(from: oldArray.count, to: newArray.count, by: 1))
+        let deletions: [Int] = oldArray.count > newArray.count ? Array<Int>(stride(from: newArray.count, to: oldArray.count, by: 1)) : []
+        let modifications:[Int] = stride(from: 0, to: min(oldArray.count, newArray.count), by: 1)
+            .filter{oldArray[$0] != newArray[$0]}
+        
+        modifications.forEach {
+            array[$0] = newArray[$0]
+            boolArray[$0] = false
         }
-
+        if additions.count > 0 {
+            array.append(contentsOf: newArray[oldArray.count ..< newArray.count])
+            boolArray.append(contentsOf: [Bool](repeating: false, count: newArray.count - oldArray.count))
+        }
+        if deletions.count > 0 {
+            array.removeSubrange(newArray.count ..< oldArray.count)
+            boolArray.removeSubrange(newArray.count ..< oldArray.count)
+        }
+        
         DispatchQueue.main.async { [weak self] in
             self?.tableView.beginUpdates()
-
+            
             self?.tableView.insertRows(at: additions.map{ IndexPath(row: $0, section: 0)}, with: .automatic)
             self?.tableView.deleteRows(at: deletions.map{ IndexPath(row: $0, section: 0)}, with: .automatic)
-
+            self?.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0)}, with: .automatic)
+            
             self?.tableView.endUpdates()
         }
     }
 
     @IBAction func addButtonTouched(_ sender: Any) {
 
-        self.alertWithOKAction(message: "카테고리 제목을 입력해주세요") { alert in
+        self.alertWithOKActionAndAlertHandler(message: "카테고리 제목을 입력해주세요") { alert in
             return { [weak self] action in
-                guard let textField = alert.textFields?.first else {return}
+                guard let textField = alert.textFields?.first,
+                    let strongSelf = self else {return}
 
                 let newCategory = textField.text ?? ""
+                let specialSet = CharacterSet(charactersIn: "!~`@#$%^&*-+();:={}[],.<>?\\/\"\' ")
+                let tagsArray = strongSelf.array.map{ $0.replacingOccurrences(of: RealmTagsModel.lockSymbol, with: "") }
 
-                if !newCategory.isEmpty && newCategory.count < 11 && !newCategory.contains("!") {
+                if !newCategory.isEmpty && !tagsArray.contains(newCategory)
+                    && newCategory.count < 11 && newCategory.rangeOfCharacter(from: specialSet) == nil {
                     guard let realm = try? Realm(),
                             let tags = realm.objects(RealmTagsModel.self).first else {fatalError("Something went wrong")}
                     ModelManager.update(id: tags.id, type: RealmTagsModel.self,
-                            kv: [Schema.Tags.tags: tags.tags + "!\(newCategory)"])
+                            kv: [Schema.Tags.tags: tags.tags + "\(RealmTagsModel.tagSeparator)\(newCategory)"])
                 } else {
-                    let message = newCategory.isEmpty ? "제목을 입력해주세요": "제목은 10지이하여야 하며, !를 사용할 수 없습니다"
+                    let message: String
+                    if newCategory.isEmpty {
+                        message = "제목을 입력해주세요"
+                    } else if tagsArray.contains(newCategory) {
+                        message = "이미 존재하는 카테고리 입니다!"
+                    } else {
+                        message = "제목은 10자이하여야 하며, 특수문자를 사용할 수 없습니다"
+                    }
                     self?.alertWithErrorMessage(message: message) { _ in
                         self?.addButtonTouched(sender)
                     }
@@ -176,14 +166,104 @@ class CategoryManageViewController: UIViewController {
     }
     
     @IBAction func lockButtonTouched(_ sender: Any) {
+        var tempArray = array
+        if lockFlag {
+            boolArray.enumerated().filter{$0.element}.forEach {
+                if !tempArray[$0.offset].hasPrefix(RealmTagsModel.lockSymbol) {
+                    tempArray[$0.offset] = RealmTagsModel.lockSymbol + tempArray[$0.offset]
+                }
+            }
+        } else {
+            boolArray.enumerated().filter{$0.element}.forEach {
+                tempArray[$0.offset].removeFirst()
+            }
+        }
+        
+        let newTags = tempArray.isEmpty ? "" :
+        "\(RealmTagsModel.tagSeparator)\(tempArray.joined(separator: RealmTagsModel.tagSeparator))"
+        
+        guard let realm = try? Realm(),
+            let tags = realm.objects(RealmTagsModel.self).first else { return }
+        ModelManager.update(id: tags.id, type: RealmTagsModel.self, kv: [Schema.Tags.tags : newTags])
+        
+        lockBarButton.title = "잠금"
+        categorySelectedCountButton.setTitle("", for: .normal)
+        categorySelectedCountButton.sizeToFit()
+        
+        var modifications:[Int] = []
+        boolArray.enumerated().filter{$0.element}.forEach {
+            boolArray[$0.offset] = false
+            modifications.append($0.offset)
+        }
+        
+        tableView.beginUpdates()
+        tableView.reloadRows(at: modifications.map{IndexPath(row: $0, section: 0)}, with: .automatic)
+        tableView.endUpdates()
     }
     
     @IBAction func trashButtonTouched(_ sender: Any) {
-        self.alertWithOKAction(message: "삭제하시겠습니까?") { action in
-            //
-            print("deleteeeeeeeeeeeeeeeeeeeee")
+        self.alertWithOKAction(message: "삭제하시겠습니까?") { [weak self] action in
+            guard let strongSelf = self else { return }
+            var tempArray = strongSelf.array
+            var offset = 0
+            strongSelf.boolArray.enumerated().filter{$0.element}.forEach {
+                tempArray.remove(at: $0.offset + offset)
+                offset -= 1
+            }
+            
+            let newTags = tempArray.isEmpty ? "" :
+                "\(RealmTagsModel.tagSeparator)\(tempArray.joined(separator: RealmTagsModel.tagSeparator))"
+            
+            guard let realm = try? Realm(),
+                let tags = realm.objects(RealmTagsModel.self).first else { return }
+            ModelManager.update(id: tags.id, type: RealmTagsModel.self, kv: [Schema.Tags.tags : newTags])
+            
+            self?.lockBarButton.title = "잠금"
+            self?.categorySelectedCountButton.setTitle("", for: .normal)
+            self?.categorySelectedCountButton.sizeToFit()
         }
     }
+    
+}
+
+extension CategoryManageViewController: CategoryManageCellDelegate {
+    func nameTouched(name: String) {
+        guard let index = array.index(of: name) else {return}
+        self.alertWithOKActionAndAlertHandler(message: "카테고리 제목을 입력해주세요") { alert in
+            return { [weak self] action in
+                guard let textField = alert.textFields?.first,
+                    let strongSelf = self else {return}
+                
+                let newCategory = textField.text ?? ""
+                let specialSet = CharacterSet(charactersIn: "!~`@#$%^&*-+();:={}[],.<>?\\/\"\' ")
+                let tagsArray = strongSelf.array.map{ $0.replacingOccurrences(of: RealmTagsModel.lockSymbol, with: "") }
+                
+                if !newCategory.isEmpty && !tagsArray.contains(newCategory)
+                    && newCategory.count < 11 && newCategory.rangeOfCharacter(from: specialSet) == nil {
+                    guard let realm = try? Realm(),
+                        let tags = realm.objects(RealmTagsModel.self).first else {fatalError("Something went wrong")}
+                    var tempArray = strongSelf.array
+                    tempArray[index] = newCategory
+                    let newTags = "\(RealmTagsModel.tagSeparator)\(tempArray.joined(separator: RealmTagsModel.tagSeparator))"
+                    ModelManager.update(id: tags.id, type: RealmTagsModel.self,
+                                        kv: [Schema.Tags.tags: newTags])
+                } else {
+                    let message: String
+                    if newCategory.isEmpty {
+                        message = "제목을 입력해주세요"
+                    } else if tagsArray.contains(newCategory) {
+                        message = "이미 존재하는 카테고리 입니다!"
+                    } else {
+                        message = "제목은 10자이하여야 하며, 특수문자를 사용할 수 없습니다"
+                    }
+                    self?.alertWithErrorMessage(message: message) { _ in
+                        self?.nameTouched(name: name)
+                    }
+                }
+            }
+        }
+    }
+    
     
 }
 
@@ -195,8 +275,14 @@ extension CategoryManageViewController: UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CategoryManageCell
         
-        cell.titleLabel?.text = array[indexPath.row]
+        cell.titleLabel?.text = array[indexPath.row].replacingOccurrences(of: RealmTagsModel.lockSymbol, with: "")//remove lock symbol
         cell.checkButton.isSelected = boolArray[indexPath.row]
+        cell.delegate = self
+        cell.lockImageView.isHidden = !array[indexPath.row].contains(RealmTagsModel.lockSymbol)
+        
+        let tag = "\(RealmTagsModel.self)\(array[indexPath.row])\(RealmTagsModel.self)"
+        let noteCount = realmForTableView.objects(RealmNoteModel.self).filter("tags CONTAINS[cd] %@", tag).count
+        cell.subtitleLabel.text = "\(noteCount)개의 노트"
         
         return cell
     }
@@ -206,13 +292,17 @@ extension CategoryManageViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movedObject = array[sourceIndexPath.row]
-        let movedBool = boolArray[sourceIndexPath.row]
+        var tempArray = array
+        let movedObject = tempArray[sourceIndexPath.row]
         
-        array.remove(at: sourceIndexPath.row)
-        boolArray.remove(at: sourceIndexPath.row)
-        array.insert(movedObject, at: destinationIndexPath.row)
-        boolArray.insert(movedBool, at: destinationIndexPath.row)
+        tempArray.remove(at: sourceIndexPath.row)
+        tempArray.insert(movedObject, at: destinationIndexPath.row)
+        
+        let newTags = "\(RealmTagsModel.tagSeparator)\(tempArray.joined(separator: RealmTagsModel.tagSeparator))"
+        
+        guard let realm = try? Realm(),
+            let tags = realm.objects(RealmTagsModel.self).first else { return }
+        ModelManager.update(id: tags.id, type: RealmTagsModel.self, kv: [Schema.Tags.tags : newTags])
         
     }
     
@@ -222,6 +312,17 @@ extension CategoryManageViewController: UITableViewDataSource, UITableViewDelega
         boolArray[indexPath.row] = cell.checkButton.isSelected
         
         let title = boolArray.filter{$0}.count > 0 ? "\(boolArray.filter{$0}.count)개 폴더 선택됨" : ""
+        
+        var tempLockFlag = false
+        boolArray.enumerated().filter{$0.element}.forEach{
+            if !array[$0.offset].contains(RealmTagsModel.lockSymbol) { tempLockFlag = true }
+        }
+        lockFlag = tempLockFlag
+        
+        lockBarButton.title = lockFlag ? "잠금" : "잠금해제"
+        if (boolArray.filter{$0}.count) == 0 {
+            lockBarButton.title = "잠금"
+        }
         
         categorySelectedCountButton.setTitle(title, for: .normal)
         categorySelectedCountButton.sizeToFit()
