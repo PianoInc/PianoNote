@@ -43,7 +43,6 @@ struct PianoBullet {
         return nil
     }
     
-    
     /*
     피아노를 위한 line 이니셜라이져
     */
@@ -83,8 +82,17 @@ struct PianoBullet {
         return range.length > 20
     }
     
-    public var isTitle: Bool {
-        return string == "♩" || string == "♪" || string == "♫"
+    public var fontStyle: FontStyle {
+        switch string {
+        case "♫":
+            return .title1
+        case "♪":
+            return .title2
+        case "♩":
+            return .title3
+        default:
+            return .body
+        }
     }
     
     public var converted: String? {

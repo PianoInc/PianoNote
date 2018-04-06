@@ -20,6 +20,9 @@ class NoteViewController: UIViewController {
         setNavigationItemsForDefault()
         setCanvasSize(view.bounds.size)
         
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.any)
+        
     }
     
     private func setCanvasSize(_ size: CGSize) {
