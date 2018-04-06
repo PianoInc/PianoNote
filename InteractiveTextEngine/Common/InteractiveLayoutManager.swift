@@ -10,16 +10,19 @@ import UIKit
 class InteractiveLayoutManager: NSLayoutManager {
     
     override func drawGlyphs(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
+        let stringRange = characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
         
-        textStorage?.enumerateAttribute(.attachment, in: glyphsToShow,
+        textStorage?.enumerateAttribute(.attachment, in: stringRange,
                                         options: [.longestEffectiveRangeNotRequired, .reverse]) { (value, range, _) in
-                                            guard let container = textContainer(forGlyphAt: range.location, effectiveRange: nil),
-                                                let attachment = value as? InteractiveTextAttachment else {return}
-                                            
-                                            //Fix bounds for attachment!!
-                                            
-                                            let currentBounds = self.boundingRect(forGlyphRange: range, in: container)
-                                            attachment.currentBounds = currentBounds
+
+            let currentGlyphRange = glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+            guard let container = textContainer(forGlyphAt: currentGlyphRange.location, effectiveRange: nil),
+                let attachment = value as? InteractiveTextAttachment else {return}
+
+            //Fix bounds for attachment!!
+
+            let currentBounds = self.boundingRect(forGlyphRange: currentGlyphRange, in: container)
+            attachment.currentBounds = currentBounds
         }
         
         super.drawGlyphs(forGlyphRange: glyphsToShow, at: origin)
