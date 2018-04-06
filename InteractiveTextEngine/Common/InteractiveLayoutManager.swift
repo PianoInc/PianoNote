@@ -24,7 +24,22 @@ class InteractiveLayoutManager: NSLayoutManager {
             let currentBounds = self.boundingRect(forGlyphRange: currentGlyphRange, in: container)
             attachment.currentBounds = currentBounds
         }
-        
+
+        textStorage?.enumerateAttribute(.animatingBackground, in: stringRange,
+                options: .longestEffectiveRangeNotRequired) { value, range, _ in
+
+            let currentGlyphRange = glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+            guard let container = textContainer(forGlyphAt: currentGlyphRange.location, effectiveRange: nil),
+                  let layer = value as? InteractiveBackgroundLayer else {return}
+
+            layer.frame = boundingRect(forGlyphRange: currentGlyphRange, in: container).offsetBy(dx: 0, dy: 8)
+        }
+
+
         super.drawGlyphs(forGlyphRange: glyphsToShow, at: origin)
     }
+}
+
+extension NSAttributedStringKey {
+    public static let animatingBackground = NSAttributedStringKey(rawValue: "animatingBackground")
 }

@@ -23,6 +23,29 @@ extension InteractiveTextView {
     open func dequeueReusableCell(withIdentifier identifier: String) -> InteractiveAttachmentCell {
         return dispatcher.dequeueReusableCell(withIdentifier: identifier)
     }
+
+    @objc func animateLayers(displayLink: CADisplayLink) {
+        guard let layers = self.layer.sublayers else {return}
+        layers.compactMap{ $0 as? InteractiveBackgroundLayer }.forEach {
+            guard let cgColor = $0.backgroundColor else {return}
+            let newColor = UIColor(cgColor: cgColor).withAlphaComponent(cgColor.alpha - 0.03)
+
+            $0.backgroundColor = newColor.cgColor
+            if $0.backgroundColor?.alpha == 0 {
+                $0.removeFromSuperlayer()
+                let glyphRange = self.layoutManager.glyphRange(forBoundingRect: $0.frame, in: self.textContainer)
+                let characterRange = self.layoutManager.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
+                textStorage.removeAttribute(.animatingBackground, range: characterRange)
+            }
+        }
+    }
+
+    func validateDisplayLink() {
+        displayLink = CADisplayLink(target: self, selector: #selector(animateLayers(displayLink:)))
+        displayLink?.preferredFramesPerSecond = 20
+        displayLink?.isPaused = true
+        displayLink?.add(to: .main, forMode: .defaultRunLoopMode)
+    }
 }
 
 public protocol InteractiveTextViewDataSource: AnyObject {
