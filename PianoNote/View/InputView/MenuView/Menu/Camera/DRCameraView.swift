@@ -38,7 +38,17 @@ class DRCameraView: UIView {
     
     var captureCompletion: ((UIImage?) -> ())?
     
-    override func didMoveToWindow() {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
+    
+    private func initView() {
         super.didMoveToWindow()
         backgroundColor = .black
         flashButton.addTarget(self, action: #selector(action(flash:)), for: .touchUpInside)
@@ -51,6 +61,7 @@ class DRCameraView: UIView {
         addSubview(shotButton)
         addSubview(rotateButton)
         initConst()
+        
         DispatchQueue.global().async {
             self.initDevice()
             DispatchQueue.main.async {

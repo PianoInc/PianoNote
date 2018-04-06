@@ -73,6 +73,8 @@
 		16BF63B02076E4D500DAE71C /* DRMenuDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF63AF2076E4D500DAE71C /* DRMenuDelegates.swift */; };
 		16BF63B22076F0BD00DAE71C /* DRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF63B12076F0BD00DAE71C /* DRViewController.swift */; };
 		16F647AB206A0C79004BF276 /* InteractDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */; };
+		16FE19DC20770104007C6668 /* UXAlbumPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE19DB20770104007C6668 /* UXAlbumPhotoView.swift */; };
+		16FE19DE2077010A007C6668 /* UXAlbumFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE19DD2077010A007C6668 /* UXAlbumFolderView.swift */; };
 		280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */; };
 		54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A175366D5D2E82F861F0A /* Pods_widget.framework */; };
 		99BD79C0A2C7DDF899A07883 /* Pods_PianoNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C12588EA9CE929EE183F361 /* Pods_PianoNoteTests.framework */; };
@@ -193,6 +195,8 @@
 		16BF63AF2076E4D500DAE71C /* DRMenuDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRMenuDelegates.swift; sourceTree = "<group>"; };
 		16BF63B12076F0BD00DAE71C /* DRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRViewController.swift; sourceTree = "<group>"; };
 		16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractDetailViewController.swift; sourceTree = "<group>"; };
+		16FE19DB20770104007C6668 /* UXAlbumPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UXAlbumPhotoView.swift; sourceTree = "<group>"; };
+		16FE19DD2077010A007C6668 /* UXAlbumFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UXAlbumFolderView.swift; sourceTree = "<group>"; };
 		1BEAD3B25C82A9D5AD3AD7F3 /* Pods-PianoNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		20EC9305AF23FD8D000CC78B /* Pods-PianoNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNote.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote.release.xcconfig"; sourceTree = "<group>"; };
 		2374EFD468F56D908DCED9DD /* Pods-PianoNoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -300,7 +304,7 @@
 			children = (
 				160C39FD2075F32600A3DE41 /* Camera */,
 				160C39F82075D9E700A3DE41 /* Drawing */,
-				16513F682072EC7400085AE0 /* DRAlbumView.swift */,
+				16FE19DA2077005E007C6668 /* Album */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -532,6 +536,16 @@
 				1679D5622069B73000E6D98E /* InteractViewController.swift */,
 			);
 			path = Interact;
+			sourceTree = "<group>";
+		};
+		16FE19DA2077005E007C6668 /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				16513F682072EC7400085AE0 /* DRAlbumView.swift */,
+				16FE19DB20770104007C6668 /* UXAlbumPhotoView.swift */,
+				16FE19DD2077010A007C6668 /* UXAlbumFolderView.swift */,
+			);
+			path = Album;
 			sourceTree = "<group>";
 		};
 		419757B10061036B027FA047 /* Pods */ = {
@@ -951,6 +965,7 @@
 				168D1A2A2063B4A0005AA85F /* DRNoteCellHeader.swift in Sources */,
 				168D1A262063B410005AA85F /* DRBrowseNoteCell.swift in Sources */,
 				168D1A282063B469005AA85F /* DRContentNoteCell.swift in Sources */,
+				16FE19DC20770104007C6668 /* UXAlbumPhotoView.swift in Sources */,
 				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
 				1689AD4C206C6F9B0059573B /* DRDetailReplyCell.swift in Sources */,
 				16513F6D2072F62700085AE0 /* NoteViewController.swift in Sources */,
@@ -959,6 +974,7 @@
 				168D1A1E206383F0005AA85F /* DRBrowseFolderCell.swift in Sources */,
 				160C3A012075F33D00A3DE41 /* DRCameraCapture.swift in Sources */,
 				168D1A0C20636BF2005AA85F /* Device.swift in Sources */,
+				16FE19DE2077010A007C6668 /* UXAlbumFolderView.swift in Sources */,
 				1679D5632069B73000E6D98E /* InteractViewController.swift in Sources */,
 				160C39FC2075DE5B00A3DE41 /* DRCanvasView.swift in Sources */,
 				164AC2482071C61B00714703 /* DRTextView.swift in Sources */,

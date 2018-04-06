@@ -53,7 +53,7 @@ extension DRMenuCollectionView: DRMenuDelegates {
                 })
             } else if indexPath.row == 3 {
                 DRAuth.share.request(photo: {
-                    let drawingView = DRDrawingView(frame: viewRect, image: nil)
+                    let drawingView = DRAlbumView(frame: viewRect)
                     drawingView.delegates = self
                     self.loadCustomInput(view: drawingView)
                 })
