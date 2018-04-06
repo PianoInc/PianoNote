@@ -68,6 +68,8 @@ class DRInputViewManager: NSObject {
     @objc private func action(switchs: UIButton) {
         magnifyAccessoryView.isHidden = !magnifyAccessoryView.isHidden
         menuAccessoryView.isHidden = !menuAccessoryView.isHidden
+        targetView.inputView = nil
+        targetView.reloadInputViews()
     }
     
 }

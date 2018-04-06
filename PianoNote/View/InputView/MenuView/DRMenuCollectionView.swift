@@ -45,7 +45,7 @@ class DRMenuCollectionView: UICollectionView {
             if let manager = self.targetView?.undoManager {
                 self.data[0] = manager.canUndo ? "Undo" : "No undo"
                 self.data[1] = manager.canRedo ? "Redo" : "No redo"
-                self.reloadItems(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)])
+                self.refreshData()
             }
         }
     }()

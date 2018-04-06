@@ -268,14 +268,16 @@ extension DRMagnifyView {
      - returns : 해당 point의 text glyphIndex
      */
     func glyphIndex(from point: CGPoint) -> Int? {
+        guard !mLineAttr.string.isEmpty else {return 0}
         let layoutManager = NSLayoutManager()
         let textStorage = NSTextStorage(attributedString: mLineAttr)
         textStorage.addLayoutManager(layoutManager)
         let textContainer = NSTextContainer(size: mirrorView.bounds.size)
         textContainer.lineFragmentPadding = 0
         layoutManager.addTextContainer(textContainer)
-        let location = layoutManager.location(forGlyphAt: 0) // defence code
-        let index = layoutManager.glyphIndex(for: CGPoint(x: location.x + point.x, y: 0), in: textContainer)
+        
+        let locationZero = layoutManager.location(forGlyphAt: 0)
+        let index = layoutManager.glyphIndex(for: CGPoint(x: locationZero.x + point.x, y: 0), in: textContainer)
         let glyphLocation = layoutManager.location(forGlyphAt: index + 1)
         var result = layoutManager.glyphIndex(for: CGPoint(x: glyphLocation.x, y: 0), in: textContainer)
         
@@ -284,7 +286,6 @@ extension DRMagnifyView {
         } else if index == result { // 터치영역이 오른쪽 끝 너머일때는 가지고 있는 glyph length로 고정
             result = layoutManager.glyphRange(for: textContainer).length
         }
-        
         return result
     }
     

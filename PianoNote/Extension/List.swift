@@ -20,6 +20,13 @@ extension UITableView {
         tableFooterView = UIView(frame: minimumRect)
     }
     
+    /// Offset을 유지하면서 reloadData를 진행한다.
+    func refreshData() {
+        let offset = contentOffset
+        reloadData()
+        setContentOffset(offset, animated: false)
+    }
+    
 }
 
 extension UITableViewDelegate {
@@ -57,6 +64,17 @@ extension UITableViewDataSource {
             return DRContentNotePosition.bottom
         }
         return DRContentNotePosition.middle
+    }
+    
+}
+
+extension UICollectionView {
+    
+    /// Offset을 유지하면서 reloadData를 진행한다.
+    func refreshData() {
+        let offset = contentOffset
+        reloadData()
+        setContentOffset(offset, animated: false)
     }
     
 }

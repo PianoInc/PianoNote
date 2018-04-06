@@ -46,22 +46,22 @@ extension DRMenuCollectionView: DRMenuDelegates {
             device(orientationLock: false)
             if indexPath.row == 2 {
                 DRAuth.share.request(camera: {
-                    let drawingView = DRCameraView(frame: viewRect)
-                    drawingView.delegates = self
-                    self.loadCustomInput(view: drawingView)
+                    let cameraView = DRCameraView(frame: viewRect)
+                    cameraView.delegates = self
+                    self.loadCustomInput(view: cameraView, fullscreen: true)
                     self.device(orientationLock: true)
                 })
             } else if indexPath.row == 3 {
                 DRAuth.share.request(photo: {
-                    let drawingView = DRAlbumView(frame: viewRect)
-                    drawingView.delegates = self
-                    self.loadCustomInput(view: drawingView)
+                    let albumView = DRAlbumView(frame: viewRect)
+                    albumView.delegates = self
+                    self.loadCustomInput(view: albumView, fullscreen: false)
                 })
             } else {
                 DRAuth.share.request(photo: {
                     let drawingView = DRDrawingView(frame: viewRect, image: nil)
                     drawingView.delegates = self
-                    self.loadCustomInput(view: drawingView)
+                    self.loadCustomInput(view: drawingView, fullscreen: true)
                 })
             }
         }
@@ -70,11 +70,12 @@ extension DRMenuCollectionView: DRMenuDelegates {
     /**
      Custom inputView의 reload를 진행한다.
      - parameter view : load하고자 하는 custom inputView.
+     - parameter animate : 전체화면으로 실행할지의 여부.
      */
-    private func loadCustomInput(view: UIView) {
+    private func loadCustomInput(view: UIView, fullscreen animate: Bool) {
         targetView.inputView = view
         targetView.reloadInputViews()
-        fillCustomInput()
+        if animate {fillCustomInput()}
     }
     
     func close(camera image: UIImage?) {
@@ -83,7 +84,8 @@ extension DRMenuCollectionView: DRMenuDelegates {
     }
     
     func close(album image: UIImage?) {
-        
+        targetView.inputView = nil
+        targetView.reloadInputViews()
     }
     
     func close(drawing image: UIImage?, drawingRect: CGRect) {
@@ -92,3 +94,4 @@ extension DRMenuCollectionView: DRMenuDelegates {
     }
     
 }
+

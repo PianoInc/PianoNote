@@ -41,11 +41,13 @@ class DRCameraView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
+        initConst()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initView()
+        initConst()
     }
     
     private func initView() {
@@ -60,7 +62,6 @@ class DRCameraView: UIView {
         addSubview(cancelButton)
         addSubview(shotButton)
         addSubview(rotateButton)
-        initConst()
         
         DispatchQueue.global().async {
             self.initDevice()
