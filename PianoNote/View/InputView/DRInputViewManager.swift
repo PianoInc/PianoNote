@@ -10,13 +10,13 @@ import UIKit
 
 class DRInputViewManager: NSObject {
     
-    private weak var textView: UITextView!
+    private weak var targetView: UITextView!
     var magnifyAccessoryView: DRMagnifyAccessoryView!
     var menuAccessoryView: DRMenuAccessoryView!
     
-    convenience init(_ textView: UITextView) {
+    convenience init(_ targetView: UITextView) {
         self.init()
-        self.textView = textView
+        self.targetView = targetView
         initView()
         initConst()
         keyboard()
@@ -25,13 +25,13 @@ class DRInputViewManager: NSObject {
     private func initView() {
         let rect = CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: minSize * 0.2293))
         let backgroundView = UIView(frame: rect)
-        textView.inputAccessoryView = backgroundView
+        targetView.inputAccessoryView = backgroundView
         
-        magnifyAccessoryView = DRMagnifyAccessoryView(textView, frame: rect)
+        magnifyAccessoryView = DRMagnifyAccessoryView(targetView, frame: rect)
         magnifyAccessoryView.switchButton.addTarget(self, action: #selector(action(switchs:)), for: .touchUpInside)
         backgroundView.addSubview(magnifyAccessoryView)
         
-        menuAccessoryView = DRMenuAccessoryView(textView, frame: rect)
+        menuAccessoryView = DRMenuAccessoryView(targetView, frame: rect)
         menuAccessoryView.switchButton.addTarget(self, action: #selector(action(switchs:)), for: .touchUpInside)
         menuAccessoryView.isHidden = true
         backgroundView.addSubview(menuAccessoryView)
@@ -58,10 +58,10 @@ class DRInputViewManager: NSObject {
     
     private func keyboard() {
         device(keyboardWillShow: { [weak self] height in
-            self?.textView.inputAccessoryView?.isHidden = false
+            self?.targetView.inputAccessoryView?.isHidden = false
         })
         device(keyboardDidHide: { [weak self] height in
-            self?.textView.inputAccessoryView?.isHidden = true
+            self?.targetView.inputAccessoryView?.isHidden = true
         })
     }
     

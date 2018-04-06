@@ -32,8 +32,8 @@ class DRDrawingView: UIView {
         $0.setTitleColor(.black, for: .normal)
     }
     
-    convenience init(rect: CGRect, image: UIImage?) {
-        self.init(frame: rect)
+    convenience init(frame: CGRect, image: UIImage?) {
+        self.init(frame: frame)
         canvasView.canvas.image = image
         initView()
         initConst()

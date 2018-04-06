@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RecycleBinViewController: UIViewController {
+class RecycleBinViewController: DRViewController {
     
     @IBOutlet private var listView: UITableView! { didSet {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
@@ -48,21 +48,15 @@ class RecycleBinViewController: UIViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
-        guard let rightItem = navigationItem.rightBarButtonItem else {return}
-        rightItem.title = "selectAll".locale
-        navigationItem.titleView = makeView(UILabel()) {
-            $0.font = UIFont.preferred(font: 17, weight: .semibold)
-            $0.text = "deletedMemo".locale
-            $0.alpha = 0
-        }
+        navi(config: { navi, item in
+            item.rightBarButtonItem?.title = "selectAll".locale
+            item.titleView = makeView(UILabel()) {
+                $0.font = UIFont.preferred(font: 17, weight: .semibold)
+                $0.text = "deletedMemo".locale
+                $0.alpha = 0
+            }
+        })
     }()
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navi { (navi, item) in
-            navi.isToolbarHidden = true
-        }
-    }
     
 }
 

@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class MainListViewController: UIViewController {
+class MainListViewController: DRViewController {
     
     @IBOutlet private var listView: UICollectionView!
     
@@ -63,17 +63,17 @@ class MainListViewController: UIViewController {
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
         listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
-        guard let leftItem = navigationItem.leftBarButtonItem else {return}
-        leftItem.title = "manageFolder".locale
-        guard let rightItem = navigationItem.rightBarButtonItem else {return}
-        rightItem.title = "select".locale
-        navigationItem.titleView = makeView(UILabel()) {
-            $0.font = UIFont.preferred(font: 17, weight: .semibold)
-            $0.text = tempData[1]
-            $0.alpha = 0
-        }
+        navi(config: { navi, item in
+            item.leftBarButtonItem?.title = "manageFolder".locale
+            item.rightBarButtonItem?.title = "select".locale
+            item.titleView = makeView(UILabel()) {
+                $0.font = UIFont.preferred(font: 17, weight: .semibold)
+                $0.text = tempData[1]
+                $0.alpha = 0
+            }
+        })
     }()
-    
+
 }
 
 // Navigation configuration.
@@ -113,12 +113,12 @@ extension MainListViewController {
             
         } else if let cell = listView.visibleCells.first as? DRContentFolderCell {
             listView.isScrollEnabled = !listView.isScrollEnabled
-            navigationController?.isToolbarHidden = listView.isScrollEnabled
-            guard let leftItem = navigationItem.leftBarButtonItem else {return}
-            leftItem.title = listView.isScrollEnabled ? "manageFolder".locale : "selectAll".locale
-            guard let rightItem = navigationItem.rightBarButtonItem else {return}
-            rightItem.title = listView.isScrollEnabled ? "select".locale : "done".locale
             cell.isEditMode = !listView.isScrollEnabled
+            navi(config: { navi, item in
+                navi.isToolbarHidden = listView.isScrollEnabled
+                item.leftBarButtonItem?.title = "\(listView.isScrollEnabled ? "manageFolder" :"selectAll")".locale
+                item.rightBarButtonItem?.title = "\(listView.isScrollEnabled ? "select" :"done")".locale
+            })
         } else {
             
         }
@@ -176,14 +176,16 @@ extension MainListViewController: UICollectionViewDelegate {
             contentFolderCell.listView.setContentOffset(.zero, animated: false)
         }
         // 폴더간 이동시 navigation titleView의 alpha값을 초기화 시킨다.
-        guard let titleView = navigationItem.titleView else {return}
-        titleView.alpha = 0
+        navi(config: { navi, item in
+            item.titleView?.alpha = 0
+        })
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // 기존의 cell로 다시 돌아왔다면 alpha값 복원.
-        guard let titleView = navigationItem.titleView else {return}
-        titleView.alpha = (destIndexPath == indexPath) ? 1 : 0
+        navi(config: { navi, item in
+            item.titleView?.alpha = (destIndexPath == indexPath) ? 1 : 0
+        })
     }
     
 }

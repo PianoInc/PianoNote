@@ -9,7 +9,7 @@
 import UIKit
 import FBSDKCoreKit
 
-class InteractViewController: UIViewController {
+class InteractViewController: DRViewController {
     
     @IBOutlet private var facebookLabel: UILabel! { didSet {
         facebookLabel.font = UIFont.preferred(font: 23, weight: .bold)

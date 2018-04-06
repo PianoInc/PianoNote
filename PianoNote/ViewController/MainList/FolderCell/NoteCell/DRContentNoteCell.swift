@@ -30,7 +30,9 @@ class DRContentNoteCell: UITableViewCell {
     weak var delegates: DRContentNoteDelegates!
     
     @IBOutlet private var stackView: UIStackView!
-    @IBOutlet var deleteButton: UIButton!
+    @IBOutlet var deleteButton: UIButton! { didSet {
+        deleteButton.frame.size.width = self.minSize * 0.1066
+        }}
     @IBOutlet private var contentsView: UIView!
     @IBOutlet private var backRoundedView: UIView! { didSet {
         backRoundedView.layer.cornerRadius = 14
@@ -59,18 +61,6 @@ class DRContentNoteCell: UITableViewCell {
             makeConst(stackView) {
                 $0.leading.equalTo(self.minSize * 0.0333)
                 $0.trailing.equalTo(-(self.minSize * 0.0333))
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
-            makeConst(deleteButton) {
-                $0.leading.equalTo(0)
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-                $0.width.equalTo(self.minSize * 0.1066)
-            }
-            makeConst(contentsView) {
-                $0.leading.equalTo(self.deleteButton.snp.trailing)
-                $0.trailing.equalTo(0)
                 $0.top.equalTo(0)
                 $0.bottom.equalTo(0)
             }

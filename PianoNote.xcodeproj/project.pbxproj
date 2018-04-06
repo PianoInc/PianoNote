@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		160C39FA2075DE1C00A3DE41 /* DRDrawingUndoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C39F92075DE1C00A3DE41 /* DRDrawingUndoManager.swift */; };
 		160C39FC2075DE5B00A3DE41 /* DRCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C39FB2075DE5B00A3DE41 /* DRCanvasView.swift */; };
+		160C39FF2075F33700A3DE41 /* DRCameraSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C39FE2075F33700A3DE41 /* DRCameraSession.swift */; };
+		160C3A012075F33D00A3DE41 /* DRCameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3A002075F33D00A3DE41 /* DRCameraCapture.swift */; };
 		16233D082064D128008317D1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16233D072064D128008317D1 /* String.swift */; };
 		16359E3D207481C700B9CBE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 16359E3B207481C600B9CBE9 /* InfoPlist.strings */; };
 		164AC2482071C61B00714703 /* DRTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AC2472071C61B00714703 /* DRTextView.swift */; };
@@ -68,6 +70,8 @@
 		16BB041A2074915E00ED2AB5 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166F6AE4206B4F5200499596 /* Date.swift */; };
 		16BB041B2074930800ED2AB5 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16520F7A2063B9BA008EFEF6 /* Font.swift */; };
 		16BB041D2074932F00ED2AB5 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BB041C2074932F00ED2AB5 /* Extension.swift */; };
+		16BF63B02076E4D500DAE71C /* DRMenuDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF63AF2076E4D500DAE71C /* DRMenuDelegates.swift */; };
+		16BF63B22076F0BD00DAE71C /* DRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF63B12076F0BD00DAE71C /* DRViewController.swift */; };
 		16F647AB206A0C79004BF276 /* InteractDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */; };
 		280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */; };
 		54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A175366D5D2E82F861F0A /* Pods_widget.framework */; };
@@ -116,6 +120,8 @@
 /* Begin PBXFileReference section */
 		160C39F92075DE1C00A3DE41 /* DRDrawingUndoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRDrawingUndoManager.swift; sourceTree = "<group>"; };
 		160C39FB2075DE5B00A3DE41 /* DRCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCanvasView.swift; sourceTree = "<group>"; };
+		160C39FE2075F33700A3DE41 /* DRCameraSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCameraSession.swift; sourceTree = "<group>"; };
+		160C3A002075F33D00A3DE41 /* DRCameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCameraCapture.swift; sourceTree = "<group>"; };
 		16233D072064D128008317D1 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		16359E3C207481C600B9CBE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		16359E3E207481CA00B9CBE9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -184,6 +190,8 @@
 		16BB041C2074932F00ED2AB5 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		16BB041F2074A25200ED2AB5 /* widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = widget.entitlements; sourceTree = "<group>"; };
 		16BB04202074A2EE00ED2AB5 /* PianoNote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PianoNote.entitlements; sourceTree = "<group>"; };
+		16BF63AF2076E4D500DAE71C /* DRMenuDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRMenuDelegates.swift; sourceTree = "<group>"; };
+		16BF63B12076F0BD00DAE71C /* DRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRViewController.swift; sourceTree = "<group>"; };
 		16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractDetailViewController.swift; sourceTree = "<group>"; };
 		1BEAD3B25C82A9D5AD3AD7F3 /* Pods-PianoNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		20EC9305AF23FD8D000CC78B /* Pods-PianoNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNote.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote.release.xcconfig"; sourceTree = "<group>"; };
@@ -246,6 +254,16 @@
 			path = Drawing;
 			sourceTree = "<group>";
 		};
+		160C39FD2075F32600A3DE41 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				16513F662072EC7000085AE0 /* DRCameraView.swift */,
+				160C39FE2075F33700A3DE41 /* DRCameraSession.swift */,
+				160C3A002075F33D00A3DE41 /* DRCameraCapture.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		164AC2462071C52300714703 /* InputView */ = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				16513F632072EC4C00085AE0 /* Menu */,
+				16BF63AF2076E4D500DAE71C /* DRMenuDelegates.swift */,
 				168F23BD207338370033D91F /* DRMenuCollectionView.swift */,
 				164AC24D2071EEAA00714703 /* DRMenuAccessoryView.swift */,
 			);
@@ -270,25 +289,17 @@
 		16513F612072EC1B00085AE0 /* MagnifyView */ = {
 			isa = PBXGroup;
 			children = (
-				16513F622072EC4A00085AE0 /* Magnify */,
+				16513F642072EC6600085AE0 /* DRMagnifyView.swift */,
 				164AC24B2071EEA600714703 /* DRMagnifyAccessoryView.swift */,
 			);
 			path = MagnifyView;
 			sourceTree = "<group>";
 		};
-		16513F622072EC4A00085AE0 /* Magnify */ = {
-			isa = PBXGroup;
-			children = (
-				16513F642072EC6600085AE0 /* DRMagnifyView.swift */,
-			);
-			path = Magnify;
-			sourceTree = "<group>";
-		};
 		16513F632072EC4C00085AE0 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				160C39FD2075F32600A3DE41 /* Camera */,
 				160C39F82075D9E700A3DE41 /* Drawing */,
-				16513F662072EC7000085AE0 /* DRCameraView.swift */,
 				16513F682072EC7400085AE0 /* DRAlbumView.swift */,
 			);
 			path = Menu;
@@ -297,6 +308,7 @@
 		1664D358206865F600BAA54B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				16BF63B12076F0BD00DAE71C /* DRViewController.swift */,
 				1664D3592068660B00BAA54B /* DRClearNavigationController.swift */,
 			);
 			path = Controller;
@@ -945,6 +957,7 @@
 				1664D35A2068660B00BAA54B /* DRClearNavigationController.swift in Sources */,
 				1689AD4A206C6A7A0059573B /* DRDetailCommentSection.swift in Sources */,
 				168D1A1E206383F0005AA85F /* DRBrowseFolderCell.swift in Sources */,
+				160C3A012075F33D00A3DE41 /* DRCameraCapture.swift in Sources */,
 				168D1A0C20636BF2005AA85F /* Device.swift in Sources */,
 				1679D5632069B73000E6D98E /* InteractViewController.swift in Sources */,
 				160C39FC2075DE5B00A3DE41 /* DRCanvasView.swift in Sources */,
@@ -955,12 +968,14 @@
 				164AC24A2071DE6B00714703 /* DRInputViewManager.swift in Sources */,
 				166F6AE5206B4F5200499596 /* Date.swift in Sources */,
 				168D1A16206382E2005AA85F /* DRPageFlowLayout.swift in Sources */,
+				16BF63B22076F0BD00DAE71C /* DRViewController.swift in Sources */,
 				16513F6B2072EC7700085AE0 /* DRDrawingView.swift in Sources */,
 				168D1A0E20637292005AA85F /* DRBinder.swift in Sources */,
 				16520F7B2063B9BA008EFEF6 /* Font.swift in Sources */,
 				168D1A1C206383EB005AA85F /* DREmptyFolderCell.swift in Sources */,
 				164AC24C2071EEA600714703 /* DRMagnifyAccessoryView.swift in Sources */,
 				168F23BE207338370033D91F /* DRMenuCollectionView.swift in Sources */,
+				160C39FF2075F33700A3DE41 /* DRCameraSession.swift in Sources */,
 				1679D5612069B48700E6D98E /* RecycleBinViewController.swift in Sources */,
 				168D1A06206366A5005AA85F /* MainListViewController.swift in Sources */,
 				168D1A2C2063B4A7005AA85F /* DRNoteCellSection.swift in Sources */,
@@ -970,6 +985,7 @@
 				160C39FA2075DE1C00A3DE41 /* DRDrawingUndoManager.swift in Sources */,
 				168D1A10206374F5005AA85F /* Window.swift in Sources */,
 				16233D082064D128008317D1 /* String.swift in Sources */,
+				16BF63B02076E4D500DAE71C /* DRMenuDelegates.swift in Sources */,
 				168D1A19206383B9005AA85F /* DREmptyNoteCell.swift in Sources */,
 				16BA306A206A1C4E00200C0A /* DRFBService.swift in Sources */,
 				168D1A122063752D005AA85F /* DRAuth.swift in Sources */,

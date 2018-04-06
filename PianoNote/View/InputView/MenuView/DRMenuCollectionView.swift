@@ -8,18 +8,9 @@
 
 import UIKit
 
-protocol DRMenuDelegates: NSObjectProtocol {
-    /**
-     Drawing 화면을 close한다.
-     - parameter image : 그림의 전체 image.
-     - parameter drawRect : 실제로 그림이 그려진 부분의 rect값.
-     */
-    func close(drawing image: UIImage?, drawingRect: CGRect)
-}
-
 class DRMenuCollectionView: UICollectionView {
     
-    private weak var targetView: UITextView!
+    weak var targetView: UITextView!
     private var data = ["No undo", "No redo", "Camera", "Album", "Draw"]
     
     convenience init(_ targetView: UITextView, frame rect: CGRect) {
@@ -39,25 +30,25 @@ class DRMenuCollectionView: UICollectionView {
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
-        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        _ = dispatchOnce
+    }
+    
+    /// One time dispatch code.
+    private lazy var dispatchOnce: Void = {
         // 실제 text의 변화에 따른 undo, redo 기능의 enabled 설정.
         _ = targetView.rx.text.orEmpty.takeUntil(targetView.rx.deallocated).subscribe { text in
-            if let manager = self.targetView.undoManager {
+            //guard self.targetView != nil else {return}
+            if let manager = self.targetView?.undoManager {
                 self.data[0] = manager.canUndo ? "Undo" : "No undo"
                 self.data[1] = manager.canRedo ? "Redo" : "No redo"
                 self.reloadItems(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)])
             }
         }
-    }
-    
-}
-
-extension DRMenuCollectionView: DRMenuDelegates {
-    
-    func close(drawing image: UIImage?, drawingRect: CGRect) {
-        targetView.inputView = nil
-        targetView.reloadInputViews()
-    }
+    }()
     
 }
 
@@ -69,7 +60,7 @@ extension DRMenuCollectionView: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension DRMenuCollectionView: UICollectionViewDataSource, DRMenuCellDelegates {
+extension DRMenuCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return data.count
@@ -83,58 +74,11 @@ extension DRMenuCollectionView: UICollectionViewDataSource, DRMenuCellDelegates 
         return cell
     }
     
-    func action(select indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            guard let manager = targetView.undoManager, manager.canUndo else {return}
-            manager.undo()
-        } else if indexPath.row == 1 {
-            guard let manager = targetView.undoManager, manager.canRedo else {return}
-            manager.redo()
-        } else {
-            let viewRect = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: inputHeight)
-            device(orientationLock: false)
-            if indexPath.row == 2 {
-                DRAuth.share.request(camera: {
-                    let drawingView = DRDrawingView(rect: viewRect, image: nil)
-                    drawingView.delegates = self
-                    self.loadCustomInput(view: drawingView)
-                    self.device(orientationLock: true)
-                })
-            } else if indexPath.row == 3 {
-                DRAuth.share.request(photo: {
-                    let drawingView = DRDrawingView(rect: viewRect, image: nil)
-                    drawingView.delegates = self
-                    self.loadCustomInput(view: drawingView)
-                })
-            } else {
-                DRAuth.share.request(photo: {
-                    let drawingView = DRDrawingView(rect: viewRect, image: nil)
-                    drawingView.delegates = self
-                    self.loadCustomInput(view: drawingView)
-                })
-            }
-        }
-    }
-    
-    /**
-     Custom inputView의 reload를 진행한다.
-     - parameter view : load하고자 하는 custom inputView.
-     */
-    private func loadCustomInput(view: UIView) {
-        targetView.inputView = view
-        targetView.reloadInputViews()
-        fillCustomInput()
-    }
-    
-}
-
-protocol DRMenuCellDelegates: NSObjectProtocol {
-    func action(select indexPath: IndexPath)
 }
 
 class DRMenuCollectionCell: UICollectionViewCell {
     
-    fileprivate weak var delegates: DRMenuCellDelegates!
+    fileprivate weak var delegates: DRMenuDelegates!
     
     fileprivate let button = makeView(UIButton(type: .custom)) {
         $0.titleLabel?.font = UIFont.preferred(font: 17, weight: .regular)

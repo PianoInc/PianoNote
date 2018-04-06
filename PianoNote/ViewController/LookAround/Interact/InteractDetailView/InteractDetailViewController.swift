@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InteractDetailViewController: UIViewController {
+class InteractDetailViewController: DRViewController {
     
     @IBOutlet private var listView: UITableView! { didSet {
         listView.register(DRDetailCommentSection.self, forHeaderFooterViewReuseIdentifier: "DRDetailCommentSection")

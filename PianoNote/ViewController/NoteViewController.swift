@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NoteViewController: UIViewController {
+class NoteViewController: DRViewController {
     
     @IBOutlet private var textView: DRTextView!
     

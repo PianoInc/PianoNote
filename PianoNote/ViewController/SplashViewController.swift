@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SplashViewController: UIViewController {
+class SplashViewController: DRViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
