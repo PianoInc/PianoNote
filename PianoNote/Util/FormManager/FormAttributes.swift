@@ -27,6 +27,7 @@ public class FormAttributes {
     
     static var defaultParagraphStyle: MutableParagraphStyle = makeDefaultParaStyle()
     static var defaultAttributes: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: false)
+    static var defaultTypingAttributes: [String : Any] = makeDefaultTypingAttributes()
     static var defaultAttributesWithoutParagraphStyle: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: true)
     
     internal static func makeParagraphStyle(bullet: PianoBullet, whitespaceWidth: CGFloat) -> MutableParagraphStyle {
@@ -83,12 +84,25 @@ public class FormAttributes {
                                .underlineStyle: 0,
                                .strikethroughStyle: 0,
                                .kern: 0,
-                               .font: Font.preferredFont(forTextStyle: .body)
+                               .font: Font.preferredFont(forTextStyle: .body),
+                               .backgroundColor: Color.clear
             ] as [NSAttributedStringKey : Any]
         if !keepParagraphStyle {
             paragraphStyle[.paragraphStyle] = defaultParagraphStyle
         }
         return paragraphStyle
+    }
+    
+    internal static func makeDefaultTypingAttributes() -> [String : Any] {
+        
+        return [ NSAttributedStringKey.foregroundColor.rawValue : Color.darkText,
+                 NSAttributedStringKey.underlineStyle.rawValue : 0,
+                 NSAttributedStringKey.strikethroughStyle.rawValue : 0,
+                 NSAttributedStringKey.kern.rawValue : 0,
+                 NSAttributedStringKey.font.rawValue : Font.preferredFont(forTextStyle: .body),
+                 NSAttributedStringKey.paragraphStyle.rawValue: defaultParagraphStyle
+        ]
+        
     }
     
     internal static func makeFormatKern(formatString: String) -> CGFloat {
