@@ -10,11 +10,7 @@ import UIKit
 
 /// Accessory 메뉴 리스트.
 enum DRMenuList: Int {
-    case undo = 0
-    case redo = 1
-    case camera = 2
-    case album = 3
-    case drawing = 4
+    case undo, redo, camera, album, drawing
 }
 
 protocol DRMenuDelegates: NSObjectProtocol {
@@ -44,29 +40,29 @@ protocol DRMenuDelegates: NSObjectProtocol {
 extension DRMenuCollectionView: DRMenuDelegates {
     
     func action(select indexPath: IndexPath) {
-        if indexPath.row == 0 {
+        if indexPath.row == DRMenuList.undo.rawValue {
             guard let manager = targetView.undoManager, manager.canUndo else {return}
             manager.undo()
-        } else if indexPath.row == 1 {
+        } else if indexPath.row == DRMenuList.redo.rawValue {
             guard let manager = targetView.undoManager, manager.canRedo else {return}
             manager.redo()
         } else {
             let viewRect = CGRect(x: 0, y: 0, width: mainSize.width, height: inputHeight)
             device(orientationLock: false)
-            if indexPath.row == 2 {
+            if indexPath.row == DRMenuList.camera.rawValue {
                 DRAuth.share.request(camera: {
                     let cameraView = DRCameraView(frame: viewRect)
                     cameraView.delegates = self
                     self.loadCustomInput(view: cameraView, fullscreen: true)
                     self.device(orientationLock: true)
                 })
-            } else if indexPath.row == 3 {
+            } else if indexPath.row == DRMenuList.album.rawValue {
                 DRAuth.share.request(photo: {
                     let albumView = DRAlbumView(frame: viewRect)
                     albumView.delegates = self
                     self.loadCustomInput(view: albumView, fullscreen: false)
                 })
-            } else {
+            } else if indexPath.row == DRMenuList.drawing.rawValue {
                 DRAuth.share.request(photo: {
                     let drawingView = DRDrawingView(frame: viewRect, image: nil)
                     drawingView.delegates = self

@@ -21,8 +21,17 @@ class DRNoteCellHeader: UIView {
         self.init(frame: CGRect(x: 0, y: 0, width: 0, height: height))
     }
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
+    
+    private func initView() {
         backgroundColor = .clear
         addSubview(contentView)
         initConst()
@@ -65,8 +74,17 @@ class DRNoteCellHeaderContentView: UIView {
         $0.contentMode = .scaleAspectFit
     }
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
+    
+    private func initView() {
         backgroundColor = .clear
         addSubview(lockImage)
         addSubview(titleLabel)

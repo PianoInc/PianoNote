@@ -42,8 +42,17 @@ class DRCanvasView: UIView {
         return .zero
     }
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
+    
+    private func initView() {
         backgroundColor = .white
         path.lineCapStyle = .round
         canvas.backgroundColor = .white

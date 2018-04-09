@@ -15,8 +15,17 @@ class DRNoteCellSection: UITableViewHeaderFooterView {
         $0.font = UIFont.preferred(font: 23, weight: .bold)
     }
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        initView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
+    
+    private func initView() {
         backgroundView = UIView()
         backgroundView?.backgroundColor = .clear
         contentView.addSubview(sectionLabel)

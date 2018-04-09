@@ -86,8 +86,17 @@ class DRMenuCollectionCell: UICollectionViewCell {
     
     fileprivate var indexPath: IndexPath!
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initView()
+    }
+    
+    private func initView() {
         backgroundColor = .clear
         layer.borderColor = UIColor.black.cgColor
         layer.borderWidth = 0.5

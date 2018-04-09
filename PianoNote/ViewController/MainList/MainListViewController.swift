@@ -13,7 +13,7 @@ class MainListViewController: DRViewController {
     
     @IBOutlet private var listView: UICollectionView!
     
-    private var tempData = ["둘러보기", "폴더", ""]
+    private var tempData = ["둘러보기", "폴더", "폴더2", ""]
     private var destIndexPath: IndexPath!
     
     override func viewDidLoad() {
@@ -211,6 +211,7 @@ extension MainListViewController: UICollectionViewDataSource {
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
+        cell.isLock = (indexPath.row == 2)
         return cell
     }
     

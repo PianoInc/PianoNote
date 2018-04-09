@@ -16,6 +16,16 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = 140
         }}
+    @IBOutlet private var lockView: UIView!
+    @IBOutlet private var lockimage: UIImageView!
+    @IBOutlet private var lockTitleLabel: UILabel! { didSet {
+        lockTitleLabel.font = UIFont.preferred(font: 20, weight: .bold)
+        lockTitleLabel.text = "lockTitle".locale
+        }}
+    @IBOutlet private var lockButton: UIButton! { didSet {
+        lockButton.titleLabel?.font = UIFont.preferred(font: 17, weight: .regular)
+        lockButton.setTitle("lockSubtitle".locale, for: .normal)
+        }}
     
     var data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
     
@@ -23,6 +33,7 @@ class DRContentFolderCell: UICollectionViewCell {
     var isEditMode = false { didSet {
         editMode()
         }}
+    var isLock = false
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -36,12 +47,36 @@ class DRContentFolderCell: UICollectionViewCell {
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }
+        makeConst(lockView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(self.minSize * 0.4)
+            $0.bottom.equalTo(0)
+        }
+        makeConst(lockimage) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
+        }
+        makeConst(lockTitleLabel) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.bottom.equalTo(-(self.minSize * 0.7493))
+        }
+        makeConst(lockButton) {
+            $0.leading.equalTo((self.mainSize.width - self.minSize * 0.1493) / 2)
+            $0.bottom.equalTo(-(self.minSize * 0.6706))
+            $0.width.greaterThanOrEqualTo(self.minSize * 0.1493)
+            $0.height.equalTo(self.minSize * 0.0413)
+        }
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         listView.reloadData()
+        lockView.isHidden = !isLock
     }
     
     /// TableView의 normal <-> edit 간의 모드를 전환한다.
