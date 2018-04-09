@@ -89,11 +89,13 @@ class DRMenuCollectionCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
+        initConst()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initView()
+        initConst()
     }
     
     private func initView() {
@@ -102,7 +104,6 @@ class DRMenuCollectionCell: UICollectionViewCell {
         layer.borderWidth = 0.5
         button.addTarget(self, action: #selector(action(select:)), for: .touchUpInside)
         contentView.addSubview(button)
-        initConst()
     }
     
     private func initConst() {

@@ -38,7 +38,7 @@ class DRViewController: UIViewController {
     }
     
     deinit {
-        NSLog("deinit... %@", self)
+        print("deinit", self)
     }
     
 }

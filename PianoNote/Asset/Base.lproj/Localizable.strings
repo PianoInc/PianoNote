@@ -28,4 +28,5 @@
 "setting" = "설정";
 "requestCamera" = "카메라 기능을 사용하려면 사용관한을 허용해야 합니다.";
 "requestPhoto" = "사진 기능을 사용하려면 접근관한을 허용해야 합니다.";
+"albumNoTitle" = "이름없음";
 

@@ -9,12 +9,34 @@
 import UIKit
 import Photos
 
+/// 최소한의 화질을 보장받을 수 있는 image size 값.
+let PHImageManagerMinimumSize: CGFloat = 125
+
+protocol DRAlbumDelegates: NSObjectProtocol {
+    /**
+     Photo 선택에 대한 처리를 진행한다.
+     - parameter indexPath : 선택한 photo의 indexPath.
+     */
+    func select(photo indexPath: IndexPath)
+    /**
+     Folder 선택에 대한 처리를 진행한다.
+     - parameter indexPath : 선택한 folder의 indexPath.
+     */
+    func select(folder indexPath: IndexPath)
+}
+
 class DRAlbumView: UIView {
     
     weak var delegates: DRMenuDelegates!
     
-    private var photoListView: DRAlbumPhotoListView!
-    private var folderListView: DRAlbumFolderListView!
+    private var photoListView: DRAlbumPhotoListView! { didSet {
+        photoListView.delegates = self
+        updateTitle()
+        }}
+    private var folderListView: DRAlbumFolderListView! { didSet {
+        folderListView.delegates = self
+        folderListView.isHidden = true
+        }}
     private let coverView = makeView(UIView()) {
         $0.backgroundColor = .white
     }
@@ -49,7 +71,6 @@ class DRAlbumView: UIView {
         backgroundColor = .white
         photoListView = DRAlbumPhotoListView()
         folderListView = DRAlbumFolderListView()
-        folderListView.isHidden = true
         folderButton.addTarget(self, action: #selector(action(folder:)), for: .touchUpInside)
         closeButton.addTarget(self, action: #selector(action(close:)), for: .touchUpInside)
         libraryButton.addTarget(self, action: #selector(action(library:)), for: .touchUpInside)
@@ -134,6 +155,7 @@ class DRAlbumView: UIView {
     
     @objc private func action(library: UIButton) {
         libraryButton.isSelected = !library.isSelected
+        photoListView.change(direction: .vertical)
         fillCustomInput()
         initConst()
     }
@@ -148,6 +170,31 @@ class DRAlbumView: UIView {
         }, completion: { _ in
             if !self.folderButton.isSelected {self.folderListView.isHidden = true}
         })
+    }
+    
+    /// 현재 display 되고 있는 folder에 따라 title을 갱신한다.
+    private func updateTitle() {
+        let str = photoListView.albumTitle + (folderButton.isSelected ? " ▲" : " ▼")
+        let attStr = NSMutableAttributedString(string: str)
+        attStr.addAttributes([NSAttributedStringKey.font :
+            UIFont.preferred(font: folderButton.titleLabel!.font.pointSize / 2, weight: .regular),
+                              NSAttributedStringKey.baselineOffset : 2.5],
+                             range: NSMakeRange(attStr.length - 1, 1))
+        folderButton.setAttributedTitle(attStr, for: .normal)
+    }
+    
+}
+
+extension DRAlbumView: DRAlbumDelegates {
+    
+    func select(photo indexPath: IndexPath) {
+        
+    }
+    
+    func select(folder indexPath: IndexPath) {
+        photoListView.requestPhoto(from: folderListView.albumAssets[indexPath.row])
+        action(folder: folderButton)
+        updateTitle()
     }
     
 }

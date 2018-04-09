@@ -62,13 +62,12 @@ class DRContentFolderCell: UICollectionViewCell {
         makeConst(lockTitleLabel) {
             $0.leading.equalTo(0)
             $0.trailing.equalTo(0)
-            $0.bottom.equalTo(-(self.minSize * 0.7493))
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
         }
         makeConst(lockButton) {
-            $0.leading.equalTo((self.mainSize.width - self.minSize * 0.1493) / 2)
-            $0.bottom.equalTo(-(self.minSize * 0.6706))
-            $0.width.greaterThanOrEqualTo(self.minSize * 0.1493)
-            $0.height.equalTo(self.minSize * 0.0413)
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(self.lockTitleLabel.snp.centerY).offset(self.minSize * 0.0826)
         }
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }

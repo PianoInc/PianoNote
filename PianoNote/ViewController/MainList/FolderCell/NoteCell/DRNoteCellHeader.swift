@@ -77,11 +77,13 @@ class DRNoteCellHeaderContentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
+        initConst()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initView()
+        initConst()
     }
     
     private func initView() {
@@ -92,7 +94,6 @@ class DRNoteCellHeaderContentView: UIView {
         newView.addSubview(newSubLabel)
         newView.addSubview(newTitleLabel)
         newView.addSubview(newPlusImage)
-        initConst()
     }
     
     private func initConst() {

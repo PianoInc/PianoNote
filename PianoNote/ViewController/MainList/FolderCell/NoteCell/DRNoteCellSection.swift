@@ -18,18 +18,19 @@ class DRNoteCellSection: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         initView()
+        initConst()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initView()
+        initConst()
     }
     
     private func initView() {
         backgroundView = UIView()
         backgroundView?.backgroundColor = .clear
         contentView.addSubview(sectionLabel)
-        initConst()
     }
     
     private func initConst() {

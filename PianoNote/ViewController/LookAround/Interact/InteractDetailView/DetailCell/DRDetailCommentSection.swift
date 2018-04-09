@@ -56,11 +56,13 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         initView()
+        initConst()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initView()
+        initConst()
     }
     
     private func initView() {
@@ -74,7 +76,6 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
         toolView.addSubview(arrowImage)
         toolView.addSubview(replyButton)
         toolView.addSubview(timeLabel)
-        initConst()
     }
     
     private func initConst() {
