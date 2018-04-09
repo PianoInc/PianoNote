@@ -9,6 +9,16 @@
 import UIKit
 import NotificationCenter
 
+/**
+ Device의 가로 세로중 더 작은 방향의 화면크기 값, iPhone의 최대 minSize인
+ 414를 넘을시엔 기기간 일정비율 유지를 위해서 414를 반환한다.
+ */
+var minSize: CGFloat {
+    var size = UIScreen.main.bounds.width
+    if size > UIScreen.main.bounds.height {size = UIScreen.main.bounds.height}
+    return (size < 414) ? size : 414
+}
+
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet private var listView: UITableView!
@@ -99,10 +109,10 @@ class DRTodayListCell: UITableViewCell {
         contentLabel.font = UIFont.preferred(font: 15.2, weight: .regular)
         }}
     
+    fileprivate var isExpanded = true
     fileprivate var data = "" { didSet {
         continuousText()
         }}
-    fileprivate var isExpanded = true
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -136,9 +146,8 @@ class DRTodayListCell: UITableViewCell {
     /// titleLabel과 contentLabel의 Text가 하나의 문장으로 이어지도록 만든다.
     private func continuousText() {
         titleLabel.text = data
-        let firstLineText = titleLabel.firstLineText
-        titleLabel.text = firstLineText
-        contentLabel.text = data.sub(firstLineText.count...)
+        titleLabel.text = titleLabel.firstLineText
+        contentLabel.text = data.sub(titleLabel.firstLineText.count...)
     }
     
     /// 위젯 mode에 따라 cell의 모습을 바꾼다.

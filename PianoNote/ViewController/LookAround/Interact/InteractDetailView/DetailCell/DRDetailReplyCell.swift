@@ -13,7 +13,7 @@ class DRDetailReplyCell: UITableViewCell {
     @IBOutlet var portraitImage: UIImageView! { didSet {
         portraitImage.layer.cornerRadius = 12.5
         }}
-    @IBOutlet var contentsView: UIView! { didSet {
+    @IBOutlet private var contentsView: UIView! { didSet {
         contentsView.layer.cornerRadius = 13
         contentsView.layer.shadowRadius = 2.5
         contentsView.layer.shadowOffset = CGSize(width: 0, height: 1)
@@ -26,7 +26,7 @@ class DRDetailReplyCell: UITableViewCell {
         contentLabel.font = UIFont.preferred(font: 14, weight: .regular)
         }}
     
-    @IBOutlet var toolView: UIView!
+    @IBOutlet private var toolView: UIView!
     @IBOutlet var timeLabel: UILabel! { didSet {
         timeLabel.font = UIFont.preferred(font: 12, weight: .regular)
         }}
@@ -37,43 +37,40 @@ class DRDetailReplyCell: UITableViewCell {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(portraitImage) {
-                $0.leading.equalTo(self.minSize * 0.1333)
-                $0.top.equalTo(self.minSize * 0.016)
-                $0.width.equalTo(25)
-                $0.height.equalTo(25)
-            }
-            makeConst(contentsView) {
-                $0.leading.equalTo(self.portraitImage.snp.trailing).offset(self.minSize * 0.016)
-                $0.trailing.equalTo(-(self.minSize * 0.0213))
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(-(self.minSize * 0.0933))
-            }
-            makeConst(nameLabel) {
-                $0.leading.equalTo(self.minSize * 0.0346)
-                $0.top.equalTo(self.minSize * 0.0346)
-            }
-            makeConst(contentLabel) {
-                $0.leading.equalTo(self.minSize * 0.0346)
-                $0.trailing.equalTo(-(self.minSize * 0.0346))
-                $0.top.equalTo(self.minSize * 0.0346)
-                $0.bottom.equalTo(-(self.minSize * 0.0346))
-                $0.height.greaterThanOrEqualTo(0)
-            }
-            makeConst(toolView) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(self.contentsView.snp.bottom)
-                $0.bottom.equalTo(0)
-            }
-            makeConst(timeLabel) {
-                $0.leading.equalTo(self.minSize * 0.2933)
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
+        makeConst(portraitImage) {
+            $0.leading.equalTo(self.minSize * 0.1333)
+            $0.top.equalTo(self.minSize * 0.016)
+            $0.width.equalTo(25)
+            $0.height.equalTo(25)
         }
-        constraint()
+        makeConst(contentsView) {
+            $0.leading.equalTo(self.portraitImage.snp.trailing).offset(self.minSize * 0.016)
+            $0.trailing.equalTo(-(self.minSize * 0.0213))
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(-(self.minSize * 0.0933))
+        }
+        makeConst(nameLabel) {
+            $0.leading.equalTo(self.minSize * 0.0346)
+            $0.top.equalTo(self.minSize * 0.0346)
+        }
+        makeConst(contentLabel) {
+            $0.leading.equalTo(self.minSize * 0.0346)
+            $0.trailing.equalTo(-(self.minSize * 0.0346))
+            $0.top.equalTo(self.minSize * 0.0346)
+            $0.bottom.equalTo(-(self.minSize * 0.0346))
+            $0.height.greaterThanOrEqualTo(0)
+        }
+        makeConst(toolView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(self.contentsView.snp.bottom)
+            $0.bottom.equalTo(0)
+        }
+        makeConst(timeLabel) {
+            $0.leading.equalTo(self.minSize * 0.2933)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
+        }
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     

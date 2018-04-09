@@ -19,12 +19,10 @@ struct DRDrawingPen {
 
 class DRCanvasView: UIView {
     
-    /// imageView들을 하나로 merge하는 화면
     let canvas = UIImageView()
     let drawingUndoManager = DRDrawingUndoManager()
     var drawingPen = DRDrawingPen()
     
-    /// 그림이 그려지는 화면
     private let imageView = UIImageView()
     
     private let path = UIBezierPath()
@@ -114,7 +112,7 @@ class DRCanvasView: UIView {
     
     /// drawingRect 계산을 위한 최소/최대 point를 저장한다.
     private func drawing(point: CGPoint) {
-        /// 펜이 굵기를 가지기 때문에 넉넉히 3배에 해당하는 margin값을 준다.
+        /// 펜이 굵기를 가지기 때문에 3배에 해당하는 margin값을 준다.
         let offset = drawingPen.width * 3
         if minPoint.x > point.x {
             let valueX = point.x - offset

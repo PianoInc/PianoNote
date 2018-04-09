@@ -8,6 +8,15 @@
 
 import UIKit
 
+/// Accessory 메뉴 리스트.
+enum DRMenuList: Int {
+    case undo = 0
+    case redo = 1
+    case camera = 2
+    case album = 3
+    case drawing = 4
+}
+
 protocol DRMenuDelegates: NSObjectProtocol {
     /**
      메뉴의 선택 처리.
@@ -42,7 +51,7 @@ extension DRMenuCollectionView: DRMenuDelegates {
             guard let manager = targetView.undoManager, manager.canRedo else {return}
             manager.redo()
         } else {
-            let viewRect = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: inputHeight)
+            let viewRect = CGRect(x: 0, y: 0, width: mainSize.width, height: inputHeight)
             device(orientationLock: false)
             if indexPath.row == 2 {
                 DRAuth.share.request(camera: {

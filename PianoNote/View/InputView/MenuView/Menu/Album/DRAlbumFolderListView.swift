@@ -27,10 +27,6 @@ class DRAlbumFolderListView: UIView {
     }
     
     private func initConst() {
-        func constraint() {
-            
-        }
-        constraint()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     

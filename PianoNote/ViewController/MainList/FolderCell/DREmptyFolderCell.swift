@@ -20,15 +20,12 @@ class DREmptyFolderCell: UICollectionViewCell {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(listView) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
+        makeConst(listView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
         }
-        constraint()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
@@ -42,7 +39,7 @@ class DREmptyFolderCell: UICollectionViewCell {
 extension DREmptyFolderCell: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        naviTitleShowing(scrollView)
+        fadeNavigationTitle(scrollView)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

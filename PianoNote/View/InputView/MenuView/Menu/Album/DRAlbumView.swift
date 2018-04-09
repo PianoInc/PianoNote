@@ -79,7 +79,7 @@ class DRAlbumView: UIView {
                 $0.trailing.equalTo(-self.safeInset.right)
                 $0.bottom.equalTo(self.photoListView.snp.top)
                 if self.libraryButton.isSelected {
-                    let height = UIScreen.main.bounds.height - self.safeInset.top - self.safeInset.bottom
+                    let height = self.mainSize.height - self.safeInset.top - self.safeInset.bottom
                     let folderButtonHeight = self.minSize * 0.1146
                     $0.height.equalTo(height - folderButtonHeight)
                 } else {
@@ -101,8 +101,8 @@ class DRAlbumView: UIView {
             }
             folderButton.isHidden = !self.libraryButton.isSelected
             makeConst(folderButton) {
-                $0.leading.equalTo((UIScreen.main.bounds.width - self.minSize * 0.4) / 2)
-                $0.trailing.equalTo(-((UIScreen.main.bounds.width - self.minSize * 0.4) / 2))
+                $0.leading.equalTo((self.mainSize.width - self.minSize * 0.4) / 2)
+                $0.trailing.equalTo(-((self.mainSize.width - self.minSize * 0.4) / 2))
                 $0.top.equalTo(self.safeInset.top)
                 $0.height.equalTo(self.minSize * 0.1146)
             }
@@ -116,7 +116,7 @@ class DRAlbumView: UIView {
         }
         func consistHeight() {
             guard let inputView = inputView else {return}
-            let height = libraryButton.isSelected ? UIScreen.main.bounds.height : inputHeight
+            let height = libraryButton.isSelected ? mainSize.height : inputHeight
             for constraint in inputView.constraints where constraint.firstAttribute == .height {
                 constraint.constant = height
             }
@@ -145,7 +145,7 @@ class DRAlbumView: UIView {
         if folderButton.isSelected {folderListView.isHidden = false}
         UIView.animate(withDuration: 0.3, animations: {
             self.folderListView.frame.origin.y = offset
-        }, completion: { finished in
+        }, completion: { _ in
             if !self.folderButton.isSelected {self.folderListView.isHidden = true}
         })
     }

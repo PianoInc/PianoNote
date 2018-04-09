@@ -40,7 +40,7 @@ extension DRCameraView {
         
         captureOutput = AVCapturePhotoOutput()
         guard let captureOutput = captureOutput else {return}
-       
+        
         // Session에 output을 연결시킨다.
         if captureSession.canAddOutput(captureOutput) {
             let jpegSetting = AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecJPEG])
@@ -57,7 +57,6 @@ extension DRCameraView {
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer?.frame = previewView.bounds
         previewLayer?.videoGravity = .resizeAspectFill
-        // statusBarOrientation에 따라 사용자에게 올바르게 보일 수 있도록 videoOrientation 설정을 한다.
         previewLayer?.connection?.videoOrientation = AVCaptureVideoOrientation(rawValue: UIApplication.shared.statusBarOrientation.rawValue)!
         previewView.layer.addSublayer(previewLayer!)
     }

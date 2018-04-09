@@ -23,7 +23,7 @@ class DRInputViewManager: NSObject {
     }
     
     private func initView() {
-        let rect = CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: minSize * 0.2293))
+        let rect = CGRect(origin: .zero, size: CGSize(width: mainSize.width, height: minSize * 0.2293))
         let backgroundView = UIView(frame: rect)
         targetView.inputAccessoryView = backgroundView
         
@@ -38,29 +38,26 @@ class DRInputViewManager: NSObject {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(magnifyAccessoryView) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(0)
-                $0.height.equalTo(self.minSize * 0.2293)
-            }
-            makeConst(menuAccessoryView) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(0)
-                $0.height.equalTo(self.minSize * 0.2293)
-            }
+        makeConst(magnifyAccessoryView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.height.equalTo(self.minSize * 0.2293)
         }
-        constraint()
+        makeConst(menuAccessoryView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.height.equalTo(self.minSize * 0.2293)
+        }
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func keyboard() {
-        device(keyboardWillShow: { [weak self] height in
+        device(keyboardWillShow: { [weak self] _ in
             self?.targetView.inputAccessoryView?.isHidden = false
         })
-        device(keyboardDidHide: { [weak self] height in
+        device(keyboardDidHide: { [weak self] _ in
             self?.targetView.inputAccessoryView?.isHidden = true
         })
     }

@@ -20,15 +20,12 @@ class DREmptyNoteCell: UITableViewCell {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(emptyLabel) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
+        makeConst(emptyLabel) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
         }
-        constraint()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     

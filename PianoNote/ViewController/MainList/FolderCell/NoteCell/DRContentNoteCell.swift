@@ -57,41 +57,38 @@ class DRContentNoteCell: UITableViewCell {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(stackView) {
-                $0.leading.equalTo(self.minSize * 0.0333)
-                $0.trailing.equalTo(-(self.minSize * 0.0333))
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
-            makeConst(noteView) {
-                $0.leading.equalTo(6)
-                $0.trailing.equalTo(-6)
-                $0.top.equalTo(6)
-                $0.bottom.equalTo(-6)
-                $0.height.greaterThanOrEqualTo(self.minSize * 0.3413)
-            }
-            makeConst(button) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
+        makeConst(stackView) {
+            $0.leading.equalTo(self.minSize * 0.0333)
+            $0.trailing.equalTo(-(self.minSize * 0.0333))
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
         }
-        constraint()
+        makeConst(noteView) {
+            $0.leading.equalTo(6)
+            $0.trailing.equalTo(-6)
+            $0.top.equalTo(6)
+            $0.bottom.equalTo(-6)
+            $0.height.greaterThanOrEqualTo(self.minSize * 0.3413)
+        }
+        makeConst(button) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
+        }
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        shapeUpdate()
+        updateCellShape()
     }
     
     /**
      backRoundedView가 확장되어야 하는지 아닌지에 따라 높이를 조정하고
      roundedView를 위치에 따라 itemSpcing이 equal하게 되도록 조정한다.
      */
-    private func shapeUpdate() {
+    private func updateCellShape() {
         // backRoundedView configuration.
         makeConst(backRoundedView) {
             $0.leading.equalTo(0)
@@ -160,28 +157,25 @@ class DRContentNoteView: UIView {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(dateLabel) {
-                $0.leading.equalTo(self.minSize * 0.04)
-                $0.trailing.equalTo(-(self.minSize * 0.04))
-                $0.top.equalTo(self.minSize * 0.02)
-                $0.height.greaterThanOrEqualTo(0)
-            }
-            makeConst(titleLabel) {
-                $0.leading.equalTo(self.minSize * 0.04)
-                $0.trailing.equalTo(-(self.minSize * 0.04))
-                $0.top.equalTo(self.minSize * 0.08)
-                $0.height.greaterThanOrEqualTo(0)
-            }
-            makeConst(contentLabel) {
-                $0.leading.equalTo(self.minSize * 0.04)
-                $0.trailing.equalTo(-(self.minSize * 0.04))
-                $0.top.equalTo(self.minSize * 0.19)
-                $0.bottom.equalTo(-round(self.minSize * 0.04))
-                $0.height.greaterThanOrEqualTo(0)
-            }
+        makeConst(dateLabel) {
+            $0.leading.equalTo(self.minSize * 0.04)
+            $0.trailing.equalTo(-(self.minSize * 0.04))
+            $0.top.equalTo(self.minSize * 0.02)
+            $0.height.greaterThanOrEqualTo(0)
         }
-        constraint()
+        makeConst(titleLabel) {
+            $0.leading.equalTo(self.minSize * 0.04)
+            $0.trailing.equalTo(-(self.minSize * 0.04))
+            $0.top.equalTo(self.minSize * 0.08)
+            $0.height.greaterThanOrEqualTo(0)
+        }
+        makeConst(contentLabel) {
+            $0.leading.equalTo(self.minSize * 0.04)
+            $0.trailing.equalTo(-(self.minSize * 0.04))
+            $0.top.equalTo(self.minSize * 0.19)
+            $0.bottom.equalTo(-round(self.minSize * 0.04))
+            $0.height.greaterThanOrEqualTo(0)
+        }
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
@@ -193,9 +187,8 @@ class DRContentNoteView: UIView {
     /// titleLabel과 contentLabel의 Text가 하나의 문장으로 이어지도록 만든다.
     private func continuousText() {
         titleLabel.text = data
-        let firstLineText = titleLabel.firstLineText
-        titleLabel.text = firstLineText
-        contentLabel.text = data.sub(firstLineText.count...)
+        titleLabel.text = titleLabel.firstLineText
+        contentLabel.text = data.sub(titleLabel.firstLineText.count...)
     }
     
 }

@@ -24,7 +24,7 @@ class DRAuth: NSObject {
                 if permission {
                     camera()
                 } else {
-                    self.alert(title: "", message: "")
+                    self.alert(title: "", message: "requestCamera".locale)
                 }
             }
         }
@@ -40,7 +40,7 @@ class DRAuth: NSObject {
                 if status == .authorized {
                     photo()
                 } else {
-                    self.alert(title: "", message: "")
+                    self.alert(title: "", message: "requestPhoto".locale)
                 }
             }
         }
@@ -53,8 +53,8 @@ class DRAuth: NSObject {
      */
     func alert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let dismissAction = UIAlertAction(title: "", style: .cancel)
-        let settingAction = UIAlertAction(title: "", style: .default) { _ in
+        let dismissAction = UIAlertAction(title: "cancel".locale, style: .cancel)
+        let settingAction = UIAlertAction(title: "setting".locale, style: .default) { _ in
             UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
         }
         alert.addAction(settingAction)

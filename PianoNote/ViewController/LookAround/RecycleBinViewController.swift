@@ -18,7 +18,7 @@ class RecycleBinViewController: DRViewController {
         }}
     
     private var selectedIndex = [IndexPath]()
-    var data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
+    private var data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,17 +27,14 @@ class RecycleBinViewController: DRViewController {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(listView) {
-                $0.leading.equalTo(self.safeInset.left).priority(.high)
-                $0.trailing.equalTo(-self.safeInset.right).priority(.high)
-                $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
-                $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
-                $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
-                $0.centerX.equalToSuperview().priority(.required)
-            }
+        makeConst(listView) {
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
+            $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
+            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
+            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.centerX.equalToSuperview().priority(.required)
         }
-        constraint()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
@@ -48,58 +45,40 @@ class RecycleBinViewController: DRViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
-        navi(config: { navi, item in
+        navi { navi, item in
             item.rightBarButtonItem?.title = "selectAll".locale
             item.titleView = makeView(UILabel()) {
                 $0.font = UIFont.preferred(font: 17, weight: .semibold)
                 $0.text = "deletedMemo".locale
                 $0.alpha = 0
             }
-        })
+        }
     }()
-    
-}
-
-// Navigation configuration.
-extension RecycleBinViewController {
     
     /// Navigation 설정
     private func initNaviBar() {
         navi { (navi, item) in
             navi.isToolbarHidden = false
-        }
-        // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
-        navigationController?.toolbarItems = toolbarItems
-        if let toolbarItems = navigationController?.toolbarItems {
+            navi.toolbarItems = toolbarItems
+            // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
+            guard let toolbarItems = navi.toolbarItems else {return}
             toolbarItems[0].title = "restore".locale
         }
     }
     
     @IBAction private func naviBar(right item: UIBarButtonItem) {
-        let indexData = data.enumerated().flatMap { (section, data) in
-            data.enumerated().map { (row, data) in
+        let indexData = data.enumerated().flatMap { (section, _) in
+            data.enumerated().map { (row, _) in
                 IndexPath(row: row, section: section)
             }
         }
         selectedIndex.removeAll()
         indexData.forEach {selectedIndex.append($0)}
-        for cell in listView.visibleCells {
-            (cell as! DRContentNoteCell).select = true
+        for cell  in listView.visibleCells as! [DRContentNoteCell] {
+            cell.select = true
             cell.setNeedsLayout()
         }
-        toolBarUpdate()
-    }
-    
-    /// ToolBar에 있는 count title을 갱신한ㄷ나.
-    private func toolBarUpdate() {
-        // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
-        if let toolbarItems = navigationController?.toolbarItems {
-            if selectedIndex.count > 0 {
-                toolbarItems[2].title = String(format: "selectMemoCount".locale, selectedIndex.count)
-            } else {
-                toolbarItems[2].title = ""
-            }
-        }
+        updateSelectCount()
     }
     
     @IBAction private func toolBar(left item: UIBarButtonItem) {
@@ -108,6 +87,18 @@ extension RecycleBinViewController {
     
     @IBAction private func toolBar(right item: UIBarButtonItem) {
         
+    }
+    
+    /// ToolBar에 있는 count title을 갱신한다.
+    private func updateSelectCount() {
+        navi { (navi, _) in
+            // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
+            guard let toolbarItems = navi.toolbarItems else {return}
+            toolbarItems[2].title = ""
+            if selectedIndex.count > 0 {
+                toolbarItems[2].title = String(format: "selectMemoCount".locale, selectedIndex.count)
+            }
+        }
     }
     
 }
@@ -120,11 +111,10 @@ extension RecycleBinViewController: DRContentNoteDelegates {
         } else {
             selectedIndex.append(indexPath)
         }
-        if let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell {
-            cell.select = selectedIndex.contains(indexPath)
-            cell.setNeedsLayout()
-        }
-        toolBarUpdate()
+        guard let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell else {return}
+        cell.select = selectedIndex.contains(indexPath)
+        cell.setNeedsLayout()
+        updateSelectCount()
     }
     
 }
@@ -132,7 +122,7 @@ extension RecycleBinViewController: DRContentNoteDelegates {
 extension RecycleBinViewController: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        naviTitleShowing(scrollView)
+        fadeNavigationTitle(scrollView)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

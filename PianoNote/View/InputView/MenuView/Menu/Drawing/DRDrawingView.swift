@@ -43,8 +43,8 @@ class DRDrawingView: UIView {
         backgroundColor = UIColor(hex6: "e5e5e5")
         menuView.backgroundColor = UIColor.white.withAlphaComponent(0.75)
         canvasView.frame = CGRect(x: safeInset.left, y: safeInset.top,
-                                  width: UIScreen.main.bounds.width - safeInset.left - safeInset.right,
-                                  height: UIScreen.main.bounds.height - safeInset.top - safeInset.bottom)
+                                  width: mainSize.width - safeInset.left - safeInset.right,
+                                  height: mainSize.height - safeInset.top - safeInset.bottom)
         closeButton.addTarget(self, action: #selector(action(close:)), for: .touchUpInside)
         undoButton.addTarget(self, action: #selector(action(undo:)), for: .touchUpInside)
         redoButton.addTarget(self, action: #selector(action(redo:)), for: .touchUpInside)
@@ -58,39 +58,36 @@ class DRDrawingView: UIView {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(menuView) {
-                $0.leading.equalTo(self.safeInset.left)
-                $0.trailing.equalTo(self.safeInset.right)
-                $0.top.equalTo(self.safeInset.top)
-                $0.height.equalTo(self.minSize * 0.08)
-            }
-            makeConst(closeButton) {
-                $0.leading.equalTo(self.minSize * 0.0266 + self.safeInset.left)
-                $0.top.equalTo(self.safeInset.top)
-                $0.width.equalTo(self.minSize * 0.08)
-                $0.height.equalTo(self.minSize * 0.08)
-            }
-            makeConst(undoButton) {
-                $0.leading.equalTo(self.closeButton.snp.trailing).offset(self.minSize * 0.0266)
-                $0.top.equalTo(self.safeInset.top)
-                $0.width.equalTo(self.minSize * 0.08)
-                $0.height.equalTo(self.minSize * 0.08)
-            }
-            makeConst(redoButton) {
-                $0.leading.equalTo(self.undoButton.snp.trailing)
-                $0.top.equalTo(self.safeInset.top)
-                $0.width.equalTo(self.minSize * 0.08)
-                $0.height.equalTo(self.minSize * 0.08)
-            }
-            makeConst(clearButton) {
-                $0.leading.equalTo(self.redoButton.snp.trailing)
-                $0.top.equalTo(self.safeInset.top)
-                $0.width.equalTo(self.minSize * 0.08)
-                $0.height.equalTo(self.minSize * 0.08)
-            }
+        makeConst(menuView) {
+            $0.leading.equalTo(self.safeInset.left)
+            $0.trailing.equalTo(self.safeInset.right)
+            $0.top.equalTo(self.safeInset.top)
+            $0.height.equalTo(self.minSize * 0.08)
         }
-        constraint()
+        makeConst(closeButton) {
+            $0.leading.equalTo(self.minSize * 0.0266 + self.safeInset.left)
+            $0.top.equalTo(self.safeInset.top)
+            $0.width.equalTo(self.minSize * 0.08)
+            $0.height.equalTo(self.minSize * 0.08)
+        }
+        makeConst(undoButton) {
+            $0.leading.equalTo(self.closeButton.snp.trailing).offset(self.minSize * 0.0266)
+            $0.top.equalTo(self.safeInset.top)
+            $0.width.equalTo(self.minSize * 0.08)
+            $0.height.equalTo(self.minSize * 0.08)
+        }
+        makeConst(redoButton) {
+            $0.leading.equalTo(self.undoButton.snp.trailing)
+            $0.top.equalTo(self.safeInset.top)
+            $0.width.equalTo(self.minSize * 0.08)
+            $0.height.equalTo(self.minSize * 0.08)
+        }
+        makeConst(clearButton) {
+            $0.leading.equalTo(self.redoButton.snp.trailing)
+            $0.top.equalTo(self.safeInset.top)
+            $0.width.equalTo(self.minSize * 0.08)
+            $0.height.equalTo(self.minSize * 0.08)
+        }
         device(orientationDidChange: { [weak self] _ in
             self?.initConst()
             self?.fillCustomInput(animate: false)
@@ -102,18 +99,18 @@ class DRDrawingView: UIView {
     private func canvasOrientation() {
         let oldValue = max(canvasView.bounds.width, canvasView.bounds.height)
         if canvasView.bounds.width < canvasView.bounds.height {
-            let scale = (UIScreen.main.bounds.height - safeInset.top - safeInset.bottom) / canvasView.bounds.height
+            let scale = (mainSize.height - safeInset.top - safeInset.bottom) / canvasView.bounds.height
             let width = canvasView.bounds.width * scale
             let height = canvasView.bounds.height * scale
-            let x = UIScreen.main.bounds.width / 2 - width / 2
+            let x = mainSize.width / 2 - width / 2
             let y: CGFloat = safeInset.top
             canvasView.frame = CGRect(x: x, y: y, width: width, height: height)
         } else {
-            let scale = (UIScreen.main.bounds.width - safeInset.left - safeInset.right) / canvasView.bounds.width
+            let scale = (mainSize.width - safeInset.left - safeInset.right) / canvasView.bounds.width
             let width = canvasView.bounds.width * scale
             let height = canvasView.bounds.height * scale
             let x: CGFloat = safeInset.left
-            var y =  UIScreen.main.bounds.height / 2 - height / 2
+            var y =  mainSize.height / 2 - height / 2
             if UIApplication.shared.statusBarOrientation.isLandscape {y = 0}
             canvasView.frame = CGRect(x: x, y: y, width: width, height: height)
         }

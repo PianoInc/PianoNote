@@ -39,39 +39,38 @@ class DRMenuAccessoryView: UIView {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(switchButton) {
-                $0.leading.equalTo(self.minSize * 0.0626 + self.safeInset.left)
-                $0.top.equalTo(self.minSize * 0.0173)
-                $0.width.equalTo(self.minSize * 0.08)
-                $0.height.equalTo(self.minSize * 0.08)
-            }
-            makeConst(backgroundView) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(self.minSize * 0.1146)
-                $0.bottom.equalTo(0)
-            }
-            makeConst(separatorView) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(self.minSize * 0.1146)
-                $0.height.equalTo(0.5)
-            }
-            makeConst(menuListView) {
-                $0.leading.equalTo(self.safeInset.left)
-                $0.trailing.equalTo(-self.safeInset.right)
-                $0.top.equalTo(self.minSize * 0.1173)
-                $0.bottom.equalTo(0)
-            }
+        makeConst(switchButton) {
+            $0.leading.equalTo(self.minSize * 0.0626 + self.safeInset.left)
+            $0.top.equalTo(self.minSize * 0.0173)
+            $0.width.equalTo(self.minSize * 0.08)
+            $0.height.equalTo(self.minSize * 0.08)
         }
-        constraint()
+        makeConst(backgroundView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(self.minSize * 0.1146)
+            $0.bottom.equalTo(0)
+        }
+        makeConst(separatorView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(self.minSize * 0.1146)
+            $0.height.equalTo(0.5)
+        }
+        makeConst(menuListView) {
+            $0.leading.equalTo(self.safeInset.left)
+            $0.trailing.equalTo(-self.safeInset.right)
+            $0.top.equalTo(self.minSize * 0.1173)
+            $0.bottom.equalTo(0)
+        }
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        switchButton.layer.cornerRadius = switchButton.bounds.width / 2
+        if switchButton.layer.cornerRadius == 0 {
+            switchButton.layer.cornerRadius = switchButton.bounds.width / 2
+        }
     }
     
 }

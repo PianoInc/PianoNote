@@ -10,30 +10,35 @@ import UIKit
 
 class DRViewController: UIViewController {
     
-    private var titleAlpha: CGFloat = 0
+    /// ViewController간의 화면 전환시 navigation의 titleView가 자연스럽게 보일 수 있도록 alpha을 저장해둔다.
+    private var titleViewAlpha: CGFloat = 0
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navi(config: { navi, item in
-            item.titleView?.alpha = titleAlpha
-            item.titleView?.isHidden = (titleAlpha != 1)
-        })
+        navi { (_, item) in
+            item.titleView?.alpha = titleViewAlpha
+            item.titleView?.isHidden = (titleViewAlpha != 1)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        navi(config: { navi, item in
-            item.titleView?.alpha = titleAlpha
+        navi { (_, item) in
+            item.titleView?.alpha = titleViewAlpha
             item.titleView?.isHidden = false
-        })
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navi(config: { navi, item in
-            titleAlpha = item.titleView?.alpha ?? 0
+        navi { (_, item) in
+            titleViewAlpha = item.titleView?.alpha ?? 0
             item.titleView?.isHidden = (item.titleView?.alpha != 1)
-        })
+        }
+    }
+    
+    deinit {
+        NSLog("deinit... %@", self)
     }
     
 }

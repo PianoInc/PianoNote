@@ -21,10 +21,8 @@ extension String {
      - returns : 검출된 index.
      */
     func index(of: String) -> Int {
-        if let range = range(of: of) {
-            return distance(from: startIndex, to: range.lowerBound)
-        }
-        return 0
+        guard let range = range(of: of) else {return 0}
+        return distance(from: startIndex, to: range.lowerBound)
     }
     
     /**
@@ -33,10 +31,8 @@ extension String {
      - returns : 검출된 index.
      */
     func index(lastOf: String) -> Int {
-        if let range = range(of: lastOf, options: .backwards, range: nil, locale: nil) {
-            return distance(from: startIndex, to: range.upperBound)
-        }
-        return 0
+        guard let range = range(of: lastOf, options: .backwards) else {return 0}
+        return distance(from: startIndex, to: range.upperBound)
     }
     
     /**
@@ -67,10 +63,8 @@ extension String {
     private func substring(_ r: CountableRange<Int>) -> String {
         let from = (r.startIndex > 0) ? index(startIndex, offsetBy: r.startIndex) : startIndex
         let to = (count > r.endIndex) ? index(startIndex, offsetBy: r.endIndex) : endIndex
-        if from >= startIndex && to <= endIndex {
-            return String(self[from..<to])
-        }
-        return self
+        guard from >= startIndex && to <= endIndex else {return self}
+        return String(self[from..<to])
     }
     
 }

@@ -24,17 +24,14 @@ class MainListViewController: DRViewController {
     
     /// Constraints 설정
     private func initConst() {
-        func constraint() {
-            makeConst(listView) {
-                $0.leading.equalTo(self.safeInset.left).priority(.high)
-                $0.trailing.equalTo(-self.safeInset.right).priority(.high)
-                $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
-                $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
-                $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
-                $0.centerX.equalToSuperview().priority(.required)
-            }
+        makeConst(listView) {
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
+            $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
+            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
+            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.centerX.equalToSuperview().priority(.required)
         }
-        constraint()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
@@ -46,10 +43,10 @@ class MainListViewController: DRViewController {
             let offset = CGPoint(x: prevIndex * listView.bounds.width, y: 0)
             listView.setContentOffset(offset, animated: false)
         }
-        coordinator.animateAlongsideTransition(in: nil, animation: { context in
+        coordinator.animateAlongsideTransition(in: nil, animation: { _ in
             self.listView.collectionViewLayout.invalidateLayout()
             setContentOffset()
-        }, completion: { finished in
+        }, completion: { _ in
             self.listView.reloadData()
             setContentOffset()
         })
@@ -62,8 +59,9 @@ class MainListViewController: DRViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
+        // 화면 load시 보여지는 화면을 두번째 화면으로 이동시킨다.
         listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
-        navi(config: { navi, item in
+        navi { (_, item) in
             item.leftBarButtonItem?.title = "manageFolder".locale
             item.rightBarButtonItem?.title = "select".locale
             item.titleView = makeView(UILabel()) {
@@ -71,9 +69,9 @@ class MainListViewController: DRViewController {
                 $0.text = tempData[1]
                 $0.alpha = 0
             }
-        })
+        }
     }()
-
+    
 }
 
 // Navigation configuration.
@@ -81,10 +79,11 @@ extension MainListViewController {
     
     /// Navigation 설정
     private func initNaviBar() {
-        // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
-        navigationController?.toolbarItems = toolbarItems
-        if let centerItem = navigationController?.toolbarItems?[2] {
-            centerItem.title = "moveToNext".locale
+        navi { (navi, _) in
+            navi.toolbarItems = toolbarItems
+            // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
+            guard let toolbarItems = navigationController?.toolbarItems?[2] else {return}
+            toolbarItems.title = "moveToNext".locale
         }
     }
     
@@ -93,15 +92,15 @@ extension MainListViewController {
             
         } else {
             if let cell = listView.visibleCells.first as? DRContentFolderCell {
-                let indexData = cell.data.enumerated().flatMap { (section, data) in
-                    data.enumerated().map { (row, data) in
+                let indexData = cell.data.enumerated().flatMap { (section, _) in
+                    cell.data.enumerated().map { (row, _) in
                         IndexPath(row: row, section: section)
                     }
                 }
                 cell.selectedIndex.removeAll()
                 indexData.forEach {cell.selectedIndex.append($0)}
-                for cell in cell.listView.visibleCells {
-                    (cell as! DRContentNoteCell).select = true
+                for cell in cell.listView.visibleCells as! [DRContentNoteCell] {
+                    cell.select = true
                     cell.setNeedsLayout()
                 }
             }
@@ -114,13 +113,11 @@ extension MainListViewController {
         } else if let cell = listView.visibleCells.first as? DRContentFolderCell {
             listView.isScrollEnabled = !listView.isScrollEnabled
             cell.isEditMode = !listView.isScrollEnabled
-            navi(config: { navi, item in
+            navi { (navi, item) in
                 navi.isToolbarHidden = listView.isScrollEnabled
                 item.leftBarButtonItem?.title = "\(listView.isScrollEnabled ? "manageFolder" :"selectAll")".locale
                 item.rightBarButtonItem?.title = "\(listView.isScrollEnabled ? "select" :"done")".locale
-            })
-        } else {
-            
+            }
         }
     }
     
@@ -164,28 +161,28 @@ extension MainListViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        destIndexPath = indexPath
         // 폴더간 이동시 노트 리스트를 처음 위치로 초기화 시킨다.
-        if let emptyFolderCell = cell as? DREmptyFolderCell {
-            emptyFolderCell.listView.setContentOffset(.zero, animated: false)
-        }
         if let browseFolderCell = cell as? DRBrowseFolderCell {
             browseFolderCell.listView.setContentOffset(.zero, animated: false)
         }
         if let contentFolderCell = cell as? DRContentFolderCell {
             contentFolderCell.listView.setContentOffset(.zero, animated: false)
         }
+        navi { (_, item) in item.rightBarButtonItem?.isEnabled = true}
+        if let emptyFolderCell = cell as? DREmptyFolderCell {
+            emptyFolderCell.listView.setContentOffset(.zero, animated: false)
+            navi { (_, item) in item.rightBarButtonItem?.isEnabled = false}
+        }
         // 폴더간 이동시 navigation titleView의 alpha값을 초기화 시킨다.
-        navi(config: { navi, item in
-            item.titleView?.alpha = 0
-        })
+        destIndexPath = indexPath
+        guard let titleView = navigationItem.titleView as? UILabel else {return}
+        titleView.alpha = 0
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // 기존의 cell로 다시 돌아왔다면 alpha값 복원.
-        navi(config: { navi, item in
-            item.titleView?.alpha = (destIndexPath == indexPath) ? 1 : 0
-        })
+        guard let titleView = navigationItem.titleView as? UILabel else {return}
+        titleView.alpha = (destIndexPath == indexPath) ? 1 : 0
     }
     
 }
@@ -205,11 +202,11 @@ extension MainListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0 { // 둘러보기
+        if indexPath.row == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRBrowseFolderCell", for: indexPath) as! DRBrowseFolderCell
             return cell
         }
-        if tempData[indexPath.row].isEmpty { // 빈 노트
+        if tempData[indexPath.row].isEmpty {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DREmptyFolderCell", for: indexPath) as! DREmptyFolderCell
             return cell
         }

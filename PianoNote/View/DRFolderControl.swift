@@ -20,10 +20,13 @@ class DRFolderControl: UIPageControl {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        layer.cornerRadius = bounds.height / 2
+        if layer.cornerRadius == 0 {
+            layer.cornerRadius = bounds.height / 2
+        }
         updateDots()
     }
     
+    /// PageContol의 dot을 커스텀 dot으로 적용 및 선택된 page에 대한 alpha값 처리를 진행한다.
     private func updateDots() {
         for (idx, view) in subviews.enumerated() {
             if let imageView = view.subviews.first(where: {$0 is UIImageView}) {

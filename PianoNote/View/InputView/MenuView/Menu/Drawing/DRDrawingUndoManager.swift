@@ -12,6 +12,7 @@ class DRDrawingUndoManager {
     
     private var undoList = [UIImage]()
     private var redoList = [UIImage]()
+    
     /// 최대 저장 한도.
     var maxSize = 50
     
@@ -42,18 +43,16 @@ class DRDrawingUndoManager {
     
     /// undo 진행.
     func undo() {
-        if let undoLast = undoList.last {
-            appendRedo(undoLast)
-            undoList.removeLast()
-        }
+        guard let undoLast = undoList.last else {return}
+        appendRedo(undoLast)
+        undoList.removeLast()
     }
     
     /// redo 진행.
     func redo() {
-        if let redoLast = redoList.last {
-            appendUndo(redoLast)
-            redoList.removeLast()
-        }
+        guard let redoLast = redoList.last else {return}
+        appendUndo(redoLast)
+        redoList.removeLast()
     }
     
     /// clear 진행.

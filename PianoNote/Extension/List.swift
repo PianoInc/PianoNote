@@ -32,10 +32,10 @@ extension UITableView {
 extension UITableViewDelegate {
     
     /**
-     해당 scrollView이 contentOffset에 따라 navititleView의 display를 조정한다.
+     해당 scrollView의 contentOffset에 따라 navititleView의 display를 조정한다.
      - parameter scrollView: 판단하고자 하는 scrollView.
      */
-    func naviTitleShowing(_ scrollView: UIScrollView) {
+    func fadeNavigationTitle(_ scrollView: UIScrollView) {
         guard let tableView = scrollView as? UITableView else {return}
         if let header = tableView.tableHeaderView as? DRNoteCellHeader {
             let alpha = tableView.contentOffset.y / header.contentView.titleLabel.frame.maxY
@@ -44,6 +44,18 @@ extension UITableViewDelegate {
                 titleView.alpha = (alpha < 0.8) ? 0 : 1
             }
         }
+    }
+    
+    /**
+     해당 scrollView의 contentOffset이 90% 이상 스크롤 되었는지를 판단하여 completion를 호출한다.
+     - parameter scrollView: 판단하고자 하는 scrollView.
+     - parameter completion: 부합하는 상황에서 호출되는 closure.
+     */
+    func requestNextData(_ scrollView: UIScrollView, completion: (() -> ())) {
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        guard currentOffset / maximumOffset > 0.9 else {return}
+        completion()
     }
     
 }

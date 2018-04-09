@@ -17,9 +17,9 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.estimatedRowHeight = 140
         }}
     
-    var selectedIndex = [IndexPath]()
     var data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
     
+    var selectedIndex = [IndexPath]()
     var isEditMode = false { didSet {
         editMode()
         }}
@@ -30,15 +30,12 @@ class DRContentFolderCell: UICollectionViewCell {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(listView) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
+        makeConst(listView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
         }
-        constraint()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
@@ -50,8 +47,8 @@ class DRContentFolderCell: UICollectionViewCell {
     /// TableView의 normal <-> edit 간의 모드를 전환한다.
     private func editMode() {
         listView.scrollsToTop = !isEditMode
-        for cell in self.listView.visibleCells {
-            (cell as! DRContentNoteCell).deleteButton.isHidden = !self.isEditMode
+        for cell in listView.visibleCells as! [DRContentNoteCell] {
+            cell.deleteButton.isHidden = !self.isEditMode
             cell.setNeedsLayout()
         }
         selectedIndex.removeAll()
@@ -68,10 +65,9 @@ extension DRContentFolderCell: DRContentNoteDelegates {
             } else {
                 selectedIndex.append(indexPath)
             }
-            if let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell {
-                cell.select = selectedIndex.contains(indexPath)
-                cell.setNeedsLayout()
-            }
+            guard let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell else {return}
+            cell.select = selectedIndex.contains(indexPath)
+            cell.setNeedsLayout()
         } else if let mainListView = UIWindow.topVC as? MainListViewController {
             mainListView.present(id: "NoteViewController")
         }
@@ -82,7 +78,7 @@ extension DRContentFolderCell: DRContentNoteDelegates {
 extension DRContentFolderCell: UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        naviTitleShowing(scrollView)
+        fadeNavigationTitle(scrollView)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -91,9 +87,7 @@ extension DRContentFolderCell: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
-        
         sections.sectionLabel.text = "Section \(section)"
-        
         return sections
     }
     

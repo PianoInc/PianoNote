@@ -24,15 +24,12 @@ class DRNoteCellSection: UITableViewHeaderFooterView {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(sectionLabel) {
-                $0.leading.equalTo(self.minSize * 0.08)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
+        makeConst(sectionLabel) {
+            $0.leading.equalTo(self.minSize * 0.08)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
         }
-        constraint()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     

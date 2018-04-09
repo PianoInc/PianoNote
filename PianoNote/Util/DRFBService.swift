@@ -14,13 +14,16 @@ import SwiftyJSON
 typealias DRFBPost = (create: Date, id: String, title: String, msg: String)
 typealias DRFBComment = (create: Date, count: Int, msg: String, expend: Bool, reply: [DRFBReply]?)
 typealias DRFBReply = (create: Date, msg: String)
+typealias DRFBCursor = (state: DRFBState, cursor: String)
+
+/// 추가 페이지 여부.
+enum DRFBState {
+    case next, finish
+}
 
 class DRFBService: NSObject {
     
     static let share = DRFBService()
-    
-    private enum DRFBState {case next, finish}
-    private typealias DRFBCursor = (state: DRFBState, cursor: String)
     
     private var postState = DRFBCursor(state: .next, cursor: "")
     private var commentState = DRFBCursor(state: .next, cursor: "")
@@ -45,10 +48,12 @@ class DRFBService: NSObject {
     func facebook(login from: UIViewController, completion: @escaping ((Bool) -> ())) {
         let loginManager = FBSDKLoginManager()
         loginManager.logOut()
-        loginManager.logIn(withReadPermissions: ["public_profile"], from: from) { (result, error) in
+        loginManager.logIn(withReadPermissions: ["public_profile"], from: from) { (result, _) in
             if let result = result, !result.isCancelled {
                 completion(FBSDKAccessToken.current().tokenString != nil)
-            } else {completion(false)}
+            } else {
+                completion(false)
+            }
         }
     }
     
@@ -61,7 +66,7 @@ class DRFBService: NSObject {
         
         let params = ["fields" : "created_time, name, message", "limit" : postLimit, "after" : postState.cursor]
         let request = FBSDKGraphRequest(graphPath: "/\(pageID)/posts", parameters: params)!
-        request.start { (connect, result, error) in
+        request.start { (_, result, _) in
             guard let result = result else {return}
             let json = JSON(result)
             
@@ -70,10 +75,10 @@ class DRFBService: NSObject {
                 formatter.formatOptions = [.withFullDate, .withDashSeparatorInDate,
                                            .withTime, .withColonSeparatorInTime]
                 for data in data {
+                    let create = formatter.date(from: data["created_time"].stringValue)!
                     let id = data["id"].string ?? ""
                     let title = data["name"].string ?? ""
                     let msg = data["message"].string ?? ""
-                    let create = formatter.date(from: data["created_time"].stringValue)!
                     self.postData.append(DRFBPost(create: create, id: id, title: title, msg: msg))
                 }
                 self.rxPost.value = self.postData
@@ -95,9 +100,10 @@ class DRFBService: NSObject {
      */
     func facebook(comment postID: String) {
         guard commentState.state == .next else {return}
+        
         let params = ["fields" : "comments.limit(\(commentLimit)){created_time, comment_count, message, comments{created_time, message}}", "after" : commentState.cursor]
         let request = FBSDKGraphRequest(graphPath: postID, parameters: params)!
-        request.start { (connect, result, error) in
+        request.start { (_, result, _) in
             guard let result = result else {return}
             let json = JSON(result)
             
@@ -106,15 +112,15 @@ class DRFBService: NSObject {
                 formatter.formatOptions = [.withFullDate, .withDashSeparatorInDate,
                                            .withTime, .withColonSeparatorInTime]
                 for data in data {
+                    let create = formatter.date(from: data["created_time"].stringValue)!
                     let count = data["comment_count"].int ?? 0
                     let msg = data["message"].string ?? ""
-                    let create = formatter.date(from: data["created_time"].stringValue)!
+                    
                     var reply = [DRFBReply]()
                     if let comments = data["comments"].dictionary, let data = comments["data"]?.array  {
                         for data in data {
                             if let msg = data["message"].string, !msg.isEmpty {
-                                guard let created_time = data["created_time"].string else {continue}
-                                let create = formatter.date(from: created_time)!
+                                let create = formatter.date(from: data["created_time"].stringValue)!
                                 reply.append(DRFBReply(create: create, msg: msg))
                             }
                         }

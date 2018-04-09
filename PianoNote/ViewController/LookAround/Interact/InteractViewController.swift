@@ -9,6 +9,9 @@
 import UIKit
 import FBSDKCoreKit
 
+// Facebook piano page ID
+let PianoPageID = "602234013303895"
+
 class InteractViewController: DRViewController {
     
     @IBOutlet private var facebookLabel: UILabel! { didSet {
@@ -40,7 +43,7 @@ class InteractViewController: DRViewController {
         initConst()
         attachData()
         if FBSDKAccessToken.current() != nil {
-            DRFBService.share.facebook(post: "602234013303895")
+            DRFBService.share.facebook(post: PianoPageID)
         } else {
             self.facebookLabel.isHidden = false
             self.facebookButton.isHidden = false
@@ -49,37 +52,34 @@ class InteractViewController: DRViewController {
     
     @IBAction private func action(login: UIButton) {
         DRFBService.share.facebook(login: self) {
-            guard $0 else {return}
+            guard $0 == true else {return}
             self.facebookLabel.isHidden = true
             self.facebookButton.isHidden = true
-            DRFBService.share.facebook(post: "602234013303895")
+            DRFBService.share.facebook(post: PianoPageID)
         }
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(facebookLabel) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
-            makeConst(facebookButton) {
-                $0.leading.equalTo(self.minSize * 0.08)
-                $0.trailing.equalTo(-(self.minSize * 0.08))
-                $0.bottom.equalTo(-(self.minSize * 0.16))
-                $0.height.equalTo(self.minSize * 0.1333)
-            }
-            makeConst(listView) {
-                $0.leading.equalTo(self.safeInset.left).priority(.high)
-                $0.trailing.equalTo(-self.safeInset.right).priority(.high)
-                $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
-                $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
-                $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
-                $0.centerX.equalToSuperview().priority(.required)
-            }
+        makeConst(facebookLabel) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
         }
-        constraint()
+        makeConst(facebookButton) {
+            $0.leading.equalTo(self.minSize * 0.08)
+            $0.trailing.equalTo(-(self.minSize * 0.08))
+            $0.bottom.equalTo(-(self.minSize * 0.16))
+            $0.height.equalTo(self.minSize * 0.1333)
+        }
+        makeConst(listView) {
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
+            $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
+            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
+            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.centerX.equalToSuperview().priority(.required)
+        }
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
@@ -102,7 +102,9 @@ class InteractViewController: DRViewController {
         DRFBService.share.rxPost.subscribe {
             self.group(time: $0)
             self.listView.reloadData()
-            UIView.animate(withDuration: 0.3) {self.listView.alpha = 1}
+            UIView.animate(withDuration: 0.3) {
+                self.listView.alpha = 1
+            }
         }
     }
     
@@ -111,13 +113,14 @@ class InteractViewController: DRViewController {
      - parameter data: Non-grouped data.
      */
     private func group(time data: [DRFBPost]) {
-        for data in data {
-            let key = data.create.timeFormat
+        for post in data {
+            let key = post.create.timeFormat
             if self.data.contains(where: {$0.contains {$0.0 == key}}) {
-                let idx = self.data.index(where: {$0.contains {$0.0 == key}})!
-                self.data[idx][key]?.append(data)
+                if let idx = self.data.index(where: {$0.contains {$0.0 == key}}) {
+                    self.data[idx][key]?.append(post)
+                }
             } else {
-                self.data.append([key : [data]])
+                self.data.append([key : [post]])
             }
         }
     }
@@ -132,15 +135,13 @@ class InteractViewController: DRViewController {
 extension InteractViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        if  currentOffset / maximumOffset > 0.9 {
+        requestNextData(scrollView) {
             DRFBService.share.facebook(post: "602234013303895")
         }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        naviTitleShowing(scrollView)
+        fadeNavigationTitle(scrollView)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

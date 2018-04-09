@@ -41,7 +41,6 @@ class DRMenuCollectionView: UICollectionView {
     private lazy var dispatchOnce: Void = {
         // 실제 text의 변화에 따른 undo, redo 기능의 enabled 설정.
         _ = targetView.rx.text.orEmpty.takeUntil(targetView.rx.deallocated).subscribe { text in
-            //guard self.targetView != nil else {return}
             if let manager = self.targetView?.undoManager {
                 self.data[0] = manager.canUndo ? "Undo" : "No undo"
                 self.data[1] = manager.canRedo ? "Redo" : "No redo"
@@ -98,15 +97,12 @@ class DRMenuCollectionCell: UICollectionViewCell {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(button) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(0)
-                $0.bottom.equalTo(0)
-            }
+        makeConst(button) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
         }
-        constraint()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     

@@ -10,7 +10,7 @@ import UIKit
 
 class DRMagnifyAccessoryView: UIView {
     
-    private weak var targetView: UITextView!
+    weak var targetView: UITextView!
     
     let switchButton = makeView(UIButton(type: .custom)) {
         $0.backgroundColor = .black
@@ -44,45 +44,44 @@ class DRMagnifyAccessoryView: UIView {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(switchButton) {
-                $0.leading.equalTo(self.minSize * 0.0626 + self.safeInset.left)
-                $0.top.equalTo(self.minSize * 0.0173)
-                $0.width.equalTo(self.minSize * 0.08)
-                $0.height.equalTo(self.minSize * 0.08)
-            }
-            makeConst(backgroundView) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(self.minSize * 0.1146)
-                $0.bottom.equalTo(0)
-            }
-            makeConst(separatorView) {
-                $0.leading.equalTo(0)
-                $0.trailing.equalTo(0)
-                $0.top.equalTo(self.minSize * 0.1146)
-                $0.height.equalTo(0.5)
-            }
-            makeConst(magnifyView) {
-                $0.leading.equalTo(self.minSize * 0.032 + self.safeInset.left)
-                $0.trailing.equalTo(-(self.minSize * 0.1426 + self.safeInset.right))
-                $0.top.equalTo(self.minSize * 0.128)
-                $0.bottom.equalTo(-(self.minSize * 0.0106))
-            }
-            makeConst(eraseButton) {
-                $0.leading.equalTo(self.magnifyView.snp.trailing)
-                $0.trailing.equalTo(-self.safeInset.right)
-                $0.top.equalTo(self.minSize * 0.1146)
-                $0.bottom.equalTo(0)
-            }
+        makeConst(switchButton) {
+            $0.leading.equalTo(self.minSize * 0.0626 + self.safeInset.left)
+            $0.top.equalTo(self.minSize * 0.0173)
+            $0.width.equalTo(self.minSize * 0.08)
+            $0.height.equalTo(self.minSize * 0.08)
         }
-        constraint()
+        makeConst(backgroundView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(self.minSize * 0.1146)
+            $0.bottom.equalTo(0)
+        }
+        makeConst(separatorView) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(self.minSize * 0.1146)
+            $0.height.equalTo(0.5)
+        }
+        makeConst(magnifyView) {
+            $0.leading.equalTo(self.minSize * 0.032 + self.safeInset.left)
+            $0.trailing.equalTo(-(self.minSize * 0.1426 + self.safeInset.right))
+            $0.top.equalTo(self.minSize * 0.128)
+            $0.bottom.equalTo(-(self.minSize * 0.0106))
+        }
+        makeConst(eraseButton) {
+            $0.leading.equalTo(self.magnifyView.snp.trailing)
+            $0.trailing.equalTo(-self.safeInset.right)
+            $0.top.equalTo(self.minSize * 0.1146)
+            $0.bottom.equalTo(0)
+        }
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        switchButton.layer.cornerRadius = switchButton.bounds.width / 2
+        if switchButton.layer.cornerRadius == 0 {
+            switchButton.layer.cornerRadius = switchButton.bounds.width / 2
+        }
     }
     
     @objc private func action(erase: UIButton) {
@@ -93,6 +92,7 @@ class DRMagnifyAccessoryView: UIView {
             targetView.layoutManager.textStorage?.deleteCharacters(in: range)
             targetView.selectedRange = NSRange(location: location, length: 0)
         }
+        
         let begin = targetView.beginningOfDocument
         var location = targetView.selectedRange.location
         var hasWord = false

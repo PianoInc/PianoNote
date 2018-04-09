@@ -8,17 +8,18 @@
 
 import UIKit
 
+/// 확대경의 상태 구분.
 enum MagnifyState {
     case normal, tapped, paste
 }
 
 class DRMagnifyView: UIScrollView {
     
+    private weak var targetView: UITextView!
+    
     private let tapGesture = UITapGestureRecognizer()
     private let doubleTapGesture = UITapGestureRecognizer()
     private let longPressGesture = UILongPressGestureRecognizer()
-    
-    private weak var targetView: UITextView!
     
     private let selectionView = UIView()
     private let cursorView = UIView()
@@ -26,14 +27,10 @@ class DRMagnifyView: UIScrollView {
     
     private var mLineAttr = NSMutableAttributedString(string: "")
     private var frontRange = NSMakeRange(0, 0)
-    
-    private var magnifyState = MagnifyState.normal
-    
     private var cursorInset: CGFloat = 4
     
-    var state: MagnifyState {
-        return magnifyState
-    }
+    private var magnifyState = MagnifyState.normal
+    var state: MagnifyState {return magnifyState}
     
     convenience init(_ targetView: UITextView?) {
         self.init()
@@ -47,6 +44,14 @@ class DRMagnifyView: UIScrollView {
         showsVerticalScrollIndicator = false
         backgroundColor = .white
         bounces = false
+        
+        tapGesture.addTarget(self, action: #selector(action(tap:)))
+        addGestureRecognizer(tapGesture)
+        doubleTapGesture.addTarget(self, action: #selector(action(doubleTap:)))
+        doubleTapGesture.numberOfTapsRequired = 2
+        addGestureRecognizer(doubleTapGesture)
+        longPressGesture.addTarget(self, action: #selector(action(longPress:)))
+        addGestureRecognizer(longPressGesture)
         
         selectionView.backgroundColor = UIColor(hex6: "CCDDED")
         addSubview(selectionView)
@@ -63,15 +68,7 @@ class DRMagnifyView: UIScrollView {
         mirrorView.font = UIFont.preferred(font: 28, weight: .regular)
         mirrorSizetoFit()
         
-        tapGesture.addTarget(self, action: #selector(action(tap:)))
-        addGestureRecognizer(tapGesture)
-        doubleTapGesture.addTarget(self, action: #selector(action(doubleTap:)))
-        doubleTapGesture.numberOfTapsRequired = 2
-        addGestureRecognizer(doubleTapGesture)
-        longPressGesture.addTarget(self, action: #selector(action(longPress:)))
-        addGestureRecognizer(longPressGesture)
-        
-        takeOrientation()
+        device(orientationDidChange: { _ in self.scroll()})
     }
     
     override func didMoveToWindow() {
@@ -82,12 +79,6 @@ class DRMagnifyView: UIScrollView {
         }
     }
     
-    private func takeOrientation() {
-        device(orientationDidChange: { orientation in
-            self.scroll()
-        })
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         if layer.cornerRadius == 0 {
@@ -95,9 +86,9 @@ class DRMagnifyView: UIScrollView {
             layer.borderColor = UIColor(hex6: "c7c7cc").cgColor
             layer.borderWidth = 1
         }
-        // Cursor를 화면 중간에 위치하도록 하는 inset
+        // Cursor를 화면 중간에 위치하도록 하는 inset.
         if contentInset.left == 0 {
-            let offset = UIScreen.main.bounds.width / 2 - bounds.width / 2 - frame.origin.x
+            let offset = mainSize.width / 2 - bounds.width / 2 - frame.origin.x
             contentInset.left = bounds.width / 2 + offset
             contentInset.right = bounds.width / 2 - offset
         }
@@ -105,31 +96,31 @@ class DRMagnifyView: UIScrollView {
     
 }
 
-// Sync function extension
+// Sync function extension.
 extension DRMagnifyView {
     
     typealias TextRange = (text: String, range: NSRange)
     
-    /// PianoView와 KeyboardView의 sync 작업을 진행
+    /// PianoView와 KeyboardView의 sync 작업을 진행.
     func sync() {
-        guard magnifyState != .tapped else { return }
+        guard magnifyState != .tapped else {return}
         
-        //targetView의 cursor에 따른 text 및 range 추출
+        //targetView의 cursor에 따른 text 및 range 추출.
         let textRange = extractText()
         checkAttachment()
         
-        // mirrorView에 text적용 및 size 처리
+        // mirrorView에 text적용 및 size 처리.
         mirrorView.text = textRange.text
         mirrorSizetoFit()
         
-        // 커서의 앞부분 range
+        // 커서의 앞부분 range.
         frontRange = NSMakeRange(0, targetView.selectedRange.location - textRange.range.location)
         scroll()
         selection()
         cursor()
     }
     
-    /// targetView의 cursor가 위치한 text의 paragraph가 가지는 range의 string을 추출한다
+    /// targetView의 cursor가 위치한 text의 paragraph가 가지는 range의 string을 추출한다.
     private func extractText() -> TextRange {
         let lineRange = (targetView.text as NSString).paragraphRange(for: targetView.selectedRange)
         let lineAttr = targetView.textStorage.attributedSubstring(from: lineRange)
@@ -138,27 +129,27 @@ extension DRMagnifyView {
         return TextRange(text: mLineAttr.string, range: lineRange)
     }
     
-    /// text가 없거나 Attachment일때는 keyboardView를 hidden 처리한다
+    /// text가 없거나 Attachment일때는 keyboardView를 hidden 처리한다.
     private func checkAttachment() {
         mirrorView.isHidden = (mLineAttr.containsAttachments(in: NSMakeRange(0, mLineAttr.length)) || mLineAttr.length <= 0)
     }
     
-    /// mirrorView에 담겨있는 text size에 맞춰 width를 결정한다
+    /// mirrorView에 담겨있는 text size에 맞춰 width를 결정한다.
     private func mirrorSizetoFit() {
         mirrorView.sizeToFit()
         contentSize.width = mirrorView.frame.size.width
         mirrorView.frame.size.height = bounds.height
     }
     
-    /// cursor가 중앙에 고정 될 수 있도록 auto scrolling을 진행한다
+    /// cursor가 중앙에 고정 될 수 있도록 auto scrolling을 진행한다.
     private func scroll() {
         let frontWidth = mLineAttr.attributedSubstring(from: frontRange).size().width
-        contentOffset.x = frontWidth - (UIScreen.main.bounds.width / 2 - frame.origin.x)
+        contentOffset.x = frontWidth - (mainSize.width / 2 - frame.origin.x)
     }
     
-    /// targetView의 cursor 또는 user가 KeyboardView를 tap한 location에 따라 cursor 위치를 변경한다
+    /// targetView의 cursor 또는 user가 KeyboardView를 tap한 location에 따라 cursor 위치를 변경한다.
     func cursor(_ point: CGPoint? = nil) {
-        /// mirrorView의 cursor 작업
+        /// mirrorView의 cursor 작업.
         func mirrorCursor(_ range: NSRange) {
             cursorView.alpha = 1
             cursorView.frame = CGRect(x: mLineAttr.attributedSubstring(from: range).size().width, y: cursorInset, width: 2, height: bounds.height - (cursorInset * 2))
@@ -167,27 +158,26 @@ extension DRMagnifyView {
             })
         }
         
+        // User interact로 point가 넘어왔는지에 따른 구분.
         if let point = point {
             selectionView.isHidden = true
             cursorView.isHidden = false
             
-            // point로 index 및 range 추출
-            guard let glyphIndex = glyphIndex(from: point) else {return}
-            let cursorRange = NSMakeRange(0, glyphIndex)
+            // point로 index 및 range 추출.
+            let indexGlyph = glyphIndex(from: point)
+            let cursorRange = NSMakeRange(0, indexGlyph)
             let frontText = mLineAttr.attributedSubstring(from: cursorRange).string
             let lineRange = (targetView.text as NSString).paragraphRange(for: targetView.selectedRange)
             
             if let lastChar = frontText.last, lastChar == "\n" {
-                targetView.selectedRange.location = lineRange.location + glyphIndex - 1
+                targetView.selectedRange.location = lineRange.location + indexGlyph - 1
             } else {
-                targetView.selectedRange.location = lineRange.location + glyphIndex
+                targetView.selectedRange.location = lineRange.location + indexGlyph
             }
-            
             mirrorCursor(cursorRange)
         } else {
             mirrorCursor(frontRange)
         }
-        
     }
     
     /// targetView의 selectedTextRange에 따라 keyboardView에도 selection effect를 부여한다
@@ -222,6 +212,7 @@ extension DRMagnifyView {
     @objc private func action(doubleTap: UITapGestureRecognizer) {
         let textView = customTextView(bounds: mirrorView.bounds, attributedString: mLineAttr)
         if let wordRange = textView.word(from: doubleTap.location(in: self)) {
+            magnifyState = .tapped
             UIPasteboard.general.string = wordRange.word.trimmingCharacters(in: .whitespacesAndNewlines)
             
             // 복사되는 word에 selection effect 적용
@@ -237,6 +228,7 @@ extension DRMagnifyView {
             }, completion: { finished in
                 self.selectionView.isHidden = true
             })
+            magnifyState = .normal
         }
     }
     
@@ -267,7 +259,7 @@ extension DRMagnifyView {
      - parameter point : 찾고자 하는 point
      - returns : 해당 point의 text glyphIndex
      */
-    func glyphIndex(from point: CGPoint) -> Int? {
+    func glyphIndex(from point: CGPoint) -> Int {
         guard !mLineAttr.string.isEmpty else {return 0}
         let layoutManager = NSLayoutManager()
         let textStorage = NSTextStorage(attributedString: mLineAttr)

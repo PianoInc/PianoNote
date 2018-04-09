@@ -19,8 +19,8 @@ class InteractDetailViewController: DRViewController {
         listView.estimatedRowHeight = 140
         }}
     
-    var postData = (id : "", title : "")
     private var data = [DRFBComment]()
+    var postData = (id : "", title : "")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,17 +30,14 @@ class InteractDetailViewController: DRViewController {
     }
     
     private func initConst() {
-        func constraint() {
-            makeConst(listView) {
-                $0.leading.equalTo(self.safeInset.left).priority(.high)
-                $0.trailing.equalTo(-self.safeInset.right).priority(.high)
-                $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
-                $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
-                $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
-                $0.centerX.equalToSuperview().priority(.required)
-            }
+        makeConst(listView) {
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
+            $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
+            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
+            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.centerX.equalToSuperview().priority(.required)
         }
-        constraint()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
@@ -66,13 +63,13 @@ class InteractDetailViewController: DRViewController {
             headerView.contentView.titleLabel.isHidden = false
             headerView.contentView.titleLabel.numberOfLines = 2
             headerView.contentView.titleLabel.font = UIFont.preferred(font: 23, weight: .bold)
+            headerView.contentView.titleLabel.text = postData.title
             makeConst(headerView.contentView.titleLabel) {
                 $0.leading.equalTo(self.minSize * 0.1066)
                 $0.trailing.equalTo(-(self.minSize * 0.1066))
                 $0.top.equalTo(self.minSize * 0.0666)
                 $0.bottom.equalTo(-(self.minSize * 0.0666))
             }
-            headerView.contentView.titleLabel.text = postData.title
         }
     }
     
@@ -97,15 +94,13 @@ class InteractDetailViewController: DRViewController {
 extension InteractDetailViewController: UITableViewDelegate, DRDetailDelegates {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        if  currentOffset / maximumOffset > 0.9 {
+        requestNextData(scrollView) {
             DRFBService.share.facebook(comment: postData.id)
         }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        naviTitleShowing(scrollView)
+        fadeNavigationTitle(scrollView)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -147,8 +142,8 @@ extension InteractDetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DRDetailReplyCell") as! DRDetailReplyCell
+    
         guard let data = comment(data: indexPath) else {return cell}
-        
         cell.nameLabel.text = "이름" + " "
         cell.contentLabel.text = cell.nameLabel.text! + data.msg
         cell.timeLabel.text = data.create.timeFormat
