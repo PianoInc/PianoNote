@@ -75,11 +75,11 @@ class InteractDetailViewController: DRViewController {
     
     /// Data의 변화를 감지하여 listView에 이어 붙인다.
     private func attachData() {
-        DRFBService.share.rxComment.subscribe {
-            $0.forEach {self.data.append($0)}
-            self.listView.reloadData()
+        DRFBService.share.rxComment.subscribe { [weak self] data in
+            data.forEach {self?.data.append($0)}
+            self?.listView.reloadData()
             UIView.animate(withDuration: 0.3) {
-                self.listView.alpha = 1
+                self?.listView.alpha = 1
             }
         }
     }
@@ -142,7 +142,7 @@ extension InteractDetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DRDetailReplyCell") as! DRDetailReplyCell
-    
+        
         guard let data = comment(data: indexPath) else {return cell}
         cell.nameLabel.text = "이름" + " "
         cell.contentLabel.text = cell.nameLabel.text! + data.msg

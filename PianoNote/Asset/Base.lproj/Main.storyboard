@@ -729,6 +729,13 @@
                                     <outlet property="delegate" destination="hXS-0I-ej6" id="gY7-ia-XaN"/>
                                 </connections>
                             </collectionView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="fWf-4R-Z1x" customClass="DRPageControl" customModule="PianoNote" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="pageIndicatorTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="currentPageIndicatorTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="agM-Ii-Utr"/>
@@ -766,6 +773,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="listView" destination="b2K-yu-VO0" id="liz-BV-O40"/>
+                        <outlet property="pageControl" destination="fWf-4R-Z1x" id="F4s-wr-1b2"/>
                         <segue destination="6Eh-mY-w51" kind="show" identifier="RecycleBinViewController" id="XdT-go-sYI"/>
                         <segue destination="ler-eE-Fax" kind="show" identifier="InteractViewController" id="e2b-Nm-HUz"/>
                         <segue destination="j6a-cg-Yjv" kind="show" identifier="NoteViewController" id="T6g-my-zaP"/>
@@ -791,7 +799,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="duh-6m-9ZC"/>
                     </view>
                     <connections>

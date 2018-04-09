@@ -12,6 +12,7 @@ import SnapKit
 class MainListViewController: DRViewController {
     
     @IBOutlet private var listView: UICollectionView!
+    @IBOutlet private var pageControl: DRPageControl!
     
     private var tempData = ["둘러보기", "폴더", "폴더2", ""]
     private var destIndexPath: IndexPath!
@@ -31,6 +32,11 @@ class MainListViewController: DRViewController {
             $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
+        }
+        makeConst(pageControl) {
+            $0.leading.equalTo(self.safeInset.left + self.mainSize.width * 0.25)
+            $0.trailing.equalTo(-(self.safeInset.right + self.mainSize.width * 0.25))
+            $0.bottom.equalTo(-(self.safeInset.bottom + self.minSize * 0.0266))
         }
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
@@ -141,6 +147,7 @@ extension MainListViewController: UICollectionViewDelegate {
         // 화면 중앙점을 기준으로 index를 계산한다.
         let centerOffset = CGPoint(x: scrollView.contentOffset.x + scrollView.center.x, y: scrollView.center.y)
         guard let indexPath = listView.indexPathForItem(at: centerOffset) else {return}
+        pageControl.currentPage = indexPath.row
         initNavi(item: indexPath)
     }
     
@@ -154,10 +161,9 @@ extension MainListViewController: UICollectionViewDelegate {
         titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
         rightItem.title = (indexPath.row == 0) ? "" : "select".locale
-        rightItem.image = (indexPath.row == 0) ? nil : nil
+        rightItem.isEnabled = true
         guard let _ = listView.cellForItem(at: indexPath) as? DREmptyFolderCell else {return}
-        rightItem.title = ""
-        rightItem.image = nil
+        rightItem.isEnabled = false
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -168,21 +174,20 @@ extension MainListViewController: UICollectionViewDelegate {
         if let contentFolderCell = cell as? DRContentFolderCell {
             contentFolderCell.listView.setContentOffset(.zero, animated: false)
         }
-        navi { (_, item) in item.rightBarButtonItem?.isEnabled = true}
         if let emptyFolderCell = cell as? DREmptyFolderCell {
             emptyFolderCell.listView.setContentOffset(.zero, animated: false)
-            navi { (_, item) in item.rightBarButtonItem?.isEnabled = false}
         }
         // 폴더간 이동시 navigation titleView의 alpha값을 초기화 시킨다.
         destIndexPath = indexPath
         guard let titleView = navigationItem.titleView as? UILabel else {return}
+        titleViewAlpha = titleView.alpha
         titleView.alpha = 0
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // 기존의 cell로 다시 돌아왔다면 alpha값 복원.
         guard let titleView = navigationItem.titleView as? UILabel else {return}
-        titleView.alpha = (destIndexPath == indexPath) ? 1 : 0
+        titleView.alpha = (destIndexPath == indexPath) ? titleViewAlpha : 0
     }
     
 }
@@ -198,6 +203,7 @@ extension MainListViewController: UICollectionViewDelegateFlowLayout {
 extension MainListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        pageControl.numberOfPages = tempData.count
         return tempData.count
     }
     

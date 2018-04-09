@@ -22,6 +22,7 @@ class DRBinder<T>: NSObject {
     
     /**
      Value값의 변화를 감지하고 통지한다.
+     - warning : Use unowned or weak for avoid memory leak.
      - parameter observer : 변화된 Value값 통지.
      */
     func subscribe(_ observer: Observer?) {

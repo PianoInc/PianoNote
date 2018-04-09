@@ -24,7 +24,7 @@
 		16513F6D2072F62700085AE0 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16513F6C2072F62700085AE0 /* NoteViewController.swift */; };
 		16520F7B2063B9BA008EFEF6 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16520F7A2063B9BA008EFEF6 /* Font.swift */; };
 		1664D35A2068660B00BAA54B /* DRClearNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1664D3592068660B00BAA54B /* DRClearNavigationController.swift */; };
-		166F6AE2206B225F00499596 /* DRFolderControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166F6AE1206B225F00499596 /* DRFolderControl.swift */; };
+		166F6AE2206B225F00499596 /* DRPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166F6AE1206B225F00499596 /* DRPageControl.swift */; };
 		166F6AE5206B4F5200499596 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166F6AE4206B4F5200499596 /* Date.swift */; };
 		1679D5612069B48700E6D98E /* RecycleBinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1679D5602069B48700E6D98E /* RecycleBinViewController.swift */; };
 		1679D5632069B73000E6D98E /* InteractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1679D5622069B73000E6D98E /* InteractViewController.swift */; };
@@ -139,7 +139,7 @@
 		16513F6C2072F62700085AE0 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		16520F7A2063B9BA008EFEF6 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		1664D3592068660B00BAA54B /* DRClearNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRClearNavigationController.swift; sourceTree = "<group>"; };
-		166F6AE1206B225F00499596 /* DRFolderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFolderControl.swift; sourceTree = "<group>"; };
+		166F6AE1206B225F00499596 /* DRPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRPageControl.swift; sourceTree = "<group>"; };
 		166F6AE4206B4F5200499596 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		1679D5602069B48700E6D98E /* RecycleBinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinViewController.swift; sourceTree = "<group>"; };
 		1679D5622069B73000E6D98E /* InteractViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractViewController.swift; sourceTree = "<group>"; };
@@ -483,7 +483,7 @@
 			isa = PBXGroup;
 			children = (
 				164AC2462071C52300714703 /* InputView */,
-				166F6AE1206B225F00499596 /* DRFolderControl.swift */,
+				166F6AE1206B225F00499596 /* DRPageControl.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1018,7 +1018,7 @@
 				168D1A19206383B9005AA85F /* DREmptyNoteCell.swift in Sources */,
 				16BA306A206A1C4E00200C0A /* DRFBService.swift in Sources */,
 				168D1A122063752D005AA85F /* DRAuth.swift in Sources */,
-				166F6AE2206B225F00499596 /* DRFolderControl.swift in Sources */,
+				166F6AE2206B225F00499596 /* DRPageControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

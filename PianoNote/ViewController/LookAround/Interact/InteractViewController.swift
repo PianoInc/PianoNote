@@ -99,11 +99,11 @@ class InteractViewController: DRViewController {
     
     /// Data의 변화를 감지하여 listView에 이어 붙인다.
     private func attachData() {
-        DRFBService.share.rxPost.subscribe {
-            self.group(time: $0)
-            self.listView.reloadData()
+        DRFBService.share.rxPost.subscribe { [weak self] data in
+            self?.group(time: data)
+            self?.listView.reloadData()
             UIView.animate(withDuration: 0.3) {
-                self.listView.alpha = 1
+                self?.listView.alpha = 1
             }
         }
     }
