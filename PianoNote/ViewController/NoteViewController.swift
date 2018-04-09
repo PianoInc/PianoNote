@@ -15,6 +15,7 @@ class NoteViewController: DRViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
         keyboard()
     }
     
@@ -27,7 +28,6 @@ class NoteViewController: DRViewController {
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func keyboard() {

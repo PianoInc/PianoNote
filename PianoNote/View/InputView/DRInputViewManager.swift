@@ -19,6 +19,7 @@ class DRInputViewManager: NSObject {
         self.targetView = targetView
         initView()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
         keyboard()
     }
     
@@ -50,7 +51,6 @@ class DRInputViewManager: NSObject {
             $0.top.equalTo(0)
             $0.height.equalTo(self.minSize * 0.2293)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func keyboard() {

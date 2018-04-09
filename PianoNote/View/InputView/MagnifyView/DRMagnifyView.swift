@@ -36,6 +36,7 @@ class DRMagnifyView: UIScrollView {
         self.init()
         self.targetView = targetView
         initView()
+        device(orientationDidChange: { _ in self.scroll()})
     }
     
     private func initView() {
@@ -67,8 +68,6 @@ class DRMagnifyView: UIScrollView {
         
         mirrorView.font = UIFont.preferred(font: 28, weight: .regular)
         mirrorSizetoFit()
-        
-        device(orientationDidChange: { _ in self.scroll()})
     }
     
     override func didMoveToWindow() {

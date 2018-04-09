@@ -40,14 +40,18 @@ class DRCameraView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initView()
-        initConst()
+        viewDidLoad()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        viewDidLoad()
+    }
+    
+    private func viewDidLoad() {
         initView()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initView() {
@@ -101,7 +105,6 @@ class DRCameraView: UIView {
             $0.top.equalTo(self.inputHeight * 0.2 + self.safeInset.top)
             $0.bottom.equalTo(-(self.inputHeight * 0.3 + self.safeInset.bottom))
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     @objc private func action(flash: UIButton) {

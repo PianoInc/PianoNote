@@ -17,6 +17,7 @@ class DREmptyNoteCell: UITableViewCell {
     override func didMoveToWindow() {
         super.didMoveToWindow()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initConst() {
@@ -26,7 +27,6 @@ class DREmptyNoteCell: UITableViewCell {
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
 }

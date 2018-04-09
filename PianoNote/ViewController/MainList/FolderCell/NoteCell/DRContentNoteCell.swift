@@ -54,6 +54,7 @@ class DRContentNoteCell: UITableViewCell {
     override func didMoveToWindow() {
         super.didMoveToWindow()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initConst() {
@@ -76,7 +77,6 @@ class DRContentNoteCell: UITableViewCell {
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {
@@ -154,6 +154,7 @@ class DRContentNoteView: UIView {
     override func didMoveToWindow() {
         super.didMoveToWindow()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initConst() {
@@ -176,7 +177,6 @@ class DRContentNoteView: UIView {
             $0.bottom.equalTo(-round(self.minSize * 0.04))
             $0.height.greaterThanOrEqualTo(0)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {

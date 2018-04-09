@@ -37,6 +37,11 @@ class DRDrawingView: UIView {
         canvasView.canvas.image = image
         initView()
         initConst()
+        device(orientationDidChange: { [weak self] _ in
+            self?.initConst()
+            self?.fillCustomInput(animate: false)
+            self?.canvasOrientation()
+        })
     }
     
     private func initView() {
@@ -88,11 +93,6 @@ class DRDrawingView: UIView {
             $0.width.equalTo(self.minSize * 0.08)
             $0.height.equalTo(self.minSize * 0.08)
         }
-        device(orientationDidChange: { [weak self] _ in
-            self?.initConst()
-            self?.fillCustomInput(animate: false)
-            self?.canvasOrientation()
-        })
     }
     
     /// 현재 orientation 맞추어 canvasView를 scaleAspectFit 처리한다.

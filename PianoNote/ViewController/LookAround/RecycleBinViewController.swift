@@ -14,7 +14,7 @@ class RecycleBinViewController: DRViewController {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.2133)
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = 140
+        listView.estimatedRowHeight = minSize
         }}
     
     private var selectedIndex = [IndexPath]()
@@ -24,6 +24,7 @@ class RecycleBinViewController: DRViewController {
         super.viewDidLoad()
         initNaviBar()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initConst() {
@@ -35,7 +36,6 @@ class RecycleBinViewController: DRViewController {
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func viewDidLayoutSubviews() {
@@ -45,7 +45,7 @@ class RecycleBinViewController: DRViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
-        navi { navi, item in
+        navi { (navi, item) in
             item.rightBarButtonItem?.title = "selectAll".locale
             item.titleView = makeView(UILabel()) {
                 $0.font = UIFont.preferred(font: 17, weight: .semibold)

@@ -14,9 +14,9 @@ class InteractDetailViewController: DRViewController {
         listView.register(DRDetailCommentSection.self, forHeaderFooterViewReuseIdentifier: "DRDetailCommentSection")
         listView.initHeaderView(minSize * 0.2666)
         listView.sectionHeaderHeight = UITableViewAutomaticDimension
-        listView.estimatedSectionHeaderHeight = 140
+        listView.estimatedSectionHeaderHeight = minSize
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = 140
+        listView.estimatedRowHeight = minSize
         }}
     
     private var data = [DRFBComment]()
@@ -25,6 +25,7 @@ class InteractDetailViewController: DRViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
         attachData()
         DRFBService.share.facebook(comment: postData.id)
     }
@@ -38,7 +39,6 @@ class InteractDetailViewController: DRViewController {
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func viewDidLayoutSubviews() {

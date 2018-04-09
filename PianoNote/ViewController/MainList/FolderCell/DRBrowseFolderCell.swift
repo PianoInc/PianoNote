@@ -19,6 +19,7 @@ class DRBrowseFolderCell: UICollectionViewCell {
     override func didMoveToWindow() {
         super.didMoveToWindow()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initConst() {
@@ -28,7 +29,6 @@ class DRBrowseFolderCell: UICollectionViewCell {
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {

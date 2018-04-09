@@ -14,7 +14,7 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.4)
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = 140
+        listView.estimatedRowHeight = minSize
         }}
     @IBOutlet private var lockView: UIView!
     @IBOutlet private var lockimage: UIImageView!
@@ -38,6 +38,7 @@ class DRContentFolderCell: UICollectionViewCell {
     override func didMoveToWindow() {
         super.didMoveToWindow()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initConst() {
@@ -69,7 +70,6 @@ class DRContentFolderCell: UICollectionViewCell {
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(self.lockTitleLabel.snp.centerY).offset(self.minSize * 0.0826)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {

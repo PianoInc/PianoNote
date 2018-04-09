@@ -23,18 +23,23 @@ class DRNoteCellHeader: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initView()
+        viewDidLoad()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        viewDidLoad()
+    }
+    
+    private func viewDidLoad() {
         initView()
+        initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initView() {
         backgroundColor = .clear
         addSubview(contentView)
-        initConst()
     }
     
     private func initConst() {
@@ -44,7 +49,6 @@ class DRNoteCellHeader: UIView {
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
 }
@@ -76,14 +80,18 @@ class DRNoteCellHeaderContentView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initView()
-        initConst()
+        viewDidLoad()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        viewDidLoad()
+    }
+    
+    private func viewDidLoad() {
         initView()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initView() {
@@ -133,7 +141,6 @@ class DRNoteCellHeaderContentView: UIView {
             $0.bottom.equalTo(0)
             $0.height.equalToSuperview().multipliedBy(0.7)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
 }

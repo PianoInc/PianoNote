@@ -23,6 +23,7 @@ class DRPageControl: UIPageControl {
         super.didMoveToWindow()
         initView()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initView() {
@@ -36,7 +37,6 @@ class DRPageControl: UIPageControl {
             $0.height.equalTo(self.minSize * 0.0413)
             $0.centerY.equalToSuperview()
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {

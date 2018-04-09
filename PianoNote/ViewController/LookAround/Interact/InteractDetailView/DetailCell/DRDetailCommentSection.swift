@@ -55,14 +55,18 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        initView()
-        initConst()
+        viewDidLoad()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        viewDidLoad()
+    }
+    
+    private func viewDidLoad() {
         initView()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initView() {
@@ -126,7 +130,6 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     @objc private func action(reply: UIButton) {

@@ -33,7 +33,7 @@ class InteractViewController: DRViewController {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.2133)
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = 140
+        listView.estimatedRowHeight = minSize
         }}
     
     private var data = [[String : [DRFBPost]]]()
@@ -41,6 +41,7 @@ class InteractViewController: DRViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
         attachData()
         if FBSDKAccessToken.current() != nil {
             DRFBService.share.facebook(post: PianoPageID)
@@ -80,7 +81,6 @@ class InteractViewController: DRViewController {
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func viewDidLayoutSubviews() {

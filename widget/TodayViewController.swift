@@ -9,16 +9,6 @@
 import UIKit
 import NotificationCenter
 
-/**
- Device의 가로 세로중 더 작은 방향의 화면크기 값, iPhone의 최대 minSize인
- 414를 넘을시엔 기기간 일정비율 유지를 위해서 414를 반환한다.
- */
-var minSize: CGFloat {
-    var size = UIScreen.main.bounds.width
-    if size > UIScreen.main.bounds.height {size = UIScreen.main.bounds.height}
-    return (size < 414) ? size : 414
-}
-
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet private var listView: UITableView!
@@ -32,6 +22,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         super.viewDidLoad()
         extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initConst() {
@@ -117,6 +108,7 @@ class DRTodayListCell: UITableViewCell {
     override func didMoveToWindow() {
         super.didMoveToWindow()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initConst() {

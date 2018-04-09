@@ -57,14 +57,18 @@ class DRAlbumView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initView()
-        initConst()
+        viewDidLoad()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        viewDidLoad()
+    }
+    
+    private func viewDidLoad() {
         initView()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initView() {
@@ -146,7 +150,6 @@ class DRAlbumView: UIView {
         }
         constraint()
         consistHeight()
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     @objc private func action(close: UIButton) {

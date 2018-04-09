@@ -28,14 +28,18 @@ class DRAlbumFolderCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        initView()
-        initConst()
+        viewDidLoad()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        viewDidLoad()
+    }
+    
+    private func viewDidLoad() {
         initView()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initView() {
@@ -71,7 +75,6 @@ class DRAlbumFolderCell: UITableViewCell {
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     @objc private func action(select: UIButton) {

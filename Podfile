@@ -3,14 +3,14 @@ platform :ios, '10.0'
 def common
     pod 'SnapKit'
     pod 'RealmSwift'
+    pod 'RxSwift'
+    pod 'RxCocoa'
 end
 
 # Pods for PianoNote
 target 'PianoNote' do
     use_frameworks!
     common
-    pod 'RxSwift'
-    pod 'RxCocoa'
     pod 'FBSDKLoginKit'
     pod 'SwiftyJSON'
     pod 'SwiftyUserDefaults'

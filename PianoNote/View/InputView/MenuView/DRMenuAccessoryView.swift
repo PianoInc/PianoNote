@@ -28,6 +28,7 @@ class DRMenuAccessoryView: UIView {
         self.targetView = targetView
         initView()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     private func initView() {
@@ -63,7 +64,6 @@ class DRMenuAccessoryView: UIView {
             $0.top.equalTo(self.minSize * 0.1173)
             $0.bottom.equalTo(0)
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     override func layoutSubviews() {

@@ -21,6 +21,7 @@ class MainListViewController: DRViewController {
         super.viewDidLoad()
         initNaviBar()
         initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     /// Constraints 설정
@@ -38,7 +39,6 @@ class MainListViewController: DRViewController {
             $0.trailing.equalTo(-(self.safeInset.right + self.mainSize.width * 0.25))
             $0.bottom.equalTo(-(self.safeInset.bottom + self.minSize * 0.0266))
         }
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
     
     // Orientation 대응
@@ -77,11 +77,6 @@ class MainListViewController: DRViewController {
             }
         }
     }()
-    
-}
-
-// Navigation configuration.
-extension MainListViewController {
     
     /// Navigation 설정
     private func initNaviBar() {
