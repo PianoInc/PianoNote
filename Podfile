@@ -14,6 +14,7 @@ target 'PianoNote' do
   pod 'SwiftyJSON'
   pod 'SwiftyUserDefaults'
   pod 'CryptoSwift'
+  pod 'URLEmbeddedView'
 
   target 'PianoNoteTests' do
     inherit! :search_paths
