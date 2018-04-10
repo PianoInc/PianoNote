@@ -187,6 +187,7 @@
 		16BB04202074A2EE00ED2AB5 /* PianoNote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PianoNote.entitlements; sourceTree = "<group>"; };
 		16BF63AF2076E4D500DAE71C /* DRMenuDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRMenuDelegates.swift; sourceTree = "<group>"; };
 		16BF63B12076F0BD00DAE71C /* DRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRViewController.swift; sourceTree = "<group>"; };
+		16D36540207C3C4B0082C193 /* Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Widget.entitlements; sourceTree = "<group>"; };
 		16D41E19207C34850098DBCF /* Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Widget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		16D41E1C207C34850098DBCF /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		16D41E1F207C34850098DBCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -536,6 +537,7 @@
 				16D41E1E207C34850098DBCF /* MainInterface.storyboard */,
 				16D41E2A207C34E00098DBCF /* Localizable.strings */,
 				16D41E28207C34E00098DBCF /* InfoPlist.strings */,
+				16D36540207C3C4B0082C193 /* Widget.entitlements */,
 				16D41E21207C34850098DBCF /* Info.plist */,
 			);
 			path = Widget;
@@ -698,7 +700,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -1382,6 +1384,7 @@
 			baseConfigurationReference = F5CA31841BCDAEF2F7B9B9A7 /* Pods-Widget.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = Widget/Widget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U9KHV9D7LV;
 				INFOPLIST_FILE = Widget/Info.plist;
@@ -1400,6 +1403,7 @@
 			baseConfigurationReference = 56D1EF203A6AFDB77F04F46C /* Pods-Widget.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = Widget/Widget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U9KHV9D7LV;
 				INFOPLIST_FILE = Widget/Info.plist;
