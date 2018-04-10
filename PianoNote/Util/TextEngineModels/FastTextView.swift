@@ -62,7 +62,9 @@ extension FastTextView {
         selectedAttributedString.enumerateAttribute(.attachment, in: NSMakeRange(0, selectedAttributedString.length),
                                                     options: .longestEffectiveRangeNotRequired) { value, range, _ in
                                                         if let attachment = value as? ImageAttachment,
-                                                            let imageModel = realm.object(ofType: RealmImageModel.self, forPrimaryKey: attachment.imageID),
+                                                            let attribute = attachment.attribute,
+                                                                case let .image(imageAttribute) = attribute,
+                                                            let imageModel = realm.object(ofType: RealmImageModel.self, forPrimaryKey: imageAttribute.id),
                                                             let image = UIImage(data: imageModel.image) {
                                                             
                                                             let resizedImage: UIImage!
@@ -119,11 +121,8 @@ extension FastTextView {
                     let newImageModel = RealmImageModel.getNewModel(noteRecordName: memo.recordName, image: resizedImage)
                     ModelManager.saveNew(model: newImageModel) { error in }
                     
-                    
-                    let newAttachment = ImageAttachment()
-                    newAttachment.imageID = newImageModel.id
-                    newAttachment.currentSize = resizedImage.size
-                    
+                    let imageAttribute = ImageAttribute(id: newImageModel.id, size: resizedImage.size)
+                    let newAttachment = ImageAttachment(attribute: imageAttribute)
                     let attachString = NSAttributedString(attachment: newAttachment)
                     
                     pasteString.replaceCharacters(in: range, with: attachString)
