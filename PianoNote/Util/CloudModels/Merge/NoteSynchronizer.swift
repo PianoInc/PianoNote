@@ -126,7 +126,7 @@ class NoteSynchronizer {
                     
                     DispatchQueue.global(qos: .utility).async { [weak self] in
                         let serverAttributesData = noteModel.attributes
-                        let serverAttributes = try! JSONDecoder().decode([PianoAttribute].self, from: serverAttributesData)
+                        let serverAttributes = try! JSONDecoder().decode([AttributeModel].self, from: serverAttributesData)
                         let serverAttributedString = NSMutableAttributedString(string: noteModel.content)
                         serverAttributes.forEach { serverAttributedString.add(attribute: $0) }
                         
@@ -159,11 +159,11 @@ class NoteSynchronizer {
                 
             } else if oldNote.attributes != noteModel.attributes {
                 
-                let myAttributes = try! JSONDecoder().decode([PianoAttribute].self, from: oldNote.attributes)
-                let serverAttributes = try! JSONDecoder().decode([PianoAttribute].self, from: noteModel.attributes)
+                let myAttributes = try! JSONDecoder().decode([AttributeModel].self, from: oldNote.attributes)
+                let serverAttributes = try! JSONDecoder().decode([AttributeModel].self, from: noteModel.attributes)
                 
-                var mySet = Set<PianoAttribute>(myAttributes)
-                var serverSet = Set<PianoAttribute>(serverAttributes)
+                var mySet = Set<AttributeModel>(myAttributes)
+                var serverSet = Set<AttributeModel>(serverAttributes)
                 mySet.subtract(serverAttributes)
                 serverSet.subtract(myAttributes)
                 
@@ -193,8 +193,8 @@ class NoteSynchronizer {
         let ancestorAttributesData = myNote.attributes
         let serverAttributesData = serverRecord[Schema.Note.attributes] as! Data
         
-        let ancestorAttributes = try! JSONDecoder().decode([PianoAttribute].self, from: ancestorAttributesData)
-        let serverAttributes = try! JSONDecoder().decode([PianoAttribute].self, from: serverAttributesData)
+        let ancestorAttributes = try! JSONDecoder().decode([AttributeModel].self, from: ancestorAttributesData)
+        let serverAttributes = try! JSONDecoder().decode([AttributeModel].self, from: serverAttributesData)
         
         let serverAttributedString = NSMutableAttributedString(string: serverContent)
         serverAttributes.forEach { serverAttributedString.add(attribute: $0) }
@@ -241,13 +241,13 @@ class NoteSynchronizer {
             DispatchQueue.main.sync { [weak self] in
                 guard let (_, currentAttributes) = self?.textView.get() else {print("get attributes error!");return}
                 
-                var myDeleteSet = Set<PianoAttribute>(ancestorAttributes)
-                var myAddSet = Set<PianoAttribute>(currentAttributes)
+                var myDeleteSet = Set<AttributeModel>(ancestorAttributes)
+                var myAddSet = Set<AttributeModel>(currentAttributes)
                 myDeleteSet.subtract(currentAttributes)
                 myAddSet.subtract(ancestorAttributes)
                 
-                var serverDeleteSet = Set<PianoAttribute>(ancestorAttributes)
-                var serverAddSet = Set<PianoAttribute>(serverAttributes)
+                var serverDeleteSet = Set<AttributeModel>(ancestorAttributes)
+                var serverAddSet = Set<AttributeModel>(serverAttributes)
                 serverDeleteSet.subtract(serverAttributes)
                 serverAddSet.subtract(ancestorAttributes)
                 

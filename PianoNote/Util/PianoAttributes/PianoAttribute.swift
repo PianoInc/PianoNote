@@ -11,7 +11,7 @@ import UIKit
 import InteractiveTextEngine_iOS
 
 
-struct PianoAttribute {
+struct AttributeModel {
     let startIndex: Int
     let endIndex: Int
     
@@ -26,19 +26,19 @@ struct PianoAttribute {
     }
 }
 
-extension PianoAttribute: Hashable {
+extension AttributeModel: Hashable {
     var hashValue: Int {
         return startIndex.hashValue ^ endIndex.hashValue ^ style.hashValue
     }
     
-    static func ==(lhs: PianoAttribute, rhs: PianoAttribute) -> Bool {
+    static func ==(lhs: AttributeModel, rhs: AttributeModel) -> Bool {
         return lhs.startIndex == rhs.startIndex && lhs.endIndex == rhs.endIndex && lhs.style == rhs.style
     }
     
     
 }
 
-extension PianoAttribute: Codable {
+extension AttributeModel: Codable {
     
     private enum CodingKeys: CodingKey {
         case startIndex
@@ -67,13 +67,13 @@ extension PianoAttribute: Codable {
 }
 
 extension NSMutableAttributedString {
-    func add(attribute: PianoAttribute) {
+    func add(attribute: AttributeModel) {
         let range = NSMakeRange(attribute.startIndex, attribute.endIndex - attribute.startIndex)
         
         self.addAttributes(attribute.style.toNSAttribute(), range: range)
     }
     
-    func delete(attribute: PianoAttribute) {
+    func delete(attribute: AttributeModel) {
         let range = NSMakeRange(attribute.startIndex, attribute.endIndex - attribute.startIndex)
         
         self.removeAttribute(attribute.style.toNSAttribute().keys.first!, range: range)

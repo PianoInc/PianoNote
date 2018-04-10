@@ -25,14 +25,14 @@ class FastTextView: InteractiveTextView {
     }
     
     
-    func set(string: String, with attributes: [PianoAttribute]) {
+    func set(string: String, with attributes: [AttributeModel]) {
         let newAttributedString = NSMutableAttributedString(string: string)
         attributes.forEach{ newAttributedString.add(attribute: $0) }
         
         attributedText = newAttributedString
     }
     
-    func get() -> (string: String, attributes: [PianoAttribute]) {
+    func get() -> (string: String, attributes: [AttributeModel]) {
         
         return attributedText.getStringWithPianoAttributes()
     }
@@ -171,12 +171,12 @@ extension FastTextView {
 }
 
 extension NSAttributedString {
-    func getStringWithPianoAttributes() -> (string: String, attributes: [PianoAttribute]) {
-        var attributes: [PianoAttribute] = []
+    func getStringWithPianoAttributes() -> (string: String, attributes: [AttributeModel]) {
+        var attributes: [AttributeModel] = []
         
         self.enumerateAttributes(in: NSMakeRange(0, self.length), options: .reverse) { (dic, range, _) in
             for (key, value) in dic {
-                if let pianoAttribute = PianoAttribute(range: range, attribute: (key, value)) {
+                if let pianoAttribute = AttributeModel(range: range, attribute: (key, value)) {
                     attributes.append(pianoAttribute)
                 }
             }
