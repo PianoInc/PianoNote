@@ -503,6 +503,8 @@
 				7C33B69C20745CAD0075661E /* NoteSettingViewController.swift */,
 			);
 			path = NoteSetting;
+			sourceTree = "<group>";
+		};
 		6C7270732072F4C5003A4640 /* RealmModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -589,6 +591,7 @@
 			path = Sync;
 			sourceTree = "<group>";
 		};
+
 		7C9926C120647A75000327AD /* MainNote */ = {
 			isa = PBXGroup;
 			children = (
