@@ -16,6 +16,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+        application.registerForRemoteNotifications()
+        _ = CloudManager.shared
+        performMigration()
+
+        if let realm = try? Realm(),
+                realm.objects(RealmTagsModel.self).first == nil {
+            let newModel = RealmTagsModel.getNewModel()
+
+            ModelManager.saveNew(model: newModel)
+        }
         return true
     }
     

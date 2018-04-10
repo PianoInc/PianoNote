@@ -18,6 +18,8 @@ import CloudKit
 
 class RealmTagsModel: Object, Recordable {
     static let recordTypeString = "Tags"
+    static let tagSeparator = "|"
+    static let lockSymbol = "@"
     
     @objc dynamic var id = ""
     @objc dynamic var tags = ""
@@ -58,6 +60,7 @@ class RealmNoteModel: Object, Recordable {
     static let recordTypeString = "Note"
     
     @objc dynamic var id = ""
+    //TODO: remove title!!
     @objc dynamic var title = ""
     @objc dynamic var content = ""
     @objc dynamic var attributes = "[]".data(using: .utf8)!
