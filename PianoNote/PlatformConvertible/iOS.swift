@@ -21,5 +21,3 @@ public typealias Image = UIImage
 public typealias Label = UILabel
 public typealias Touch = UITouch
 public typealias ViewPropertyAnimator = UIViewPropertyAnimator
-public typealias TextStorage = NSTextStorage
-public typealias TextStorageEditActions = NSTextStorageEditActions

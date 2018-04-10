@@ -12,49 +12,47 @@ extension NoteViewController {
     
     internal func setNavigationItemsForTyping() {
         
-        let done = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(tapDone(sender:)))
-        let copyAll = UIBarButtonItem(
-            title: "전체복사",
-            style: .plain,
-            target: self,
-            action: #selector(tapCopyAll(sender:)))
         let align = UIBarButtonItem(
             image: UIImage(named: "alignment"),
             style: .plain,
             target: self,
             action: #selector(tapAlignment(sender:)))
-        
+        let copyAll = UIBarButtonItem(
+            title: "전체복사",
+            style: .plain,
+            target: self,
+            action: #selector(tapCopyAll(sender:)))
+        let done = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(tapDone(sender:)))
         navigationItem.setRightBarButtonItems(
-            [done, copyAll, align],
+            [align, copyAll, done],
             animated: true)
         
     }
     
     internal func setNavigationItemsForDefault() {
         
-        let setting = UIBarButtonItem(
-            image: UIImage(named: "setting"),
-            style: .plain,
-            target: self,
-            action: #selector(tapSetting(sender:)))
-        let addPeople = UIBarButtonItem(
-            image: UIImage(named: "addPeople"),
-            style: .plain,
-            target: self,
-            action: #selector(tapAddPeople(sender:)))
         let piano = UIBarButtonItem(
             image: UIImage(named: "piano"),
             style: .plain,
             target: self,
             action: #selector(tapPiano(sender:)))
-        
+        let addPeople = UIBarButtonItem(
+            image: UIImage(named: "addPeople"),
+            style: .plain,
+            target: self,
+            action: #selector(tapAddPeople(sender:)))
+        let setting = UIBarButtonItem(
+            image: UIImage(named: "setting"),
+            style: .plain,
+            target: self,
+            action: #selector(tapSetting(sender:)))
         navigationItem.setRightBarButtonItems(
-            [setting,
+            [piano,
              addPeople,
-             piano],
+             setting],
             animated: true)
         
     }
@@ -69,11 +67,11 @@ extension NoteViewController {
     }
     
     @objc func tapDone(sender: Any) {
-        textView.resignFirstResponder()
+        
     }
     
     @objc func tapPiano(sender: Any) {
-        setup(pianoMode: true)
+        
     }
     
     @objc func tapAddPeople(sender: UIBarButtonItem) {
@@ -81,38 +79,6 @@ extension NoteViewController {
     }
     
     @objc func tapSetting(sender: Any) {
-        performSegue(withIdentifier: SegueIdentifer.NoteSettingViewController, sender: textView)
-    }
-    
-    
-    internal func setNavigationController(for pianoMode: Bool) {
-        
-        navigationController?.setNavigationBarHidden(pianoMode, animated: true)
-        
-        let flexibleSpace = UIBarButtonItem(
-            barButtonSystemItem: .flexibleSpace,
-            target: nil,
-            action: nil)
-        let done = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(tapPianoDone(sender:)))
-        let info = UIBarButtonItem(
-            image: UIImage(named: "info"),
-            style: .plain,
-            target: self,
-            action: #selector(tapPianoInfo(sender:)))
-        
-        self.setToolbarItems([flexibleSpace, done, flexibleSpace, info], animated: true)
-        navigationController?.setToolbarHidden(!pianoMode, animated: true)
-        
-    }
-    
-    @objc func tapPianoDone(sender: Any) {
-        setup(pianoMode: false)
-    }
-    
-    @objc func tapPianoInfo(sender: Any) {
         
     }
 
