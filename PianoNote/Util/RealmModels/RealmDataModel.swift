@@ -60,6 +60,7 @@ class RealmNoteModel: Object, Recordable {
     static let recordTypeString = "Note"
     
     @objc dynamic var id = ""
+    //TODO: remove title!!
     @objc dynamic var title = ""
     @objc dynamic var content = ""
     @objc dynamic var attributes = "[]".data(using: .utf8)!
