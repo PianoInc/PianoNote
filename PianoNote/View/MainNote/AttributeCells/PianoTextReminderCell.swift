@@ -29,13 +29,23 @@ class PianoTextReminderCell: InteractiveAttachmentCell {
     func configure(with attribute: AttributeModel) {
         if case let .attachment(.reminder(reminderAttribute)) = attribute.style {
             if let dueDate = reminderAttribute.reminder.dueDateComponents {
-                
+                titleLabel.isHidden = false
+                dueDateLabel.isHidden = false
+                largeTitleLabel.isHidden = true
+                titleLabel.text = reminderAttribute.reminder.title
+
+                //TODO:get text from component
+                dueDateLabel.text = ""
             } else {
                 titleLabel.isHidden = true
                 dueDateLabel.isHidden = true
                 largeTitleLabel.isHidden = false
                 largeTitleLabel.text = reminderAttribute.reminder.title
             }
+
+            //TODO: fix names
+            let imageName = reminderAttribute.reminder.isCompleted ? "imageBoxChecked" : "imageBoxUnChecked"
+            checkBoxImageView.image = UIImage(named: imageName)
         }
     }
 }
