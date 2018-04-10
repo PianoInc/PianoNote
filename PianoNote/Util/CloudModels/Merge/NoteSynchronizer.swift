@@ -9,6 +9,7 @@
 import Foundation
 import CloudKit
 import RealmSwift
+import InteractiveTextEngine_iOS
 
 class NoteSynchronizer {
     
@@ -66,7 +67,15 @@ class NoteSynchronizer {
     
     private func insert(_ attributedString: NSAttributedString, at index: Int) {
         DispatchQueue.main.sync { [weak self] in
-            self?.textView.textStorage.insert(attributedString, at: index)
+            //TODO: pick background color
+            let backgroundLayer = InteractiveBackgroundLayer()
+            backgroundLayer.backgroundColor = UIColor.orange.cgColor
+            self?.textView.layer.insertSublayer(backgroundLayer, at: 0)
+
+            let newAttributedString = NSMutableAttributedString(attributedString: attributedString)
+            newAttributedString.addAttribute(.animatingBackground, value: backgroundLayer, range: NSMakeRange(0, newAttributedString.length))
+
+            self?.textView.textStorage.insert(newAttributedString, at: index)
         }
     }
     
@@ -78,7 +87,15 @@ class NoteSynchronizer {
     
     private func replace(in range: NSRange, with attributedString: NSAttributedString) {
         DispatchQueue.main.sync { [weak self] in
-            self?.textView.textStorage.replaceCharacters(in: range, with: attributedString)
+
+            let backgroundLayer = InteractiveBackgroundLayer()
+            backgroundLayer.backgroundColor = UIColor.orange.cgColor
+            self?.textView.layer.insertSublayer(backgroundLayer, at: 0)
+
+            let newAttributedString = NSMutableAttributedString(attributedString: attributedString)
+            newAttributedString.addAttribute(.animatingBackground, value: backgroundLayer, range: NSMakeRange(0, newAttributedString.length))
+
+            self?.textView.textStorage.replaceCharacters(in: range, with: newAttributedString)
         }
     }
     
