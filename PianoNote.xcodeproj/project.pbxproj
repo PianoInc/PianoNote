@@ -63,12 +63,12 @@
 		16BA306A206A1C4E00200C0A /* DRFBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BA3069206A1C4E00200C0A /* DRFBService.swift */; };
 		16BF63B02076E4D500DAE71C /* DRMenuDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF63AF2076E4D500DAE71C /* DRMenuDelegates.swift */; };
 		16BF63B22076F0BD00DAE71C /* DRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF63B12076F0BD00DAE71C /* DRViewController.swift */; };
+		16D3655E207C3D040082C193 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D36553207C3D040082C193 /* TodayViewController.swift */; };
+		16D3655F207C3D040082C193 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 16D36555207C3D040082C193 /* Localizable.strings */; };
+		16D36560207C3D040082C193 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 16D36557207C3D040082C193 /* InfoPlist.strings */; };
+		16D36561207C3D040082C193 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16D3655B207C3D040082C193 /* MainInterface.storyboard */; };
 		16D41E1A207C34850098DBCF /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 168D19EB20632A5F005AA85F /* NotificationCenter.framework */; };
-		16D41E1D207C34850098DBCF /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D41E1C207C34850098DBCF /* TodayViewController.swift */; };
-		16D41E20207C34850098DBCF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16D41E1E207C34850098DBCF /* MainInterface.storyboard */; };
 		16D41E24207C34850098DBCF /* Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 16D41E19207C34850098DBCF /* Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		16D41E2C207C34E00098DBCF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 16D41E28207C34E00098DBCF /* InfoPlist.strings */; };
-		16D41E2D207C34E00098DBCF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 16D41E2A207C34E00098DBCF /* Localizable.strings */; };
 		16D41E34207C36BB0098DBCF /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16233D072064D128008317D1 /* String.swift */; };
 		16D41E35207C36C40098DBCF /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A0920636BE7005AA85F /* View.swift */; };
 		16D41E36207C36CB0098DBCF /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16520F7A2063B9BA008EFEF6 /* Font.swift */; };
@@ -187,15 +187,15 @@
 		16BB04202074A2EE00ED2AB5 /* PianoNote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PianoNote.entitlements; sourceTree = "<group>"; };
 		16BF63AF2076E4D500DAE71C /* DRMenuDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRMenuDelegates.swift; sourceTree = "<group>"; };
 		16BF63B12076F0BD00DAE71C /* DRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRViewController.swift; sourceTree = "<group>"; };
-		16D36540207C3C4B0082C193 /* Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Widget.entitlements; sourceTree = "<group>"; };
+		16D36553207C3D040082C193 /* TodayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		16D36554207C3D040082C193 /* Widget.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Widget.entitlements; sourceTree = "<group>"; };
+		16D36556207C3D040082C193 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		16D36558207C3D040082C193 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		16D36559207C3D040082C193 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		16D3655A207C3D040082C193 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		16D3655C207C3D040082C193 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		16D3655D207C3D040082C193 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16D41E19207C34850098DBCF /* Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Widget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		16D41E1C207C34850098DBCF /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		16D41E1F207C34850098DBCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		16D41E21207C34850098DBCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		16D41E29207C34E00098DBCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = widget/Base.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
-		16D41E2B207C34E00098DBCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = widget/Base.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
-		16D41E2E207C34E90098DBCF /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ../widget/ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		16D41E2F207C34EB0098DBCF /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ../widget/ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		16F647AA206A0C79004BF276 /* InteractDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractDetailViewController.swift; sourceTree = "<group>"; };
 		16FE19DB20770104007C6668 /* DRAlbumPhotoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRAlbumPhotoListView.swift; sourceTree = "<group>"; };
 		16FE19DD2077010A007C6668 /* DRAlbumFolderListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRAlbumFolderListView.swift; sourceTree = "<group>"; };
@@ -347,7 +347,7 @@
 				168D19B520632998005AA85F /* PianoNote */,
 				168D199B2063294A005AA85F /* PianoNoteTests */,
 				168D19A62063294A005AA85F /* PianoNoteUITests */,
-				16D41E1B207C34850098DBCF /* Widget */,
+				16D36552207C3D040082C193 /* Widget */,
 				168D19EA20632A5F005AA85F /* Frameworks */,
 				168D198520632949005AA85F /* Products */,
 				419757B10061036B027FA047 /* Pods */,
@@ -530,15 +530,15 @@
 			path = DetailCell;
 			sourceTree = "<group>";
 		};
-		16D41E1B207C34850098DBCF /* Widget */ = {
+		16D36552207C3D040082C193 /* Widget */ = {
 			isa = PBXGroup;
 			children = (
-				16D41E1C207C34850098DBCF /* TodayViewController.swift */,
-				16D41E1E207C34850098DBCF /* MainInterface.storyboard */,
-				16D41E2A207C34E00098DBCF /* Localizable.strings */,
-				16D41E28207C34E00098DBCF /* InfoPlist.strings */,
-				16D36540207C3C4B0082C193 /* Widget.entitlements */,
-				16D41E21207C34850098DBCF /* Info.plist */,
+				16D36553207C3D040082C193 /* TodayViewController.swift */,
+				16D36554207C3D040082C193 /* Widget.entitlements */,
+				16D36555207C3D040082C193 /* Localizable.strings */,
+				16D36557207C3D040082C193 /* InfoPlist.strings */,
+				16D3655B207C3D040082C193 /* MainInterface.storyboard */,
+				16D3655D207C3D040082C193 /* Info.plist */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -761,9 +761,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16D41E20207C34850098DBCF /* MainInterface.storyboard in Resources */,
-				16D41E2D207C34E00098DBCF /* Localizable.strings in Resources */,
-				16D41E2C207C34E00098DBCF /* InfoPlist.strings in Resources */,
+				16D3655F207C3D040082C193 /* Localizable.strings in Resources */,
+				16D36561207C3D040082C193 /* MainInterface.storyboard in Resources */,
+				16D36560207C3D040082C193 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1050,7 +1050,7 @@
 			files = (
 				16D41E36207C36CB0098DBCF /* Font.swift in Sources */,
 				16D41E34207C36BB0098DBCF /* String.swift in Sources */,
-				16D41E1D207C34850098DBCF /* TodayViewController.swift in Sources */,
+				16D3655E207C3D040082C193 /* TodayViewController.swift in Sources */,
 				16D41E35207C36C40098DBCF /* View.swift in Sources */,
 				16D41E37207C37EE0098DBCF /* Device.swift in Sources */,
 			);
@@ -1127,30 +1127,30 @@
 			name = Main2.storyboard;
 			sourceTree = "<group>";
 		};
-		16D41E1E207C34850098DBCF /* MainInterface.storyboard */ = {
+		16D36555207C3D040082C193 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				16D41E1F207C34850098DBCF /* Base */,
+				16D36556207C3D040082C193 /* ko */,
+				16D36559207C3D040082C193 /* Base */,
 			);
-			name = MainInterface.storyboard;
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		16D41E28207C34E00098DBCF /* InfoPlist.strings */ = {
+		16D36557207C3D040082C193 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				16D41E29207C34E00098DBCF /* Base */,
-				16D41E2F207C34EB0098DBCF /* ko */,
+				16D36558207C3D040082C193 /* ko */,
+				16D3655A207C3D040082C193 /* Base */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		16D41E2A207C34E00098DBCF /* Localizable.strings */ = {
+		16D3655B207C3D040082C193 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				16D41E2B207C34E00098DBCF /* Base */,
-				16D41E2E207C34E90098DBCF /* ko */,
+				16D3655C207C3D040082C193 /* Base */,
 			);
-			name = Localizable.strings;
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
