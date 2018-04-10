@@ -1,1 +1,32 @@
 
+"newMemoSubText" = "새 메모 작성";
+"lookAround" = "둘러보기";
+"manageFolder" = "폴더관리";
+"moveToNext" = "다음으로 이동...";
+"deletedMemo" = "삭제된 메모";
+"lockTitle" = "이 메모는 잠겨 있습니다.";
+"lockSubtitle" = "메모 보기";
+"infomation" = "사용법";
+"makeUp" = "꾸미기";
+"interact" = "소통공간";
+"select" = "선택";
+"selectAll" = "전체선택";
+"done" = "완료";
+"restore" = "복원";
+"selectMemoCount" = "%d개 메모 선택됨";
+"facebookNotice" = "페이스북 아이디로 로그인 해야\n내용을 볼 수 있어요.";
+"facebookLogin" = "  페이스북으로 로그인";
+"facebookNoReply" = "답글 없음";
+"facebookReply" = "답글 %d개 보기";
+"dateYearPast" = "%d년 %d월";
+"dateYear" = "%d개월 전";
+"dateMonth" = "최근 한달";
+"dateWeek" = "최근 일주일";
+"dateYesterday" = "어제";
+"dateToday" = "오늘";
+"cancel" = "취소";
+"setting" = "설정";
+"requestCamera" = "카메라 기능을 사용하려면 사용관한을 허용해야 합니다.";
+"requestPhoto" = "사진 기능을 사용하려면 접근관한을 허용해야 합니다.";
+"albumNoTitle" = "이름없음";
+

@@ -23,7 +23,7 @@ extension NoteViewController: NSTextStorageDelegate {
             editedMask.rawValue == 3,
             textView.isEditable else { return }
         print("editedRange: \(editedRange), delta: \(delta)")
-        FormManager.textStorage(textStorage, willProcessEditing: editedMask, range: editedRange, changeInLength: delta)
+        //FormManager.textStorage(textStorage, willProcessEditing: editedMask, range: editedRange, changeInLength: delta)
     }
 
 }
