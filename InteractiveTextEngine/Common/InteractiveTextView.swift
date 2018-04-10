@@ -16,6 +16,10 @@ extension InteractiveTextView {
     func remove(attachmentID: String) {
         dispatcher.remove(attachmentID: attachmentID)
     }
+    
+    public func reload(attachmentID: String) {
+        dispatcher.reload(attachmentID: attachmentID)
+    }
 
     open func register(nib: UINib?, forCellReuseIdentifier identifier: String) {
         dispatcher.register(nib: nib, forCellReuseIdentifier: identifier)

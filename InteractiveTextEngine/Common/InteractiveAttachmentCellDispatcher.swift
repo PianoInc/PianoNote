@@ -83,6 +83,12 @@ class InteractiveAttachmentCellDispatcher {
         }
     }
     
+    func reload(attachmentID: String) {
+        guard let attachment = attachments[attachmentID] else {return}
+        needToEndDisplay(attachment: attachment)
+        needToDisplay(attachment: attachment)
+    }
+    
 }
 
 extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate {

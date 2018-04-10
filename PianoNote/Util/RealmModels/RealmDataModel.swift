@@ -18,6 +18,8 @@ import CloudKit
 
 class RealmTagsModel: Object, Recordable {
     static let recordTypeString = "Tags"
+    static let tagSeparator = "|"
+    static let lockSymbol = "@"
     
     @objc dynamic var id = ""
     @objc dynamic var tags = ""
