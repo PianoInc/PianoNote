@@ -106,7 +106,7 @@ enum Style {
             guard let font = attribute.value as? UIFont, let fontAttribute = PianoFontAttribute(font: font) else {return nil}
             self = .font(fontAttribute)
         case .attachment:
-            guard let attachment = attribute.value as? InteractiveTextAttachment,
+            guard let attachment = attribute.value as? InteractiveTextAttachment & AttributeContainingAttachment,
                 let attribute = AttachmentAttribute(attachment: attachment) else {return nil}
             self = .attachment(attribute)
         default: return nil

@@ -9,22 +9,9 @@
 import InteractiveTextEngine_iOS
 
 enum AttachmentAttribute {
-    
-    init?(attachment: InteractiveTextAttachment) {
-        switch attachment {
-        case let attachment as ImageAttachment:
-            self = .image(ImageAttribute(id: attachment.imageID, size: attachment.currentSize))
-        case let attachment as LinkAttachment:
-            self = .link(LinkAttribute(link: attachment.link, size: attachment.currentSize))
-        case let attachment as ContactAttachment:
-            self = .contact(ContactAttribute(contact: attachment.contact, size: attachment.currentSize))
-        case let attachment as EventAttachment:
-            self = .event(EventAttribute(event: attachment.event, size: attachment.currentSize))
-        case let attachment as ReminderAttachment:
-            self = .reminder(ReminderAttribute(reminder: attachment.reminder, size: attachment.currentSize))
-        default:
-            return nil
-        }
+
+    init?(attachment: InteractiveTextAttachment & AttributeContainingAttachment) {
+        self = attachment.attribute
     }
     
     case image(ImageAttribute)

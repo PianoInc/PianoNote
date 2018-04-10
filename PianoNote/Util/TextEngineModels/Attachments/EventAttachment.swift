@@ -20,7 +20,7 @@ class EventAttachment: InteractiveTextAttachment, AttributeContainingAttachment 
     
     init(attachment: EventAttachment) {
         super.init(attachment: attachment)
-        self.attribute = attribute
+        self.attribute = attachment.attribute
     }
     
     required init?(coder aDecoder: NSCoder) {
