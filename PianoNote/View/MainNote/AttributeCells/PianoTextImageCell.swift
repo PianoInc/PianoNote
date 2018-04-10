@@ -15,10 +15,13 @@ class PianoTextImageCell: InteractiveAttachmentCell, AttributeModelConfigurable 
     override func prepareForReuse() {
         super.prepareForReuse()
     }
-    
+
+    //Note: This scope has no responsibility for reload logic
     func configure(with attribute: AttachmentAttribute) {
         if case let .image(imageAttribute) = attribute {
-            //paste image from id
+            if let image = LocalImageCache.shared.getImage(id: imageAttribute.id + "thumb") {
+                imageView.image = image
+            }
         }
     }
     
