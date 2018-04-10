@@ -103,7 +103,7 @@ extension DRContentFolderCell: DRContentNoteDelegates {
             cell.select = selectedIndex.contains(indexPath)
             cell.setNeedsLayout()
         } else if let mainListView = UIWindow.topVC as? MainListViewController {
-            mainListView.present(id: "NoteViewController")
+            mainListView.present(view: UIStoryboard.view(id: "NoteViewController", "Main1"))
         }
     }
     
