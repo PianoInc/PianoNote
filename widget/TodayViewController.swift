@@ -27,10 +27,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     private func initConst() {
         makeConst(listView) {
-            $0.leading.equalTo(minSize * 0.02)
-            $0.trailing.equalTo(-(minSize * 0.02))
-            $0.top.equalTo(minSize * 0.022)
-            $0.bottom.equalTo(-(minSize * 0.12))
+            $0.leading.equalTo(self.minSize * 0.02)
+            $0.trailing.equalTo(-(self.minSize * 0.02))
+            $0.top.equalTo(self.minSize * 0.022)
+            $0.bottom.equalTo(-(self.minSize * 0.12))
         }
         makeConst(button) {
             $0.leading.equalTo(0)
@@ -43,12 +43,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // init data
+        listView.reloadData()
     }
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         preferredContentSize = maxSize
         if activeDisplayMode == .expanded {
-            preferredContentSize.height = (minSize * 0.244 * CGFloat(data.count)) + (minSize * 0.12)
+            preferredContentSize.height = (self.minSize * 0.244 * CGFloat(data.count)) + (self.minSize * 0.12)
         }
         listView.reloadData()
     }
@@ -58,7 +59,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 extension TodayViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return minSize * ((extensionContext?.widgetActiveDisplayMode == .expanded) ? 0.244 : 0.14)
+        return self.minSize * ((extensionContext?.widgetActiveDisplayMode == .expanded) ? 0.244 : 0.155)
     }
     
 }
@@ -116,16 +117,16 @@ class DRTodayListCell: UITableViewCell {
             $0.leading.equalTo(0)
             $0.trailing.equalTo(0)
             $0.top.equalTo(0)
-            $0.bottom.equalTo(-(minSize * 0.02))
+            $0.bottom.equalTo(-(self.minSize * 0.02))
         }
         makeConst(timeLabel) {
-            $0.trailing.equalTo(-(minSize * 0.0306))
-            $0.top.equalTo(minSize * 0.0346)
+            $0.trailing.equalTo(-(self.minSize * 0.0306))
+            $0.top.equalTo(self.minSize * 0.0346)
         }
         makeConst(folderLabel) {
-            $0.leading.equalTo(minSize * 0.0306)
+            $0.leading.equalTo(self.minSize * 0.0306)
             $0.trailing.equalTo(self.timeLabel.snp.leading)
-            $0.top.equalTo(minSize * 0.0346)
+            $0.top.equalTo(self.minSize * 0.0346)
         }
     }
     
@@ -147,15 +148,15 @@ class DRTodayListCell: UITableViewCell {
         timeLabel.isHidden = !isExpanded
         folderLabel.isHidden = !isExpanded
         makeConst(contentLabel) {
-            $0.leading.equalTo(minSize * 0.0306)
-            $0.trailing.equalTo(-(minSize * 0.0306))
+            $0.leading.equalTo(self.minSize * 0.0306)
+            $0.trailing.equalTo(-(self.minSize * 0.0306))
             let offset: CGFloat = self.isExpanded ? 0.036 : 0.013
-            $0.bottom.equalTo(self.roundedView.snp.bottom).offset(-(minSize * offset))
+            $0.bottom.equalTo(self.roundedView.snp.bottom).offset(-(self.minSize * offset))
         }
         makeConst(titleLabel) {
-            $0.leading.equalTo(minSize * 0.0306)
-            $0.trailing.equalTo(-(minSize * 0.0306))
-            $0.bottom.equalTo(self.contentLabel.snp.top).offset(-(minSize * 0.012))
+            $0.leading.equalTo(self.minSize * 0.0306)
+            $0.trailing.equalTo(-(self.minSize * 0.0306))
+            $0.bottom.equalTo(self.contentLabel.snp.top).offset(-(self.minSize * 0.012))
         }
     }
     

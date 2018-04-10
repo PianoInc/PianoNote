@@ -36,24 +36,36 @@ extension NSObject {
     
     /// StatusBar의 높이를 반환한다.
     var statusHeight: CGFloat {
+        #if PIANONOTE
         return UIApplication.shared.statusBarFrame.height
+        #else
+        return 0
+        #endif
     }
     
     /// NavigationBar의 높이를 반환한다.
     var naviHeight: CGFloat {
+        #if PIANONOTE
         if let navigationController = UIWindow.topVC?.navigationController {
             return navigationController.navigationBar.frame.height
         }
         return 0
+        #else
+        return 0
+        #endif
     }
     
     /// ToolBar의 높이를 반환한다.
     var toolHeight: CGFloat {
+        #if PIANONOTE
         guard let navigationController = UIWindow.topVC?.navigationController else {return 0}
         if !navigationController.isToolbarHidden {
             return navigationController.toolbar.frame.height
         }
         return 0
+        #else
+        return 0
+        #endif
     }
     
     /// iPhoneX 대응 safeArea Inset값.
@@ -68,6 +80,7 @@ extension NSObject {
     
     /// 기본 input keyboard height.
     var inputHeight: CGFloat {
+        #if PIANONOTE
         let isPortrait = UIApplication.shared.statusBarOrientation.isPortrait
         let screenSize = [UIScreen.main.bounds.width, UIScreen.main.bounds.height]
         if screenSize.contains(568) { // 5
@@ -85,6 +98,9 @@ extension NSObject {
         } else { // pad pro 12.9 (1366)
             return isPortrait ? 328 : 423
         }
+        #else
+        return 0
+        #endif
     }
     
     /**
@@ -92,6 +108,7 @@ extension NSObject {
      - parameter lock : 고정여부.
      */
     func device(orientationLock: Bool) {
+        #if PIANONOTE
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             var orientationMask: UIInterfaceOrientationMask {
                 switch UIApplication.shared.statusBarOrientation {
@@ -105,6 +122,7 @@ extension NSObject {
             }
             appDelegate.orientationLock = orientationLock ? orientationMask : .allButUpsideDown
         }
+        #endif
     }
     
     /**
