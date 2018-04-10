@@ -86,7 +86,7 @@ extension TodayViewController: UITableViewDataSource {
 class DRTodayListCell: UITableViewCell {
     
     @IBOutlet fileprivate var roundedView: UIView! { didSet {
-        roundedView.layer.cornerRadius = 13
+        roundedView.corner(rad: 13)
         }}
     @IBOutlet fileprivate var folderLabel: UILabel! { didSet {
         folderLabel.font = UIFont.preferred(font: 12.5, weight: .regular)

@@ -81,9 +81,8 @@ class DRMagnifyView: UIScrollView {
     override func layoutSubviews() {
         super.layoutSubviews()
         if layer.cornerRadius == 0 {
-            layer.cornerRadius = bounds.height / 2
-            layer.borderColor = UIColor(hex6: "c7c7cc").cgColor
-            layer.borderWidth = 1
+            corner()
+            border(hex: "c7c7cc", width: 1)
         }
         // Cursor를 화면 중간에 위치하도록 하는 inset.
         if contentInset.left == 0 {

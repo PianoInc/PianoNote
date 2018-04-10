@@ -104,8 +104,7 @@ class DRMenuCollectionCell: UICollectionViewCell {
     
     private func initView() {
         backgroundColor = .clear
-        layer.borderColor = UIColor.black.cgColor
-        layer.borderWidth = 0.5
+        border(color: .black, width: 0.5)
         button.addTarget(self, action: #selector(action(select:)), for: .touchUpInside)
         contentView.addSubview(button)
     }

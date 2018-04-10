@@ -84,8 +84,14 @@ class InteractDetailViewController: DRViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.barTintColor = UIColor(hex6: "EAEBED")
+    }
+    
     override func willMove(toParentViewController parent: UIViewController?) {
         super.willMove(toParentViewController: parent)
+        navigationController?.navigationBar.barTintColor = UIColor(hex6: "F9F9F9")
         DRFBService.share.resetComment()
     }
     

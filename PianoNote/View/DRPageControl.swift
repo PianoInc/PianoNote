@@ -12,7 +12,7 @@ class DRPageControl: UIPageControl {
     
     private let backgroundView = makeView(UIView()) {
         $0.backgroundColor = UIColor(hex6: "4d4d4d").withAlphaComponent(0.75)
-        $0.layer.cornerRadius = 7.75
+        $0.corner(rad: 7.75)
     }
     
     override var currentPage: Int { didSet {
@@ -52,7 +52,7 @@ class DRPageControl: UIPageControl {
             } else {
                 let imageView = UIImageView(frame: view.bounds)
                 imageView.backgroundColor = (idx == 0) ? .clear : .white
-                imageView.layer.cornerRadius = view.bounds.width / 2
+                imageView.corner(rad: view.bounds.width / 2)
                 imageView.alpha = (idx == currentPage) ? 1 : 0.5
                 imageView.image = (idx == 0) ? #imageLiteral(resourceName: "setting") : nil
                 imageView.contentMode = .scaleAspectFit

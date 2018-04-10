@@ -35,12 +35,11 @@ class DRContentNoteCell: UITableViewCell {
         }}
     @IBOutlet private var contentsView: UIView!
     @IBOutlet private var backRoundedView: UIView! { didSet {
-        backRoundedView.layer.cornerRadius = 14
+        backRoundedView.corner(rad: 14)
         }}
     @IBOutlet private var roundedView: UIView! { didSet {
-        roundedView.layer.borderColor = UIColor(hex6: "b5b5b5").cgColor
-        roundedView.layer.borderWidth = 0.5
-        roundedView.layer.cornerRadius = 10
+        roundedView.corner(rad: 10)
+        roundedView.border(hex: "b5b5b5", width: 0.5)
         }}
     
     /// NoteCell의 실제 note content를 가지는 view.
@@ -97,13 +96,14 @@ class DRContentNoteCell: UITableViewCell {
             $0.bottom.equalTo(0)
         }
         backRoundedView.snp.updateConstraints {
+            let offset = backRoundedView.layer.cornerRadius * 2
             if position == .top {
-                $0.bottom.equalTo(backRoundedView.layer.cornerRadius * 2)
+                $0.bottom.equalTo(offset)
             } else if position == .middle {
-                $0.top.equalTo(-(backRoundedView.layer.cornerRadius * 2))
-                $0.bottom.equalTo(backRoundedView.layer.cornerRadius * 2)
+                $0.top.equalTo(-(offset))
+                $0.bottom.equalTo(offset)
             } else if position == .bottom {
-                $0.top.equalTo(-(backRoundedView.layer.cornerRadius * 2))
+                $0.top.equalTo(-(offset))
             }
         }
         // roundedView configuration.

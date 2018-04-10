@@ -19,7 +19,7 @@ enum DRBrowseMenu: Int {
 class DRBrowseNoteCell: UITableViewCell {
     
     @IBOutlet private var roundedView: UIView! { didSet {
-        roundedView.layer.cornerRadius = 14
+        roundedView.corner(rad: 14)
         }}
     @IBOutlet private var iconImage: UIImageView!
     @IBOutlet private var titleLabel: UILabel! { didSet {
@@ -29,7 +29,7 @@ class DRBrowseNoteCell: UITableViewCell {
         notiLabel.font = UIFont.preferred(font: 12, weight: .semibold)
         }}
     @IBOutlet private var notiImage: UIImageView! { didSet {
-        notiImage.layer.cornerRadius = 3.5
+        notiImage.corner(rad: 3.5)
         }}
     @IBOutlet private var button: UIButton!
     

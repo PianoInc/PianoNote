@@ -63,7 +63,7 @@ class DRNoteCellHeaderContentView: UIView {
     }
     private let newView = makeView(UIView()) {
         $0.backgroundColor = UIColor(hex6: "eaebed")
-        $0.layer.cornerRadius = 14
+        $0.corner(rad: 14)
     }
     let newSubLabel = makeView(UILabel()) {
         $0.font = UIFont.preferred(font: 13, weight: .regular)

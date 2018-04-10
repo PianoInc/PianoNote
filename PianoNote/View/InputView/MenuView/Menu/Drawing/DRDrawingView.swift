@@ -18,7 +18,7 @@ class DRDrawingView: UIView {
     private let closeButton = makeView(UIButton()) {
         $0.setTitle("Clo", for: .normal)
         $0.setTitleColor(.black, for: .normal)
-    }
+        }
     private let undoButton = makeView(UIButton()) {
         $0.setTitle("Un", for: .normal)
         $0.setTitleColor(.black, for: .normal)

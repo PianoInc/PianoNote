@@ -19,7 +19,7 @@ class InteractViewController: DRViewController {
         facebookLabel.text = "facebookNotice".locale
         }}
     @IBOutlet private var facebookButton: UIButton! { didSet {
-        facebookButton.layer.cornerRadius = 6
+        facebookButton.corner(rad: 6)
         facebookButton.titleLabel?.font = UIFont.preferred(font: 18, weight: .regular)
         let attr = NSMutableAttributedString(string: "")
         let attach = NSTextAttachment()

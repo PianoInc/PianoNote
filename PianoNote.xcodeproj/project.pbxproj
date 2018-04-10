@@ -12,6 +12,9 @@
 		160C39FF2075F33700A3DE41 /* DRCameraSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C39FE2075F33700A3DE41 /* DRCameraSession.swift */; };
 		160C3A012075F33D00A3DE41 /* DRCameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C3A002075F33D00A3DE41 /* DRCameraCapture.swift */; };
 		16233D082064D128008317D1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16233D072064D128008317D1 /* String.swift */; };
+		162DD4C7207C78E4001A804D /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16454292207C72E60079ADBB /* Layer.swift */; };
+		162DD4C8207C78EC001A804D /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19D320632998005AA85F /* Color.swift */; };
+		16454293207C72E60079ADBB /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16454292207C72E60079ADBB /* Layer.swift */; };
 		164AC2482071C61B00714703 /* DRTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AC2472071C61B00714703 /* DRTextView.swift */; };
 		164AC24A2071DE6B00714703 /* DRInputViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AC2492071DE6B00714703 /* DRInputViewManager.swift */; };
 		164AC24C2071EEA600714703 /* DRMagnifyAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164AC24B2071EEA600714703 /* DRMagnifyAccessoryView.swift */; };
@@ -126,6 +129,7 @@
 		160C39FE2075F33700A3DE41 /* DRCameraSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCameraSession.swift; sourceTree = "<group>"; };
 		160C3A002075F33D00A3DE41 /* DRCameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRCameraCapture.swift; sourceTree = "<group>"; };
 		16233D072064D128008317D1 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		16454292207C72E60079ADBB /* Layer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layer.swift; sourceTree = "<group>"; };
 		164AC2472071C61B00714703 /* DRTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRTextView.swift; sourceTree = "<group>"; };
 		164AC2492071DE6B00714703 /* DRInputViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRInputViewManager.swift; sourceTree = "<group>"; };
 		164AC24B2071EEA600714703 /* DRMagnifyAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRMagnifyAccessoryView.swift; sourceTree = "<group>"; };
@@ -450,6 +454,7 @@
 				16520F7A2063B9BA008EFEF6 /* Font.swift */,
 				166F6AE4206B4F5200499596 /* Date.swift */,
 				1689AD46206C56BD0059573B /* List.swift */,
+				16454292207C72E60079ADBB /* Layer.swift */,
 				168D1A0920636BE7005AA85F /* View.swift */,
 				168D1A0F206374F5005AA85F /* Window.swift */,
 				168D1A0B20636BF2005AA85F /* Device.swift */,
@@ -1021,6 +1026,7 @@
 				168D1A10206374F5005AA85F /* Window.swift in Sources */,
 				16233D082064D128008317D1 /* String.swift in Sources */,
 				16BF63B02076E4D500DAE71C /* DRMenuDelegates.swift in Sources */,
+				16454293207C72E60079ADBB /* Layer.swift in Sources */,
 				168D1A19206383B9005AA85F /* DREmptyNoteCell.swift in Sources */,
 				16BA306A206A1C4E00200C0A /* DRFBService.swift in Sources */,
 				168D1A122063752D005AA85F /* DRAuth.swift in Sources */,
@@ -1050,7 +1056,9 @@
 			files = (
 				16D41E36207C36CB0098DBCF /* Font.swift in Sources */,
 				16D41E34207C36BB0098DBCF /* String.swift in Sources */,
+				162DD4C8207C78EC001A804D /* Color.swift in Sources */,
 				16D3655E207C3D040082C193 /* TodayViewController.swift in Sources */,
+				162DD4C7207C78E4001A804D /* Layer.swift in Sources */,
 				16D41E35207C36C40098DBCF /* View.swift in Sources */,
 				16D41E37207C37EE0098DBCF /* Device.swift in Sources */,
 			);

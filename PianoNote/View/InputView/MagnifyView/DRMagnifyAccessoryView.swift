@@ -80,7 +80,7 @@ class DRMagnifyAccessoryView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         if switchButton.layer.cornerRadius == 0 {
-            switchButton.layer.cornerRadius = switchButton.bounds.width / 2
+            switchButton.corner()
         }
     }
     

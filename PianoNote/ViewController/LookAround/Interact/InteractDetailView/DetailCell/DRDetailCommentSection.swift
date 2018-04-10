@@ -22,13 +22,12 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
     
     private let contentsView = makeView(UIView()) {
         $0.backgroundColor = .white
-        $0.layer.cornerRadius = 13
-        $0.layer.shadowRadius = 2.5
-        $0.layer.shadowOffset = CGSize(width: 0, height: 1)
-        $0.layer.shadowColor = UIColor(hex8: "56565626").cgColor
+        $0.corner(rad: 13)
+        $0.shadow(hex: "56565626", offset: [0, 1], rad: 2.5)
+        $0.border(hex: "b5b5b5", width: 0.5)
     }
     let portraitImage = makeView(UIImageView()) {
-        $0.layer.cornerRadius = 12.5
+        $0.corner(rad: 12.5)
         $0.contentMode = .scaleAspectFit
     }
     let nameLabel = makeView(UILabel()) {

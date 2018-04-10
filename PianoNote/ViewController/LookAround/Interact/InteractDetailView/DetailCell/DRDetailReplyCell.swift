@@ -11,13 +11,12 @@ import UIKit
 class DRDetailReplyCell: UITableViewCell {
     
     @IBOutlet var portraitImage: UIImageView! { didSet {
-        portraitImage.layer.cornerRadius = 12.5
+        portraitImage.corner(rad: 12.5)
         }}
     @IBOutlet private var contentsView: UIView! { didSet {
-        contentsView.layer.cornerRadius = 13
-        contentsView.layer.shadowRadius = 2.5
-        contentsView.layer.shadowOffset = CGSize(width: 0, height: 1)
-        contentsView.layer.shadowColor = UIColor(hex8: "56565626").cgColor
+        contentsView.corner(rad: 13)
+        contentsView.shadow(hex: "56565626", offset: [0, 1], rad: 2.5)
+        contentsView.border(hex: "b5b5b5", width: 0.5)
         }}
     @IBOutlet var nameLabel: UILabel! { didSet {
         nameLabel.font = UIFont.preferred(font: 13, weight: .bold)
