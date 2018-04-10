@@ -1,3 +1,6 @@
 Pods
 *.lock
 *.xcuserdatad
+*/xcuserdata/*
+.idea/*
+PianoNote.xcworkspace/xcshareddata

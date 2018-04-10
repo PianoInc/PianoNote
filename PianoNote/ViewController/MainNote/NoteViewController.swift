@@ -11,9 +11,29 @@ import UIKit
 class NoteViewController: UIViewController {
 
     @IBOutlet weak var textView: PianoTextView!
+    var invokingTextViewDelegate: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textView.delegate = self
+        textView.textStorage.delegate = self
+        setNavigationItemsForDefault()
+        setCanvasSize(view.bounds.size)
+        
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.any)
+        
+    }
+    
+    private func setCanvasSize(_ size: CGSize) {
+        
+        if size.width > size.height {
+            textView.textContainerInset.left = size.width / 10
+            textView.textContainerInset.right = size.width / 10
+        } else {
+            textView.textContainerInset.left = 0
+            textView.textContainerInset.right = 0
+        }
         
     }
     
@@ -31,26 +51,25 @@ class NoteViewController: UIViewController {
         
     }
     
-    @IBAction func tap(_ sender: Any) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        setCanvasSize(size)
         
-        setup(pianoMode: true)
-        
-    }
-    
-    @objc func tapDone(sender: Any) {
-        
-        setup(pianoMode: false)
-        
-    }
-    
-    @objc func tapInfo(sender: Any) {
-        
+        coordinator.animate(alongsideTransition: nil) {[weak self] (_) in
+            guard let strongSelf = self else { return }
+            
+            if !strongSelf.textView.isEditable {
+                strongSelf.textView.attachControl()
+                
+                
+            }
+        }
     }
     
 }
 
 extension NoteViewController {
-    private func setup(pianoMode: Bool) {
+    internal func setup(pianoMode: Bool) {
         
         setNavigationController(for: pianoMode)
         
@@ -60,29 +79,6 @@ extension NoteViewController {
         pianoView.setup(for: pianoMode, to: view)
         segmentControl.setup(for: pianoMode, to: view)
         textView.setup(for: pianoMode, to: view)
-        
-    }
-    
-    private func setNavigationController(for pianoMode: Bool) {
-        
-        navigationController?.setNavigationBarHidden(pianoMode, animated: true)
-        
-        let flexibleSpace = UIBarButtonItem(
-            barButtonSystemItem: .flexibleSpace,
-            target: nil,
-            action: nil)
-        let done = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(tapDone(sender:)))
-        let info = UIBarButtonItem(
-            image: UIImage(named: "info"),
-            style: .plain,
-            target: self,
-            action: #selector(tapInfo(sender:)))
-        
-        self.setToolbarItems([flexibleSpace, done, flexibleSpace, info], animated: true)
-        navigationController?.setToolbarHidden(!pianoMode, animated: true)
         
     }
     
