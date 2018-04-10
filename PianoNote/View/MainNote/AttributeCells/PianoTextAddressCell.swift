@@ -27,4 +27,10 @@ class PianoTextAddressCell: InteractiveAttachmentCell {
     override func prepareForReuse() {
         super.prepareForReuse()
     }
+    
+    func configure(with attribute: PianoAttribute) {
+        if case let .attachment(.address(addressAttribute)) = attribute.style {
+            
+        }
+    }
 }

@@ -25,4 +25,17 @@ class PianoTextReminderCell: InteractiveAttachmentCell {
     override func prepareForReuse() {
         super.prepareForReuse()
     }
+    
+    func configure(with attribute: PianoAttribute) {
+        if case let .attachment(.reminder(reminderAttribute)) = attribute.style {
+            if let dueDate = reminderAttribute.reminder.dueDateComponents {
+                
+            } else {
+                titleLabel.isHidden = true
+                dueDateLabel.isHidden = true
+                largeTitleLabel.isHidden = false
+                largeTitleLabel.text = reminderAttribute.reminder.title
+            }
+        }
+    }
 }

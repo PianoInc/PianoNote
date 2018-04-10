@@ -27,4 +27,10 @@ class PianoTextContactCell: InteractiveAttachmentCell {
     override func prepareForReuse() {
         super.prepareForReuse()
     }
+    
+    func configure(with attribute: PianoAttribute) {
+        if case let .attachment(.contact(contactAttribute)) = attribute.style {
+            
+        }
+    }
 }

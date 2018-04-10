@@ -16,4 +16,10 @@ class PianoTextImageCell: InteractiveAttachmentCell {
         super.prepareForReuse()
     }
     
+    func configure(with attribute: PianoAttribute) {
+        if case let .attachment(.image(imageAttribute)) = attribute.style {
+            //paste image from id
+        }
+    }
+    
 }

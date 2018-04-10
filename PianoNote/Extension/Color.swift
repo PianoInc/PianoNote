@@ -55,6 +55,21 @@ extension UIColor {
         
         return String(format:"%06x", rgb)
     }
+    
+    //랜덤 컬러 get
+    public static func randomColor() -> UIColor {
+        srand48(Int(arc4random()))
+        
+        var red = 0.0
+        var green = 0.0
+        var blue = 0.0
+        
+        while(red < 0.1 || red > 0.84) { red = drand48() }
+        while(green < 0.1 || green > 0.84) { green = drand48() }
+        while(blue < 0.1 || blue > 0.84) { blue = drand48() }
+        
+        return UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: 1.0)
+    }
 }
 
 extension UIColor {
