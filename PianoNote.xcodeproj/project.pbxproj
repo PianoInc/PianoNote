@@ -505,6 +505,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		7C33B69920745C670075661E /* NoteSetting */ = {
+			isa = PBXGroup;
+			children = (
+				7C33B69C20745CAD0075661E /* NoteSettingViewController.swift */,
+			);
+			path = NoteSetting;
+      sourceTree = "<group>";
+    };
 		6C3C3E76207B4D4600A087B7 /* Search */ = {
 			isa = PBXGroup;
 			children = (

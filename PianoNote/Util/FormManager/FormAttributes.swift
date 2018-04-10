@@ -12,19 +12,14 @@ import CoreGraphics
 public class FormAttributes {
     
     public static var headIndent: CGFloat {
-        return font.pointSize + 13
+        return Font.preferredFont(forTextStyle: .body).pointSize + 13
     }
     public static var tailIndent: CGFloat = -20
-    public static var font: Font = Font.preferredFont(forTextStyle: .body) {
-        didSet {
-            updateAttributes()
-        }
-    }
     
     public static var numFont: Font {
-        return Font(name: "Avenir Next", size: FormAttributes.font.pointSize)!
+        return Font(name: "Avenir Next", size: Font.preferredFont(forTextStyle: .body).pointSize)!
     }
-    public static var textColor: Color = Color.black
+
     public static var punctuationColor: Color = Color.lightGray
     public static var effectColor: Color = Color.point
     public static var alignment: TextAlignment = TextAlignment.natural
@@ -32,6 +27,7 @@ public class FormAttributes {
     
     static var defaultParagraphStyle: MutableParagraphStyle = makeDefaultParaStyle()
     static var defaultAttributes: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: false)
+    static var defaultTypingAttributes: [String : Any] = makeDefaultTypingAttributes()
     static var defaultAttributesWithoutParagraphStyle: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: true)
     
     internal static func makeParagraphStyle(bullet: PianoBullet, whitespaceWidth: CGFloat) -> MutableParagraphStyle {
@@ -43,19 +39,19 @@ public class FormAttributes {
             .width
         let punctuationMarkWidth = NSAttributedString(
             string: ".",
-            attributes: [.font : font])
+            attributes: [.font : Font.preferredFont(forTextStyle: .body)])
             .size()
             .width
         let spaceWidth = NSAttributedString(
             string: " ",
-            attributes: [.font : font])
+            attributes: [.font : Font.preferredFont(forTextStyle: .body)])
             .size()
             .width
         
         let firstLineHeadIndent: CGFloat
         if bullet.type != .number {
             let bulletWidth = NSAttributedString(string: bullet.converted!, attributes: [
-                .font : font]).size().width
+                .font : Font.preferredFont(forTextStyle: .body)]).size().width
             firstLineHeadIndent =
                 bulletWidth > numberingWidth + punctuationMarkWidth ?
                     headIndent - (spaceWidth + bulletWidth) :
@@ -84,11 +80,12 @@ public class FormAttributes {
     }
     
     internal static func makeDefaultAttributes(keepParagraphStyle: Bool) -> [NSAttributedStringKey : Any] {
-        var paragraphStyle = [ .foregroundColor: textColor,
+        var paragraphStyle = [ .foregroundColor: Color.darkText,
                                .underlineStyle: 0,
                                .strikethroughStyle: 0,
                                .kern: 0,
-                               .font: Font.preferredFont(forTextStyle: .body)
+                               .font: Font.preferredFont(forTextStyle: .body),
+                               .backgroundColor: Color.clear
             ] as [NSAttributedStringKey : Any]
         if !keepParagraphStyle {
             paragraphStyle[.paragraphStyle] = defaultParagraphStyle
@@ -96,14 +93,26 @@ public class FormAttributes {
         return paragraphStyle
     }
     
+    internal static func makeDefaultTypingAttributes() -> [String : Any] {
+        
+        return [ NSAttributedStringKey.foregroundColor.rawValue : Color.darkText,
+                 NSAttributedStringKey.underlineStyle.rawValue : 0,
+                 NSAttributedStringKey.strikethroughStyle.rawValue : 0,
+                 NSAttributedStringKey.kern.rawValue : 0,
+                 NSAttributedStringKey.font.rawValue : Font.preferredFont(forTextStyle: .body),
+                 NSAttributedStringKey.paragraphStyle.rawValue: defaultParagraphStyle
+        ]
+        
+    }
+    
     internal static func makeFormatKern(formatString: String) -> CGFloat {
         
         let num = NSAttributedString(string: "4", attributes: [
             .font : numFont]).size()
         let dot = NSAttributedString(string: ".", attributes: [
-            .font : font]).size()
+            .font : Font.preferredFont(forTextStyle: .body)]).size()
         let form = NSAttributedString(string: formatString, attributes: [
-            .font : font]).size()
+            .font : Font.preferredFont(forTextStyle: .body)]).size()
         return form.width > num.width + dot.width ? 0 : (num.width + dot.width - form.width)/2
     }
     
