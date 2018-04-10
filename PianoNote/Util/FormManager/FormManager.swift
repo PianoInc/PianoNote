@@ -73,37 +73,6 @@ public struct FormManager {
         }
     }
     
-    static func textStorage(_ textStorage: TextStorage, willProcessEditing editedMask: TextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {
-        
-        guard delta > 0 else { return }
-        
-        let font: Font
-        if let pianoBullet = PianoBullet(text: textStorage.string, selectedRange: editedRange) {
-            switch pianoBullet.string {
-            case "♩":
-                font = Font.preferredFont(forTextStyle: .title3)
-            case "♪":
-                font = Font.preferredFont(forTextStyle: .title2)
-            case "♫":
-                font = Font.preferredFont(forTextStyle: .title1)
-            default:
-                font = Font.preferredFont(forTextStyle: .body)
-            }
-        } else {
-            font = Font.preferredFont(forTextStyle: .body)
-        }
-        
-        textStorage.addAttributes([.font : font], range: editedRange)
-        
-        //문단 서식 검사를 하고, 대체해야할 게 있다면 대체하기
-        //서식 사이에 글자가 들어가면 숫자 + 점의 경우 색상을 풀고 폰트를 바꿔줘야 하며, 특수문자의 경우 대체하고 색상을 바꿔야함
-        
-    }
-    
-    public static func convertToPianoNoteStyle(text: String) {
-        
-    }
-    
 }
 
 //ShouldChange
@@ -121,7 +90,7 @@ extension FormManager {
      
      */
     private static func operationType(_ textView: TextView, shouldChangeTextIn range: NSRange, replacementText text: String, bullet: PianoBullet) -> OperationType {
-        
+        print("operationType 호출")
         if (range.location < bullet.paraRange.location
             && (textView.text as NSString)
                 .substring(with: (textView.text as NSString).paragraphRange(for: range))
@@ -141,7 +110,7 @@ extension FormManager {
             return .reset
         } else if textView.selectedRange.location == bullet.baselineIndex && text == "\n" {
             return .delete
-        } else if textView.selectedRange.location > bullet.baselineIndex && text == "\n" && !bullet.isTitle {
+        } else if textView.selectedRange.location > bullet.baselineIndex && text == "\n" && bullet.fontStyle == .body {
             return .add
         } else {
             return .none
@@ -155,14 +124,14 @@ extension FormManager {
             //구두점을 포함해서 색상, 폰트를 리셋한다.
             var range = bullet.range
             range.length += 1 //punctuation
-            textView.textStorage.addAttributes([.foregroundColor : FormAttributes.textColor, .font: FormAttributes.font], range: range)
+            textView.textStorage.addAttributes([.foregroundColor : Color.darkText, .font: Font.preferredFont(forTextStyle: .body)], range: range)
             
         case .value:
             //키로 바꿔주고 색상, 폰트를 리셋한다.
             let attrString = NSAttributedString(
                 string: bullet.converted!,
-                attributes: [.foregroundColor: FormAttributes.textColor,
-                             .font : FormAttributes.font
+                attributes: [.foregroundColor: Color.darkText,
+                             .font : Font.preferredFont(forTextStyle: .body)
                 ])
             textView.textStorage.replaceCharacters(in: bullet.range, with: attrString)
         default:
@@ -288,14 +257,14 @@ extension FormManager {
                 ],
                 range: bullet.range)
             textView.textStorage.addAttributes(
-                [.font : FormAttributes.font,
+                [.font : Font.preferredFont(forTextStyle: .body),
                  .foregroundColor : FormAttributes.punctuationColor],
                 range: NSMakeRange(bullet.baselineIndex - 2, 1))
         default:
             let formatString = bullet.converted!
             let kern = FormAttributes.makeFormatKern(formatString: formatString)
             textView.textStorage.addAttributes(
-                [.font : FormAttributes.font,
+                [.font : Font.preferredFont(forTextStyle: .body),
                  .foregroundColor : FormAttributes.effectColor,
                  .kern : kern],
                 range: bullet.range)

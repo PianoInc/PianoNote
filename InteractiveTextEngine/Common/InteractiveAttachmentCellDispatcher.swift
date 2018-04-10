@@ -83,6 +83,12 @@ class InteractiveAttachmentCellDispatcher {
         }
     }
     
+    func reload(attachmentID: String) {
+        guard let attachment = attachments[attachmentID] else {return}
+        needToEndDisplay(attachment: attachment)
+        needToDisplay(attachment: attachment)
+    }
+    
 }
 
 extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate {
@@ -93,7 +99,7 @@ extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate
         //get cell from delegate
         guard let textView = superView,
             let currentBounds = attachment.currentBounds,
-            let cell = textView.interactiveDatasource?.textView(textView, attachmentForCell: attachment) else {return}
+            let cell = textView.interactiveDataSource?.textView(textView, attachmentForCell: attachment) else {return}
         
         
         workingCells[cell.reuseIdentifier]?[cell.uniqueID] = cell
