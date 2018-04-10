@@ -23,7 +23,7 @@ extension InteractiveAttachmentCell {
     }
     
 
-    open func prepareForReuse() {
+    @objc open func prepareForReuse() {
     }
     
     public func changeSize(to size: CGSize) {

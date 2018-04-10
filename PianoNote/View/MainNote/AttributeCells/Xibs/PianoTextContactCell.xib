@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PianoTextContactCell" customModule="PianoNote" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Lw-aB-Fuc">
+                    <rect key="frame" x="16" y="14" width="33" height="16"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Bt-OY-TOK">
+                    <rect key="frame" x="16" y="35" width="33" height="16"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                    <color key="textColor" red="0.51372549020000002" green="0.51372549020000002" blue="0.51372549020000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b3e-gI-CV8">
+                    <rect key="frame" x="298" y="7" width="70" height="70"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="70" id="4r6-jP-bF6"/>
+                        <constraint firstAttribute="height" constant="70" id="jSS-gh-vid"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="8Bt-OY-TOK" firstAttribute="top" secondItem="8Lw-aB-Fuc" secondAttribute="bottom" constant="5" id="1e1-MM-fIs"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="8Bt-OY-TOK" secondAttribute="bottom" constant="33" id="CnR-4A-s1d"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="b3e-gI-CV8" secondAttribute="trailing" constant="7" id="PlN-iJ-8Qi"/>
+                <constraint firstItem="8Lw-aB-Fuc" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="14" id="TZw-go-z42"/>
+                <constraint firstItem="8Bt-OY-TOK" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Y9S-SH-qbL"/>
+                <constraint firstItem="8Lw-aB-Fuc" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="lbc-6w-7hC"/>
+                <constraint firstItem="b3e-gI-CV8" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="qIS-LD-f10"/>
+                <constraint firstItem="b3e-gI-CV8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8Lw-aB-Fuc" secondAttribute="trailing" constant="8" id="uMV-gz-mBN"/>
+                <constraint firstItem="b3e-gI-CV8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8Bt-OY-TOK" secondAttribute="trailing" constant="8" id="yTm-xV-WRL"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="contactLabel" destination="8Bt-OY-TOK" id="txP-Pq-Cs5"/>
+                <outlet property="imageView" destination="b3e-gI-CV8" id="g7G-oa-3gz"/>
+                <outlet property="titleLabel" destination="8Lw-aB-Fuc" id="q4N-iq-kgB"/>
+            </connections>
+            <point key="canvasLocation" x="19.5" y="299"/>
+        </view>
+    </objects>
+</document>
