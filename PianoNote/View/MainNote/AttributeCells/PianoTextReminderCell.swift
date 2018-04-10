@@ -26,7 +26,7 @@ class PianoTextReminderCell: InteractiveAttachmentCell {
         super.prepareForReuse()
     }
     
-    func configure(with attribute: PianoAttribute) {
+    func configure(with attribute: AttributeModel) {
         if case let .attachment(.reminder(reminderAttribute)) = attribute.style {
             if let dueDate = reminderAttribute.reminder.dueDateComponents {
                 

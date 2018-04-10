@@ -22,8 +22,8 @@ class PianoTextLinkCell: InteractiveAttachmentCell {
         super.prepareForReuse()
     }
     
-    func configure(with attribute: PianoAttribute) {
-        if case let .attachment(.link(linkAttribute)) = attribute.style {
+    func configure(with attribute: AttachmentAttribute) {
+        if case let .link(linkAttribute) = attribute {
             
         }
     }

@@ -28,9 +28,11 @@ class PianoTextContactCell: InteractiveAttachmentCell {
         super.prepareForReuse()
     }
     
-    func configure(with attribute: PianoAttribute) {
-        if case let .attachment(.contact(contactAttribute)) = attribute.style {
-            
+    func configure(with attribute: AttachmentAttribute) {
+        if case let .contact(contactAttribute) = attribute {
+            titleLabel.text = contactAttribute.name
+            contactLabel.text = contactAttribute.contact
+            imageView.setImage(with: contactAttribute.name, circular: true)
         }
     }
 }

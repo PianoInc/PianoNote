@@ -8,7 +8,7 @@
 
 import InteractiveTextEngine_iOS
 
-class PianoTextAddressCell: InteractiveAttachmentCell {
+class PianoTextAddressCell: InteractiveAttachmentCell, AttributeModelConfigurable {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
@@ -28,9 +28,10 @@ class PianoTextAddressCell: InteractiveAttachmentCell {
         super.prepareForReuse()
     }
     
-    func configure(with attribute: PianoAttribute) {
-        if case let .attachment(.address(addressAttribute)) = attribute.style {
-            
+    func configure(with attribute: AttachmentAttribute) {
+        if case let .address(addressAttribute) = attribute {
+            titleLabel.text = addressAttribute.placeName
+            addressLabel.text = addressAttribute.address
         }
     }
 }

@@ -34,7 +34,7 @@ class PianoTextEventCell: InteractiveAttachmentCell {
         
     }
     
-    func configure(with attribute: PianoAttribute) {
+    func configure(with attribute: AttributeModel) {
         if case let .attachment(.event(eventAttribute)) = attribute.style {
             
         }

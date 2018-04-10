@@ -8,7 +8,7 @@
 
 import InteractiveTextEngine_iOS
 
-class PianoTextImageCell: InteractiveAttachmentCell {
+class PianoTextImageCell: InteractiveAttachmentCell, AttributeModelConfigurable {
     
     @IBOutlet weak var imageView: UIImageView!
     
@@ -16,8 +16,8 @@ class PianoTextImageCell: InteractiveAttachmentCell {
         super.prepareForReuse()
     }
     
-    func configure(with attribute: PianoAttribute) {
-        if case let .attachment(.image(imageAttribute)) = attribute.style {
+    func configure(with attribute: AttachmentAttribute) {
+        if case let .image(imageAttribute) = attribute {
             //paste image from id
         }
     }
