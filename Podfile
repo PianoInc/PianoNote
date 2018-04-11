@@ -14,7 +14,7 @@ target 'PianoNote' do
   pod 'SwiftyJSON'
   pod 'SwiftyUserDefaults'
   pod 'CryptoSwift'
-  pod 'URLEmbeddedView'
+  pod 'URLEmbeddedView', :git => 'https://github.com/PianoInc/URLEmbeddedView.git'
 
   target 'PianoNoteTests' do
     inherit! :search_paths
