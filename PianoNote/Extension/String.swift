@@ -100,10 +100,10 @@ extension UITextView {
      */
     func word(from point: CGPoint) ->  WordRange? {
         guard let position = closestPosition(to: point) else {return nil}
-        if let range = tokenizer.rangeEnclosingPosition(position, with: .word, inDirection: 2) {
+        if let range = tokenizer.rangeEnclosingPosition(position, with: .word, inDirection: 1) {
             if let text = text(in: range) {return WordRange(word: text, range: range)}
         }
-        if let range = tokenizer.rangeEnclosingPosition(position, with: .word, inDirection: 1) {
+        if let range = tokenizer.rangeEnclosingPosition(position, with: .word, inDirection: 2) {
             if let text = text(in: range) {return WordRange(word: text, range: range)}
         }
         return nil

@@ -206,24 +206,26 @@ extension DRMagnifyView {
     }
     
     @objc private func action(doubleTap: UITapGestureRecognizer) {
-        let textView = customTextView(bounds: mirrorView.bounds, attributedString: mLineAttr)
+        guard !mLineAttr.string.isEmpty else {return}
+        let textView = makeTextView(attStr: mLineAttr)
+        
         if let wordRange = textView.word(from: doubleTap.location(in: self)) {
             magnifyState = .tapped
             UIPasteboard.general.string = wordRange.word.trimmingCharacters(in: .whitespacesAndNewlines)
             
             // 복사되는 word에 selection effect 적용
-            let wordRect = textView.firstRect(for: wordRange.range)
             
+            let wordRect = textView.firstRect(for: wordRange.range)
             let origin = CGPoint(x: wordRect.origin.x, y: cursorInset)
             let size = CGSize(width: wordRect.width, height: bounds.height - (cursorInset * 2))
             selectionView.frame = CGRect(origin: origin, size: size)
-            
-            selectionView.alpha = 0
             selectionView.isHidden = false
-            UIView.animate(withDuration: 0.25, animations: {
+            selectionView.alpha = 0
+            
+            UIView.animate(withDuration: 0.3, animations: {
                 self.selectionView.alpha = 1
             }, completion: { _ in
-                UIView.animate(withDuration: 0.25, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     self.selectionView.alpha = 0
                 }, completion: { _ in
                     self.selectionView.isHidden = true
@@ -262,11 +264,11 @@ extension DRMagnifyView {
      */
     func glyphIndex(from point: CGPoint) -> Int {
         guard !mLineAttr.string.isEmpty else {return 0}
+        
         let layoutManager = NSLayoutManager()
         let textStorage = NSTextStorage(attributedString: mLineAttr)
         textStorage.addLayoutManager(layoutManager)
-        let textContainer = NSTextContainer(size: mirrorView.bounds.size)
-        textContainer.lineFragmentPadding = 0
+        let textContainer = NSTextContainer()
         layoutManager.addTextContainer(textContainer)
         
         let locationZero = layoutManager.location(forGlyphAt: 0)
@@ -276,9 +278,10 @@ extension DRMagnifyView {
         
         if point.x < 0 { // 터치영역이 왼쪽 끝 넘어일때 0으로 고정
             result = 0
-        } else if index == result { // 터치영역이 오른쪽 끝 너머일때는 가지고 있는 glyph length로 고정
+        } else if index >= layoutManager.numberOfGlyphs - 1 { // 마지막 글자 이후일때는 가지고 있는 glyph length로 고정
             result = layoutManager.glyphRange(for: textContainer).length
         }
+        
         return result
     }
     
@@ -288,14 +291,14 @@ extension DRMagnifyView {
      - parameter attributedString : 입력하고자 하는 attrString
      - returns : Custom textView
      */
-    func customTextView(bounds: CGRect, attributedString: NSAttributedString) -> UITextView {
+    func makeTextView(attStr: NSAttributedString) -> UITextView {
         let layoutManager = NSLayoutManager()
-        let textStorage = NSTextStorage(attributedString: attributedString)
+        let textStorage = NSTextStorage(attributedString: attStr)
         textStorage.addLayoutManager(layoutManager)
-        let textContainer = NSTextContainer(size: bounds.size)
+        let textContainer = NSTextContainer()
         textContainer.lineFragmentPadding = 0
         layoutManager.addTextContainer(textContainer)
-        return UITextView(frame: bounds, textContainer: textContainer)
+        return UITextView(frame: mirrorView.bounds, textContainer: textContainer)
     }
     
 }
