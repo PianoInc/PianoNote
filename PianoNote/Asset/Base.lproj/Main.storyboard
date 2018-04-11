@@ -396,6 +396,7 @@
                         <outlet property="pageControl" destination="XmF-vY-xsm" id="48w-BE-V8s"/>
                         <segue destination="fti-cI-utA" kind="show" identifier="RecycleBinViewController" id="lCq-H1-XVU"/>
                         <segue destination="uZo-Ud-35H" kind="show" identifier="InteractViewController" id="Y8C-bR-eTU"/>
+                        <segue destination="Tl0-E7-4ks" kind="show" id="LYl-Wd-y3F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XWY-lS-gUY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -683,6 +684,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sNN-T5-ddG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="721" y="923"/>
+        </scene>
+        <!--How To View Controller-->
+        <scene sceneID="WjK-8U-8vS">
+            <objects>
+                <viewController storyboardIdentifier="HowToViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tl0-E7-4ks" customClass="HowToViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rqN-H3-I61">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="PS4-kc-hcP"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MVm-AG-SQW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1524" y="922"/>
         </scene>
         <!--Interact Detail View Controller-->
         <scene sceneID="Pyf-mG-AhE">

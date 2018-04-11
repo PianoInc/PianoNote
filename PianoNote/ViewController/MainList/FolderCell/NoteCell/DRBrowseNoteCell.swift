@@ -11,9 +11,8 @@ import UIKit
 /// 둘러보기 메뉴 목록.
 enum DRBrowseMenu: Int {
     case recycle = 0
-    case info = 1
-    case makeUp = 2
-    case interact = 3
+    case howTo = 1
+    case interact = 2
 }
 
 class DRBrowseNoteCell: UITableViewCell {
@@ -89,25 +88,21 @@ class DRBrowseNoteCell: UITableViewCell {
     private func initContent() {
         if indexPath.row == DRBrowseMenu.recycle.rawValue {
             titleLabel.text = "deletedMemo".locale
-        } else if indexPath.row == DRBrowseMenu.info.rawValue {
-            titleLabel.text = "infomation".locale
-        } else if indexPath.row == DRBrowseMenu.makeUp.rawValue {
-            titleLabel.text = "makeUp".locale
-        } else if indexPath.row == DRBrowseMenu.interact.rawValue {
+        } else if indexPath.row == DRBrowseMenu.howTo.rawValue {
+            titleLabel.text = "howTo".locale
+        }  else if indexPath.row == DRBrowseMenu.interact.rawValue {
             titleLabel.text = "interact".locale
         }
     }
     
     @IBAction private func action(_ button: UIButton) {
-        guard let topVC = UIWindow.topVC else {return}
+        guard let mainListView = UIWindow.topVC as? MainListViewController else {return}
         if indexPath.row == DRBrowseMenu.recycle.rawValue {
-            topVC.present(id: "RecycleBinViewController")
-        } else if indexPath.row == DRBrowseMenu.info.rawValue {
-            
-        } else if indexPath.row == DRBrowseMenu.makeUp.rawValue {
-            
+            mainListView.present(id: "RecycleBinViewController")
+        } else if indexPath.row == DRBrowseMenu.howTo.rawValue {
+            mainListView.present(id: "HowToViewController")
         } else if indexPath.row == DRBrowseMenu.interact.rawValue {
-            topVC.present(id: "InteractViewController")
+            mainListView.present(id: "InteractViewController")
         }
     }
     

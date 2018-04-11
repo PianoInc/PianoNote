@@ -6,8 +6,7 @@
 "deletedMemo" = "삭제된 메모";
 "lockTitle" = "이 메모는 잠겨 있습니다.";
 "lockSubtitle" = "메모 보기";
-"infomation" = "사용법";
-"makeUp" = "꾸미기";
+"howTo" = "사용법";
 "interact" = "소통공간";
 "select" = "선택";
 "selectAll" = "전체선택";
@@ -29,4 +28,5 @@
 "requestCamera" = "카메라 기능을 사용하려면 사용관한을 허용해야 합니다.";
 "requestPhoto" = "사진 기능을 사용하려면 접근관한을 허용해야 합니다.";
 "albumNoTitle" = "이름없음";
+
 

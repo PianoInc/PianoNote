@@ -88,6 +88,7 @@
 		168D19F220632A5F005AA85F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168D19F020632A5F005AA85F /* MainInterface.storyboard */; };
 		168D19F620632A5F005AA85F /* widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 168D19E920632A5F005AA85F /* widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		168D1A0220636501005AA85F /* FolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A0120636501005AA85F /* FolderCell.swift */; };
+		16FF7C85207DD26600718810 /* HowToViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF7C84207DD26600718810 /* HowToViewController.swift */; };
 		280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */; };
 		54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A175366D5D2E82F861F0A /* Pods_widget.framework */; };
 		6C3C3E7520775A0D00A087B7 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3C3E7420775A0D00A087B7 /* SearchViewController.swift */; };
@@ -297,6 +298,7 @@
 		168D19FD206338FB005AA85F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		168D19FE206338FB005AA85F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		168D1A0120636501005AA85F /* FolderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCell.swift; sourceTree = "<group>"; };
+		16FF7C84207DD26600718810 /* HowToViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToViewController.swift; sourceTree = "<group>"; };
 		1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEAD3B25C82A9D5AD3AD7F3 /* Pods-PianoNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		20EC9305AF23FD8D000CC78B /* Pods-PianoNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNote.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote.release.xcconfig"; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 			children = (
 				16722B64207CA6D60041ED1E /* Interact */,
 				16722B6B207CA6D60041ED1E /* RecycleBinViewController.swift */,
+				16FF7C84207DD26600718810 /* HowToViewController.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -1468,6 +1471,7 @@
 				16722B97207CA73A0041ED1E /* DRBrowseFolderCell.swift in Sources */,
 				6CC75D3F20745E6100D164D1 /* CategoryManageCell.swift in Sources */,
 				16722B99207CA73A0041ED1E /* DRPageFlowLayout.swift in Sources */,
+				16FF7C85207DD26600718810 /* HowToViewController.swift in Sources */,
 				6C72709120730139003A4640 /* AddressAttribute.swift in Sources */,
 				167A1D05207C93210029E797 /* Color.swift in Sources */,
 				167A1D10207C93480029E797 /* DRFBService.swift in Sources */,

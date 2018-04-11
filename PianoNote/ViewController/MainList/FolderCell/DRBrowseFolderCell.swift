@@ -14,7 +14,7 @@ class DRBrowseFolderCell: UICollectionViewCell {
         listView.initHeaderView(minSize * 0.3466)
         }}
     
-    var data = ["deletedMeno".locale, "infomation".locale, "makeUp".locale, "communication".locale]
+    private let data = ["deletedMemo".locale, "howTo".locale, "communication".locale]
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
