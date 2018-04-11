@@ -11,7 +11,7 @@ import UIKit
 import RealmSwift
 
 class LocalImageCache {
-    static let shared = LocalCache()
+    static let shared = LocalImageCache()
     
     private let imageCache = NSCache<NSString, UIImage>()
     private let observer = RealmImageObserver()

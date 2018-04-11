@@ -36,7 +36,22 @@ class PianoTextEventCell: InteractiveAttachmentCell {
     
     func configure(with attribute: AttributeModel) {
         if case let .attachment(.event(eventAttribute)) = attribute.style {
-            
+            let components:Set<Calendar.Component> = [.year, .month, .day, .hour, .minute]
+
+            let startDateComponent = Calendar.current.dateComponents(components, from: eventAttribute.event.startDate)
+            let endDateComponent = Calendar.current.dateComponents(components, from: eventAttribute.event.endDate)
+            let currentYear = Calendar.current.dateComponents([.year], from: Date()).year!
+
+            startYearLabel.text = String(startDateComponent.year!)
+            endYearLabel.text = String(endDateComponent.year!)
+
+            startYearLabel.isHidden = startDateComponent.year! == currentYear
+            endYearLabel.isHidden = startDateComponent.year! == currentYear
+
+            startDayLabel.text = String(format: "%02d월 %02d일", startDateComponent.month!, startDateComponent.day!)
+            //TODO: I need to check the pattern of events. eg) isAllDay, hours or minutes == nil
+
+
         }
     }
 }
