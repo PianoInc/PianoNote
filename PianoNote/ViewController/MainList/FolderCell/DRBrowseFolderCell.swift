@@ -11,7 +11,8 @@ import UIKit
 class DRBrowseFolderCell: UICollectionViewCell {
     
     @IBOutlet var listView: UITableView! { didSet {
-        listView.initHeaderView(minSize * 0.3466)
+        listView.initHeaderView(minSize * 0.25)
+        listView.headerView(large: "lookAround".locale)
         }}
     
     private let data = ["deletedMemo".locale, "howTo".locale, "communication".locale]

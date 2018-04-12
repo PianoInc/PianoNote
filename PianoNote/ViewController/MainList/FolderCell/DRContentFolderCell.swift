@@ -26,6 +26,10 @@ class DRContentFolderCell: UICollectionViewCell {
         lockButton.titleLabel?.font = UIFont.preferred(font: 17, weight: .regular)
         lockButton.setTitle("lockSubtitle".locale, for: .normal)
         }}
+    @IBOutlet var emptyLabel: UILabel! { didSet {
+        emptyLabel.font = UIFont.preferred(font: 17, weight: .regular)
+        emptyLabel.text = "noMemo".locale
+        }}
     
     var data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
     
@@ -51,8 +55,8 @@ class DRContentFolderCell: UICollectionViewCell {
         makeConst(lockView) {
             $0.leading.equalTo(0)
             $0.trailing.equalTo(0)
-            $0.top.equalTo(self.minSize * 0.4)
-            $0.bottom.equalTo(0)
+            $0.top.equalTo(self.minSize * 0.4).priority(.high)
+            $0.bottom.equalTo(0).priority(.high)
         }
         makeConst(lockimage) {
             $0.leading.equalTo(0)
@@ -70,12 +74,19 @@ class DRContentFolderCell: UICollectionViewCell {
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(self.lockTitleLabel.snp.centerY).offset(self.minSize * 0.0826)
         }
+        makeConst(emptyLabel) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
+        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         listView.reloadData()
         lockView.isHidden = !isLock
+        emptyLabel.isHidden = !data.isEmpty
     }
     
     /// TableView의 normal <-> edit 간의 모드를 전환한다.
