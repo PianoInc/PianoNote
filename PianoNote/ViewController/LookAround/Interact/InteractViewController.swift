@@ -90,6 +90,7 @@ class InteractViewController: DRViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
+        listView.headerView(large: "interact".locale)
         navigationItem.titleView = makeView(UILabel()) {
             $0.font = UIFont.preferred(font: 17, weight: .semibold)
             $0.text = "interact".locale

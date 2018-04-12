@@ -551,8 +551,8 @@
 		167A1D23207C93690029E797 /* Album */ = {
 			isa = PBXGroup;
 			children = (
-				167A1D24207C93690029E797 /* DRAlbumView.swift */,
 				167A1D25207C93690029E797 /* AlbumCell */,
+				167A1D24207C93690029E797 /* DRAlbumView.swift */,
 				167A1D28207C93690029E797 /* DRAlbumFolderListView.swift */,
 				167A1D29207C93690029E797 /* DRAlbumPhotoListView.swift */,
 			);

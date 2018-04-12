@@ -48,30 +48,13 @@ class InteractDetailViewController: DRViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
-        updateHeaderView()
+        listView.headerView(multiLine: postData.title)
         navigationItem.titleView = makeView(UILabel()) {
             $0.font = UIFont.preferred(font: 17, weight: .semibold)
             $0.text = postData.title
             $0.alpha = 0
         }
     }()
-    
-    // DRNoteCellHeader를 활용하기 위한 재정의 작업.
-    private func updateHeaderView() {
-        if let headerView = listView.tableHeaderView as? DRNoteCellHeader {
-            headerView.contentView.subviews.forEach {$0.isHidden = true}
-            headerView.contentView.titleLabel.isHidden = false
-            headerView.contentView.titleLabel.textAlignment = .center
-            headerView.contentView.titleLabel.numberOfLines = 2
-            headerView.contentView.titleLabel.font = UIFont.preferred(font: 23, weight: .bold)
-            headerView.contentView.titleLabel.text = postData.title
-            makeConst(headerView.contentView.titleLabel) {
-                $0.leading.equalTo(self.minSize * 0.1066)
-                $0.trailing.equalTo(-(self.minSize * 0.1066))
-                $0.top.equalTo(self.minSize * 0.0666)
-            }
-        }
-    }
     
     /// Data의 변화를 감지하여 listView에 이어 붙인다.
     private func attachData() {

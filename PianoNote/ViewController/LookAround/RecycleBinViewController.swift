@@ -45,6 +45,7 @@ class RecycleBinViewController: DRViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
+        listView.headerView(large: "deletedMemo".locale)
         navi { (navi, item) in
             navi.isToolbarHidden = false
             item.rightBarButtonItem?.title = "selectAll".locale
