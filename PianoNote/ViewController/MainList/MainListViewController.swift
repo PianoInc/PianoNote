@@ -8,20 +8,28 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 class MainListViewController: DRViewController {
     
     @IBOutlet private var listView: UICollectionView!
     @IBOutlet private var pageControl: DRPageControl!
     
-    private var tempData = ["둘러보기", "폴더", "폴더2", ""]
+    private var tags: RealmTagsModel?
+    private var notificationToken: NotificationToken?
     private var destIndexPath: IndexPath!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        validateToken()
         initNaviBar()
         initConst()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
+    }
+    
+    deinit {
+        notificationToken?.invalidate()
     }
     
     /// Constraints 설정
@@ -72,7 +80,7 @@ class MainListViewController: DRViewController {
             item.rightBarButtonItem?.title = "select".locale
             item.titleView = makeView(UILabel()) {
                 $0.font = UIFont.preferred(font: 17, weight: .semibold)
-                $0.text = tempData[1]
+                $0.text = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator)[1] ?? ""
                 $0.alpha = 0
             }
         }
@@ -106,6 +114,35 @@ class MainListViewController: DRViewController {
                 }
             }
         }
+    }
+    
+    private func validateToken() {
+        do {
+            let realm = try Realm()
+            
+            if let existingTags = realm.objects(RealmTagsModel.self).first {
+                tags = existingTags
+            } else {
+                let newTags = RealmTagsModel.getNewModel()
+                ModelManager.saveNew(model: newTags) { [weak self] _ in
+                    DispatchQueue.main.async {
+                        self?.validateToken()
+                    }
+                }
+            }
+            
+            notificationToken = tags?.observe { [weak self] (changes) in
+                guard let collectionView = self?.listView else {return}
+                
+                switch changes {
+                case .deleted: break
+                case .change(_): collectionView.reloadData()
+                case .error(let error): print(error)
+                }
+            }
+            
+            
+        } catch {print(error)}
     }
     
     @IBAction private func naviBar(right item: UIBarButtonItem) {
@@ -152,7 +189,7 @@ extension MainListViewController: UICollectionViewDelegate {
      */
     private func initNavi(item indexPath: IndexPath) {
         guard let titleView = navigationItem.titleView as? UILabel else {return}
-        titleView.text = tempData[indexPath.row]
+        titleView.text = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator)[indexPath.item] ?? ""
         titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
         rightItem.title = (indexPath.row == 0) ? "" : "select".locale
@@ -198,8 +235,9 @@ extension MainListViewController: UICollectionViewDelegateFlowLayout {
 extension MainListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        pageControl.numberOfPages = tempData.count
-        return tempData.count
+        let count = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator).count ?? 0
+        pageControl.numberOfPages = count
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -207,6 +245,7 @@ extension MainListViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRBrowseFolderCell", for: indexPath) as! DRBrowseFolderCell
             return cell
         }
+        
         if tempData[indexPath.row].isEmpty {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DREmptyFolderCell", for: indexPath) as! DREmptyFolderCell
             return cell
