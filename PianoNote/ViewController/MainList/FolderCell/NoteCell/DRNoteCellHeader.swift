@@ -44,8 +44,8 @@ class DRNoteCellHeader: UIView {
     
     private func initConst() {
         makeConst(contentView) {
-            $0.leading.equalTo(0)
-            $0.trailing.equalTo(0)
+            $0.leading.equalTo(0).priority(.high)
+            $0.trailing.equalTo(0).priority(.high)
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }

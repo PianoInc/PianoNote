@@ -35,10 +35,10 @@ class MainListViewController: DRViewController {
     /// Constraints 설정
     private func initConst() {
         makeConst(listView) {
-            $0.leading.equalTo(self.safeInset.left).priority(.high)
-            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
-            $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
-            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
+            $0.leading.equalTo(self.safeInset.left)
+            $0.trailing.equalTo(-self.safeInset.right)
+            $0.top.equalTo(self.statusHeight + self.naviHeight)
+            $0.bottom.equalTo(-self.safeInset.bottom)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
@@ -194,8 +194,7 @@ extension MainListViewController: UICollectionViewDelegate {
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
         rightItem.title = (indexPath.row == 0) ? "" : "select".locale
         rightItem.isEnabled = true
-        guard let _ = listView.cellForItem(at: indexPath) as? DREmptyFolderCell else {return}
-        rightItem.isEnabled = false
+        // empty일때 isEnabled = false
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -205,9 +204,6 @@ extension MainListViewController: UICollectionViewDelegate {
         }
         if let contentFolderCell = cell as? DRContentFolderCell {
             contentFolderCell.listView.setContentOffset(.zero, animated: false)
-        }
-        if let emptyFolderCell = cell as? DREmptyFolderCell {
-            emptyFolderCell.listView.setContentOffset(.zero, animated: false)
         }
         // 폴더간 이동시 navigation titleView의 alpha값을 초기화 시킨다.
         destIndexPath = indexPath
@@ -241,17 +237,14 @@ extension MainListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0 {
+        if indexPath.row == 0  {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRBrowseFolderCell", for: indexPath) as! DRBrowseFolderCell
             return cell
         }
-        
-        if tempData[indexPath.row].isEmpty {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DREmptyFolderCell", for: indexPath) as! DREmptyFolderCell
-            return cell
-        }
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
         cell.isLock = (indexPath.row == 2)
+        if indexPath.row == 3 {cell.data = []}
         return cell
     }
     

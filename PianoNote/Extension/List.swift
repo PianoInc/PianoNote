@@ -20,6 +20,37 @@ extension UITableView {
         tableFooterView = UIView(frame: minimumRect)
     }
     
+    /// 2줄까지 가능한 title만 있는 headerView로 shape를 바꾼다.
+    func headerView(multiLine title: String) {
+        guard let headerView = tableHeaderView as? DRNoteCellHeader else {return}
+        headerView.contentView.subviews.forEach {$0.isHidden = true}
+        headerView.contentView.titleLabel.isHidden = false
+        headerView.contentView.titleLabel.textAlignment = .center
+        headerView.contentView.titleLabel.numberOfLines = 2
+        headerView.contentView.titleLabel.font = UIFont.preferred(font: 23, weight: .bold)
+        headerView.contentView.titleLabel.text = title
+        makeConst(headerView.contentView.titleLabel) {
+            $0.leading.equalTo(self.minSize * 0.1066)
+            $0.trailing.equalTo(-(self.minSize * 0.1066))
+            $0.top.equalTo(self.minSize * 0.0666)
+        }
+    }
+    
+    /// 큰 Title만 있는 headerView로 shape를 바꾼다.
+    func headerView(large title: String) {
+        guard let headerView = tableHeaderView as? DRNoteCellHeader else {return}
+        headerView.contentView.subviews.forEach {$0.isHidden = true}
+        headerView.contentView.titleLabel.isHidden = false
+        headerView.contentView.titleLabel.numberOfLines = 1
+        headerView.contentView.titleLabel.font = UIFont.preferred(font: 34, weight: .bold)
+        headerView.contentView.titleLabel.text = title
+        makeConst(headerView.contentView.titleLabel) {
+            $0.leading.equalTo(self.minSize * 0.0613)
+            $0.trailing.equalTo(-(self.minSize * 0.0613))
+            $0.top.equalTo(self.minSize * 0.04)
+        }
+    }
+    
     /// Offset을 유지하면서 reloadData를 진행한다.
     func refreshData() {
         let offset = contentOffset
