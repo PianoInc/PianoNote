@@ -74,10 +74,10 @@ class InteractViewController: DRViewController {
             $0.height.equalTo(self.minSize * 0.1333)
         }
         makeConst(listView) {
-            $0.leading.equalTo(self.safeInset.left).priority(.high)
-            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
-            $0.top.equalTo(self.statusHeight + self.naviHeight).priority(.high)
-            $0.bottom.equalTo(-self.safeInset.bottom).priority(.high)
+            $0.leading.equalTo(self.safeInset.left)
+            $0.trailing.equalTo(-self.safeInset.right)
+            $0.top.equalTo(self.statusHeight + self.naviHeight)
+            $0.bottom.equalTo(-self.safeInset.bottom)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
@@ -90,6 +90,7 @@ class InteractViewController: DRViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
+        listView.headerView(large: "interact".locale)
         navigationItem.titleView = makeView(UILabel()) {
             $0.font = UIFont.preferred(font: 17, weight: .semibold)
             $0.text = "interact".locale

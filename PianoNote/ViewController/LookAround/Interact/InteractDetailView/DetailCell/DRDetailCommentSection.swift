@@ -69,7 +69,8 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
     }
     
     private func initView() {
-        backgroundColor = .clear
+        backgroundView = UIView()
+        backgroundView?.backgroundColor = .clear
         replyButton.addTarget(self, action: #selector(action(reply:)), for: .touchUpInside)
         contentView.addSubview(contentsView)
         contentsView.addSubview(portraitImage)
