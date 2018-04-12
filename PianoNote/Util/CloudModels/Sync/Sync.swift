@@ -15,6 +15,7 @@ struct Schema {
     
     struct Tags {
         static let tags = "tags"
+        static let id = "id"
     }
     
     struct Note {

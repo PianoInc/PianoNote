@@ -164,8 +164,8 @@ class CategoryManageViewController: UIViewController {
     }
     
     @IBAction func doneButtonTouched(_ sender: Any) {
-//        token?.invalidate()
-//        self.dismiss(animated: true)
+        token?.invalidate()
+        self.dismiss(animated: true)
     }
     
     @IBAction func lockButtonTouched(_ sender: Any) {

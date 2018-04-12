@@ -23,13 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerForRemoteNotifications()
         _ = CloudManager.shared
         performMigration()
-        
-        if let realm = try? Realm(),
-            realm.objects(RealmTagsModel.self).first == nil {
-            let newModel = RealmTagsModel.getNewModel()
-            
-            ModelManager.saveNew(model: newModel)
-        }
+//        let realm = try! Realm()
+//        try? realm.write {
+//            realm.deleteAll()
+//        }
+
         return true
     }
     

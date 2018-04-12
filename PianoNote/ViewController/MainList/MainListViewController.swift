@@ -22,10 +22,11 @@ class MainListViewController: DRViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        validateToken()
-        initNaviBar()
-        initConst()
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
+        validateToken() { [weak self] in
+            self?.initNaviBar()
+            self?.initConst()
+            self?.device(orientationDidChange: { [weak self] _ in self?.initConst()})
+        }
     }
     
     deinit {
@@ -80,7 +81,7 @@ class MainListViewController: DRViewController {
             item.rightBarButtonItem?.title = "select".locale
             item.titleView = makeView(UILabel()) {
                 $0.font = UIFont.preferred(font: 17, weight: .semibold)
-                $0.text = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator)[1] ?? ""
+                $0.text = "둘러보기"
                 $0.alpha = 0
             }
         }
@@ -99,6 +100,9 @@ class MainListViewController: DRViewController {
     @IBAction private func naviBar(left item: UIBarButtonItem) {
         if item.title! == "manageFolder".locale {
             
+            guard let vc = UIStoryboard(name: "Category", bundle: nil).instantiateInitialViewController() else {return}
+            
+            present(vc, animated: true, completion: nil)
         } else {
             if let cell = listView.visibleCells.first as? DRContentFolderCell {
                 let indexData = cell.data.enumerated().flatMap { (section, _) in
@@ -116,7 +120,7 @@ class MainListViewController: DRViewController {
         }
     }
     
-    private func validateToken() {
+    private func validateToken(completion: @escaping () -> Void) {
         do {
             let realm = try Realm()
             
@@ -125,10 +129,12 @@ class MainListViewController: DRViewController {
             } else {
                 let newTags = RealmTagsModel.getNewModel()
                 ModelManager.saveNew(model: newTags) { [weak self] _ in
-                    DispatchQueue.main.async {
-                        self?.validateToken()
+                    DispatchQueue.main.sync {
+                        self?.validateToken(){}
+                        completion()
                     }
                 }
+                return
             }
             
             notificationToken = tags?.observe { [weak self] (changes) in
@@ -140,6 +146,7 @@ class MainListViewController: DRViewController {
                 case .error(let error): print(error)
                 }
             }
+            completion()
             
             
         } catch {print(error)}
@@ -189,7 +196,11 @@ extension MainListViewController: UICollectionViewDelegate {
      */
     private func initNavi(item indexPath: IndexPath) {
         guard let titleView = navigationItem.titleView as? UILabel else {return}
-        titleView.text = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator)[indexPath.item] ?? ""
+        var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
+        tagsArray.replaceSubrange(Range<Int>(NSMakeRange(0, 1))!, with: ["모든 메모"])
+        tagsArray.insert("둘러보기", at: 0)
+        
+        titleView.text = tagsArray[indexPath.item]
         titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
         rightItem.title = (indexPath.row == 0) ? "" : "select".locale
@@ -232,8 +243,8 @@ extension MainListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator).count ?? 0
-        pageControl.numberOfPages = count
-        return count
+        pageControl.numberOfPages = count + 1
+        return count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -243,8 +254,13 @@ extension MainListViewController: UICollectionViewDataSource {
         }
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
-        cell.isLock = (indexPath.row == 2)
-        if indexPath.row == 3 {cell.data = []}
+        
+        var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
+        tagsArray.insert("둘러보기", at: 0)
+        
+        cell.tagName = tagsArray[indexPath.item]
+        cell.isLock = tagsArray[indexPath.item].hasPrefix(RealmTagsModel.lockSymbol)
+        
         return cell
     }
     

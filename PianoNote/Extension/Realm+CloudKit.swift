@@ -20,6 +20,7 @@ extension RealmTagsModel {
         coder.finishDecoding()
         
         record[scheme.tags] = self.tags as CKRecordValue
+        record[scheme.id] = self.id as CKRecordValue
         
         return record
     }
@@ -79,7 +80,8 @@ extension CKRecord {
         let newTagsModel = RealmTagsModel()
         let schema = Schema.Tags.self
         
-        guard let tags = self[schema.tags] as? String else {return nil}
+        guard let tags = self[schema.tags] as? String,
+            let id = self[schema.id] as? String else {return nil}
         
         let data = NSMutableData()
         let coder = NSKeyedArchiver(forWritingWith: data)
@@ -88,6 +90,7 @@ extension CKRecord {
         coder.finishEncoding()
         
         newTagsModel.tags = tags
+        newTagsModel.id = id
         newTagsModel.ckMetaData = Data(referencing: data)
         
         return newTagsModel
