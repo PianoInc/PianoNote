@@ -37,7 +37,6 @@ extension RealmNoteModel {
         coder.finishDecoding()
         
         record[scheme.id] = self.id as CKRecordValue
-        record[scheme.title] = self.title as CKRecordValue
         record[scheme.content] = self.content as CKRecordValue
         record[scheme.attributes] = self.attributes as CKRecordValue
         
@@ -101,7 +100,6 @@ extension CKRecord {
         let schema = Schema.Note.self
         
         guard let id = self[schema.id] as? String,
-            let title = self[schema.title] as? String,
             let content = self[schema.content] as? String,
             let attributes = self[schema.attributes] as? Data,
             let tags = self[schema.tags] as? String,
@@ -115,7 +113,6 @@ extension CKRecord {
         coder.finishEncoding()
         
         newNoteModel.id = id
-        newNoteModel.title = title
         newNoteModel.content = content
         newNoteModel.attributes = attributes
         newNoteModel.recordName = self.recordID.recordName

@@ -20,7 +20,6 @@ struct Schema {
     
     struct Note {
         static let id = "id"
-        static let title = "title"
         static let content = "content"
         static let attributes = "attributes"
         
