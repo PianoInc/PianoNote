@@ -176,7 +176,9 @@ class MainListViewController: DRViewController {
     
     @IBAction private func toolBar(right item: UIBarButtonItem) {
         if let cell = listView.visibleCells.first as? DRContentFolderCell {
-            cell.deleteSelectedCells()
+            alertWithOKAction(message: "선택하신 노트를 삭제하시겠습니까?") { [weak cell] _ in
+                cell?.deleteSelectedCells()
+            }
         }
     }
     
@@ -212,7 +214,7 @@ extension MainListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // 폴더간 이동시 노트 리스트를 처음 위치로 초기화 시킨다.
-        print("will \(indexPath)")
+        
         if let browseFolderCell = cell as? DRBrowseFolderCell {
             browseFolderCell.listView.setContentOffset(.zero, animated: false)
         }
@@ -256,7 +258,7 @@ extension MainListViewController: UICollectionViewDataSource {
             return cell
         }
 
-        print(indexPath)
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
         
         var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
