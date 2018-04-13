@@ -86,7 +86,7 @@
                                                             <rect key="frame" x="0.0" y="145.5" width="50" height="44"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TN6-ZZ-tXc" id="ISz-T7-RtR">
-                                                                <rect key="frame" x="0.0" y="0.0" width="50" height="44"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="50" height="43.5"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BBS-JK-7ZG">
@@ -171,7 +171,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="44"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RU7-Y8-EsK">
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="RU7-Y8-EsK">
                                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                         <subviews>
