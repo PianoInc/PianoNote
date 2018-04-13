@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            realm.delete(notes)
 //        }
 
-//        let newModel = RealmNoteModel.getNewModel(title: "뇨호호", categoryRecordName: "가나다라")
+//        let newModel = RealmNoteModel.getNewModel(content: "뇨호호", categoryRecordName: "가나다라")
 //        ModelManager.saveNew(model: newModel)
         
         return true
