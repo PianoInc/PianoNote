@@ -50,7 +50,7 @@ extension NoteViewController: UITextViewDelegate {
         invokingTextViewDelegate = true
         let bool = FormManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
         invokingTextViewDelegate = false
-        return bool
+        return bool && !self.textView.isSyncing
     }
     
     func textViewDidChange(_ textView: UITextView) {

@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import InteractiveTextEngine_iOS
 
-class PianoTextView: UITextView {
+class PianoTextView: InteractiveTextView {
     
    private(set) var inputViewManager: DRInputViewManager!
+    var isSyncing: Bool = false
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -45,7 +47,6 @@ class PianoTextView: UITextView {
         setup()
         tag = ViewTag.PianoTextView.rawValue
         textContainerInset.top = 20
-        
     }
     
 //    override func replacementObject(for aCoder: NSCoder) -> Any? {
@@ -110,4 +111,18 @@ extension PianoTextView {
         }
     }
     
+}
+
+extension PianoTextView {
+    func set(string: String, with attributes: [PianoAttribute]) {
+        let newAttributedString = NSMutableAttributedString(string: string)
+        attributes.forEach{ newAttributedString.add(attribute: $0) }
+        
+        attributedText = newAttributedString
+    }
+    
+    func get() -> (string: String, attributes: [PianoAttribute]) {
+        
+        return attributedText.getStringWithPianoAttributes()
+    }
 }
