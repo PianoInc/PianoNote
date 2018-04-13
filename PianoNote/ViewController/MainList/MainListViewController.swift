@@ -175,7 +175,9 @@ class MainListViewController: DRViewController {
     }
     
     @IBAction private func toolBar(right item: UIBarButtonItem) {
-        
+        if let cell = listView.visibleCells.first as? DRContentFolderCell {
+            cell.deleteSelectedCells()
+        }
     }
     
 }
@@ -203,13 +205,14 @@ extension MainListViewController: UICollectionViewDelegate {
         titleView.text = tagsArray[indexPath.item]
         titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
-        rightItem.title = (indexPath.row == 0) ? "" : "select".locale
+        rightItem.title = (indexPath.item == 0) ? "" : "select".locale
         rightItem.isEnabled = true
         // empty일때 isEnabled = false
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // 폴더간 이동시 노트 리스트를 처음 위치로 초기화 시킨다.
+        print("will \(indexPath)")
         if let browseFolderCell = cell as? DRBrowseFolderCell {
             browseFolderCell.listView.setContentOffset(.zero, animated: false)
         }
@@ -248,11 +251,12 @@ extension MainListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0  {
+        if indexPath.item == 0  {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRBrowseFolderCell", for: indexPath) as! DRBrowseFolderCell
             return cell
         }
 
+        print(indexPath)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
         
         var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []

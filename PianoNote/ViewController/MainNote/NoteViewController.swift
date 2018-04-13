@@ -12,6 +12,7 @@ class NoteViewController: UIViewController {
 
     @IBOutlet weak var textView: PianoTextView!
     var invokingTextViewDelegate: Bool = false
+    var noteID: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()

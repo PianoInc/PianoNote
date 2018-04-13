@@ -47,14 +47,14 @@ class DRContentFolderCell: UICollectionViewCell {
                     .filter("isInTrash = false").sorted(by: sortDescriptors)
             } else {
                 notes = realm.objects(RealmNoteModel.self)
-                    .filter("tags CONTAINS[cd] %@ AND isInTrash = false", "!\(tagName)!")
+                    .filter("tags CONTAINS[cd] %@ AND isInTrash = false", RealmTagsModel.tagSeparator+"\(tagName!)"+RealmTagsModel.tagSeparator)
                     .sorted(by: sortDescriptors)
             }
-            
+            arrangeResults()
             notificationToken = notes?.observe { [weak self] change in
                 DispatchQueue.main.async {
                     switch change {
-                    case .initial(_): self?.arrangeResults()
+                    case .initial(_): break
                     case .update(_, _, _, _): self?.arrangeResults()
                     case .error(let error): fatalError(error.localizedDescription)//error!
                     }
@@ -164,6 +164,15 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.reloadData()
     }
     
+    func deleteSelectedCells() {
+        guard let realm = try? Realm() else {return}
+        let list = List<RealmNoteModel>()
+        list.append(objectsIn: selectedIndex.map {data[$0.section][$0.row]})
+        
+        try? realm.write {
+            list.setValue(true, forKey: Schema.Note.isInTrash)
+        }
+    }
 }
 
 extension DRContentFolderCell: DRContentNoteDelegates {
@@ -180,8 +189,10 @@ extension DRContentFolderCell: DRContentNoteDelegates {
             cell.select = selectedIndex.contains(indexPath)
             cell.setNeedsLayout()
         } else if let mainListView = UIWindow.topVC as? MainListViewController {
-            //Insert note dat here
-            mainListView.present(view: UIStoryboard.view(id: "NoteViewController", "Main1"))
+            guard let noteVC = UIStoryboard.view(id: "NoteViewController", "Main1") as? NoteViewController else {return}
+            let note = data[indexPath.section][indexPath.row]
+            noteVC.noteID = note.id
+            mainListView.present(view: noteVC)
         }
     }
     
