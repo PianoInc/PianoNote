@@ -14,7 +14,7 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.4)
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = minSize
+        listView.estimatedRowHeight = minSize *  0.3703
         }}
     @IBOutlet private var lockView: UIView!
     @IBOutlet private var lockimage: UIImageView!

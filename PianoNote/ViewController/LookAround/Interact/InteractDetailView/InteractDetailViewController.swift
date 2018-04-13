@@ -14,13 +14,14 @@ class InteractDetailViewController: DRViewController {
         listView.register(DRDetailCommentSection.self, forHeaderFooterViewReuseIdentifier: "DRDetailCommentSection")
         listView.initHeaderView(minSize * 0.2666)
         listView.sectionHeaderHeight = UITableViewAutomaticDimension
-        listView.estimatedSectionHeaderHeight = minSize
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = minSize
         }}
     
-    private var data = [DRFBComment]()
     var postData = (id : "", title : "")
+    
+    private var estimatedHeaderHeight = [Int : CGFloat]()
+    private var estimatedCellHeight = [IndexPath : CGFloat]()
+    private var data = [DRFBComment]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,14 +93,30 @@ extension InteractDetailViewController: DRDetailDelegates {
 
 extension InteractDetailViewController: UITableViewDelegate {
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        fadeNavigationTitle(scrollView)
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         requestNextData(scrollView) {
             DRFBService.share.facebook(comment: postData.id)
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        fadeNavigationTitle(scrollView)
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        estimatedHeaderHeight[section] = view.bounds.height
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        estimatedCellHeight[indexPath] = cell.bounds.height
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return estimatedHeaderHeight[section] ?? 108
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return estimatedCellHeight[indexPath] ?? 108
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

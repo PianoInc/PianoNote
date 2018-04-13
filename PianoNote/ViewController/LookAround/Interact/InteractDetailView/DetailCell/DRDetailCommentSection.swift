@@ -84,10 +84,10 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
     
     private func initConst() {
         makeConst(contentsView) {
-            $0.leading.equalTo(self.minSize * 0.0213)
-            $0.trailing.equalTo(-(self.minSize * 0.0213))
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(-(self.minSize * 0.0933))
+            $0.leading.equalTo(self.minSize * 0.0213).priority(.high)
+            $0.trailing.equalTo(-(self.minSize * 0.0213)).priority(.high)
+            $0.top.equalTo(0).priority(.high)
+            $0.bottom.equalTo(-(self.minSize * 0.0933)).priority(.high)
         }
         makeConst(portraitImage) {
             $0.leading.equalTo(self.minSize * 0.0266)

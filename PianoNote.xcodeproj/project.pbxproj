@@ -445,8 +445,8 @@
 		16722B67207CA6D60041ED1E /* DetailCell */ = {
 			isa = PBXGroup;
 			children = (
-				16722B68207CA6D60041ED1E /* DRDetailReplyCell.swift */,
 				16722B69207CA6D60041ED1E /* DRDetailCommentSection.swift */,
+				16722B68207CA6D60041ED1E /* DRDetailReplyCell.swift */,
 			);
 			path = DetailCell;
 			sourceTree = "<group>";

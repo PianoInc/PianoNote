@@ -33,9 +33,9 @@ class InteractViewController: DRViewController {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.2133)
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = minSize
         }}
     
+    private var estimatedCellHeight = [IndexPath : CGFloat]()
     private var data = [[String : [DRFBPost]]]()
     
     override func viewDidLoad() {
@@ -146,14 +146,22 @@ extension InteractViewController: DRContentNoteDelegates {
 
 extension InteractViewController: UITableViewDelegate {
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        fadeNavigationTitle(scrollView)
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         requestNextData(scrollView) {
             DRFBService.share.facebook(post: "602234013303895")
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        fadeNavigationTitle(scrollView)
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        estimatedCellHeight[indexPath] = cell.bounds.height
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return estimatedCellHeight[indexPath] ?? UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
