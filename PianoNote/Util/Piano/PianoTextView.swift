@@ -9,6 +9,21 @@
 import UIKit
 
 class PianoTextView: UITextView {
+    
+   private(set) var inputViewManager: DRInputViewManager!
+    
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        inputViewManager = DRInputViewManager(self)
+    }
+    
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if inputViewManager.magnifyAccessoryView.magnifyView.state == .paste {
+            return action == #selector(paste(_:))
+        }
+        inputViewManager.magnifyAccessoryView.magnifyView.cursor()
+        return true
+    }
 
     override var typingAttributes: [String : Any] {
         get {

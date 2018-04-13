@@ -13,7 +13,7 @@
         <!--Note View Controller-->
         <scene sceneID="9NV-qf-Ns3">
             <objects>
-                <viewController id="sLK-Xb-9Qf" customClass="NoteViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NoteViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sLK-Xb-9Qf" customClass="NoteViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wUW-bt-dZq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -164,7 +164,8 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnr-Te-zWV">
                                                     <rect key="frame" x="29" y="10" width="317" height="39"/>
-                                                    <string key="text">텍스트 포커싱은 키보드 위에 현재 쓰고있는 글자를 확대해투영시켜 오타율을 줄여주고 타이핑 속도를 증가시킵니다.</string>
+                                                    <string key="text">텍스트 포커싱은 키보드 위에 현재 쓰고있는 글자를 확대해
+투영시켜 오타율을 줄여주고 타이핑 속도를 증가시킵니다.</string>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                     <color key="textColor" red="0.40784313725490196" green="0.40392156862745099" blue="0.42745098039215684" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>

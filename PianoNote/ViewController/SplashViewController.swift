@@ -8,10 +8,13 @@
 
 import UIKit
 
-class SplashViewController: UIViewController {
+class SplashViewController: DRViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.transition(with: navigationController!.view, duration: 0.5, options: [.transitionCrossDissolve], animations: {
+            self.present(id: "MainListViewController", animated: false)
+        })
     }
     
 }

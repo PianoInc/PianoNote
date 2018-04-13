@@ -9,22 +9,25 @@
 import UIKit
 import CloudKit
 import RealmSwift
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var orientationLock: UIInterfaceOrientationMask = .allButUpsideDown
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         application.registerForRemoteNotifications()
         _ = CloudManager.shared
         performMigration()
-
+        
         if let realm = try? Realm(),
-                realm.objects(RealmTagsModel.self).first == nil {
+            realm.objects(RealmTagsModel.self).first == nil {
             let newModel = RealmTagsModel.getNewModel()
-
+            
             ModelManager.saveNew(model: newModel)
         }
         return true
@@ -59,6 +62,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let _ = try! Realm()
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
+    }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return orientationLock
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         
     }
@@ -72,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        
+        FBSDKAppEvents.activateApp()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -142,3 +153,4 @@ extension Realm {
         Realm.Configuration.defaultConfiguration = config
     }
 }
+

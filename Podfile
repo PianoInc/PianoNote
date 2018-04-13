@@ -1,37 +1,36 @@
-# Uncomment the next line to define a global platform for your project
+
 platform :ios, '10.0'
 
+def common
+    pod 'SnapKit'
+    pod 'RxSwift'
+    pod 'RxCocoa'
+    pod 'RealmSwift'
+end
+
+# Pods for PianoNote
 target 'PianoNote' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for PianoNote
-  pod 'SnapKit'
-  pod 'RxSwift'
-  pod 'RxCocoa'
-  pod 'RealmSwift'
-  pod 'FBSDKLoginKit'
-  pod 'SwiftyJSON'
-  pod 'SwiftyUserDefaults'
-  pod 'CryptoSwift'
-  pod 'URLEmbeddedView', :git => 'https://github.com/PianoInc/URLEmbeddedView.git'
-
-  target 'PianoNoteTests' do
-    inherit! :search_paths
+    use_frameworks!
+    common
+    pod 'SwiftyUserDefaults'
+    pod 'SwiftyJSON'
+    pod 'FBSDKLoginKit'
+    pod 'CryptoSwift'
+    pod 'URLEmbeddedView', :git => 'https://github.com/PianoInc/URLEmbeddedView.git'
+    
     # Pods for testing
-  end
-
-  target 'PianoNoteUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+    target 'PianoNoteTests' do
+        inherit! :search_paths
+    end
+    # Pods for UI testing
+    target 'PianoNoteUITests' do
+        inherit! :search_paths
+    end
 end
 
+# Pods for widget
 target 'widget' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for widget
-
+    use_frameworks!
+    common
 end
+
