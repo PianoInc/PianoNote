@@ -80,7 +80,17 @@ class InteractDetailViewController: DRViewController {
     
 }
 
-extension InteractDetailViewController: UITableViewDelegate, DRDetailDelegates {
+extension InteractDetailViewController: DRDetailDelegates {
+    
+    func extend(reply indexPath: IndexPath) {
+        guard !data[indexPath.section].expend else {return}
+        data[indexPath.section].expend = true
+        listView.reloadData()
+    }
+    
+}
+
+extension InteractDetailViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         requestNextData(scrollView) {
@@ -110,11 +120,6 @@ extension InteractDetailViewController: UITableViewDelegate, DRDetailDelegates {
         }
         
         return view
-    }
-    
-    func extend(reply indexPath: IndexPath) {
-        data[indexPath.section].expend = true
-        listView.reloadData()
     }
     
 }

@@ -133,6 +133,17 @@ class InteractViewController: DRViewController {
     
 }
 
+extension InteractViewController: DRContentNoteDelegates {
+    
+    func select(indexPath: IndexPath) {
+        guard let postData = post(data: indexPath) else {return}
+        let viewContoller = UIStoryboard.view(type: InteractDetailViewController.self)
+        viewContoller.postData = (id: postData.id, title: postData.title)
+        self.present(view: viewContoller)
+    }
+    
+}
+
 extension InteractViewController: UITableViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -157,7 +168,7 @@ extension InteractViewController: UITableViewDelegate {
     
 }
 
-extension InteractViewController: UITableViewDataSource, DRContentNoteDelegates {
+extension InteractViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return data.count
@@ -188,13 +199,6 @@ extension InteractViewController: UITableViewDataSource, DRContentNoteDelegates 
      */
     private func post(data indexPath: IndexPath) -> DRFBPost? {
         return data[indexPath.section].first?.value[indexPath.row]
-    }
-    
-    func select(indexPath: IndexPath) {
-        guard let postData = post(data: indexPath) else {return}
-        let viewContoller = UIStoryboard.view(type: InteractDetailViewController.self)
-        viewContoller.postData = (id: postData.id, title: postData.title)
-        self.present(view: viewContoller)
     }
     
 }

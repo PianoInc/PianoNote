@@ -10,7 +10,7 @@ import UIKit
 
 class DRViewController: UIViewController {
     
-    /// ViewController간의 화면 전환시 navigation의 titleView가 자연스럽게 보일 수 있도록 alpha을 저장해둔다.
+    /// ViewController간의 화면 전환시 navigation의 titleView가 자연스럽게 보일 수 있도록 alpha값을 저장한다.
     var titleViewAlpha: CGFloat = 0
     
     override func viewWillAppear(_ animated: Bool) {

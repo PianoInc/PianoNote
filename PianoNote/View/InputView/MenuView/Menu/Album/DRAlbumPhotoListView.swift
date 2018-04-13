@@ -43,8 +43,11 @@ class DRAlbumPhotoListView: UICollectionView {
     private func viewDidLoad() {
         initView()
         initConst()
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
         fetchPhoto()
+        device(orientationDidChange: { [weak self] _ in
+            self?.initConst()
+            self?.collectionViewLayout.invalidateLayout()
+        })
     }
     
     private func initView() {
@@ -156,7 +159,7 @@ extension DRAlbumPhotoListView: UICollectionViewDelegateFlowLayout {
         
         // 전체화면에서 보여주고자 하는 Cell의 갯수.
         var portCellNum: CGFloat = 3
-        var landCellNum: CGFloat = 6
+        var landCellNum: CGFloat = 5
         if UIDevice.current.userInterfaceIdiom == .pad {
             portCellNum = portCellNum * 2
             landCellNum = landCellNum * 2

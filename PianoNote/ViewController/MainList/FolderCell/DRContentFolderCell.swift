@@ -85,8 +85,9 @@ class DRContentFolderCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         listView.reloadData()
-        lockView.isHidden = !isLock
+        listView.isScrollEnabled = !data.isEmpty
         emptyLabel.isHidden = !data.isEmpty
+        lockView.isHidden = !isLock
     }
     
     /// TableView의 normal <-> edit 간의 모드를 전환한다.
