@@ -16,6 +16,10 @@ open class InteractiveTextAttachment: NSTextAttachment {
 
     weak var relatedCell: InteractiveAttachmentCell?
     weak var delegate: InteractiveTextAttachmentDelegate?
+
+    open var identifier: String {
+        return ""
+    }
     
     //Convenience initializer to make drag
     public init() {

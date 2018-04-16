@@ -9,8 +9,13 @@
 import InteractiveTextEngine_iOS
 
 class ContactAttachment: InteractiveTextAttachment {
+    static let cellIdentifier = "ContactCell"
     var contact: String!
-    
+
+    override var identifier: String {
+        return ContactAttachment.cellIdentifier
+    }
+
     override init() {
         super.init()
     }

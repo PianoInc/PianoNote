@@ -10,7 +10,12 @@ import InteractiveTextEngine_iOS
 import EventKit
 
 class EventAttachment: InteractiveTextAttachment {
+    static let cellIdentifier = "EventCell"
     var event: EKEvent!
+
+    override var identifier: String {
+        return EventAttachment.cellIdentifier
+    }
     
     override init() {
         super.init()

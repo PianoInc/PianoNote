@@ -9,11 +9,18 @@
 import InteractiveTextEngine_iOS
 
 class AddressAttachment: InteractiveTextAttachment {
+    static let cellIdentifier = "AddressCell"
     var address: String!
-    
+
+    override var identifier: String {
+        return AddressAttachment.cellIdentifier
+    }
+
     override init() {
         super.init()
     }
+
+
     
     init(attribute: AddressAttribute) {
         super.init()

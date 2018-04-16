@@ -10,6 +10,7 @@ import InteractiveTextEngine_iOS
 import EventKit
 
 class ReminderAttachment: InteractiveTextAttachment {
+    static let
     var reminder: EKReminder!
     
     override init() {

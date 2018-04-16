@@ -11,7 +11,12 @@ import UIKit
 import CoreGraphics
 
 class ImageAttachment: InteractiveTextAttachment {
+    static let cellIdentifier = "ImageCell"
     var imageID: String!
+
+    override var identifier: String {
+        return ImageAttachment.cellIdentifier
+    }
     
     override init() {
         super.init()

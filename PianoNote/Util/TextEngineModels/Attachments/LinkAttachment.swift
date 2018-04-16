@@ -9,7 +9,12 @@
 import InteractiveTextEngine_iOS
 
 class LinkAttachment: InteractiveTextAttachment {
+    static let cellIdentifier = "LinkCell"
     var link: String!
+
+    override var identifier: String {
+        return LinkAttachment.cellIdentifier
+    }
     
     override init() {
         super.init()
