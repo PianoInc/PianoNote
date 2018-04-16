@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             ModelManager.saveNew(model: newModel)
         }
+
         return true
     }
     
@@ -112,6 +113,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             completionHandler(.newData)
         } else if subscriptionID == CloudManager.shared.sharedDatabase.subscriptionID {
             CloudManager.shared.sharedDatabase.handleNotification()
+            completionHandler(.newData)
+        } else if subscriptionID.hasPrefix(CloudManager.shared.publicDatabase.subscriptionID) {
+            CloudManager.shared.publicDatabase.handleNotification()
             completionHandler(.newData)
         } else {
             completionHandler(.noData)

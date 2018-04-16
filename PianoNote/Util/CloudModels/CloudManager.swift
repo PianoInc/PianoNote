@@ -18,6 +18,7 @@ class CloudManager {
     private static let userIDKey = "CKCurrentUserID"
     public let privateDatabase: CloudPrivateDatabase
     public let sharedDatabase: CloudSharedDatabase
+    public let publicDatabase: CloudPublicDatabase
     public var userID: CKRecordID?
     
     private init() {
@@ -26,6 +27,7 @@ class CloudManager {
         
         self.privateDatabase = CloudPrivateDatabase(database: CKContainer.default().privateCloudDatabase, userID: userID)
         self.sharedDatabase = CloudSharedDatabase(database: CKContainer.default().sharedCloudDatabase, userID: userID)
+        self.publicDatabase = CloudPublicDatabase(database: CKContainer.default().publicCloudDatabase, userID: userID)
         
         defer {
             resumeLongLivedOperationIfPossible()
