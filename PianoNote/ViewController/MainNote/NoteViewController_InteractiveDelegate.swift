@@ -10,7 +10,7 @@ import InteractiveTextEngine_iOS
 
 extension NoteViewController: InteractiveTextViewDelegate, InteractiveTextViewDataSource {
     func textView(_ textView: InteractiveTextView, attachmentForCell attachment: InteractiveTextAttachment) -> InteractiveAttachmentCell {
-        let cell: InteractiveAttachmentCell, Configuarable
+        let cell = textView.dequeueReusableCell(withIdentifier: attachment.identifier)
     }
     
     

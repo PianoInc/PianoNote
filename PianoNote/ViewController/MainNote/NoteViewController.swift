@@ -34,7 +34,8 @@ class NoteViewController: UIViewController {
         
         textView.interactiveDelegate = self
         textView.interactiveDataSource = self
-        //register xibs
+
+        registerNibs()
         //synchronizers
         
         setNavigationItemsForDefault()
@@ -77,6 +78,11 @@ class NoteViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 self?.saveText()
             }).disposed(by: disposeBag)
+    }
+
+    private func registerNibs() {
+//        textView.register(nib: UINib(nibName: "", bundle: nil), forCellIdentifier: "")
+
     }
     
     func saveText() {
