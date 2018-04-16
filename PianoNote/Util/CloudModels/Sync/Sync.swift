@@ -13,6 +13,11 @@ import RealmSwift
 
 struct Schema {
     
+    struct LatestEvent {
+        static let key = "UserDefaultsLatestEvent"
+        static let date = "date"
+    }
+    
     struct Tags {
         static let tags = "tags"
         static let id = "id"
@@ -41,6 +46,7 @@ enum RealmRecordTypeString: String {
     case tags = "Tags"
     case note = "Note"
     case image = "Image"
+    case latestEvent = "LatestEvent"
 }
 
 
@@ -53,6 +59,7 @@ extension CloudCommonDatabase {
         case .tags: saveTagsRecord(record)
         case .note: saveNoteRecord(record, isShared: isShared)
         case .image: saveImageRecord(record, isShared: isShared)
+        case .latestEvent: saveLatestEventRecord(record)
         }
     }
     
@@ -60,7 +67,7 @@ extension CloudCommonDatabase {
         guard let realmType = RealmRecordTypeString(rawValue: recordType) else { /*fatal error*/ return }
         
         switch realmType {
-        case .tags: break //Not gonna happen!
+        case .tags, .latestEvent: break //Not gonna happen!
         case .note: deleteNoteRecord(recordID.recordName)
         case .image: deleteImageRecord(recordID.recordName)
         }
@@ -92,6 +99,12 @@ extension CloudCommonDatabase {
         
         imageModel.isShared = isShared
         LocalDatabase.shared.saveObject(newObject: imageModel)
+    }
+    
+    private static func saveLatestEventRecord(_ record: CKRecord) {
+        guard let date = record[Schema.LatestEvent.date] as? Date else {return}
+        UserDefaults.standard.set(date, forKey: Schema.LatestEvent.key)
+        UserDefaults.standard.synchronize()
     }
     
     private static func deleteNoteRecord(_ recordName: String) {

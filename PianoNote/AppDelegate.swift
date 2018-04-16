@@ -115,6 +115,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if subscriptionID == CloudManager.shared.sharedDatabase.subscriptionID {
             CloudManager.shared.sharedDatabase.handleNotification()
             completionHandler(.newData)
+        } else if subscriptionID.hasPrefix(CloudManager.shared.publicDatabase.subscriptionID) {
+            CloudManager.shared.publicDatabase.handleNotification()
+            completionHandler(.newData)
         } else {
             completionHandler(.noData)
         }

@@ -8,6 +8,12 @@
 
 import Foundation
 
+extension String {
+    var nsString: NSString {
+        return NSString(string: self)
+    }
+}
+
 extension Range where Bound == String.Index {
     func toNSRange() -> NSRange {
         return NSMakeRange(lowerBound.encodedOffset, upperBound.encodedOffset - lowerBound.encodedOffset)

@@ -9,22 +9,24 @@
 import InteractiveTextEngine_iOS
 import EventKit
 
-class ReminderAttachment: InteractiveTextAttachment {
-    static let
-    var reminder: EKReminder!
+class ReminderAttachment: InteractiveTextAttachment, AttributeContainingAttachment {
+    static let cellIdentifier = "ReminderCell"
     
-    override init() {
-        super.init()
+    var attribute: AttachmentAttribute!
+    
+    override var identifier: String {
+        return ReminderAttachment.cellIdentifier
     }
-    
+
     init(attribute: ReminderAttribute) {
         super.init()
-        self.reminder = attribute.reminder
+        self.attribute = .reminder(attribute)
         self.currentSize = attribute.size
     }
+
     init(attachment: ReminderAttachment) {
         super.init(attachment: attachment)
-        self.reminder = attachment.reminder
+        self.attribute = attachment.attribute
     }
     
     required init?(coder aDecoder: NSCoder) {

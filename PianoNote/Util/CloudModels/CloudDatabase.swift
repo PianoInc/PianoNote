@@ -165,6 +165,69 @@ class CloudCommonDatabase {
     }
 }
 
+class CloudPublicDatabase: CloudCommonDatabase {
+    private let customZoneName = "Cloud_Memo_Zone"
+    public var zoneID: CKRecordZoneID
+    
+    public override init(database: CKDatabase, userID: CKRecordID?) {
+        let zone = CKRecordZone(zoneName: self.customZoneName)
+        self.zoneID = zone.zoneID//Not needed
+        
+        super.init(database: database, userID: userID)
+        
+        saveSubscription()
+    }
+
+    
+    override fileprivate func saveSubscription() {
+        let userID = self.userID?.recordName ?? ""
+        let recordType = RealmRecordTypeString.latestEvent.rawValue
+        
+        let subscriptionKey = "ckSubscriptionSaved\(recordType)\(database.scopeString)\(userID)"
+        let alreadySaved = UserDefaults.standard.bool(forKey: subscriptionKey)
+        guard !alreadySaved else {return}
+        
+        
+        let predicate = NSPredicate(value: true)
+        
+        
+        let subscription = CKQuerySubscription(recordType: recordType,
+                                               predicate: predicate,
+                                               subscriptionID: "\(subscriptionID)\(recordType)",
+            options: [.firesOnRecordCreation, .firesOnRecordDeletion, .firesOnRecordUpdate])
+        
+        
+        //Set Silent Push
+        
+        let notificationInfo = CKNotificationInfo()
+        notificationInfo.shouldSendContentAvailable = true
+        subscription.notificationInfo = notificationInfo
+        
+        
+        let operation = CKModifySubscriptionsOperation(subscriptionsToSave: [subscription], subscriptionIDsToDelete: [])
+        operation.modifySubscriptionsCompletionBlock = { (_, _, error) in
+            guard error == nil else { return}
+            
+            UserDefaults.standard.set(true, forKey: subscriptionKey)
+        }
+        operation.qualityOfService = .utility
+        
+        
+        database.add(operation)
+    }
+    
+    public override func handleNotification() {
+        let query = CKQuery(recordType: RealmRecordTypeString.latestEvent.rawValue,
+                            predicate: NSPredicate(value: true))
+        let operation = CKQueryOperation(query: query)
+        operation.recordFetchedBlock = { (record) in
+            CloudCommonDatabase.syncChanged(record: record, isShared: false)
+        }
+        operation.qualityOfService = .utility
+        
+        database.add(operation)
+    }
+}
 
 class CloudPrivateDatabase: CloudCommonDatabase {
     private let customZoneName = "Cloud_Memo_Zone"

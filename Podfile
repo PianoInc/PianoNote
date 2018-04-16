@@ -16,6 +16,7 @@ target 'PianoNote' do
     pod 'SwiftyJSON'
     pod 'FBSDKLoginKit'
     pod 'CryptoSwift'
+    pod 'URLEmbeddedView', :git => 'https://github.com/PianoInc/URLEmbeddedView.git'
     
     # Pods for testing
     target 'PianoNoteTests' do

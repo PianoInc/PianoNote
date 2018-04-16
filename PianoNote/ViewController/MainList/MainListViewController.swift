@@ -131,7 +131,6 @@ class MainListViewController: DRViewController {
                 ModelManager.saveNew(model: newTags) { [weak self] _ in
                     DispatchQueue.main.sync {
                         self?.validateToken(){}
-                        completion()
                     }
                 }
                 return
