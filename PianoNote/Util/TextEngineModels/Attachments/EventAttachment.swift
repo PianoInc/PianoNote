@@ -9,22 +9,18 @@
 import InteractiveTextEngine_iOS
 import EventKit
 
-class EventAttachment: InteractiveTextAttachment {
-    var event: EKEvent!
-    
-    override init() {
-        super.init()
-    }
-    
+class EventAttachment: InteractiveTextAttachment, AttributeContainingAttachment {
+    var attribute: AttachmentAttribute!
+
     init(attribute: EventAttribute) {
         super.init()
-        self.event = attribute.event
+        self.attribute = .event(attribute)
         self.currentSize = attribute.size
     }
     
     init(attachment: EventAttachment) {
         super.init(attachment: attachment)
-        self.event = attachment.event
+        self.attribute = attachment.attribute
     }
     
     required init?(coder aDecoder: NSCoder) {
