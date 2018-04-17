@@ -21,13 +21,13 @@ class NoteViewController: UIViewController {
     var initialImageRecordNames: Set<String>!
     let disposeBag = DisposeBag()
     var synchronizer: NoteSynchronizer!
+    var hasEdited = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setDelegates()
         registerNibs()
-        subscribeToChange()
         
         textView.noteID = noteID
         synchronizer = NoteSynchronizer(textView: textView)
@@ -40,6 +40,7 @@ class NoteViewController: UIViewController {
         navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.any)
         
         setNoteContents()
+        subscribeToChange()
     }
     
     deinit {
@@ -75,9 +76,16 @@ class NoteViewController: UIViewController {
     private func subscribeToChange() {
         textView.rx.text.asObservable().distinctUntilChanged()
             .map{_ -> Void in return}.throttle(1.0, scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] in
+            .subscribe(
+                onNext: { [weak self] in
                 self?.saveText()
-            }).disposed(by: disposeBag)
+                self?.hasEdited = true
+                }, onDisposed: { [weak self] in
+                    if self?.hasEdited ?? false {
+                        self?.saveText()
+                    }
+                }
+            ).disposed(by: disposeBag)
     }
 
     private func registerNibs() {

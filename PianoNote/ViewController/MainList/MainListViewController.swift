@@ -263,7 +263,7 @@ extension MainListViewController: UICollectionViewDataSource {
         var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
         tagsArray.insert("둘러보기", at: 0)
         
-        cell.tagName = tagsArray[indexPath.item]
+        cell.tagName = tagsArray[indexPath.item].replacingOccurrences(of: RealmTagsModel.lockSymbol, with: "")
         cell.isLock = tagsArray[indexPath.item].hasPrefix(RealmTagsModel.lockSymbol)
         
         return cell
