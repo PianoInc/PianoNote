@@ -89,11 +89,12 @@
 		16FF7C85207DD26600718810 /* HowToViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF7C84207DD26600718810 /* HowToViewController.swift */; };
 		280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */; };
 		54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A175366D5D2E82F861F0A /* Pods_widget.framework */; };
+		6C0F73832085C4DA004AACF7 /* NoteViewController_CloudSharingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0F73822085C4DA004AACF7 /* NoteViewController_CloudSharingDelegate.swift */; };
+		6C0F73852085CFDB004AACF7 /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0F73842085CFDA004AACF7 /* NSObject.swift */; };
 		6C3C3E7520775A0D00A087B7 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3C3E7420775A0D00A087B7 /* SearchViewController.swift */; };
 		6C3C3E78207B4D5B00A087B7 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3C3E77207B4D5B00A087B7 /* SearchCell.swift */; };
 		6C558A8C20806C5200378C2A /* NoteViewController_DragDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C558A8B20806C5200378C2A /* NoteViewController_DragDelegate.swift */; };
 		6C558A8E2080904600378C2A /* NoteViewController_InteractiveDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C558A8D2080904600378C2A /* NoteViewController_InteractiveDelegate.swift */; };
-		6C46580C207491120043B306 /* ViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C46580B207491120043B306 /* ViewController+Alert.swift */; };
 		6C5CD49D207C33D2002C0CA4 /* PianoTextAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5CD49C207C33D2002C0CA4 /* PianoTextAddressCell.swift */; };
 		6C5CD49F207C34DD002C0CA4 /* PianoTextAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C5CD49E207C34DD002C0CA4 /* PianoTextAddressCell.xib */; };
 		6C5CD4A1207C3827002C0CA4 /* PianoTextContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5CD4A0207C3827002C0CA4 /* PianoTextContactCell.swift */; };
@@ -137,7 +138,7 @@
 		6CE16F9B207213D800231863 /* CloudNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F9A207213D800231863 /* CloudNotificationCenter.swift */; };
 		6CE16F9D2072140D00231863 /* CloudDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F9C2072140D00231863 /* CloudDatabase.swift */; };
 		6CE16FA02072183900231863 /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F9F2072183900231863 /* Sync.swift */; };
-    6CEC5CB2207CE25F00AE356F /* RealmImageObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEC5CB1207CE25F00AE356F /* RealmImageObserver.swift */; };
+		6CEC5CB2207CE25F00AE356F /* RealmImageObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEC5CB1207CE25F00AE356F /* RealmImageObserver.swift */; };
 		6CEC5CB4207CE2E100AE356F /* LocalImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEC5CB3207CE2E100AE356F /* LocalImageCache.swift */; };
 		6CF1BFF0207B5D410013307D /* PianoTextImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF1BFEF207B5D410013307D /* PianoTextImageCell.swift */; };
 		6CF1BFF3207B5E230013307D /* PianoTextImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CF1BFF2207B5E230013307D /* PianoTextImageCell.xib */; };
@@ -323,6 +324,8 @@
 		28E770950988C176B01DB70F /* Pods-PianoNoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C0F73822085C4DA004AACF7 /* NoteViewController_CloudSharingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController_CloudSharingDelegate.swift; sourceTree = "<group>"; };
+		6C0F73842085CFDA004AACF7 /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
 		6C3C3E7420775A0D00A087B7 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		6C3C3E77207B4D5B00A087B7 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		6C558A8B20806C5200378C2A /* NoteViewController_DragDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController_DragDelegate.swift; sourceTree = "<group>"; };
@@ -735,6 +738,7 @@
 				167A1CE8207C93200029E797 /* ViewController+Alert.swift */,
 				167A1CF1207C93210029E797 /* ViewTag.swift */,
 				167A1CF8207C93210029E797 /* Window.swift */,
+				6C0F73842085CFDA004AACF7 /* NSObject.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -963,6 +967,7 @@
 				7C3EF78C206C780800938DF3 /* NoteViewController_NSTextStorageDelegate.swift */,
 				7C9926C820647C84000327AD /* NoteViewController_Keyboard.swift */,
 				6C558A8D2080904600378C2A /* NoteViewController_InteractiveDelegate.swift */,
+				6C0F73822085C4DA004AACF7 /* NoteViewController_CloudSharingDelegate.swift */,
 			);
 			path = MainNote;
 			sourceTree = "<group>";
@@ -1484,10 +1489,10 @@
 				6C72708F207300F4003A4640 /* LinkAttribute.swift in Sources */,
 				16722B89207CA70E0041ED1E /* DRViewController.swift in Sources */,
 				6C72707A2072FD1F003A4640 /* Diff3.swift in Sources */,
+				6C0F73852085CFDB004AACF7 /* NSObject.swift in Sources */,
 				6C72709D207302E6003A4640 /* ImageAttachment.swift in Sources */,
 				6CF1BFF5207B60DC0013307D /* PianoTextLinkCell.swift in Sources */,
 				6CE16F9D2072140D00231863 /* CloudDatabase.swift in Sources */,
-				7C9926CF20649025000327AD /* ViewTag.swift in Sources */,
 				6C5CD4A5207C3ACD002C0CA4 /* PianoTextEventCell.swift in Sources */,
 				167A1D2D207C936A0029E797 /* DRMagnifyAccessoryView.swift in Sources */,
 				7CD8813D2064C76F009C6C5F /* AppNavigator.swift in Sources */,
@@ -1552,6 +1557,7 @@
 				6CF1BFF0207B5D410013307D /* PianoTextImageCell.swift in Sources */,
 				16722B97207CA73A0041ED1E /* DRBrowseFolderCell.swift in Sources */,
 				6CC75D3F20745E6100D164D1 /* CategoryManageCell.swift in Sources */,
+				6C0F73832085C4DA004AACF7 /* NoteViewController_CloudSharingDelegate.swift in Sources */,
 				16722B99207CA73A0041ED1E /* DRPageFlowLayout.swift in Sources */,
 				16FF7C85207DD26600718810 /* HowToViewController.swift in Sources */,
 				6C72709120730139003A4640 /* AddressAttribute.swift in Sources */,

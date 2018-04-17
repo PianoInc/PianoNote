@@ -87,6 +87,7 @@ enum Style {
     case underline
     case font(PianoFontAttribute)
     case attachment(AttachmentAttribute)
+    case paragraphStyle(Data)
     
     init?(from attribute: (key: NSAttributedStringKey, value: Any)) {
         switch attribute.key {
@@ -109,6 +110,9 @@ enum Style {
             guard let attachment = attribute.value as? InteractiveTextAttachment & AttributeContainingAttachment,
                 let attribute = AttachmentAttribute(attachment: attachment) else {return nil}
             self = .attachment(attribute)
+        case .paragraphStyle:
+            guard let paragraphStyle = attribute.value as? NSParagraphStyle else {return nil}
+            self = .paragraphStyle(paragraphStyle.archieve())
         default: return nil
         }
     }
@@ -121,6 +125,8 @@ enum Style {
         case .underline: return [.underlineStyle: NSUnderlineStyle.styleSingle]
         case .font(let fontAttribute): return [.font: fontAttribute.getFont()]
         case .attachment(let attachmentAttribute): return attachmentAttribute.toNSAttribute()
+        case .paragraphStyle(let paragraphData):
+            return [.paragraphStyle: (NSParagraphStyle.unarchieve(from: paragraphData)! as! NSParagraphStyle)]
         }
     }
 }
@@ -134,6 +140,7 @@ extension Style: Hashable {
         case .underline: return "underline".hashValue
         case .font(let fontAttribute): return fontAttribute.hashValue
         case .attachment(let attachmentAttribute): return attachmentAttribute.hashValue
+        case .paragraphStyle(let data): return data.hashValue
         }
     }
     
@@ -169,8 +176,12 @@ extension Style: Hashable {
                 return attachmentAttribute == rAttachmentAttribute
             }
             return false
+        case .paragraphStyle(let data):
+            if case let .paragraphStyle(rData) = rhs {
+                return data == rData
+            }
+            return false
         }
-        
     }
     
     
@@ -185,6 +196,7 @@ extension Style: Codable {
         case underline
         case font
         case attachment
+        case paragraphStyle
     }
     
     enum CodingError: Error {
@@ -221,6 +233,11 @@ extension Style: Codable {
             return
         }
         
+        if let paragraphData = try? values.decode(Data.self, forKey: .paragraphStyle) {
+            self = .paragraphStyle(paragraphData)
+            return
+        }
+        
         throw CodingError.decoding("Decode Failed!!!")
     }
     
@@ -235,6 +252,7 @@ extension Style: Codable {
         case .underline: try container.encode("", forKey: .underline)
         case .font(let fontDescriptor): try container.encode(fontDescriptor, forKey: .font)
         case .attachment(let attachmentAttribute): try container.encode(attachmentAttribute, forKey: .attachment)
+        case .paragraphStyle(let data): try container.encode(data, forKey: .paragraphStyle)
         }
     }
 }
