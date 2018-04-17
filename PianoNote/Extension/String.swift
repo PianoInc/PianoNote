@@ -67,6 +67,20 @@ extension String {
         return String(self[from..<to])
     }
     
+    /**
+     해당 String이 가지는 boundingRect중에서 height값을 반환한다.
+     - parameter width: 계산에 사용될 width.
+     - parameter point: 계산에 사용될 font point size.
+     - returns: 주어진 data를 통해 계산된 height값.
+     */
+    func boundingRect(with width: CGFloat, font point: CGFloat) -> CGFloat {
+        let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let set: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
+        let font = [NSAttributedStringKey.font : UIFont.preferred(font: point, weight: .regular)]
+        let contentSize = self.boundingRect(with: size, options: set, attributes: font, context: nil)
+        return contentSize.height
+    }
+    
 }
 
 extension UILabel {

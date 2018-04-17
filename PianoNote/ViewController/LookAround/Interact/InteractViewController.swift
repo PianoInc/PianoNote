@@ -32,10 +32,8 @@ class InteractViewController: DRViewController {
     @IBOutlet private var listView: UITableView! { didSet {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.2133)
-        listView.rowHeight = UITableViewAutomaticDimension
         }}
     
-    private var estimatedCellHeight = [IndexPath : CGFloat]()
     private var data = [[String : [DRFBPost]]]()
     
     override func viewDidLoad() {
@@ -156,14 +154,6 @@ extension InteractViewController: UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        estimatedCellHeight[indexPath] = cell.bounds.height
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return estimatedCellHeight[indexPath] ?? UITableViewAutomaticDimension
-    }
-    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return minSize * 0.1333
     }
@@ -186,6 +176,14 @@ extension InteractViewController: UITableViewDataSource {
         return data[section].first?.value.count ?? 0
     }
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return height(cell: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return height(cell: indexPath)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DRContentNoteCell") as! DRContentNoteCell
         cell.position = cells(position: tableView, indexPath: indexPath)
@@ -202,11 +200,24 @@ extension InteractViewController: UITableViewDataSource {
     }
     
     /**
-     해당 indexPath에 맞는 data를 반환한다.
+     해당 cell의 indexPath에 부합하는 data를 반환한다.
      - parameter indexPath: 찾고자 하는 indexPath.
+     - returns : 해상 indexPath에 부합하는 data값.
      */
     private func post(data indexPath: IndexPath) -> DRFBPost? {
         return data[indexPath.section].first?.value[indexPath.row]
+    }
+    
+    /**
+     해당 cell의 indexPath에 부합하는 msg가 가지는 boundingRect의 height값을 반환한다.
+     - parameter indexPath: 계산하고자 하는 indexPath.
+     - returns : msg가 가지는 height값.
+     */
+    private func height(cell indexPath: IndexPath) -> CGFloat {
+        guard let data = post(data: indexPath)?.msg else {return 0}
+        let height = data.boundingRect(with: minSize * 0.8244, font: 16)
+        let inset = minSize * 0.2604
+        return height + inset
     }
     
 }
