@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import RxCocoa
 import RxSwift
+import CloudKit
 
 class NoteViewController: UIViewController {
 
@@ -19,24 +20,18 @@ class NoteViewController: UIViewController {
     var isSaving: Bool = false
     var initialImageRecordNames: Set<String>!
     let disposeBag = DisposeBag()
+    var synchronizer: NoteSynchronizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textView.delegate = self
-        textView.textStorage.delegate = self
-        
-        if #available(iOS 11.0, *) {
-            textView.textDragDelegate = self
-            textView.textDropDelegate = self
-            textView.pasteDelegate = self
-        }
-        
-        textView.interactiveDelegate = self
-        textView.interactiveDataSource = self
-
+        textView.noteID = noteID
+        setDelegates()
         registerNibs()
-        //synchronizers
+        subscribeToChange()
+        
+        synchronizer = NoteSynchronizer(textView: textView)
+        synchronizer.registerToCloud()
         
         setNavigationItemsForDefault()
         setCanvasSize(view.bounds.size)
@@ -44,21 +39,12 @@ class NoteViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.any)
         
-        do {
-            let realm = try Realm()
-            guard let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) else {return}
-            let attributes = try JSONDecoder().decode([PianoAttribute].self, from: note.attributes)
-            
-            textView.set(string: note.content, with: attributes)
-            
-            let imageRecordNames = attributes.compactMap { attribute -> String? in
-                if case let .attachment(.image(imageAttribute)) = attribute.style {return imageAttribute.id}
-                else {return nil}
-                }
-            
-            initialImageRecordNames = Set<String>(imageRecordNames)
-            
-        } catch {print(error)}
+        setNoteContents()
+    }
+    
+    deinit {
+        synchronizer.unregisterFromCloud()
+        removeGarbageImages()
     }
     
     private func setCanvasSize(_ size: CGSize) {
@@ -72,6 +58,20 @@ class NoteViewController: UIViewController {
         }
     }
     
+    private func setDelegates() {
+        textView.delegate = self
+        textView.textStorage.delegate = self
+        
+        if #available(iOS 11.0, *) {
+            textView.textDragDelegate = self
+            textView.textDropDelegate = self
+            textView.pasteDelegate = self
+        }
+        
+        textView.interactiveDelegate = self
+        textView.interactiveDataSource = self
+    }
+    
     private func subscribeToChange() {
         textView.rx.text.asObservable()
             .map{_ -> Void in return}.throttle(1.0, scheduler: MainScheduler.instance)
@@ -81,8 +81,65 @@ class NoteViewController: UIViewController {
     }
 
     private func registerNibs() {
-//        textView.register(nib: UINib(nibName: "", bundle: nil), forCellIdentifier: "")
 
+        textView.register(nib: UINib(nibName: "PianoTextImageCell", bundle: nil), forCellReuseIdentifier: ImageAttachment.cellIdentifier)
+        textView.register(nib: UINib(nibName: "PianoTextLinkCell", bundle: nil), forCellReuseIdentifier: LinkAttachment.cellIdentifier)
+        textView.register(nib: UINib(nibName: "PianoTextAddressCell", bundle: nil), forCellReuseIdentifier: AddressAttachment.cellIdentifier)
+        textView.register(nib: UINib(nibName: "PianoTextContactCell", bundle: nil), forCellReuseIdentifier: ContactAttachment.cellIdentifier)
+        textView.register(nib: UINib(nibName: "PianoTextEventCell", bundle: nil), forCellReuseIdentifier: EventAttachment.cellIdentifier)
+        textView.register(nib: UINib(nibName: "PianoTextReminderCell", bundle: nil), forCellReuseIdentifier: ReminderAttachment.cellIdentifier)
+        
+    }
+    
+    private func setNoteContents() {
+        do {
+            let realm = try Realm()
+            guard let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) else {return}
+            let attributes = try JSONDecoder().decode([AttributeModel].self, from: note.attributes)
+            
+            textView.set(string: note.content, with: attributes)
+            
+            let imageRecordNames = attributes.compactMap { attribute -> String? in
+                if case let .attachment(.image(imageAttribute)) = attribute.style {return imageAttribute.id}
+                else {return nil}
+            }
+            
+            initialImageRecordNames = Set<String>(imageRecordNames)
+            
+        } catch {print(error)}
+    }
+    
+    private func removeGarbageImages() {
+        let (_, attributes) = textView.attributedText.getStringWithPianoAttributes()
+        
+        let imageRecordNames = attributes.map { attribute -> String in
+            if case let .attachment(.image(imageAttribute)) = attribute.style {return imageAttribute.id}
+            else {return ""}
+            }.filter{!$0.isEmpty}
+        
+        let currentImageRecordNames = Set<String>(imageRecordNames)
+        initialImageRecordNames.subtract(currentImageRecordNames)
+        
+        let deletedImageRecordNames = Array<String>(initialImageRecordNames)
+        
+        guard let realm = try? Realm(),
+            let noteID = noteID,
+            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) else {return}
+        
+        if note.isShared {
+            //get zoneID from record
+            let coder = NSKeyedUnarchiver(forReadingWith: note.ckMetaData)
+            coder.requiresSecureCoding = true
+            guard let record = CKRecord(coder: coder) else {fatalError("Data polluted!!")}
+            coder.finishDecoding()
+            CloudManager.shared.deleteInSharedDB(recordNames: deletedImageRecordNames, in: record.recordID.zoneID) { error in
+                guard error == nil else { return }
+            }
+        } else {
+            CloudManager.shared.deleteInPrivateDB(recordNames: deletedImageRecordNames) { error in
+                guard error == nil else { return print(error!) }
+            }
+        }
     }
     
     func saveText() {
