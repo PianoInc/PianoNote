@@ -9,7 +9,7 @@ import Foundation
 
 open class InteractiveTextAttachment: NSTextAttachment {
 
-    let uniqueID = UUID().uuidString
+    public let uniqueID = UUID().uuidString
 
     private var isVisible = false
     private var currentCharacterIndex: Int!
@@ -40,9 +40,7 @@ open class InteractiveTextAttachment: NSTextAttachment {
     var currentBounds: CGRect? {
         didSet {
             if oldValue == nil {
-                //then request update
-                self.isVisible = true
-                delegate?.needToDisplay(attachment: self)
+                delegate?.boundsGiven(attachment: self)
             }
             
             guard let myCell = relatedCell,
@@ -93,4 +91,5 @@ protocol InteractiveTextAttachmentDelegate: AnyObject {
     func needToDisplay(attachment: InteractiveTextAttachment)
     func needToEndDisplay(attachment: InteractiveTextAttachment)
     func invalidateDisplay(range: NSRange)
+    func boundsGiven(attachment: InteractiveTextAttachment)
 }

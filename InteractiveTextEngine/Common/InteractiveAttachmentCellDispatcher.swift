@@ -25,9 +25,7 @@ class InteractiveAttachmentCellDispatcher {
 
     func visibleRectChanged(rect: CGRect) {
         //Notify!
-
         attachments.values.forEach{ $0.checkForVisibility(visibleBounds: rect) }
-
     }
 
     func add(attachment: InteractiveTextAttachment) {
@@ -146,6 +144,11 @@ extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate
         DispatchQueue.main.async { [weak self] in
             self?.superView?.layoutManager.invalidateDisplay(forCharacterRange: range)
         }
+    }
+    
+    func boundsGiven(attachment: InteractiveTextAttachment) {
+        guard let currentBounds = superView?.visibleBounds else {return}
+        attachment.checkForVisibility(visibleBounds: currentBounds)
     }
 }
 
