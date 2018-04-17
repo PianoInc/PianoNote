@@ -16,13 +16,19 @@ class NoteSynchronizer {
     let recordName: String
     let id: String
     let isShared: Bool
-    let textView: FastTextView
+    let textView: PianoTextView
     
-    init(textView: FastTextView) {
-        self.recordName = textView.memo.recordName
-        self.id = textView.memo.id
-        self.isShared = textView.memo.isShared
+    init?(textView: PianoTextView) {
+        guard let realm = try? Realm(),
+            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: textView.noteID) else {return nil}
+        self.recordName = note.recordName
+        self.id = note.id
+        self.isShared = note.isShared
         self.textView = textView
+    }
+    
+    enum SynchronizerError: Error {
+        case saveError
     }
     
     private func sync(with blocks: [Diff3Block], and attributedString: NSAttributedString) {
@@ -281,10 +287,13 @@ class NoteSynchronizer {
     }
     
     func saveContent(completion: ((Error?) -> Void)?) {
+        
+        guard let realm = try? Realm(),
+            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: id) else {return completion?(SynchronizerError.saveError) ?? ()}
         let (text, pianoAttributes) = textView.attributedText.getStringWithPianoAttributes()
         let attributeData = (try? JSONEncoder().encode(pianoAttributes)) ?? Data()
         
-        let localRecord = textView.memo.getRecord()
+        let localRecord = note.getRecord()
         localRecord[Schema.Note.content] = text as CKRecordValue
         localRecord[Schema.Note.attributes] = attributeData as CKRecordValue
         
@@ -297,3 +306,5 @@ class NoteSynchronizer {
         }
     }
 }
+
+

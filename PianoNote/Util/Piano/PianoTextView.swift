@@ -11,8 +11,9 @@ import InteractiveTextEngine_iOS
 
 class PianoTextView: InteractiveTextView {
     
-   private(set) var inputViewManager: DRInputViewManager!
+    private(set) var inputViewManager: DRInputViewManager!
     var isSyncing: Bool = false
+    var noteID: String!
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -114,14 +115,14 @@ extension PianoTextView {
 }
 
 extension PianoTextView {
-    func set(string: String, with attributes: [PianoAttribute]) {
+    func set(string: String, with attributes: [AttributeModel]) {
         let newAttributedString = NSMutableAttributedString(string: string)
         attributes.forEach{ newAttributedString.add(attribute: $0) }
         
         attributedText = newAttributedString
     }
     
-    func get() -> (string: String, attributes: [PianoAttribute]) {
+    func get() -> (string: String, attributes: [AttributeModel]) {
         
         return attributedText.getStringWithPianoAttributes()
     }
