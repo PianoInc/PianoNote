@@ -99,7 +99,7 @@ class DRDetailCommentSection: UITableViewHeaderFooterView {
             $0.leading.equalTo(self.portraitImage.snp.trailing).offset(self.minSize * 0.0266)
             $0.trailing.equalTo(-(self.minSize * 0.0266))
             $0.top.equalTo(self.portraitImage.snp.top)
-            $0.height.equalTo(25)
+            $0.height.equalTo(29)
         }
         makeConst(contentLabel) {
             $0.leading.equalTo(self.minSize * 0.0346)

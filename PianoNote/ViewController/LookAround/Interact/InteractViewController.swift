@@ -161,7 +161,10 @@ extension InteractViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
+        
+        guard !data.isEmpty else {return sections}
         sections.sectionLabel.text = data[section].first!.key
+        
         return sections
     }
     

@@ -141,6 +141,7 @@ extension InteractDetailViewController: UITableViewDelegate {
      - returns : msg가 가지는 height값.
      */
     private func height(header section: Int) -> CGFloat {
+        guard !data.isEmpty else {return 0}
         let height = data[section].msg.boundingRect(with: minSize * 0.8888, font: 15)
         let inset = minSize * 0.2133
         return height + inset
