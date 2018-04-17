@@ -34,6 +34,7 @@ class InteractViewController: DRViewController {
         listView.initHeaderView(minSize * 0.2133)
         }}
     
+    private var cellHeight = [IndexPath : CGFloat]()
     private var data = [[String : [DRFBPost]]]()
     
     override func viewDidLoad() {
@@ -137,7 +138,7 @@ extension InteractViewController: DRContentNoteDelegates {
         guard let postData = post(data: indexPath) else {return}
         let viewContoller = UIStoryboard.view(type: InteractDetailViewController.self)
         viewContoller.postData = (id: postData.id, title: postData.title)
-        self.present(view: viewContoller)
+        self.present(view: viewContoller, animated: false)
     }
     
 }
@@ -177,11 +178,16 @@ extension InteractViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return height(cell: indexPath)
+        return cellHeight[indexPath] ?? height(cell: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return height(cell: indexPath)
+        return cellHeight[indexPath] ?? height(cell: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard cell.bounds.height > 0 else {return}
+        cellHeight[indexPath] = cell.bounds.height
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

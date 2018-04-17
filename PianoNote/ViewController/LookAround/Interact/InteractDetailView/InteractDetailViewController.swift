@@ -15,6 +15,8 @@ class InteractDetailViewController: DRViewController {
         listView.initHeaderView(minSize * 0.2666)
         }}
     
+    private var sectionHeight = [Int : CGFloat]()
+    private var cellHeight = [IndexPath : CGFloat]()
     private var data = [DRFBComment]()
     
     var postData = (id : "", title : "")
@@ -82,7 +84,9 @@ extension InteractDetailViewController: DRDetailDelegates {
     func extend(reply indexPath: IndexPath) {
         guard !data[indexPath.section].expend else {return}
         data[indexPath.section].expend = true
-        listView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+        listView.reloadData()
+        listView.beginUpdates()
+        listView.endUpdates()
     }
     
 }
@@ -100,11 +104,16 @@ extension InteractDetailViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return height(header: section)
+        return sectionHeight[section] ?? height(header: section)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return height(header: section)
+        return sectionHeight[section] ?? height(header: section)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard view.bounds.height > 0 else {return}
+        sectionHeight[section] = view.bounds.height
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -116,7 +125,7 @@ extension InteractDetailViewController: UITableViewDelegate {
         view.contentLabel.text = data[section].msg
         view.timeLabel.text = data[section].create.timeFormat
         
-        view.replyButton.isEnabled = !data[section].expend
+        view.replyButton.isEnabled = (!data[section].expend && data[section].count > 0)
         view.replyButton.setTitle("facebookNoReply".locale, for: .normal)
         if data[section].count > 0 {
             let replyText = String(format: "facebookReply".locale, data[section].count)
@@ -150,19 +159,24 @@ extension InteractDetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return height(cell: indexPath)
+        return cellHeight[indexPath] ?? height(cell: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return height(cell: indexPath)
+        return cellHeight[indexPath] ?? height(cell: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard cell.bounds.height > 0 else {return}
+        cellHeight[indexPath] = cell.bounds.height
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DRDetailReplyCell") as! DRDetailReplyCell
         
         guard let data = comment(data: indexPath) else {return cell}
-        cell.nameLabel.text = "답글 작성자 "
-        cell.contentLabel.text = cell.nameLabel.text! + data.msg
+        cell.nameLabel.text = "답글 작성자 " + " "
+        cell.contentLabel.text = "답글 작성자 " + data.msg
         cell.timeLabel.text = data.create.timeFormat
         
         return cell
