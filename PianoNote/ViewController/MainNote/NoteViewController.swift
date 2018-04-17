@@ -16,7 +16,7 @@ class NoteViewController: UIViewController {
 
     @IBOutlet weak var textView: PianoTextView!
     var invokingTextViewDelegate: Bool = false
-    var noteID: String?
+    var noteID: String!
     var isSaving: Bool = false
     var initialImageRecordNames: Set<String>!
     let disposeBag = DisposeBag()
@@ -25,11 +25,11 @@ class NoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textView.noteID = noteID
         setDelegates()
         registerNibs()
         subscribeToChange()
         
+        textView.noteID = noteID
         synchronizer = NoteSynchronizer(textView: textView)
         synchronizer.registerToCloud()
         
@@ -73,7 +73,7 @@ class NoteViewController: UIViewController {
     }
     
     private func subscribeToChange() {
-        textView.rx.text.asObservable()
+        textView.rx.text.asObservable().distinctUntilChanged()
             .map{_ -> Void in return}.throttle(1.0, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 self?.saveText()

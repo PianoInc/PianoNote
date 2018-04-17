@@ -13,7 +13,7 @@ class PianoTextView: InteractiveTextView {
     
     private(set) var inputViewManager: DRInputViewManager!
     var isSyncing: Bool = false
-    var noteID: String!
+    var noteID: String = ""
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -48,16 +48,18 @@ class PianoTextView: InteractiveTextView {
         setup()
         tag = ViewTag.PianoTextView.rawValue
         textContainerInset.top = 20
+        noteID = "asdf"
     }
     
-//    override func replacementObject(for aCoder: NSCoder) -> Any? {
-//
-//        let textViewST = PianoTextView(coder: aCoder)
-//
-//
-//        let textView
-//
-//    }
+    override func awakeAfter(using aDecoder: NSCoder) -> Any? {
+        let textViewST = PianoTextView(coder: aDecoder)
+        textViewST?.setup()
+        
+        textViewST?.tag = ViewTag.PianoTextView.rawValue
+        textViewST?.textContainerInset.top = 20
+        textViewST?.noteID = "asdf"
+        return textViewST
+    }
     
     private func setup() {
         textContainer.lineFragmentPadding = 0
