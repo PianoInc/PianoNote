@@ -97,7 +97,7 @@ class CloudCommonDatabase {
                 let (ancestorRec, clientRec, serverRec) = ckError.getMergeRecords()
                 guard let clientRecord = clientRec,
                     let serverRecord = serverRec,
-                    let ancestorRecord = ancestorRec else { return completion(nil, error) }
+                    let ancestorRecord = ancestorRec ?? nil else { return completion(nil, error) }
                 
                 //Resolve conflict. If it's false, it means server record has win & no merge happened
                 self.merge(ancestor: ancestorRecord, myRecord: clientRecord, serverRecord: serverRecord) { merged in
@@ -374,12 +374,12 @@ class CloudSharedDatabase: CloudCommonDatabase {
         
         //        let userID = self.userID?.recordName ?? ""
         //        let uuid = UIDevice.current.identifierForVendor?.uuidString ?? ""
-        //        let subscriptionKey = "ckSubscriptionSaved\(database.scopeString)\(userID)\(uuid)"
-        let subscriptionKey = "ckSubscriptionSaved\(database.scopeString)"
+        
+        let subscriptionKey = subscriptionID
         let alreadySaved = UserDefaults.standard.bool(forKey: subscriptionKey)
         guard !alreadySaved else {return}
         
-        let subscription = CKDatabaseSubscription(subscriptionID: subscriptionKey)
+        let subscription = CKDatabaseSubscription(subscriptionID: subscriptionID)
         
         
         //Set Silent Push
