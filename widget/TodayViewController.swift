@@ -51,7 +51,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         if activeDisplayMode == .expanded {
             preferredContentSize.height = (self.minSize * 0.244 * CGFloat(data.count)) + (self.minSize * 0.12)
         }
-        listView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.listView.reloadData()
+        }
     }
     
 }

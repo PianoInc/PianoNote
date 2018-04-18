@@ -16,9 +16,9 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.initHeaderView(minSize * 0.4)
 //        listView.tableHeaderView.delegate = self
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = minSize
+        listView.estimatedRowHeight = minSize *  0.3703
         }}
-    @IBOutlet private var lockView: UIView!
+    @IBOutlet var lockView: UIView!
     @IBOutlet private var lockimage: UIImageView!
     @IBOutlet private var lockTitleLabel: UILabel! { didSet {
         lockTitleLabel.font = UIFont.preferred(font: 20, weight: .bold)
@@ -71,7 +71,6 @@ class DRContentFolderCell: UICollectionViewCell {
     var isEditMode = false { didSet {
         editMode()
         }}
-    var isLock = false
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -120,6 +119,8 @@ class DRContentFolderCell: UICollectionViewCell {
         super.layoutSubviews()
         
         lockView.isHidden = !isLock
+        listView.reloadData()
+        listView.isScrollEnabled = !data.isEmpty
         emptyLabel.isHidden = !data.isEmpty
     }
     
@@ -137,6 +138,7 @@ class DRContentFolderCell: UICollectionViewCell {
         selectedIndex.removeAll()
     }
     
+
     private func arrangeResults() {
         func isInSameChunk(a: RealmNoteModel, b: RealmNoteModel) -> Bool {
             return (a.isPinned && b.isPinned) || Calendar.current.isDate(a.isModified, inSameDayAs: b.isModified)
@@ -186,6 +188,14 @@ class DRContentFolderCell: UICollectionViewCell {
             return dateFormatter.string(from: date)
         }
     }
+
+    @IBAction private func action(lock: UIButton) {
+        DRAuth.share.request(auth: {
+            self.lockView.isHidden = true
+        })
+    }
+    
+
 }
 
 extension DRContentFolderCell: DRContentNoteDelegates {

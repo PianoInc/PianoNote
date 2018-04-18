@@ -14,7 +14,7 @@ class HowToViewController: DRViewController {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.2133)
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = minSize
+        listView.estimatedRowHeight = minSize *  0.3703
         }}
     
     private let data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
