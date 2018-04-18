@@ -92,6 +92,9 @@ class DRNoteCellHeaderContentView: UIView {
         initView()
         initConst()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
+        
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(headerViewTouched))
+        addGestureRecognizer(gestureRecognizer)
     }
     
     private func initView() {
@@ -143,5 +146,8 @@ class DRNoteCellHeaderContentView: UIView {
         }
     }
     
+    @objc func headerViewTouched() {
+        print("hi")
+    }
 }
 

@@ -15,12 +15,14 @@ class CategoryManageViewController: UIViewController {
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var lockBarButton: UIBarButtonItem!
     @IBOutlet weak var categorySelectedCountButton: UIButton!
-
+    @IBOutlet weak var addButton: UIBarButtonItem!
+    
     var token: NotificationToken?
     var array = stride(from: 0, to: 40, by: 1).map{ String($0) }
     var boolArray = [Bool](repeating: false, count: 40)
     var realmForTableView: Realm!
     var lockFlag = true
+    var isForMoving = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,21 +73,27 @@ class CategoryManageViewController: UIViewController {
         categorySelectedCountButton.titleLabel?.lineBreakMode = .byWordWrapping
         categorySelectedCountButton.titleLabel?.numberOfLines = 1
 
-        if !toolBar.isHidden {
-            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: toolBar.frame.size.height, right: 0)
-            tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: toolBar.frame.size.height, right: 0)
-        }
-        
-        
         tableView.delegate = self
         tableView.dataSource = self
         
         tableView.allowsSelectionDuringEditing = true
-        tableView.allowsSelection = false
+        tableView.allowsSelection = true
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
-        tableView.setEditing(true, animated: false)
+        
+        tableView.setEditing(!isForMoving, animated: false)
+        toolBar.isHidden = isForMoving
+        if isForMoving {
+            navigationController?.navigationBar.items?.first?.rightBarButtonItems?.removeLast()
+        }
+        
+        
+
+        if !toolBar.isHidden {
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: toolBar.frame.size.height, right: 0)
+            tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: toolBar.frame.size.height, right: 0)
+        }
         
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
@@ -231,7 +239,7 @@ class CategoryManageViewController: UIViewController {
 
 extension CategoryManageViewController: CategoryManageCellDelegate {
     func nameTouched(name: String) {
-        guard let index = array.index(of: name) else {return}
+        guard let index = array.index(of: name), !isForMoving else {return}
         self.alertWithOKActionAndAlertHandler(message: "카테고리 제목을 입력해주세요") { alert in
             return { [weak self] action in
                 guard let textField = alert.textFields?.first,
@@ -311,23 +319,28 @@ extension CategoryManageViewController: UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? CategoryManageCell else {return}
-        cell.checkButton.isSelected = !cell.checkButton.isSelected
-        boolArray[indexPath.row] = cell.checkButton.isSelected
-        
-        let title = boolArray.filter{$0}.count > 0 ? "\(boolArray.filter{$0}.count)개 폴더 선택됨" : ""
-        
-        var tempLockFlag = false
-        boolArray.enumerated().filter{$0.element}.forEach{
-            if !array[$0.offset].contains(RealmTagsModel.lockSymbol) { tempLockFlag = true }
+        if isForMoving {
+            //move memos to cell
+            
+        } else {
+            cell.checkButton.isSelected = !cell.checkButton.isSelected
+            boolArray[indexPath.row] = cell.checkButton.isSelected
+            
+            let title = boolArray.filter{$0}.count > 0 ? "\(boolArray.filter{$0}.count)개 폴더 선택됨" : ""
+            
+            var tempLockFlag = false
+            boolArray.enumerated().filter{$0.element}.forEach{
+                if !array[$0.offset].contains(RealmTagsModel.lockSymbol) { tempLockFlag = true }
+            }
+            lockFlag = tempLockFlag
+            
+            lockBarButton.title = lockFlag ? "잠금" : "잠금해제"
+            if (boolArray.filter{$0}.count) == 0 {
+                lockBarButton.title = "잠금"
+            }
+            
+            categorySelectedCountButton.setTitle(title, for: .normal)
+            categorySelectedCountButton.sizeToFit()
         }
-        lockFlag = tempLockFlag
-        
-        lockBarButton.title = lockFlag ? "잠금" : "잠금해제"
-        if (boolArray.filter{$0}.count) == 0 {
-            lockBarButton.title = "잠금"
-        }
-        
-        categorySelectedCountButton.setTitle(title, for: .normal)
-        categorySelectedCountButton.sizeToFit()
     }
 }
