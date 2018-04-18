@@ -14,6 +14,7 @@ class DRContentFolderCell: UICollectionViewCell {
     @IBOutlet var listView: UITableView! { didSet {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.4)
+//        listView.tableHeaderView.delegate = self
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = minSize
         }}
@@ -173,6 +174,18 @@ class DRContentFolderCell: UICollectionViewCell {
             list.setValue(true, forKey: Schema.Note.isInTrash)
         }
     }
+    
+    func getDateText(from date: Date) -> String {
+        if Calendar.current.isDateInToday(date) {
+            return "오늘"
+        } else if Calendar.current.isDateInYesterday(date) {
+            return "어제"
+        } else {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy.MM.dd"
+            return dateFormatter.string(from: date)
+        }
+    }
 }
 
 extension DRContentFolderCell: DRContentNoteDelegates {
@@ -212,16 +225,7 @@ extension DRContentFolderCell: UITableViewDelegate {
         let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
         let sampleNote = data[section].first!
         
-        let text: String
-        if Calendar.current.isDate(Date(), inSameDayAs: sampleNote.isModified) {
-            text = "오늘"
-        } else {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy.MM.dd"
-            text = dateFormatter.string(from: sampleNote.isModified)
-        }
-        
-        sections.sectionLabel.text = text
+        sections.sectionLabel.text = getDateText(from: sampleNote.isModified)
         return sections
     }
     
