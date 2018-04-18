@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class RecycleBinViewController: DRViewController {
     
@@ -18,13 +19,22 @@ class RecycleBinViewController: DRViewController {
         }}
     
     private var selectedIndex = [IndexPath]()
-    private var data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
+    private var data:[[RealmNoteModel]] = []
+    private var notificationToken: NotificationToken?
+    private var notes: Results<RealmNoteModel>?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setObserver()
         initNaviBar()
         initConst()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
+    }
+    
+    deinit {
+        notificationToken?.invalidate()
     }
     
     private func initConst() {
@@ -88,11 +98,33 @@ class RecycleBinViewController: DRViewController {
     }
     
     @IBAction private func toolBar(left item: UIBarButtonItem) {
-        
+        if selectedIndex.count > 0 {
+            alertWithOKAction(message: "선택하신 노트를 복원하시겠습니까?") { [weak self] _ in
+                guard let selectedIndex = self?.selectedIndex,
+                    let data = self?.data,
+                    let realm = try? Realm() else {return}
+                
+                let notes = selectedIndex.map{data[$0.section][$0.row]}
+                let list = List<RealmNoteModel>()
+                list.append(objectsIn: notes)
+                
+                try? realm.write {
+                    list.setValue(false, forKey: Schema.Note.isInTrash)
+                }
+            }
+        }
     }
     
     @IBAction private func toolBar(right item: UIBarButtonItem) {
-        
+        if selectedIndex.count > 0 {
+            alertWithOKAction(message: "선택하신 노트를 영구 삭제하시겠습니까?") { [weak self] _ in
+                guard let selectedIndex = self?.selectedIndex,
+                    let data = self?.data else {return}
+                selectedIndex.map{data[$0.section][$0.row]}.forEach {
+                    ModelManager.delete(id: $0.id, type: RealmNoteModel.self)
+                }
+            }
+        }
     }
     
     /// ToolBar에 있는 count title을 갱신한다.
@@ -105,6 +137,48 @@ class RecycleBinViewController: DRViewController {
                 toolbarItems[2].title = String(format: "selectMemoCount".locale, selectedIndex.count)
             }
         }
+    }
+    
+    private func setObserver() {
+        guard let realm = try? Realm() else {return}
+        notes = realm.objects(RealmNoteModel.self).filter("isInTrash = true").sorted(byKeyPath: "isModified", ascending: false)
+        arrangeResults()
+        notificationToken = notes?.observe {[weak self] change in
+            DispatchQueue.main.async {
+                switch change {
+                case .update(_,_,_,_): self?.arrangeResults()
+                default: break
+                }
+            }
+        }
+    }
+
+    private func arrangeResults() {
+        func isInSameChunk(a: RealmNoteModel, b: RealmNoteModel) -> Bool {
+            return (a.isPinned && b.isPinned) || Calendar.current.isDate(a.isModified, inSameDayAs: b.isModified)
+        }
+
+        data = []
+
+        guard let results = notes else {return}
+        var tempChunk:[RealmNoteModel] = []
+        results.forEach {
+            if let last = tempChunk.last {
+                if isInSameChunk(a: last, b: $0) {
+                    tempChunk.append($0)
+                } else {
+                    data.append(tempChunk)
+                    tempChunk = [$0]
+                }
+            } else {
+                tempChunk.append($0)
+            }
+        }
+        if !tempChunk.isEmpty {
+            data.append(tempChunk)
+        }
+
+        listView.reloadData()
     }
     
 }
@@ -159,9 +233,11 @@ extension RecycleBinViewController: UITableViewDataSource {
         cell.select = selectedIndex.contains(indexPath)
         cell.indexPath = indexPath
         cell.delegates = self
+
+        let note = data[indexPath.section][indexPath.row]
         
-        cell.noteView.data = "\(indexPath)Take for example the TEXT type. It can contain 65535 bytes of data. Take for example the TEXT type. It can contain 65535 bytes of data."
-        print(cell.frame.size.height)
+        cell.noteView.data = note.content
+
         return cell
     }
     

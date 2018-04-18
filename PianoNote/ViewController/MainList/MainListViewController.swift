@@ -8,20 +8,29 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 class MainListViewController: DRViewController {
     
     @IBOutlet private var listView: UICollectionView!
     @IBOutlet private var pageControl: DRPageControl!
     
-    private var tempData = ["둘러보기", "폴더", "폴더2", ""]
+    private var tags: RealmTagsModel?
+    private var notificationToken: NotificationToken?
     private var destIndexPath: IndexPath!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initNaviBar()
-        initConst()
-        device(orientationDidChange: { [weak self] _ in self?.initConst()})
+        
+        validateToken() { [weak self] in
+            self?.initNaviBar()
+            self?.initConst()
+            self?.device(orientationDidChange: { [weak self] _ in self?.initConst()})
+        }
+    }
+    
+    deinit {
+        notificationToken?.invalidate()
     }
     
     /// Constraints 설정
@@ -72,7 +81,7 @@ class MainListViewController: DRViewController {
             item.rightBarButtonItem?.title = "select".locale
             item.titleView = makeView(UILabel()) {
                 $0.font = UIFont.preferred(font: 17, weight: .semibold)
-                $0.text = tempData[1]
+                $0.text = "둘러보기"
                 $0.alpha = 0
             }
         }
@@ -91,6 +100,9 @@ class MainListViewController: DRViewController {
     @IBAction private func naviBar(left item: UIBarButtonItem) {
         if item.title! == "manageFolder".locale {
             
+            guard let vc = UIStoryboard(name: "Category", bundle: nil).instantiateInitialViewController() else {return}
+            
+            present(vc, animated: true, completion: nil)
         } else {
             if let cell = listView.visibleCells.first as? DRContentFolderCell {
                 let indexData = cell.data.enumerated().flatMap { (section, _) in
@@ -106,6 +118,37 @@ class MainListViewController: DRViewController {
                 }
             }
         }
+    }
+    
+    private func validateToken(completion: @escaping () -> Void) {
+        do {
+            let realm = try Realm()
+            
+            if let existingTags = realm.objects(RealmTagsModel.self).first {
+                tags = existingTags
+            } else {
+                let newTags = RealmTagsModel.getNewModel()
+                ModelManager.saveNew(model: newTags) { [weak self] _ in
+                    DispatchQueue.main.sync {
+                        self?.validateToken(){}
+                    }
+                }
+                return
+            }
+            
+            notificationToken = tags?.observe { [weak self] (changes) in
+                guard let collectionView = self?.listView else {return}
+                
+                switch changes {
+                case .deleted: break
+                case .change(_): collectionView.reloadData()
+                case .error(let error): print(error)
+                }
+            }
+            completion()
+            
+            
+        } catch {print(error)}
     }
     
     @IBAction private func naviBar(right item: UIBarButtonItem) {
@@ -131,7 +174,11 @@ class MainListViewController: DRViewController {
     }
     
     @IBAction private func toolBar(right item: UIBarButtonItem) {
-        
+        if let cell = listView.visibleCells.first as? DRContentFolderCell {
+            alertWithOKAction(message: "선택하신 노트를 삭제하시겠습니까?") { [weak cell] _ in
+                cell?.deleteSelectedCells()
+            }
+        }
     }
     
 }
@@ -152,16 +199,21 @@ extension MainListViewController: UICollectionViewDelegate {
      */
     private func initNavi(item indexPath: IndexPath) {
         guard let titleView = navigationItem.titleView as? UILabel else {return}
-        titleView.text = tempData[indexPath.row]
+        var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
+        tagsArray.replaceSubrange(Range<Int>(NSMakeRange(0, 1))!, with: ["모든 메모"])
+        tagsArray.insert("둘러보기", at: 0)
+        
+        titleView.text = tagsArray[indexPath.item]
         titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
-        rightItem.title = (indexPath.row == 0) ? "" : "select".locale
+        rightItem.title = (indexPath.item == 0) ? "" : "select".locale
         rightItem.isEnabled = true
         // empty일때 isEnabled = false
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // 폴더간 이동시 노트 리스트를 처음 위치로 초기화 시킨다.
+        
         if let browseFolderCell = cell as? DRBrowseFolderCell {
             browseFolderCell.listView.setContentOffset(.zero, animated: false)
         }
@@ -194,18 +246,26 @@ extension MainListViewController: UICollectionViewDelegateFlowLayout {
 extension MainListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        pageControl.numberOfPages = tempData.count
-        return tempData.count
+        let count = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator).count ?? 0
+        pageControl.numberOfPages = count + 1
+        return count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0  {
+        if indexPath.item == 0  {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRBrowseFolderCell", for: indexPath) as! DRBrowseFolderCell
             return cell
         }
+
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
-        cell.lockView.isHidden = (indexPath.row != 2)
-        if indexPath.row == 3 {cell.data = []}
+        
+        var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
+        tagsArray.insert("둘러보기", at: 0)
+        
+        cell.tagName = tagsArray[indexPath.item].replacingOccurrences(of: RealmTagsModel.lockSymbol, with: "")
+        cell.isLock = tagsArray[indexPath.item].hasPrefix(RealmTagsModel.lockSymbol)
+        
         return cell
     }
     

@@ -86,7 +86,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd"
         
-        searchCell.titleLabel.text = note.title
         searchCell.contentLabel.text = nil
         searchCell.dateLabel.text = dateFormatter.string(from: creationDate)
         

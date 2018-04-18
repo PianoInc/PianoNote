@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import InteractiveTextEngine_iOS
 
-class PianoTextView: UITextView {
+class PianoTextView: InteractiveTextView {
     
-   private(set) var inputViewManager: DRInputViewManager!
+    private(set) var inputViewManager: DRInputViewManager!
+    var isSyncing: Bool = false
+    var noteID: String = ""
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -45,17 +48,18 @@ class PianoTextView: UITextView {
         setup()
         tag = ViewTag.PianoTextView.rawValue
         textContainerInset.top = 20
-        
+        noteID = "asdf"
     }
     
-//    override func replacementObject(for aCoder: NSCoder) -> Any? {
-//
-//        let textViewST = PianoTextView(coder: aCoder)
-//
-//
-//        let textView
-//
-//    }
+    override func awakeAfter(using aDecoder: NSCoder) -> Any? {
+        let textViewST = PianoTextView(coder: aDecoder)
+        textViewST?.setup()
+        
+        textViewST?.tag = ViewTag.PianoTextView.rawValue
+        textViewST?.textContainerInset.top = 20
+        textViewST?.noteID = "asdf"
+        return textViewST
+    }
     
     private func setup() {
         textContainer.lineFragmentPadding = 0
@@ -110,4 +114,18 @@ extension PianoTextView {
         }
     }
     
+}
+
+extension PianoTextView {
+    func set(string: String, with attributes: [AttributeModel]) {
+        let newAttributedString = NSMutableAttributedString(string: string)
+        attributes.forEach{ newAttributedString.add(attribute: $0) }
+        
+        attributedText = newAttributedString
+    }
+    
+    func get() -> (string: String, attributes: [AttributeModel]) {
+        
+        return attributedText.getStringWithPianoAttributes()
+    }
 }

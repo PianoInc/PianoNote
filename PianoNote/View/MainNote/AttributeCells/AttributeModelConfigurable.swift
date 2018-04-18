@@ -3,7 +3,7 @@
 // Copyright (c) 2018 piano. All rights reserved.
 //
 
-import Foundation
+import InteractiveTextEngine_iOS
 
 protocol AttributeModelConfigurable {
     func configure(with attribute: AttachmentAttribute)

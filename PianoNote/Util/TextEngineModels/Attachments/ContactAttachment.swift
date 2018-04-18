@@ -8,9 +8,15 @@
 
 import InteractiveTextEngine_iOS
 
+
 class ContactAttachment: InteractiveTextAttachment, AttributeContainingAttachment{
+    static let cellIdentifier = "ContactCell"
     var attribute: AttachmentAttribute!
 
+    override var identifier: String {
+        return ContactAttachment.cellIdentifier
+    }
+    
     init(attribute: ContactAttribute) {
         super.init()
         self.attribute = .contact(attribute)

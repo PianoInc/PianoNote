@@ -42,15 +42,6 @@ extension CloudCommonDatabase {
         
         if myModified.compare(serverModified) == .orderedDescending {
             
-            if let serverTitle = serverRecord[Schema.Note.title] as? String,
-                let myTitle = myRecord[Schema.Note.title] as? String,
-                serverTitle != myTitle {
-                
-                serverRecord[Schema.Note.title] = myRecord[Schema.Note.title]
-                completion(true)
-                return
-            }
-            
             if let serverCategory = serverRecord[Schema.Note.tags] as? String,
                 let myCategory = myRecord[Schema.Note.tags] as? String,
                 serverCategory != myCategory {

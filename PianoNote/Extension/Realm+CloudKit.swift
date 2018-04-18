@@ -20,6 +20,7 @@ extension RealmTagsModel {
         coder.finishDecoding()
         
         record[scheme.tags] = self.tags as CKRecordValue
+        record[scheme.id] = self.id as CKRecordValue
         
         return record
     }
@@ -36,7 +37,6 @@ extension RealmNoteModel {
         coder.finishDecoding()
         
         record[scheme.id] = self.id as CKRecordValue
-        record[scheme.title] = self.title as CKRecordValue
         record[scheme.content] = self.content as CKRecordValue
         record[scheme.attributes] = self.attributes as CKRecordValue
         
@@ -79,7 +79,8 @@ extension CKRecord {
         let newTagsModel = RealmTagsModel()
         let schema = Schema.Tags.self
         
-        guard let tags = self[schema.tags] as? String else {return nil}
+        guard let tags = self[schema.tags] as? String,
+            let id = self[schema.id] as? String else {return nil}
         
         let data = NSMutableData()
         let coder = NSKeyedArchiver(forWritingWith: data)
@@ -88,6 +89,7 @@ extension CKRecord {
         coder.finishEncoding()
         
         newTagsModel.tags = tags
+        newTagsModel.id = id
         newTagsModel.ckMetaData = Data(referencing: data)
         
         return newTagsModel
@@ -98,7 +100,6 @@ extension CKRecord {
         let schema = Schema.Note.self
         
         guard let id = self[schema.id] as? String,
-            let title = self[schema.title] as? String,
             let content = self[schema.content] as? String,
             let attributes = self[schema.attributes] as? Data,
             let tags = self[schema.tags] as? String,
@@ -112,7 +113,6 @@ extension CKRecord {
         coder.finishEncoding()
         
         newNoteModel.id = id
-        newNoteModel.title = title
         newNoteModel.content = content
         newNoteModel.attributes = attributes
         newNoteModel.recordName = self.recordID.recordName

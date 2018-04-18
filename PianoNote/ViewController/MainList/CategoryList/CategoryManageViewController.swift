@@ -137,7 +137,7 @@ class CategoryManageViewController: UIViewController {
                     let strongSelf = self else {return}
 
                 let newCategory = textField.text ?? ""
-                let specialSet = CharacterSet(charactersIn: "!~`@#$%^&*-+();:={}[],.<>?\\/\"\' ")
+                let specialSet = CharacterSet(charactersIn: "|!~`@#$%^&*-+();:={}[],.<>?\\/\"\' ")
                 let tagsArray = strongSelf.array.map{ $0.replacingOccurrences(of: RealmTagsModel.lockSymbol, with: "") }
 
                 if !newCategory.isEmpty && !tagsArray.contains(newCategory)
@@ -164,8 +164,8 @@ class CategoryManageViewController: UIViewController {
     }
     
     @IBAction func doneButtonTouched(_ sender: Any) {
-//        token?.invalidate()
-//        self.dismiss(animated: true)
+        token?.invalidate()
+        self.dismiss(animated: true)
     }
     
     @IBAction func lockButtonTouched(_ sender: Any) {

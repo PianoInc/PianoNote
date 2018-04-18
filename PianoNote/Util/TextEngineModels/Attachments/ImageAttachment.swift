@@ -10,7 +10,14 @@ import InteractiveTextEngine_iOS
 import UIKit
 import CoreGraphics
 
+
+
 class ImageAttachment: InteractiveTextAttachment, AttributeContainingAttachment {
+    static let cellIdentifier = "ImageCell"
+    
+    override var identifier: String {
+        return ImageAttachment.cellIdentifier
+    }
     var attribute: AttachmentAttribute!
 
     init(attribute: ImageAttribute) {

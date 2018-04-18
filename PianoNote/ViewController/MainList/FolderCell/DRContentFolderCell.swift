@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class DRContentFolderCell: UICollectionViewCell {
     
@@ -31,7 +32,39 @@ class DRContentFolderCell: UICollectionViewCell {
         emptyLabel.text = "noMemo".locale
         }}
     
-    var data = [["note0-1"], ["note1-1", "note1-2"], ["note2-1", "not2-2", "not2-3"], ["note4-1", "note4-2", "note4-3", "note4-4"]]
+    var notificationToken: NotificationToken?
+    var notes: Results<RealmNoteModel>?
+    
+    var tagName: String! {
+        didSet {
+            guard let realm = try? Realm() else {return}
+            notificationToken?.invalidate()
+            
+            let sortDescriptors = [SortDescriptor(keyPath: "isPinned", ascending: false), SortDescriptor(keyPath: "isModified", ascending: false)]
+            
+            if tagName.isEmpty {
+                notes = realm.objects(RealmNoteModel.self)
+                    .filter("isInTrash = false").sorted(by: sortDescriptors)
+            } else {
+                notes = realm.objects(RealmNoteModel.self)
+                    .filter("tags CONTAINS[cd] %@ AND isInTrash = false", RealmTagsModel.tagSeparator+"\(tagName!)"+RealmTagsModel.tagSeparator)
+                    .sorted(by: sortDescriptors)
+            }
+            arrangeResults()
+            notificationToken = notes?.observe { [weak self] change in
+                DispatchQueue.main.async {
+                    switch change {
+                    case .initial(_): break
+                    case .update(_, _, _, _): self?.arrangeResults()
+                    case .error(let error): fatalError(error.localizedDescription)//error!
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    var data: [[RealmNoteModel]] = []
     
     var selectedIndex = [IndexPath]()
     var isEditMode = false { didSet {
@@ -83,9 +116,15 @@ class DRContentFolderCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        lockView.isHidden = !isLock
         listView.reloadData()
         listView.isScrollEnabled = !data.isEmpty
         emptyLabel.isHidden = !data.isEmpty
+    }
+    
+    override func prepareForReuse() {
+        data = []
     }
     
     /// TableView의 normal <-> edit 간의 모드를 전환한다.
@@ -98,17 +137,58 @@ class DRContentFolderCell: UICollectionViewCell {
         selectedIndex.removeAll()
     }
     
+
+    private func arrangeResults() {
+        func isInSameChunk(a: RealmNoteModel, b: RealmNoteModel) -> Bool {
+            return (a.isPinned && b.isPinned) || Calendar.current.isDate(a.isModified, inSameDayAs: b.isModified)
+        }
+        
+        data = []
+        
+        guard let results = notes else {return}
+        var tempChunk:[RealmNoteModel] = []
+        results.forEach {
+            if let last = tempChunk.last {
+                if isInSameChunk(a: last, b: $0) {
+                    tempChunk.append($0)
+                } else {
+                    data.append(tempChunk)
+                    tempChunk = [$0]
+                }
+            } else {
+                tempChunk.append($0)
+            }
+        }
+        if !tempChunk.isEmpty {
+            data.append(tempChunk)
+        }
+
+        listView.reloadData()
+    }
+    
+    func deleteSelectedCells() {
+        guard let realm = try? Realm() else {return}
+        let list = List<RealmNoteModel>()
+        list.append(objectsIn: selectedIndex.map {data[$0.section][$0.row]})
+        
+        try? realm.write {
+            list.setValue(true, forKey: Schema.Note.isInTrash)
+        }
+    }
+
     @IBAction private func action(lock: UIButton) {
         DRAuth.share.request(auth: {
             self.lockView.isHidden = true
         })
     }
     
+
 }
 
 extension DRContentFolderCell: DRContentNoteDelegates {
     
     func select(indexPath: IndexPath) {
+        
         if isEditMode {
             if selectedIndex.contains(indexPath) {
                 selectedIndex.remove(at: selectedIndex.index(of: indexPath)!)
@@ -119,7 +199,10 @@ extension DRContentFolderCell: DRContentNoteDelegates {
             cell.select = selectedIndex.contains(indexPath)
             cell.setNeedsLayout()
         } else if let mainListView = UIWindow.topVC as? MainListViewController {
-            mainListView.present(view: UIStoryboard.view(id: "NoteViewController", "Main1"))
+            guard let noteVC = UIStoryboard.view(id: "NoteViewController", "Main1") as? NoteViewController else {return}
+            let note = data[indexPath.section][indexPath.row]
+            noteVC.noteID = note.id
+            mainListView.present(view: noteVC)
         }
     }
     
@@ -137,7 +220,18 @@ extension DRContentFolderCell: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
-        sections.sectionLabel.text = "Section \(section)"
+        let sampleNote = data[section].first!
+        
+        let text: String
+        if Calendar.current.isDate(Date(), inSameDayAs: sampleNote.isModified) {
+            text = "오늘"
+        } else {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy.MM.dd"
+            text = dateFormatter.string(from: sampleNote.isModified)
+        }
+        
+        sections.sectionLabel.text = text
         return sections
     }
     
@@ -161,7 +255,9 @@ extension DRContentFolderCell: UITableViewDataSource {
         cell.delegates = self
         
         cell.deleteButton.isHidden = !isEditMode
-        cell.noteView.data = "\(indexPath)등산하는 사람들이 서로 부르거나, 외치는 소리. 주로 정상에서 외친다. 등산하는 사람들이 서로 부르거나, 외치는 소리. 주로 정상에서 외친다."
+        
+        let note = data[indexPath.section][indexPath.row]
+        cell.noteView.data = String(note.content.prefix(40))
         
         return cell
     }

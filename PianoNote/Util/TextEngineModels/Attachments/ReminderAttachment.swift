@@ -10,7 +10,13 @@ import InteractiveTextEngine_iOS
 import EventKit
 
 class ReminderAttachment: InteractiveTextAttachment, AttributeContainingAttachment {
+    static let cellIdentifier = "ReminderCell"
+    
     var attribute: AttachmentAttribute!
+    
+    override var identifier: String {
+        return ReminderAttachment.cellIdentifier
+    }
 
     init(attribute: ReminderAttribute) {
         super.init()

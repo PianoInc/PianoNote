@@ -148,6 +148,7 @@ class DiffMaker {
     }
     
     private func fillPath() {
+        guard !(aChunks.isEmpty && bChunks.isEmpty) else {return}
         for d in 1...(m+n) {
             path.append([:])
             for k in stride(from: -d, through: d, by: 2) {
@@ -195,6 +196,7 @@ class DiffMaker {
     }
     
     private func getPath() -> [DiffBlock] {
+        guard !(aChunks.isEmpty && bChunks.isEmpty) else {return []}
         var currentPair = Pair(x: m, y: n)
         
         var paths: [Pair] = [currentPair]

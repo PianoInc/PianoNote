@@ -111,6 +111,7 @@ open class InteractiveTextView: UITextView {
                 self?.dispatcher.visibleRectChanged(rect: visibleBounds)
             }
         }
+        
 
         sublayersObserver = observe(\.layer.sublayers, options: [.new]) { [weak self] (_, change) in
             guard let existingNewValue = change.newValue,

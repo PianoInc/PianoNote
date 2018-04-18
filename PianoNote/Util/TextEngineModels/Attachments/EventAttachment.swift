@@ -9,8 +9,14 @@
 import InteractiveTextEngine_iOS
 import EventKit
 
+
 class EventAttachment: InteractiveTextAttachment, AttributeContainingAttachment {
+    static let cellIdentifier = "EventCell"
     var attribute: AttachmentAttribute!
+    
+    override var identifier: String {
+        return EventAttachment.cellIdentifier
+    }
 
     init(attribute: EventAttribute) {
         super.init()
