@@ -21,7 +21,7 @@ class NoteViewController: UIViewController {
     var initialImageRecordNames: Set<String>!
     let disposeBag = DisposeBag()
     var synchronizer: NoteSynchronizer!
-    var hasEdited = false
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +30,7 @@ class NoteViewController: UIViewController {
         registerNibs()
         
         textView.noteID = noteID
+        textView.typingAttributes = FormAttributes.defaultTypingAttributes
         synchronizer = NoteSynchronizer(textView: textView)
         synchronizer.registerToCloud()
         
@@ -37,10 +38,12 @@ class NoteViewController: UIViewController {
         setCanvasSize(view.bounds.size)
         
         navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.any)
+        navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         
         setNoteContents()
         subscribeToChange()
+        
+        
     }
     
     deinit {
@@ -75,17 +78,11 @@ class NoteViewController: UIViewController {
     
     private func subscribeToChange() {
         textView.rx.text.asObservable().distinctUntilChanged()
-            .map{_ -> Void in return}.throttle(1.0, scheduler: MainScheduler.instance)
-            .subscribe(
-                onNext: { [weak self] in
+            .skip(1)
+            .map{_ -> Void in return}.debounce(2.0, scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
                 self?.saveText()
-                self?.hasEdited = true
-                }, onDisposed: { [weak self] in
-                    if self?.hasEdited ?? false {
-                        self?.saveText()
-                    }
-                }
-            ).disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
     }
 
     private func registerNibs() {
@@ -151,16 +148,16 @@ class NoteViewController: UIViewController {
     }
     
     func saveText() {
+        if self.isSaving || self.textView.isSyncing {
+            return
+        }
         DispatchQueue.main.async {
-            if self.isSaving || self.textView.isSyncing {
-                return
-            }
             self.isSaving = true
             let (string, attributes) = self.textView.get()
             DispatchQueue.global().async {
                 let jsonEncoder = JSONEncoder()
                 guard let data = try? jsonEncoder.encode(attributes),
-                    let noteID = self.noteID else {return}
+                    let noteID = self.noteID else {self.isSaving = false;return}
                 let kv: [String: Any] = ["content": string, "attributes": data]
                 
                 ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv) { [weak self] error in

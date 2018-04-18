@@ -170,7 +170,10 @@ class MainListViewController: DRViewController {
     }
     
     @IBAction private func toolBar(center item: UIBarButtonItem) {
-        
+        guard let vc = UIStoryboard(name: "Category", bundle: nil).instantiateInitialViewController() as? UINavigationController,
+            let categoryVC = vc.topViewController as? CategoryManageViewController else {return}
+        categoryVC.isForMoving = true
+        present(vc, animated: true, completion: nil)
     }
     
     @IBAction private func toolBar(right item: UIBarButtonItem) {

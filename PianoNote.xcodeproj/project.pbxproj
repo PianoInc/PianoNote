@@ -91,6 +91,7 @@
 		54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A175366D5D2E82F861F0A /* Pods_widget.framework */; };
 		6C0F73832085C4DA004AACF7 /* NoteViewController_CloudSharingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0F73822085C4DA004AACF7 /* NoteViewController_CloudSharingDelegate.swift */; };
 		6C0F73852085CFDB004AACF7 /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0F73842085CFDA004AACF7 /* NSObject.swift */; };
+		6C0F73872086D365004AACF7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C0F73862086D365004AACF7 /* CloudKit.framework */; };
 		6C3C3E7520775A0D00A087B7 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3C3E7420775A0D00A087B7 /* SearchViewController.swift */; };
 		6C3C3E78207B4D5B00A087B7 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3C3E77207B4D5B00A087B7 /* SearchCell.swift */; };
 		6C558A8C20806C5200378C2A /* NoteViewController_DragDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C558A8B20806C5200378C2A /* NoteViewController_DragDelegate.swift */; };
@@ -134,7 +135,6 @@
 		6CC75D3F20745E6100D164D1 /* CategoryManageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC75D3E20745E6100D164D1 /* CategoryManageCell.swift */; };
 		6CE16F92207200EC00231863 /* RealmDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F91207200EC00231863 /* RealmDataModel.swift */; };
 		6CE16F94207202E900231863 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F93207202E900231863 /* CloudManager.swift */; };
-		6CE16F992072133500231863 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE16F982072133500231863 /* CloudKit.framework */; };
 		6CE16F9B207213D800231863 /* CloudNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F9A207213D800231863 /* CloudNotificationCenter.swift */; };
 		6CE16F9D2072140D00231863 /* CloudDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F9C2072140D00231863 /* CloudDatabase.swift */; };
 		6CE16FA02072183900231863 /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F9F2072183900231863 /* Sync.swift */; };
@@ -326,6 +326,7 @@
 		606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C0F73822085C4DA004AACF7 /* NoteViewController_CloudSharingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController_CloudSharingDelegate.swift; sourceTree = "<group>"; };
 		6C0F73842085CFDA004AACF7 /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
+		6C0F73862086D365004AACF7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		6C3C3E7420775A0D00A087B7 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		6C3C3E77207B4D5B00A087B7 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		6C558A8B20806C5200378C2A /* NoteViewController_DragDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController_DragDelegate.swift; sourceTree = "<group>"; };
@@ -369,7 +370,6 @@
 		6CE16F91207200EC00231863 /* RealmDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDataModel.swift; sourceTree = "<group>"; };
 		6CE16F93207202E900231863 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		6CE16F972072133200231863 /* PianoNote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PianoNote.entitlements; sourceTree = "<group>"; };
-		6CE16F982072133500231863 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		6CE16F9A207213D800231863 /* CloudNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudNotificationCenter.swift; sourceTree = "<group>"; };
 		6CE16F9C2072140D00231863 /* CloudDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDatabase.swift; sourceTree = "<group>"; };
 		6CE16F9F2072183900231863 /* Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
@@ -420,9 +420,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C0F73872086D365004AACF7 /* CloudKit.framework in Frameworks */,
 				280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */,
 				6C7270842072FFF3003A4640 /* InteractiveTextEngine_iOS.framework in Frameworks */,
-				6CE16F992072133500231863 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,8 +746,8 @@
 		168D19EA20632A5F005AA85F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6C0F73862086D365004AACF7 /* CloudKit.framework */,
 				6C7270822072FFEE003A4640 /* InteractiveTextEngine_iOS.framework */,
-				6CE16F982072133500231863 /* CloudKit.framework */,
 				168D19EB20632A5F005AA85F /* NotificationCenter.framework */,
 				53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */,
 				606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */,
