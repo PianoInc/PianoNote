@@ -13,13 +13,12 @@ class InteractDetailViewController: DRViewController {
     @IBOutlet private var listView: UITableView! { didSet {
         listView.register(DRDetailCommentSection.self, forHeaderFooterViewReuseIdentifier: "DRDetailCommentSection")
         listView.initHeaderView(minSize * 0.2666)
-        listView.sectionHeaderHeight = UITableViewAutomaticDimension
-        listView.estimatedSectionHeaderHeight = minSize
-        listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = minSize
         }}
     
+    private var sectionHeight = [Int : CGFloat]()
+    private var cellHeight = [IndexPath : CGFloat]()
     private var data = [DRFBComment]()
+    
     var postData = (id : "", title : "")
     
     override func viewDidLoad() {
@@ -80,7 +79,23 @@ class InteractDetailViewController: DRViewController {
     
 }
 
-extension InteractDetailViewController: UITableViewDelegate, DRDetailDelegates {
+extension InteractDetailViewController: DRDetailDelegates {
+    
+    func extend(reply indexPath: IndexPath) {
+        guard !data[indexPath.section].expend else {return}
+        data[indexPath.section].expend = true
+        listView.reloadData()
+        listView.beginUpdates()
+        listView.endUpdates()
+    }
+    
+}
+
+extension InteractDetailViewController: UITableViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        fadeNavigationTitle(scrollView)
+    }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         requestNextData(scrollView) {
@@ -88,8 +103,17 @@ extension InteractDetailViewController: UITableViewDelegate, DRDetailDelegates {
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        fadeNavigationTitle(scrollView)
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return sectionHeight[section] ?? height(header: section)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return sectionHeight[section] ?? height(header: section)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard view.bounds.height > 0 else {return}
+        sectionHeight[section] = view.bounds.height
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -97,14 +121,13 @@ extension InteractDetailViewController: UITableViewDelegate, DRDetailDelegates {
         view.indexPath = IndexPath(row: 0, section: section)
         view.delegates = self
         
-        view.nameLabel.text = "이름"
+        view.nameLabel.text = "댓글 작성자"
         view.contentLabel.text = data[section].msg
         view.timeLabel.text = data[section].create.timeFormat
         
-        view.replyButton.isEnabled = false
+        view.replyButton.isEnabled = (!data[section].expend && data[section].count > 0)
         view.replyButton.setTitle("facebookNoReply".locale, for: .normal)
         if data[section].count > 0 {
-            view.replyButton.isEnabled = true
             let replyText = String(format: "facebookReply".locale, data[section].count)
             view.replyButton.setTitle(replyText, for: .normal)
         }
@@ -112,9 +135,16 @@ extension InteractDetailViewController: UITableViewDelegate, DRDetailDelegates {
         return view
     }
     
-    func extend(reply indexPath: IndexPath) {
-        data[indexPath.section].expend = true
-        listView.reloadData()
+    /**
+     해당 header의 section값에 부합하는 msg가 가지는 boundingRect의 height값을 반환한다.
+     - parameter section: 계산하고자 하는 section값.
+     - returns : msg가 가지는 height값.
+     */
+    private func height(header section: Int) -> CGFloat {
+        guard !data.isEmpty else {return 0}
+        let height = data[section].msg.boundingRect(with: minSize * 0.8888, font: 15)
+        let inset = minSize * 0.2133
+        return height + inset
     }
     
 }
@@ -126,26 +156,51 @@ extension InteractDetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data[section].expend ? (data[section].reply?.count ?? 0) : 0
+        return data[section].reply?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellHeight[indexPath] ?? height(cell: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellHeight[indexPath] ?? height(cell: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard cell.bounds.height > 0 else {return}
+        cellHeight[indexPath] = cell.bounds.height
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DRDetailReplyCell") as! DRDetailReplyCell
         
         guard let data = comment(data: indexPath) else {return cell}
-        cell.nameLabel.text = "이름" + " "
-        cell.contentLabel.text = cell.nameLabel.text! + data.msg
+        cell.nameLabel.text = "답글 작성자 " + " "
+        cell.contentLabel.text = "답글 작성자 " + data.msg
         cell.timeLabel.text = data.create.timeFormat
         
         return cell
     }
     
     /**
-     해당 indexPath에 맞는 data를 반환한다.
+     해당 indexPath에 부합하는 data를 반환한다.
      - parameter indexPath: 찾고자 하는 indexPath.
      */
     private func comment(data indexPath: IndexPath) -> DRFBReply? {
         return data[indexPath.section].reply?[indexPath.row]
+    }
+    
+    /**
+     해당 cell의 indexPath에 부합하는 msg가 가지는 boundingRect의 height값을 반환한다.
+     - parameter indexPath: 계산하고자 하는 indexPath.
+     - returns : msg가 가지는 height값.
+     */
+    private func height(cell indexPath: IndexPath) -> CGFloat {
+        guard let msg = comment(data: indexPath)?.msg else {return 0}
+        let height = ("답글 작성자 " + msg).boundingRect(with: minSize * 0.7004, font: 14)
+        let inset = minSize * 0.1631
+        return data[indexPath.section].expend ? height + inset : 0
     }
     
 }

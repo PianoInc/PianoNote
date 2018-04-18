@@ -63,6 +63,11 @@ class DRContentNoteCell: UITableViewCell {
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
         }
+        makeConst(deleteButton) {
+            $0.top.equalTo(0)
+            $0.bottom.equalTo(0)
+            $0.width.equalTo(self.minSize * 0.0933)
+        }
         makeConst(noteView) {
             $0.leading.equalTo(6)
             $0.trailing.equalTo(-6)

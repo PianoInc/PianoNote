@@ -15,7 +15,7 @@ class RecycleBinViewController: DRViewController {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.2133)
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = minSize
+        listView.estimatedRowHeight = minSize *  0.3703
         }}
     
     private var selectedIndex = [IndexPath]()
@@ -237,7 +237,7 @@ extension RecycleBinViewController: UITableViewDataSource {
         let note = data[indexPath.section][indexPath.row]
         
         cell.noteView.data = note.content
-        
+
         return cell
     }
     
