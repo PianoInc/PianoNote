@@ -14,9 +14,9 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.4)
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = minSize
+        listView.estimatedRowHeight = minSize *  0.3703
         }}
-    @IBOutlet private var lockView: UIView!
+    @IBOutlet var lockView: UIView!
     @IBOutlet private var lockimage: UIImageView!
     @IBOutlet private var lockTitleLabel: UILabel! { didSet {
         lockTitleLabel.font = UIFont.preferred(font: 20, weight: .bold)
@@ -37,7 +37,6 @@ class DRContentFolderCell: UICollectionViewCell {
     var isEditMode = false { didSet {
         editMode()
         }}
-    var isLock = false
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -85,7 +84,7 @@ class DRContentFolderCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         listView.reloadData()
-        lockView.isHidden = !isLock
+        listView.isScrollEnabled = !data.isEmpty
         emptyLabel.isHidden = !data.isEmpty
     }
     
@@ -97,6 +96,12 @@ class DRContentFolderCell: UICollectionViewCell {
             cell.setNeedsLayout()
         }
         selectedIndex.removeAll()
+    }
+    
+    @IBAction private func action(lock: UIButton) {
+        DRAuth.share.request(auth: {
+            self.lockView.isHidden = true
+        })
     }
     
 }

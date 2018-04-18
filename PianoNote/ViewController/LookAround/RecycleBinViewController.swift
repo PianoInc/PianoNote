@@ -14,7 +14,7 @@ class RecycleBinViewController: DRViewController {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.2133)
         listView.rowHeight = UITableViewAutomaticDimension
-        listView.estimatedRowHeight = minSize
+        listView.estimatedRowHeight = minSize *  0.3703
         }}
     
     private var selectedIndex = [IndexPath]()
@@ -161,7 +161,7 @@ extension RecycleBinViewController: UITableViewDataSource {
         cell.delegates = self
         
         cell.noteView.data = "\(indexPath)Take for example the TEXT type. It can contain 65535 bytes of data. Take for example the TEXT type. It can contain 65535 bytes of data."
-        
+        print(cell.frame.size.height)
         return cell
     }
     

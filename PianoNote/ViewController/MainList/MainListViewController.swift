@@ -204,7 +204,7 @@ extension MainListViewController: UICollectionViewDataSource {
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
-        cell.isLock = (indexPath.row == 2)
+        cell.lockView.isHidden = (indexPath.row != 2)
         if indexPath.row == 3 {cell.data = []}
         return cell
     }
