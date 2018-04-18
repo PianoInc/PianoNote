@@ -16,7 +16,7 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = minSize *  0.3703
         }}
-    @IBOutlet private var lockView: UIView!
+    @IBOutlet var lockView: UIView!
     @IBOutlet private var lockimage: UIImageView!
     @IBOutlet private var lockTitleLabel: UILabel! { didSet {
         lockTitleLabel.font = UIFont.preferred(font: 20, weight: .bold)
@@ -37,7 +37,6 @@ class DRContentFolderCell: UICollectionViewCell {
     var isEditMode = false { didSet {
         editMode()
         }}
-    var isLock = false
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -87,7 +86,6 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.reloadData()
         listView.isScrollEnabled = !data.isEmpty
         emptyLabel.isHidden = !data.isEmpty
-        lockView.isHidden = !isLock
     }
     
     /// TableView의 normal <-> edit 간의 모드를 전환한다.
@@ -98,6 +96,12 @@ class DRContentFolderCell: UICollectionViewCell {
             cell.setNeedsLayout()
         }
         selectedIndex.removeAll()
+    }
+    
+    @IBAction private func action(lock: UIButton) {
+        DRAuth.share.request(auth: {
+            self.lockView.isHidden = true
+        })
     }
     
 }

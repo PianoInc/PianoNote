@@ -9,10 +9,39 @@
 import UIKit
 import AVFoundation
 import Photos
+import LocalAuthentication
 
 class DRAuth: NSObject {
     
     static let share = DRAuth()
+    
+    /**
+     기기 소유자의 인증 요청. (FaceID, TouchID, Passcode)
+     - parameter auth : 요청에 대한 결과.
+     */
+    func request(auth: @escaping (() -> ())) {
+        let laContext = LAContext()
+        let bio = LAPolicy.deviceOwnerAuthenticationWithBiometrics
+        let code = LAPolicy.deviceOwnerAuthentication
+        let reason = "authReason".locale
+        
+        var laError: NSError?
+        if laContext.canEvaluatePolicy(bio, error: &laError) {
+            laContext.evaluatePolicy(code, localizedReason: reason) { success, error in
+                if success {
+                    DispatchQueue.main.async {auth()}
+                } else if let error = error as NSError?, error.code == -3 {
+                    laContext.evaluatePolicy(code, localizedReason: reason) { success, error in
+                        if success {DispatchQueue.main.async {auth()}}
+                    }
+                }
+            }
+        } else {
+            laContext.evaluatePolicy(code, localizedReason: reason) { success, error in
+                if success {DispatchQueue.main.async {auth()}}
+            }
+        }
+    }
     
     /**
      Camera 사용 권한 요청.
