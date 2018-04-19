@@ -77,7 +77,7 @@ class MainListViewController: DRViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
-        // 화면 load시 보여지는 화면을 두번째 화면으로 이동시킨다.
+        // Data load가 없을때, 화면을 전체 폴더로 이동시킨다.
         listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
         navi { (_, item) in
             item.leftBarButtonItem?.title = "manageFolder".locale
@@ -148,6 +148,9 @@ class MainListViewController: DRViewController {
                 case .error(let error): print(error)
                 }
             }
+            // Data load가 진행된 이후, 화면을 전체 폴더로 이동시킨다.
+            listView.reloadData()
+            listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
         } catch {print(error)}
     }
     
