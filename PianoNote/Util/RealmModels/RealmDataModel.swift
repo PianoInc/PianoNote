@@ -96,7 +96,7 @@ class RealmNoteModel: Object, Recordable {
         newModel.recordName = record.recordID.recordName
         newModel.ckMetaData = Data(referencing: data)
         newModel.id = id
-        newModel.tags = "\(RealmTagsModel.tagSeparator)\(categoryRecordName)\(RealmTagsModel.tagSeparator)"
+        newModel.tags = categoryRecordName.isEmpty ? "" : "\(RealmTagsModel.tagSeparator)\(categoryRecordName)\(RealmTagsModel.tagSeparator)"
         newModel.content = content
         
         return newModel

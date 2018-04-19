@@ -18,7 +18,7 @@ class NoteViewController: UIViewController {
     var invokingTextViewDelegate: Bool = false
     var noteID: String!
     var isSaving: Bool = false
-    var initialImageRecordNames: Set<String>!
+    var initialImageRecordNames: Set<String> = []
     let disposeBag = DisposeBag()
     var synchronizer: NoteSynchronizer!
     var hasEdited = false
@@ -31,7 +31,7 @@ class NoteViewController: UIViewController {
         
         textView.noteID = noteID
         synchronizer = NoteSynchronizer(textView: textView)
-        synchronizer.registerToCloud()
+        synchronizer?.registerToCloud()
         
         setNavigationItemsForDefault()
         setCanvasSize(view.bounds.size)
@@ -44,7 +44,7 @@ class NoteViewController: UIViewController {
     }
     
     deinit {
-        synchronizer.unregisterFromCloud()
+        synchronizer?.unregisterFromCloud()
         removeGarbageImages()
     }
     
