@@ -21,12 +21,10 @@ class MainListViewController: DRViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        validateToken() { [weak self] in
-            self?.initNaviBar()
-            self?.initConst()
-            self?.device(orientationDidChange: { [weak self] _ in self?.initConst()})
-        }
+        initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
+        initNaviBar()
+        validateToken()
     }
     
     deinit {
@@ -67,6 +65,11 @@ class MainListViewController: DRViewController {
         })
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        listView.collectionViewLayout.invalidateLayout()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         _ = dispatchOnce
@@ -105,8 +108,8 @@ class MainListViewController: DRViewController {
             present(vc, animated: true, completion: nil)
         } else {
             if let cell = listView.visibleCells.first as? DRContentFolderCell {
-                let indexData = cell.data.enumerated().flatMap { (section, _) in
-                    cell.data.enumerated().map { (row, _) in
+                let indexData = cell.data.enumerated().flatMap { (section, data) in
+                    data.enumerated().map { (row, _) in
                         IndexPath(row: row, section: section)
                     }
                 }
@@ -120,7 +123,7 @@ class MainListViewController: DRViewController {
         }
     }
     
-    private func validateToken(completion: @escaping () -> Void) {
+    private func validateToken() {
         do {
             let realm = try Realm()
             
@@ -130,7 +133,7 @@ class MainListViewController: DRViewController {
                 let newTags = RealmTagsModel.getNewModel()
                 ModelManager.saveNew(model: newTags) { [weak self] _ in
                     DispatchQueue.main.sync {
-                        self?.validateToken(){}
+                        self?.validateToken()
                     }
                 }
                 return
@@ -145,9 +148,6 @@ class MainListViewController: DRViewController {
                 case .error(let error): print(error)
                 }
             }
-            completion()
-            
-            
         } catch {print(error)}
     }
     
@@ -162,6 +162,9 @@ class MainListViewController: DRViewController {
                 item.leftBarButtonItem?.title = "\(listView.isScrollEnabled ? "manageFolder" :"selectAll")".locale
                 item.rightBarButtonItem?.title = "\(listView.isScrollEnabled ? "select" :"done")".locale
             }
+            guard let headerView = cell.listView.tableHeaderView else {return}
+            cell.listView.contentInset.top = listView.isScrollEnabled ? 0 : -headerView.bounds.height
+            headerView.isHidden = !listView.isScrollEnabled
         }
     }
     
@@ -203,20 +206,31 @@ extension MainListViewController: UICollectionViewDelegate {
     private func initNavi(item indexPath: IndexPath) {
         guard let titleView = navigationItem.titleView as? UILabel else {return}
         var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
-        tagsArray.replaceSubrange(Range<Int>(NSMakeRange(0, 1))!, with: ["모든 메모"])
+        if !tagsArray.isEmpty {
+            tagsArray.replaceSubrange(Range<Int>(NSMakeRange(0, 1))!, with: ["모든 메모"])
+        }
         tagsArray.insert("둘러보기", at: 0)
         
         titleView.text = tagsArray[indexPath.item]
         titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
         rightItem.title = (indexPath.item == 0) ? "" : "select".locale
-        rightItem.isEnabled = true
-        // empty일때 isEnabled = false
+        
+        // 노트의 갯수를 가져와서 삭제모드 사용가능 여부를 결정
+        guard let realm = try? Realm() else {return}
+        let sortDescriptors = [SortDescriptor(keyPath: "isPinned", ascending: false), SortDescriptor(keyPath: "isModified", ascending: false)]
+        var notes: Results<RealmNoteModel>!
+        if tagsArray[indexPath.item] == "모든 메모" {
+            notes = realm.objects(RealmNoteModel.self).filter("isInTrash = false").sorted(by: sortDescriptors)
+        } else {
+            notes = realm.objects(RealmNoteModel.self)
+                .filter("tags CONTAINS[cd] %@ AND isInTrash = false", RealmTagsModel.tagSeparator + tagsArray[indexPath.item] + RealmTagsModel.tagSeparator).sorted(by: sortDescriptors)
+        }
+        rightItem.isEnabled = !notes.isEmpty
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // 폴더간 이동시 노트 리스트를 처음 위치로 초기화 시킨다.
-        
         if let browseFolderCell = cell as? DRBrowseFolderCell {
             browseFolderCell.listView.setContentOffset(.zero, animated: false)
         }
@@ -259,15 +273,13 @@ extension MainListViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRBrowseFolderCell", for: indexPath) as! DRBrowseFolderCell
             return cell
         }
-
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
         
         var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
         tagsArray.insert("둘러보기", at: 0)
-        
         cell.tagName = tagsArray[indexPath.item].replacingOccurrences(of: RealmTagsModel.lockSymbol, with: "")
-        cell.isLock = tagsArray[indexPath.item].hasPrefix(RealmTagsModel.lockSymbol)
+        cell.lockView.isHidden = !tagsArray[indexPath.item].hasPrefix(RealmTagsModel.lockSymbol)
         
         return cell
     }

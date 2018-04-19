@@ -29,7 +29,6 @@ func makeView<T>(_ view: T, _ attr: ((T) -> ())) -> T {
 func makeConst<T>(_ view: T, _ const: @escaping ((ConstraintMaker) -> ())) where T: UIView {
     view.snp.removeConstraints()
     view.snp.makeConstraints {const($0)}
-    view.setNeedsLayout()
 }
 
 extension UIView {

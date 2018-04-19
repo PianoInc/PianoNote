@@ -33,8 +33,8 @@ class DRContentFolderCell: UICollectionViewCell {
         emptyLabel.text = "noMemo".locale
         }}
     
-    var notificationToken: NotificationToken?
-    var notes: Results<RealmNoteModel>?
+    private var notificationToken: NotificationToken?
+    private var notes: Results<RealmNoteModel>?
     
     var tagName: String! {
         didSet {
@@ -62,9 +62,13 @@ class DRContentFolderCell: UICollectionViewCell {
                 }
             }
             
+            if let headerView = listView.tableHeaderView as? DRNoteCellHeader {
+                headerView.contentView.delegates = self
+                headerView.contentView.titleLabel.text = tagName.isEmpty ? "AllMemo".locale : tagName
+            }
+            listView.reloadData()
         }
     }
-    
     var data: [[RealmNoteModel]] = []
     
     var selectedIndex = [IndexPath]()
@@ -110,15 +114,13 @@ class DRContentFolderCell: UICollectionViewCell {
         makeConst(emptyLabel) {
             $0.leading.equalTo(0)
             $0.trailing.equalTo(0)
-            $0.top.equalTo(0)
+            $0.top.equalTo(self.minSize * 0.4).priority(.high)
             $0.bottom.equalTo(0)
         }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        lockView.isHidden = !isLock
         listView.reloadData()
         listView.isScrollEnabled = !data.isEmpty
         emptyLabel.isHidden = !data.isEmpty
@@ -138,7 +140,7 @@ class DRContentFolderCell: UICollectionViewCell {
         selectedIndex.removeAll()
     }
     
-
+    
     private func arrangeResults() {
         func isInSameChunk(a: RealmNoteModel, b: RealmNoteModel) -> Bool {
             return (a.isPinned && b.isPinned) || Calendar.current.isDate(a.isModified, inSameDayAs: b.isModified)
@@ -163,7 +165,6 @@ class DRContentFolderCell: UICollectionViewCell {
         if !tempChunk.isEmpty {
             data.append(tempChunk)
         }
-
         listView.reloadData()
     }
     
@@ -177,31 +178,26 @@ class DRContentFolderCell: UICollectionViewCell {
         }
     }
     
-    func getDateText(from date: Date) -> String {
-        if Calendar.current.isDateInToday(date) {
-            return "오늘"
-        } else if Calendar.current.isDateInYesterday(date) {
-            return "어제"
-        } else {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy.MM.dd"
-            return dateFormatter.string(from: date)
-        }
-    }
-
     @IBAction private func action(lock: UIButton) {
         DRAuth.share.request(auth: {
             self.lockView.isHidden = true
         })
     }
     
-
 }
 
-extension DRContentFolderCell: DRContentNoteDelegates {
+extension DRContentFolderCell: DRListHeaderDelegates, DRContentNoteDelegates {
+    
+    func addNewNote() {
+        let newModel = RealmNoteModel.getNewModel(content: "", categoryRecordName: tagName)
+        ModelManager.saveNew(model: newModel)
+        guard let mainListView = UIWindow.topVC as? MainListViewController else {return}
+        guard let noteVC = UIStoryboard.view(id: "NoteViewController", "Main1") as? NoteViewController else {return}
+        noteVC.noteID = newModel.id
+        mainListView.present(view: noteVC)
+    }
     
     func select(indexPath: IndexPath) {
-        
         if isEditMode {
             if selectedIndex.contains(indexPath) {
                 selectedIndex.remove(at: selectedIndex.index(of: indexPath)!)
@@ -234,8 +230,7 @@ extension DRContentFolderCell: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
         let sampleNote = data[section].first!
-        
-        sections.sectionLabel.text = getDateText(from: sampleNote.isModified)
+        sections.sectionLabel.text = sampleNote.isModified.timeFormat
         return sections
     }
     

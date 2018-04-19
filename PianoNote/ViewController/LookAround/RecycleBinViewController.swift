@@ -22,11 +22,11 @@ class RecycleBinViewController: DRViewController {
     private var data:[[RealmNoteModel]] = []
     private var notificationToken: NotificationToken?
     private var notes: Results<RealmNoteModel>?
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setObserver()
         initNaviBar()
         initConst()
@@ -83,14 +83,14 @@ class RecycleBinViewController: DRViewController {
     }
     
     @IBAction private func naviBar(right item: UIBarButtonItem) {
-        let indexData = data.enumerated().flatMap { (section, _) in
+        let indexData = data.enumerated().flatMap { (section, data) in
             data.enumerated().map { (row, _) in
                 IndexPath(row: row, section: section)
             }
         }
         selectedIndex.removeAll()
         indexData.forEach {selectedIndex.append($0)}
-        for cell  in listView.visibleCells as! [DRContentNoteCell] {
+        for cell in listView.visibleCells as! [DRContentNoteCell] {
             cell.select = true
             cell.setNeedsLayout()
         }
@@ -123,6 +123,12 @@ class RecycleBinViewController: DRViewController {
                 selectedIndex.map{data[$0.section][$0.row]}.forEach {
                     ModelManager.delete(id: $0.id, type: RealmNoteModel.self)
                 }
+                self?.selectedIndex.removeAll()
+                for cell in self?.listView.visibleCells as! [DRContentNoteCell] {
+                    cell.select = false
+                    cell.setNeedsLayout()
+                }
+                self?.updateSelectCount()
             }
         }
     }
@@ -152,14 +158,14 @@ class RecycleBinViewController: DRViewController {
             }
         }
     }
-
+    
     private func arrangeResults() {
         func isInSameChunk(a: RealmNoteModel, b: RealmNoteModel) -> Bool {
             return (a.isPinned && b.isPinned) || Calendar.current.isDate(a.isModified, inSameDayAs: b.isModified)
         }
-
+        
         data = []
-
+        
         guard let results = notes else {return}
         var tempChunk:[RealmNoteModel] = []
         results.forEach {
@@ -177,7 +183,7 @@ class RecycleBinViewController: DRViewController {
         if !tempChunk.isEmpty {
             data.append(tempChunk)
         }
-
+        
         listView.reloadData()
     }
     
@@ -233,11 +239,11 @@ extension RecycleBinViewController: UITableViewDataSource {
         cell.select = selectedIndex.contains(indexPath)
         cell.indexPath = indexPath
         cell.delegates = self
-
+        
         let note = data[indexPath.section][indexPath.row]
         
         cell.noteView.data = note.content
-
+        
         return cell
     }
     
