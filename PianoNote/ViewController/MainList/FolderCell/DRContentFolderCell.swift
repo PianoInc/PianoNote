@@ -14,6 +14,7 @@ class DRContentFolderCell: UICollectionViewCell {
     @IBOutlet var listView: UITableView! { didSet {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.4)
+//        listView.tableHeaderView.delegate = self
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = minSize *  0.3703
         }}

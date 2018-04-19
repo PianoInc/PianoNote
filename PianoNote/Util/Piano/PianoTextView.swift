@@ -44,21 +44,69 @@ class PianoTextView: InteractiveTextView {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
         
         setup()
         tag = ViewTag.PianoTextView.rawValue
         textContainerInset.top = 20
-        noteID = "asdf"
+        noteID = ""
     }
     
     override func awakeAfter(using aDecoder: NSCoder) -> Any? {
-        let textViewST = PianoTextView(coder: aDecoder)
-        textViewST?.setup()
+        let newTextView = PianoTextView(frame: self.frame)
         
-        textViewST?.tag = ViewTag.PianoTextView.rawValue
-        textViewST?.textContainerInset.top = 20
-        textViewST?.noteID = "asdf"
-        return textViewST
+        //get constraints
+        var constraints: Array<NSLayoutConstraint> = []
+        self.constraints.forEach {
+            let firstItem: AnyObject!, secondItem: AnyObject!
+            
+            if let unwrappedFirst = $0.firstItem as? InteractiveTextView, unwrappedFirst == self {
+                firstItem = self
+            } else {
+                firstItem = $0.firstItem
+            }
+            
+            if let unwrappedSecond = $0.secondItem as? InteractiveTextView, unwrappedSecond == self {
+                secondItem = self
+            } else {
+                secondItem = $0.secondItem
+            }
+            
+            constraints.append(
+                NSLayoutConstraint(item: firstItem,
+                                   attribute: $0.firstAttribute,
+                                   relatedBy: $0.relation,
+                                   toItem: secondItem,
+                                   attribute: $0.secondAttribute,
+                                   multiplier: $0.multiplier,
+                                   constant: $0.constant))
+        }
+        
+        
+        
+        newTextView.addConstraints(constraints)
+        newTextView.autoresizingMask = self.autoresizingMask
+        newTextView.translatesAutoresizingMaskIntoConstraints = self.translatesAutoresizingMaskIntoConstraints
+        
+        
+        newTextView.autocorrectionType = self.autocorrectionType
+        newTextView.attributedText = self.attributedText
+        newTextView.backgroundColor = self.backgroundColor
+        newTextView.dataDetectorTypes = self.dataDetectorTypes
+        newTextView.returnKeyType = self.returnKeyType
+        newTextView.keyboardAppearance = self.keyboardAppearance
+        newTextView.keyboardDismissMode = self.keyboardDismissMode
+        newTextView.keyboardType = self.keyboardType
+        
+        newTextView.setup()
+        
+        newTextView.tag = ViewTag.PianoTextView.rawValue
+        newTextView.textContainerInset.top = 20
+        
+        return newTextView
     }
     
     private func setup() {
@@ -71,6 +119,14 @@ class PianoTextView: InteractiveTextView {
         super.updateConstraints()
         resetConstraints()
         
+    }
+    
+    func getScreenShot() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
     }
 
 }

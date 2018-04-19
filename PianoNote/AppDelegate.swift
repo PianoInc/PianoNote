@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            realm.delete(notes)
 //        }
 
-//        let newModel = RealmNoteModel.getNewModel(content: "뇨호호", categoryRecordName: "가나다라")
+//        let newModel = RealmNoteModel.getNewModel(content: "", categoryRecordName: "")
 //        ModelManager.saveNew(model: newModel)
         
         return true
@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if subscriptionID.hasPrefix(CloudManager.shared.privateDatabase.subscriptionID) {
             CloudManager.shared.privateDatabase.handleNotification()
             completionHandler(.newData)
-        } else if subscriptionID == CloudManager.shared.sharedDatabase.subscriptionID {
+        } else if subscriptionID == CloudManager.shared.sharedDatabase.subscriptionID || subscriptionID.hasSuffix("shared") {
             CloudManager.shared.sharedDatabase.handleNotification()
             completionHandler(.newData)
         } else if subscriptionID.hasPrefix(CloudManager.shared.publicDatabase.subscriptionID) {
@@ -132,6 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         acceptShareOperation.qualityOfService = .userInteractive
         acceptShareOperation.perShareCompletionBlock = {meta, share,
             error in
+            print(error)
             print("share was accepted")
         }
         acceptShareOperation.acceptSharesCompletionBlock = {

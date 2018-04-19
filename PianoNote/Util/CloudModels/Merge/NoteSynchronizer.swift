@@ -136,6 +136,9 @@ class NoteSynchronizer {
                         let serverAttributedString = NSMutableAttributedString(string: noteModel.content)
                         serverAttributes.forEach { serverAttributedString.add(attribute: $0) }
                         
+                        print("ancestore: \n"+oldContent)
+                        print("my: \n"+currentString)
+                        print("server: \n"+serverContent)
                         let diff3Maker = Diff3Maker(ancestor: oldContent, a: currentString, b: serverContent)
                         let diff3Chunks = diff3Maker.mergeInLineLevel().flatMap { chunk -> [Diff3Block] in
                             if case let .change(oRange, aRange, bRange) = chunk {
@@ -215,6 +218,9 @@ class NoteSynchronizer {
                 let currentString = self.textView.textStorage.string
                 
                 DispatchQueue.global(qos: .utility).async { [weak self] in
+                    print("ancestore: \n"+ancestorContent)
+                    print("my: \n"+currentString)
+                    print("server: \n"+serverContent)
                     let diff3Maker = Diff3Maker(ancestor: ancestorContent, a: currentString, b: serverContent)
                     let diff3Chunks = diff3Maker.mergeInLineLevel().flatMap { chunk -> [Diff3Block] in
                         if case let .change(oRange, aRange, bRange) = chunk {

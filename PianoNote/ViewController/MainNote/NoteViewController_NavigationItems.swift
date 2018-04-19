@@ -77,7 +77,7 @@ extension NoteViewController {
     }
     
     @objc func tapAddPeople(sender: UIBarButtonItem) {
-        
+        presentShare(sender)
     }
     
     @objc func tapSetting(sender: Any) {

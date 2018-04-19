@@ -147,6 +147,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addButton" destination="2Y2-QP-O4x" id="Htu-bP-oEv"/>
                         <outlet property="categorySelectedCountButton" destination="8sg-Ha-Be0" id="2pQ-r8-fQb"/>
                         <outlet property="lockBarButton" destination="bQ1-pJ-cEh" id="aVU-2n-LQ3"/>
                         <outlet property="tableView" destination="MZ8-Jc-Ssn" id="piR-MV-uYp"/>
