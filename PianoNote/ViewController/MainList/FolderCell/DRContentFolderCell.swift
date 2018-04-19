@@ -65,6 +65,7 @@ class DRContentFolderCell: UICollectionViewCell {
                 headerView.contentView.delegates = self
                 headerView.contentView.titleLabel.text = tagName.isEmpty ? "AllMemo".locale : tagName
             }
+            listView.reloadData()
         }
     }
     
@@ -189,7 +190,7 @@ class DRContentFolderCell: UICollectionViewCell {
 extension DRContentFolderCell: DRListHeaderDelegates, DRContentNoteDelegates {
     
     func addNewNote() {
-        let newModel = RealmNoteModel.getNewModel(content: "1", categoryRecordName: tagName)
+        let newModel = RealmNoteModel.getNewModel(content: "", categoryRecordName: tagName)
         ModelManager.saveNew(model: newModel)
         guard let mainListView = UIWindow.topVC as? MainListViewController else {return}
         guard let noteVC = UIStoryboard.view(id: "NoteViewController", "Main1") as? NoteViewController else {return}
@@ -198,7 +199,6 @@ extension DRContentFolderCell: DRListHeaderDelegates, DRContentNoteDelegates {
     }
     
     func select(indexPath: IndexPath) {
-        
         if isEditMode {
             if selectedIndex.contains(indexPath) {
                 selectedIndex.remove(at: selectedIndex.index(of: indexPath)!)

@@ -21,11 +21,10 @@ class MainListViewController: DRViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        initConst()
+        device(orientationDidChange: { [weak self] _ in self?.initConst()})
         validateToken() { [weak self] in
             self?.initNaviBar()
-            self?.initConst()
-            self?.device(orientationDidChange: { [weak self] _ in self?.initConst()})
         }
     }
     
@@ -67,6 +66,11 @@ class MainListViewController: DRViewController {
         })
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        listView.collectionViewLayout.invalidateLayout()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         _ = dispatchOnce
@@ -105,8 +109,8 @@ class MainListViewController: DRViewController {
             present(vc, animated: true, completion: nil)
         } else {
             if let cell = listView.visibleCells.first as? DRContentFolderCell {
-                let indexData = cell.data.enumerated().flatMap { (section, _) in
-                    cell.data.enumerated().map { (row, _) in
+                let indexData = cell.data.enumerated().flatMap { (section, data) in
+                    data.enumerated().map { (row, _) in
                         IndexPath(row: row, section: section)
                     }
                 }
@@ -162,6 +166,9 @@ class MainListViewController: DRViewController {
                 item.leftBarButtonItem?.title = "\(listView.isScrollEnabled ? "manageFolder" :"selectAll")".locale
                 item.rightBarButtonItem?.title = "\(listView.isScrollEnabled ? "select" :"done")".locale
             }
+            guard let headerView = cell.listView.tableHeaderView else {return}
+            cell.listView.contentInset.top = listView.isScrollEnabled ? 0 : -headerView.bounds.height
+            headerView.isHidden = !listView.isScrollEnabled
         }
     }
     
@@ -257,13 +264,11 @@ extension MainListViewController: UICollectionViewDataSource {
             return cell
         }
         
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DRContentFolderCell", for: indexPath) as! DRContentFolderCell
         
         var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
         tagsArray.insert("둘러보기", at: 0)
         cell.tagName = tagsArray[indexPath.item].replacingOccurrences(of: RealmTagsModel.lockSymbol, with: "")
-        
         cell.lockView.isHidden = !tagsArray[indexPath.item].hasPrefix(RealmTagsModel.lockSymbol)
         
         return cell

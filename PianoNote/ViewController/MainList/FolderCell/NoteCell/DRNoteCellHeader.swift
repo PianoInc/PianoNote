@@ -69,7 +69,7 @@ class DRNoteCellHeaderContentView: UIView {
         $0.font = UIFont.preferred(font: 34, weight: .bold)
         $0.text = "AllMemo".locale
     }
-    private let newButton = makeView(UIButton()) {
+    let newButton = makeView(UIButton()) {
         $0.backgroundColor = UIColor(hex6: "eaebed")
         $0.corner(rad: 14)
     }
