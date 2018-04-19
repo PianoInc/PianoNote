@@ -229,17 +229,7 @@ extension DRContentFolderCell: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
         let sampleNote = data[section].first!
-        
-        let text: String
-        if Calendar.current.isDate(Date(), inSameDayAs: sampleNote.isModified) {
-            text = "오늘"
-        } else {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy.MM.dd"
-            text = dateFormatter.string(from: sampleNote.isModified)
-        }
-        
-        sections.sectionLabel.text = text
+        sections.sectionLabel.text = sampleNote.isModified.timeFormat
         return sections
     }
     
