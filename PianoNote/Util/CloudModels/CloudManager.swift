@@ -25,9 +25,9 @@ class CloudManager {
         self.userID = CloudManager.getUserID()
         Realm.setDefaultRealmForUser(username: userID?.recordName ?? "")
         
-        self.privateDatabase = CloudPrivateDatabase(database: CKContainer.default().privateCloudDatabase, userID: userID)
-        self.sharedDatabase = CloudSharedDatabase(database: CKContainer.default().sharedCloudDatabase, userID: userID)
-        self.publicDatabase = CloudPublicDatabase(database: CKContainer.default().publicCloudDatabase, userID: userID)
+        self.privateDatabase = CloudPrivateDatabase(database: CKContainer.default().privateCloudDatabase)
+        self.sharedDatabase = CloudSharedDatabase(database: CKContainer.default().sharedCloudDatabase)
+        self.publicDatabase = CloudPublicDatabase(database: CKContainer.default().publicCloudDatabase)
         
         defer {
             resumeLongLivedOperationIfPossible()
@@ -78,7 +78,6 @@ class CloudManager {
     
     fileprivate func setupNotificationHandling() {
         // Helpers
-        
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(accountDidChange(_:)), name: Notification.Name.CKAccountChanged, object: nil)
         
@@ -134,8 +133,6 @@ class CloudManager {
         //TODO: check for error messages!!
         CloudNotificationCenter.shared.postICloudUserChanged()
         
-        privateDatabase.userID = recordID
-        sharedDatabase.userID = recordID
         privateDatabase.handleNotification()
         sharedDatabase.handleNotification()
     }
