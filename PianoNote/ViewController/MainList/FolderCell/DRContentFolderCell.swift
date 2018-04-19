@@ -32,8 +32,8 @@ class DRContentFolderCell: UICollectionViewCell {
         emptyLabel.text = "noMemo".locale
         }}
     
-    var notificationToken: NotificationToken?
-    var notes: Results<RealmNoteModel>?
+    private var notificationToken: NotificationToken?
+    private var notes: Results<RealmNoteModel>?
     
     var tagName: String! {
         didSet {
@@ -68,7 +68,6 @@ class DRContentFolderCell: UICollectionViewCell {
             listView.reloadData()
         }
     }
-    
     var data: [[RealmNoteModel]] = []
     
     var selectedIndex = [IndexPath]()
@@ -165,7 +164,6 @@ class DRContentFolderCell: UICollectionViewCell {
         if !tempChunk.isEmpty {
             data.append(tempChunk)
         }
-        
         listView.reloadData()
     }
     

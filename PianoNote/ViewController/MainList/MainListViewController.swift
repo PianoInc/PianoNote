@@ -23,9 +23,8 @@ class MainListViewController: DRViewController {
         super.viewDidLoad()
         initConst()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
-        validateToken() { [weak self] in
-            self?.initNaviBar()
-        }
+        initNaviBar()
+        validateToken()
     }
     
     deinit {
@@ -124,7 +123,7 @@ class MainListViewController: DRViewController {
         }
     }
     
-    private func validateToken(completion: @escaping () -> Void) {
+    private func validateToken() {
         do {
             let realm = try Realm()
             
@@ -134,7 +133,7 @@ class MainListViewController: DRViewController {
                 let newTags = RealmTagsModel.getNewModel()
                 ModelManager.saveNew(model: newTags) { [weak self] _ in
                     DispatchQueue.main.sync {
-                        self?.validateToken(){}
+                        self?.validateToken()
                     }
                 }
                 return
@@ -149,9 +148,6 @@ class MainListViewController: DRViewController {
                 case .error(let error): print(error)
                 }
             }
-            completion()
-            
-            
         } catch {print(error)}
     }
     
@@ -207,20 +203,31 @@ extension MainListViewController: UICollectionViewDelegate {
     private func initNavi(item indexPath: IndexPath) {
         guard let titleView = navigationItem.titleView as? UILabel else {return}
         var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
-        tagsArray.replaceSubrange(Range<Int>(NSMakeRange(0, 1))!, with: ["모든 메모"])
+        if !tagsArray.isEmpty {
+            tagsArray.replaceSubrange(Range<Int>(NSMakeRange(0, 1))!, with: ["모든 메모"])
+        }
         tagsArray.insert("둘러보기", at: 0)
         
         titleView.text = tagsArray[indexPath.item]
         titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
         rightItem.title = (indexPath.item == 0) ? "" : "select".locale
-        rightItem.isEnabled = true
-        // empty일때 isEnabled = false
+        
+        // 노트의 갯수를 가져와서 삭제모드 사용가능 여부를 결정
+        guard let realm = try? Realm() else {return}
+        let sortDescriptors = [SortDescriptor(keyPath: "isPinned", ascending: false), SortDescriptor(keyPath: "isModified", ascending: false)]
+        var notes: Results<RealmNoteModel>!
+        if tagsArray[indexPath.item] == "모든 메모" {
+            notes = realm.objects(RealmNoteModel.self).filter("isInTrash = false").sorted(by: sortDescriptors)
+        } else {
+            notes = realm.objects(RealmNoteModel.self)
+                .filter("tags CONTAINS[cd] %@ AND isInTrash = false", RealmTagsModel.tagSeparator + tagsArray[indexPath.item] + RealmTagsModel.tagSeparator).sorted(by: sortDescriptors)
+        }
+        rightItem.isEnabled = !notes.isEmpty
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // 폴더간 이동시 노트 리스트를 처음 위치로 초기화 시킨다.
-        
         if let browseFolderCell = cell as? DRBrowseFolderCell {
             browseFolderCell.listView.setContentOffset(.zero, animated: false)
         }
