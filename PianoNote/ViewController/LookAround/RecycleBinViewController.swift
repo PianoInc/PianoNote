@@ -90,9 +90,13 @@ class RecycleBinViewController: DRViewController {
                 IndexPath(row: row, section: section)
             }
         }
-        selectedIndex.removeAll()
-        indexData.forEach {selectedIndex.append($0)}
-        updateSelect(cell: nil, select: true)
+        if indexData.count != selectedIndex.count {
+            selectedIndex = indexData
+            updateSelect(cell: nil, select: true)
+        } else {
+            selectedIndex.removeAll()
+            updateSelect(cell: nil, select: false)
+        }
         updateSelectCount()
     }
     
@@ -261,4 +265,5 @@ extension RecycleBinViewController: UITableViewDataSource {
     }
     
 }
+
 

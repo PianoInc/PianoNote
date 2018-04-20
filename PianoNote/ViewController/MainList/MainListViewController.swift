@@ -106,9 +106,7 @@ class MainListViewController: DRViewController {
     
     @IBAction private func naviBar(left item: UIBarButtonItem) {
         if item.title! == "manageFolder".locale {
-            
             guard let vc = UIStoryboard(name: "Category", bundle: nil).instantiateInitialViewController() else {return}
-            
             present(vc, animated: true, completion: nil)
         } else {
             if let cell = listView.visibleCells.first as? DRContentFolderCell {
@@ -117,11 +115,22 @@ class MainListViewController: DRViewController {
                         IndexPath(row: row, section: section)
                     }
                 }
-                cell.selectedIndex.removeAll()
-                indexData.forEach {cell.selectedIndex.append($0)}
-                for cell in cell.listView.visibleCells as! [DRContentNoteCell] {
-                    cell.select = true
-                    cell.setNeedsLayout()
+                func updateToolBar(_ select: Bool) {
+                    for cell in cell.listView.visibleCells as! [DRContentNoteCell] {
+                        cell.select = select
+                        cell.setNeedsLayout()
+                    }
+                    guard let toolbarItems = navigationController?.toolbarItems else {return}
+                    toolbarItems[0].isEnabled = select
+                    toolbarItems[2].isEnabled = select
+                    toolbarItems[4].isEnabled = select
+                }
+                if indexData.count != cell.selectedIndex.count {
+                    cell.selectedIndex = indexData
+                    updateToolBar(true)
+                } else {
+                    cell.selectedIndex.removeAll()
+                    updateToolBar(false)
                 }
             }
         }
