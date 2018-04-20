@@ -13,9 +13,9 @@ extension Date {
     // Date값을 주어진 Time format에 맞춰 반환한다.
     var timeFormat: String {
         let calendar = Calendar(identifier: .gregorian)
-        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: self)
+        let components = calendar.dateComponents([.year, .month, .day, .hour], from: self)
         
-        var todayComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+        var todayComponents = calendar.dateComponents([.year, .month, .day, .hour], from: Date())
         todayComponents.hour = 0
         todayComponents.minute = 0
         let today = calendar.date(from: todayComponents)!
