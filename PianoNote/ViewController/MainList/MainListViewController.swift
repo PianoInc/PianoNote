@@ -67,8 +67,8 @@ class MainListViewController: DRViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        listView.reloadData()
         listView.collectionViewLayout.invalidateLayout()
+        updateSelection()
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,7 +79,8 @@ class MainListViewController: DRViewController {
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
         // Data load가 없을때, 화면을 전체 폴더로 이동시킨다.
-        listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
+        listView.setContentOffset(CGPoint(x: listView.bounds.width - 1, y: 0), animated: false)
+        listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: true)
         navi { (_, item) in
             item.leftBarButtonItem?.title = "manageFolder".locale
             item.rightBarButtonItem?.title = "select".locale
@@ -151,8 +152,30 @@ class MainListViewController: DRViewController {
             }
             // Data load가 진행된 이후, 화면을 전체 폴더로 이동시킨다.
             listView.reloadData()
-            listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
+            listView.setContentOffset(CGPoint(x: listView.bounds.width - 1, y: 0), animated: false)
+            listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: true)
         } catch {print(error)}
+    }
+    
+    /// 해당 folder의 note count에 따라서 "선택" 버튼을 활성화한다.
+    private func updateSelection() {
+        guard let indexPath = listView.indexPathsForVisibleItems.first else {return}
+        guard let realm = try? Realm() else {return}
+        var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
+        if !tagsArray.isEmpty {
+            tagsArray.replaceSubrange(Range<Int>(NSMakeRange(0, 1))!, with: ["모든 메모"])
+        }
+        tagsArray.insert("둘러보기", at: 0)
+        let sortDescriptors = [SortDescriptor(keyPath: "isPinned", ascending: false), SortDescriptor(keyPath: "isModified", ascending: false)]
+        var notes: Results<RealmNoteModel>!
+        if tagsArray[indexPath.item] == "모든 메모" {
+            notes = realm.objects(RealmNoteModel.self).filter("isInTrash = false").sorted(by: sortDescriptors)
+        } else {
+            notes = realm.objects(RealmNoteModel.self)
+                .filter("tags CONTAINS[cd] %@ AND isInTrash = false", RealmTagsModel.tagSeparator + tagsArray[indexPath.item] + RealmTagsModel.tagSeparator).sorted(by: sortDescriptors)
+        }
+        guard let rightItem = navigationItem.rightBarButtonItem else {return}
+        rightItem.isEnabled = !notes.isEmpty
     }
     
     @IBAction private func naviBar(right item: UIBarButtonItem) {
@@ -169,6 +192,7 @@ class MainListViewController: DRViewController {
             guard let headerView = cell.listView.tableHeaderView else {return}
             cell.listView.contentInset.top = listView.isScrollEnabled ? 0 : -headerView.bounds.height
             headerView.isHidden = !listView.isScrollEnabled
+            updateSelection()
         }
     }
     
@@ -219,18 +243,7 @@ extension MainListViewController: UICollectionViewDelegate {
         titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
         rightItem.title = (indexPath.item == 0) ? "" : "select".locale
-        
-        // 노트의 갯수를 가져와서 삭제모드 사용가능 여부를 결정
-        guard let realm = try? Realm() else {return}
-        let sortDescriptors = [SortDescriptor(keyPath: "isPinned", ascending: false), SortDescriptor(keyPath: "isModified", ascending: false)]
-        var notes: Results<RealmNoteModel>!
-        if tagsArray[indexPath.item] == "모든 메모" {
-            notes = realm.objects(RealmNoteModel.self).filter("isInTrash = false").sorted(by: sortDescriptors)
-        } else {
-            notes = realm.objects(RealmNoteModel.self)
-                .filter("tags CONTAINS[cd] %@ AND isInTrash = false", RealmTagsModel.tagSeparator + tagsArray[indexPath.item] + RealmTagsModel.tagSeparator).sorted(by: sortDescriptors)
-        }
-        rightItem.isEnabled = !notes.isEmpty
+        updateSelection()
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
