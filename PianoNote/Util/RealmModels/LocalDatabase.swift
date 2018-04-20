@@ -7,76 +7,57 @@
 //
 
 import RealmSwift
+import RxSwift
+
+typealias TransactionHandler = ((Error?) -> Void)
 
 class LocalDatabase {
     static let shared = LocalDatabase()
     
-    let databaseQueue = DispatchQueue.global(qos: .background)
-    
-    //This method is for creating object.
-    func saveObject (newObject: Object, completion handler: (() -> Void)? = nil) {
-        
-        databaseQueue.async {
-            autoreleasepool {
-                guard let realm = try? Realm() else {/* fatal error */return}
-                
-                try? realm.write {
-                    realm.add(newObject, update: true)
-                }
-                handler?()
-            }
-        }
-    }
-    
-    
-    //This method is for updating object.
-    func updateObject(id: String, kv: [String: Any], type: Object.Type, completion handler: (() -> Void)? = nil) {
-        databaseQueue.async {
-            
-            autoreleasepool {
-                guard let realm = try? Realm(),
-                    let object = realm.object(ofType: type.self, forPrimaryKey: id) else {return}
-                
-                try? realm.write {
-                    object.setValuesForKeys(kv)
-                }
-                handler?()
-            }
-        }
-    }
-    
-    //This method is for deleting object by reference.
-    func deleteObject<T> (ref: ThreadSafeReference<T>, completion handler: (() -> Void)? = nil) where T: Object {
-        
-        databaseQueue.async {
-            
-            autoreleasepool {
-                guard let realm = try? Realm(),
-                    let object = realm.resolve(ref) else {/* fatal error */ return}
-                
-                try? realm.write {
-                    realm.delete(object)
-                }
-                handler?()
-            }
-        }
+    private let globalSchedular = ConcurrentDispatchQueueScheduler(queue: DispatchQueue.global(qos: .utility))
+    private let transactionSubject = PublishSubject<LocalDatabaseTransaction>()
+    private let disposeBag = DisposeBag()
+
+    private init() {
+        subscribeToObservables()
     }
 
-    //This method is for deleting objects.
-    func deleteObject<T> (ref: ThreadSafeReference<Results<T>>, completion handler: (() -> Void)? = nil) where T: Object {
-        
-        databaseQueue.async {
-            
-            autoreleasepool {
-                guard let realm = try? Realm(),
-                    let object = realm.resolve(ref) else {/* fatal error */ return}
-                
-                try? realm.write {
-                    realm.delete(object)
-                }
-                handler?()
-            }
-        }
+    private func subscribeToObservables() {
+        transactionSubject.buffer(timeSpan: 0.5, count: 40, scheduler: globalSchedular)
+                .subscribeOn(globalSchedular)
+                .subscribe(onNext: { (transactions) in
+                    do {
+                        let realm = try Realm()
+
+                        try realm.write {
+                            transactions.forEach{ $0.action(realm) }
+                        }
+                    } catch {
+                        transactions.forEach{ $0.completion?(error) }
+                    }
+                }).disposed(by: disposeBag)
+    }
+
+    func commit(transaction: LocalDatabaseTransaction) {
+        transactionSubject.on(.next(transaction))
     }
 }
 
+class LocalDatabaseTransaction {
+    let action: ((Realm) -> ())
+    let completion: TransactionHandler?
+
+
+    /**
+      - parameters:
+        - action: Transaciton에서 실행할 액션
+        - completion: 액션이 실행된 후 completion handler
+      - important: Action내에서 사용되는 Object들은 보통 ThreadSafeReference로 사용되어야한다.
+     
+     예외의 경우가 있다. 아직 Realm에 추가되지 않은 Object는 Object자체로 action내에서 사용될 수 있다.
+      */
+    init(action: @escaping ((Realm) -> ()), completion: TransactionHandler? = nil) {
+        self.action = action
+        self.completion = completion
+    }
+}
