@@ -134,7 +134,7 @@ class InteractViewController: DRViewController {
 
 extension InteractViewController: DRContentNoteDelegates {
     
-    func select(indexPath: IndexPath) {
+    func select(indexPath: IndexPath, sender: UIButton) {
         guard let postData = post(data: indexPath) else {return}
         let viewContoller = UIStoryboard.view(type: InteractDetailViewController.self)
         viewContoller.postData = (id: postData.id, title: postData.title)

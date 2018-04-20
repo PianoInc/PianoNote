@@ -14,7 +14,6 @@ class DRContentFolderCell: UICollectionViewCell {
     @IBOutlet var listView: UITableView! { didSet {
         listView.register(DRNoteCellSection.self, forHeaderFooterViewReuseIdentifier: "DRNoteCellSection")
         listView.initHeaderView(minSize * 0.4)
-//        listView.tableHeaderView.delegate = self
         listView.rowHeight = UITableViewAutomaticDimension
         listView.estimatedRowHeight = minSize *  0.3703
         }}
@@ -168,7 +167,11 @@ class DRContentFolderCell: UICollectionViewCell {
         listView.reloadData()
     }
     
-    func deleteSelectedCells() {
+    /**
+     선택된 cell의 삭제를 진행한다.
+     - parameter hidden : Delete 버튼의 hidden 유무.
+     */
+    func deleteSelectedCells(_ hidden: Bool = true) {
         guard let realm = try? Realm() else {return}
         let list = List<RealmNoteModel>()
         list.append(objectsIn: selectedIndex.map {data[$0.section][$0.row]})
@@ -179,7 +182,7 @@ class DRContentFolderCell: UICollectionViewCell {
         
         selectedIndex.removeAll()
         for cell in listView.visibleCells as! [DRContentNoteCell] {
-            cell.deleteButton.isHidden = true
+            cell.deleteButton.isHidden = hidden
             cell.select = false
             cell.setNeedsLayout()
         }
@@ -204,7 +207,12 @@ extension DRContentFolderCell: DRListHeaderDelegates, DRContentNoteDelegates {
         mainListView.present(view: noteVC)
     }
     
-    func select(indexPath: IndexPath) {
+    func select(indexPath: IndexPath, sender: UIButton) {
+        guard sender.tag == 0 else {
+            selectedIndex.append(indexPath)
+            deleteSelectedCells(false)
+            return
+        }
         if isEditMode {
             if selectedIndex.contains(indexPath) {
                 selectedIndex.remove(at: selectedIndex.index(of: indexPath)!)

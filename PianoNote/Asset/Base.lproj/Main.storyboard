@@ -178,6 +178,10 @@
                                                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gxm-zC-xXg">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
                                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                                <state key="normal" image="delete"/>
+                                                                                <connections>
+                                                                                    <action selector="action:" destination="MdR-h5-tfn" eventType="touchUpInside" id="XRp-tJ-UaL"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Zl-gb-Jf0">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -865,4 +869,7 @@
             <point key="canvasLocation" x="721" y="1714"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="delete" width="29" height="29"/>
+    </resources>
 </document>

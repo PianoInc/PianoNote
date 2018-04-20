@@ -56,7 +56,7 @@ class HowToViewController: DRViewController {
 
 extension HowToViewController: DRContentNoteDelegates {
     
-    func select(indexPath: IndexPath) {
+    func select(indexPath: IndexPath, sender: UIButton) {
         
     }
     

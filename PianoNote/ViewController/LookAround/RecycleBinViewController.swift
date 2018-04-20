@@ -191,7 +191,7 @@ class RecycleBinViewController: DRViewController {
 
 extension RecycleBinViewController: DRContentNoteDelegates {
     
-    func select(indexPath: IndexPath) {
+    func select(indexPath: IndexPath, sender: UIButton) {
         if selectedIndex.contains(indexPath) {
             selectedIndex.remove(at: selectedIndex.index(of: indexPath)!)
         } else {

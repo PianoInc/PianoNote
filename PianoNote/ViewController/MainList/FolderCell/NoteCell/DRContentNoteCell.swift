@@ -12,8 +12,9 @@ protocol DRContentNoteDelegates: NSObjectProtocol {
     /**
      선택된 셀의 indexPath를 전달한다.
      - parameter indexPath: 선택된 셀의 indexPath.
+     - parameter sender: 선택한 button.
      */
-    func select(indexPath: IndexPath)
+    func select(indexPath: IndexPath, sender: UIButton)
 }
 
 /**
@@ -31,6 +32,7 @@ class DRContentNoteCell: UITableViewCell {
     
     @IBOutlet private var stackView: UIStackView!
     @IBOutlet var deleteButton: UIButton! { didSet {
+        deleteButton.tag = 1000
         deleteButton.frame.size.width = self.minSize * 0.1066
         }}
     @IBOutlet private var contentsView: UIView!
@@ -134,7 +136,7 @@ class DRContentNoteCell: UITableViewCell {
     }
     
     @IBAction private func action(_ button: UIButton) {
-        delegates.select(indexPath: indexPath)
+        delegates.select(indexPath: indexPath, sender: button)
     }
     
 }
