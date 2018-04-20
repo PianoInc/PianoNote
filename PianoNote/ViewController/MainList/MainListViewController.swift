@@ -23,7 +23,7 @@ class MainListViewController: DRViewController {
         super.viewDidLoad()
         initConst()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
-        initNaviBar()
+        initToolBar()
         validateToken()
     }
     
@@ -67,7 +67,9 @@ class MainListViewController: DRViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        listView.reloadData()
         listView.collectionViewLayout.invalidateLayout()
+        initToolBar()
         updateSelection()
     }
     
@@ -92,8 +94,8 @@ class MainListViewController: DRViewController {
         }
     }()
     
-    /// Navigation 설정
-    private func initNaviBar() {
+    /// ToolbarItems 설정
+    private func initToolBar() {
         navi { (navi, _) in
             navi.toolbarItems = toolbarItems
             // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]

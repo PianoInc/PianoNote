@@ -132,10 +132,7 @@ class DRContentFolderCell: UICollectionViewCell {
     /// TableView의 normal <-> edit 간의 모드를 전환한다.
     private func editMode() {
         listView.scrollsToTop = !isEditMode
-        for cell in listView.visibleCells as! [DRContentNoteCell] {
-            cell.deleteButton.isHidden = !self.isEditMode
-            cell.setNeedsLayout()
-        }
+        updateSelect(cell: nil, select: !self.isEditMode)
         selectedIndex.removeAll()
     }
     
@@ -181,17 +178,30 @@ class DRContentFolderCell: UICollectionViewCell {
         }
         
         selectedIndex.removeAll()
-        for cell in listView.visibleCells as! [DRContentNoteCell] {
-            cell.deleteButton.isHidden = hidden
-            cell.select = false
-            cell.setNeedsLayout()
-        }
+        updateSelect(cell: nil, select: false)
     }
     
     @IBAction private func action(lock: UIButton) {
         DRAuth.share.request(auth: {
             self.lockView.isHidden = true
         })
+    }
+    
+    private func updateSelect(cell indexPath: IndexPath?, select: Bool) {
+        if let indexPath = indexPath, let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell {
+            cell.select = select
+            cell.setNeedsLayout()
+        } else {
+            for cell in listView.visibleCells as! [DRContentNoteCell] {
+                cell.select = select
+                cell.setNeedsLayout()
+            }
+        }
+        guard let mainListView = UIWindow.topVC as? MainListViewController else {return}
+        guard let toolbarItems = mainListView.navigationController?.toolbarItems else {return}
+        toolbarItems[0].isEnabled = !selectedIndex.isEmpty
+        toolbarItems[2].isEnabled = !selectedIndex.isEmpty
+        toolbarItems[4].isEnabled = !selectedIndex.isEmpty
     }
     
 }
@@ -219,9 +229,7 @@ extension DRContentFolderCell: DRListHeaderDelegates, DRContentNoteDelegates {
             } else {
                 selectedIndex.append(indexPath)
             }
-            guard let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell else {return}
-            cell.select = selectedIndex.contains(indexPath)
-            cell.setNeedsLayout()
+            updateSelect(cell: indexPath, select: selectedIndex.contains(indexPath))
         } else if let mainListView = UIWindow.topVC as? MainListViewController {
             guard let noteVC = UIStoryboard.view(id: "NoteViewController", "Main1") as? NoteViewController else {return}
             let note = data[indexPath.section][indexPath.row]
