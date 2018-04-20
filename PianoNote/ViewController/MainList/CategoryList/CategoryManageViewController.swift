@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class CategoryManageViewController: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var lockBarButton: UIBarButtonItem!
@@ -26,7 +26,6 @@ class CategoryManageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         if let realm = try? Realm() {
             realmForTableView = realm
         } else {
@@ -35,36 +34,36 @@ class CategoryManageViewController: UIViewController {
         setObserver()
         setUIConfigs()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
+    
     func setObserver() {
         do {
             let realm = try Realm()
             guard let tags = realm.objects(RealmTagsModel.self).first else { return }
-
+            
             array = tags.tags.components(separatedBy: RealmTagsModel.tagSeparator)
             array.remove(at: 0)
             boolArray = [Bool](repeating: false, count: array.count)
-
+            
             token = tags.observe { [weak self] change in
                 switch change {
-                    case .change(let changes):changes.forEach { change in
-                        guard let newValue = change.newValue as? String,
-                                let oldValue = change.oldValue as? String,
-                                newValue != oldValue,
-                                change.name == Schema.Tags.tags else {return}
-                        self?.tagsChanged(oldValue: oldValue, newValue: newValue)
+                case .change(let changes):changes.forEach { change in
+                    guard let newValue = change.newValue as? String,
+                        let oldValue = change.oldValue as? String,
+                        newValue != oldValue,
+                        change.name == Schema.Tags.tags else {return}
+                    self?.tagsChanged(oldValue: oldValue, newValue: newValue)
                     }
-                    default: return
+                default: return
                 }
             }
         } catch { print(error)}
-
+        
     }
     
     func setUIConfigs() {
@@ -72,7 +71,7 @@ class CategoryManageViewController: UIViewController {
         categorySelectedCountButton.titleLabel?.adjustsFontSizeToFitWidth = true
         categorySelectedCountButton.titleLabel?.lineBreakMode = .byWordWrapping
         categorySelectedCountButton.titleLabel?.numberOfLines = 1
-
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -89,7 +88,7 @@ class CategoryManageViewController: UIViewController {
         }
         
         
-
+        
         if !toolBar.isHidden {
             tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: toolBar.frame.size.height, right: 0)
             tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: toolBar.frame.size.height, right: 0)
@@ -100,7 +99,7 @@ class CategoryManageViewController: UIViewController {
         }
         navigationController?.title = "카테고리 관리"
     }
-
+    
     func tagsChanged(oldValue: String, newValue: String) {
         var oldArray = oldValue.components(separatedBy: RealmTagsModel.tagSeparator)
         var newArray = newValue.components(separatedBy: RealmTagsModel.tagSeparator)
@@ -136,24 +135,24 @@ class CategoryManageViewController: UIViewController {
             self?.tableView.endUpdates()
         }
     }
-
+    
     @IBAction func addButtonTouched(_ sender: Any) {
-
+        
         self.alertWithOKActionAndAlertHandler(message: "카테고리 제목을 입력해주세요") { alert in
             return { [weak self] action in
                 guard let textField = alert.textFields?.first,
                     let strongSelf = self else {return}
-
+                
                 let newCategory = textField.text ?? ""
                 let specialSet = CharacterSet(charactersIn: "|!~`@#$%^&*-+();:={}[],.<>?\\/\"\' ")
                 let tagsArray = strongSelf.array.map{ $0.replacingOccurrences(of: RealmTagsModel.lockSymbol, with: "") }
-
+                
                 if !newCategory.isEmpty && !tagsArray.contains(newCategory)
                     && newCategory.count < 11 && newCategory.rangeOfCharacter(from: specialSet) == nil {
                     guard let realm = try? Realm(),
-                            let tags = realm.objects(RealmTagsModel.self).first else {fatalError("Something went wrong")}
+                        let tags = realm.objects(RealmTagsModel.self).first else {fatalError("Something went wrong")}
                     ModelManager.update(id: tags.id, type: RealmTagsModel.self,
-                            kv: [Schema.Tags.tags: tags.tags + "\(RealmTagsModel.tagSeparator)\(newCategory)"])
+                                        kv: [Schema.Tags.tags: tags.tags + "\(RealmTagsModel.tagSeparator)\(newCategory)"])
                 } else {
                     let message: String
                     if newCategory.isEmpty {
@@ -223,7 +222,7 @@ class CategoryManageViewController: UIViewController {
             }
             
             let newTags = tempArray.isEmpty ? "" :
-                "\(RealmTagsModel.tagSeparator)\(tempArray.joined(separator: RealmTagsModel.tagSeparator))"
+            "\(RealmTagsModel.tagSeparator)\(tempArray.joined(separator: RealmTagsModel.tagSeparator))"
             
             guard let realm = try? Realm(),
                 let tags = realm.objects(RealmTagsModel.self).first else { return }

@@ -34,17 +34,19 @@ class MainListViewController: DRViewController {
     /// Constraints 설정
     private func initConst() {
         makeConst(listView) {
-            $0.leading.equalTo(self.safeInset.left)
-            $0.trailing.equalTo(-self.safeInset.right)
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
             $0.top.equalTo(self.statusHeight + self.naviHeight)
             $0.bottom.equalTo(-self.safeInset.bottom)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
         makeConst(pageControl) {
-            $0.leading.equalTo(self.safeInset.left + self.mainSize.width * 0.25)
-            $0.trailing.equalTo(-(self.safeInset.right + self.mainSize.width * 0.25))
+            $0.leading.equalTo(self.safeInset.left + self.mainSize.width * 0.25).priority(.high)
+            $0.trailing.equalTo(-(self.safeInset.right + self.mainSize.width * 0.25)).priority(.high)
             $0.bottom.equalTo(-(self.safeInset.bottom + self.minSize * 0.0266))
+            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.centerX.equalToSuperview().priority(.required)
         }
     }
     
