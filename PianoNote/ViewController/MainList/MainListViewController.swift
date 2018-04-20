@@ -67,6 +67,7 @@ class MainListViewController: DRViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        listView.reloadData()
         listView.collectionViewLayout.invalidateLayout()
     }
     

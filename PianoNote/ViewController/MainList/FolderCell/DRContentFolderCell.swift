@@ -176,6 +176,13 @@ class DRContentFolderCell: UICollectionViewCell {
         try? realm.write {
             list.setValue(true, forKey: Schema.Note.isInTrash)
         }
+        
+        selectedIndex.removeAll()
+        for cell in listView.visibleCells as! [DRContentNoteCell] {
+            cell.deleteButton.isHidden = true
+            cell.select = false
+            cell.setNeedsLayout()
+        }
     }
     
     @IBAction private func action(lock: UIButton) {
