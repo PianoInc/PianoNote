@@ -1054,7 +1054,6 @@
 				168D198220632949005AA85F /* Resources */,
 				168D19FA20632A5F005AA85F /* Embed App Extensions */,
 				3D1FE22250FA16777E933F82 /* [CP] Embed Pods Frameworks */,
-				67024A7300FD6C11CC3D4415 /* [CP] Copy Pods Resources */,
 				6C7270862072FFF3003A4640 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -1075,8 +1074,6 @@
 				168D19942063294A005AA85F /* Sources */,
 				168D19952063294A005AA85F /* Frameworks */,
 				168D19962063294A005AA85F /* Resources */,
-				52E0E2D42139C34C1F4D0000 /* [CP] Embed Pods Frameworks */,
-				5DA5C70DA69289D1480A676A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1096,8 +1093,6 @@
 				168D199F2063294A005AA85F /* Sources */,
 				168D19A02063294A005AA85F /* Frameworks */,
 				168D19A12063294A005AA85F /* Resources */,
-				1F400FCDEE05B6D12E9E1FBF /* [CP] Embed Pods Frameworks */,
-				53D403E3ECFCE6C5F4B8905F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1117,7 +1112,6 @@
 				168D19E520632A5F005AA85F /* Sources */,
 				168D19E620632A5F005AA85F /* Frameworks */,
 				168D19E720632A5F005AA85F /* Resources */,
-				5D6747BEBB81F0A8756A1F7E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1250,21 +1244,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1F400FCDEE05B6D12E9E1FBF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3D1FE22250FA16777E933F82 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1303,81 +1282,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		52E0E2D42139C34C1F4D0000 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		53D403E3ECFCE6C5F4B8905F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5D6747BEBB81F0A8756A1F7E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-widget/Pods-widget-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5DA5C70DA69289D1480A676A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		67024A7300FD6C11CC3D4415 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6C80613AAED3F682BF180363 /* [CP] Check Pods Manifest.lock */ = {

@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol DRListHeaderDelegates: NSObjectProtocol {
+    ///새 메모 작성 선택에 대한 처리
+    func addNewNote()
+}
+
 /**
  TableView의 HeaderView에 autoLayout 적용하기 위해선
  실제 contentView를 한번 더 감싸는 view가 필요하기 때문에 사용되는 View.
@@ -55,13 +60,16 @@ class DRNoteCellHeader: UIView {
 
 class DRNoteCellHeaderContentView: UIView {
     
+    weak var delegates: DRListHeaderDelegates!
+    
     let lockImage = makeView(UIImageView()) {
         $0.contentMode = .scaleAspectFit
     }
     let titleLabel = makeView(UILabel()) {
         $0.font = UIFont.preferred(font: 34, weight: .bold)
+        $0.text = "AllMemo".locale
     }
-    private let newView = makeView(UIView()) {
+    let newButton = makeView(UIButton()) {
         $0.backgroundColor = UIColor(hex6: "eaebed")
         $0.corner(rad: 14)
     }
@@ -99,12 +107,13 @@ class DRNoteCellHeaderContentView: UIView {
     
     private func initView() {
         backgroundColor = .clear
+        newButton.addTarget(self, action: #selector(action(new:)), for: .touchUpInside)
         addSubview(lockImage)
         addSubview(titleLabel)
-        addSubview(newView)
-        newView.addSubview(newSubLabel)
-        newView.addSubview(newTitleLabel)
-        newView.addSubview(newPlusImage)
+        addSubview(newButton)
+        newButton.addSubview(newSubLabel)
+        newButton.addSubview(newTitleLabel)
+        newButton.addSubview(newPlusImage)
     }
     
     private func initConst() {
@@ -120,7 +129,7 @@ class DRNoteCellHeaderContentView: UIView {
             $0.top.equalTo(self.lockImage.snp.bottom)
             $0.height.greaterThanOrEqualTo(0)
         }
-        makeConst(newView) {
+        makeConst(newButton) {
             $0.leading.equalTo(self.minSize * 0.0533)
             $0.trailing.equalTo(-(self.minSize * 0.0533))
             $0.bottom.equalTo(0)
@@ -146,8 +155,9 @@ class DRNoteCellHeaderContentView: UIView {
         }
     }
     
-    @objc func headerViewTouched() {
-        print("hi")
+    @objc private func action(new: UIButton) {
+        delegates.addNewNote()
     }
+  
 }
 
