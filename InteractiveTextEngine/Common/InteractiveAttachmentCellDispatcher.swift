@@ -142,7 +142,7 @@ extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate
     
     func invalidateDisplay(range: NSRange) {
         DispatchQueue.main.async { [weak self] in
-            self?.superView?.layoutManager.invalidateDisplay(forCharacterRange: range)
+            self?.superView?.layoutManager.invalidateLayout(forCharacterRange: range, actualCharacterRange: nil)
         }
     }
     
