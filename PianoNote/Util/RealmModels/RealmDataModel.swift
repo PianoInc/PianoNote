@@ -36,8 +36,9 @@ class RealmTagsModel: Object, Recordable {
     }
     
     static func getNewModel() -> RealmTagsModel {
+        let zone = CKRecordZone(zoneName: RxCloudDatabase.privateRecordZoneName)
         let id = Util.share.getUniqueID()
-        let record = CKRecord(recordType: RealmTagsModel.recordTypeString, zoneID: CloudManager.shared.privateDatabase.zoneID)
+        let record = CKRecord(recordType: RealmTagsModel.recordTypeString, zoneID: zone.zoneID)
         
         let data = NSMutableData()
         let coder = NSKeyedArchiver(forWritingWith: data)
@@ -83,8 +84,9 @@ class RealmNoteModel: Object, Recordable {
     }
     
     static func getNewModel(content: String, categoryRecordName: String) -> RealmNoteModel {
+        let zone = CKRecordZone(zoneName: RxCloudDatabase.privateRecordZoneName)
         let id = Util.share.getUniqueID()
-        let record = CKRecord(recordType: RealmNoteModel.recordTypeString, zoneID: CloudManager.shared.privateDatabase.zoneID)
+        let record = CKRecord(recordType: RealmNoteModel.recordTypeString, zoneID: zone.zoneID)
         
         let data = NSMutableData()
         let coder = NSKeyedArchiver(forWritingWith: data)
@@ -96,7 +98,7 @@ class RealmNoteModel: Object, Recordable {
         newModel.recordName = record.recordID.recordName
         newModel.ckMetaData = Data(referencing: data)
         newModel.id = id
-        newModel.tags = "\(RealmTagsModel.tagSeparator)\(categoryRecordName)\(RealmTagsModel.tagSeparator)"
+        newModel.tags = categoryRecordName.isEmpty ? "" : "\(RealmTagsModel.tagSeparator)\(categoryRecordName)\(RealmTagsModel.tagSeparator)"
         newModel.content = content
         
         return newModel
@@ -127,8 +129,9 @@ class RealmImageModel: Object, Recordable {
     
     
     static func getNewModel(sharedZoneID: CKRecordZoneID? = nil, noteRecordName: String, image: UIImage) -> RealmImageModel {
+        let zone = CKRecordZone(zoneName: RxCloudDatabase.privateRecordZoneName)
         let id = Util.share.getUniqueID()
-        let zoneID = sharedZoneID ?? CloudManager.shared.privateDatabase.zoneID
+        let zoneID = sharedZoneID ?? zone.zoneID
         let record = CKRecord(recordType: RealmImageModel.recordTypeString, zoneID: zoneID)
         
         let data = NSMutableData()

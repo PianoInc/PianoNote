@@ -8,7 +8,7 @@
 
 import CloudKit
 
-extension CloudCommonDatabase {
+extension RxCloudDatabase {
     func merge(ancestor: CKRecord, myRecord: CKRecord, serverRecord: CKRecord, completion: @escaping (Bool)->()) {
         let myModified = myRecord.modificationDate ?? Date()
         let serverModified = serverRecord.modificationDate ?? Date()
@@ -35,7 +35,7 @@ extension CloudCommonDatabase {
         
         if let synchronizer = synchronizers[myRecord.recordID.recordName] {
             //DO diff3 here with ancestor: myrecord, a: textView.text b: b
-            synchronizer.resolveConflict(myRecord: myRecord, serverRecord: serverRecord, completion: completion)
+            synchronizer.resolveConflict(ancestorRecord: ancestor, myRecord: myRecord, serverRecord: serverRecord, completion: completion)
             return
         }
         

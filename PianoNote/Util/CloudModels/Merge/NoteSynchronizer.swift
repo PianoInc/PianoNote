@@ -108,17 +108,17 @@ class NoteSynchronizer {
     func registerToCloud() {
         let database = isShared ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
         
-        database.registerSynchronizer(self)
+        database.register(synchronizer: self)
     }
     
     func unregisterFromCloud() {
         let database = isShared ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
         
-        database.unregisterSynchronizer(recordName: recordName)
+        database.unregister(synchronizer: self)
     }
     
     func serverContentChanged(_ record: CKRecord) {
-        guard let noteModel = record.parseNoteRecord() else {return}
+        guard let noteModel = record.parseRecord(isShared: isShared) as? RealmNoteModel else {return}
         
         if let realm = try? Realm(),
             let oldNote = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteModel.id) {
@@ -190,16 +190,15 @@ class NoteSynchronizer {
         }
     }
     
-    func resolveConflict(myRecord: CKRecord, serverRecord: CKRecord, completion: @escaping  (Bool) -> ()) {
-        guard let realm = try? Realm(),
-            let myNote = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: myRecord[Schema.Note.id] as! String) else {print("Realm open error!!!"); return}
+    func resolveConflict(ancestorRecord: CKRecord, myRecord: CKRecord, serverRecord: CKRecord, completion: @escaping  (Bool) -> ()) {
+        
         let myModified = myRecord.modificationDate ?? Date(timeIntervalSince1970: 0)
         let serverModified = serverRecord.modificationDate ?? Date(timeIntervalSince1970: 0)
         
-        let ancestorContent = myNote.content
+        let ancestorContent = (ancestorRecord[Schema.Note.content] as? String) ?? ""
         let serverContent = serverRecord[Schema.Note.content] as! String
         
-        let ancestorAttributesData = myNote.attributes
+        let ancestorAttributesData = (ancestorRecord[Schema.Note.attributes] as? Data) ?? "[]".data(using: .utf8)!
         let serverAttributesData = serverRecord[Schema.Note.attributes] as! Data
         
         let ancestorAttributes = try! JSONDecoder().decode([AttributeModel].self, from: ancestorAttributesData)
@@ -303,11 +302,9 @@ class NoteSynchronizer {
         localRecord[Schema.Note.content] = text as CKRecordValue
         localRecord[Schema.Note.attributes] = attributeData as CKRecordValue
         
-        let uploadFunc: (CKRecord, @escaping ((CKRecord?, Error?) -> Void)) -> () = isShared ?
-            CloudManager.shared.uploadRecordToSharedDB :
-            CloudManager.shared.uploadRecordToPrivateDB
-        
-        uploadFunc(localRecord) { _, error in
+        let database:RxCloudDatabase = isShared ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
+
+        database.upload(record: localRecord) { _, error in
             guard error == nil else { return completion?(error!) ?? () }
         }
     }

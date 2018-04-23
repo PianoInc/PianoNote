@@ -23,17 +23,15 @@ class LocalDatabase {
     }
 
     private func subscribeToObservables() {
-        transactionSubject.buffer(timeSpan: 0.5, count: 40, scheduler: globalSchedular)
+        transactionSubject
                 .subscribeOn(globalSchedular)
-                .subscribe(onNext: { (transactions) in
+                .subscribe(onNext: { (transaction) in
                     do {
                         let realm = try Realm()
-
-                        try realm.write {
-                            transactions.forEach{ $0.action(realm) }
-                        }
+                        transaction.action(realm)
+                        transaction.completion?(nil)
                     } catch {
-                        transactions.forEach{ $0.completion?(error) }
+                        transaction.completion?(error)
                     }
                 }).disposed(by: disposeBag)
     }
@@ -41,12 +39,16 @@ class LocalDatabase {
     func commit(transaction: LocalDatabaseTransaction) {
         transactionSubject.on(.next(transaction))
     }
+
+    func commit(action: @escaping ((Realm) -> ()), completion: TransactionHandler? = nil) {
+        let newTransaction = LocalDatabaseTransaction(action: action, completion: completion)
+        commit(transaction: newTransaction)
+    }
 }
 
 class LocalDatabaseTransaction {
     let action: ((Realm) -> ())
     let completion: TransactionHandler?
-
 
     /**
       - parameters:

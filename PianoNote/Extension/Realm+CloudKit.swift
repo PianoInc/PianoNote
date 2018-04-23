@@ -74,28 +74,48 @@ extension RealmImageModel {
 
 
 extension CKRecord {
+
+    func getMetaData() -> Data {
+        let data = NSMutableData()
+        let coder = NSKeyedArchiver(forWritingWith: data)
+        coder.requiresSecureCoding = true
+        self.encodeSystemFields(with: coder)
+        coder.finishEncoding()
+
+        return Data(referencing: data)
+    }
+
+    func parseRecord(isShared: Bool) -> Object? {
+        switch self.recordType {
+            case RealmTagsModel.recordTypeString: return parseTagsRecord()
+            case RealmNoteModel.recordTypeString: return parseNoteRecord(isShared: isShared)
+            case RealmImageModel.recordTypeString: return parseImageRecord(isShared: isShared)
+            case RealmRecordTypeString.latestEvent.rawValue:
+                //special case!
+                if let date = self[Schema.LatestEvent.date] as? Date {
+                    UserDefaults.standard.set(date, forKey: Schema.LatestEvent.key)
+                    UserDefaults.standard.synchronize()
+                }
+                fallthrough
+            default: return nil
+        }
+    }
     
-    func parseTagsRecord() -> RealmTagsModel? {
+    private func parseTagsRecord() -> RealmTagsModel? {
         let newTagsModel = RealmTagsModel()
         let schema = Schema.Tags.self
         
         guard let tags = self[schema.tags] as? String,
             let id = self[schema.id] as? String else {return nil}
         
-        let data = NSMutableData()
-        let coder = NSKeyedArchiver(forWritingWith: data)
-        coder.requiresSecureCoding = true
-        self.encodeSystemFields(with: coder)
-        coder.finishEncoding()
-        
         newTagsModel.tags = tags
         newTagsModel.id = id
-        newTagsModel.ckMetaData = Data(referencing: data)
+        newTagsModel.ckMetaData = self.getMetaData()
         
         return newTagsModel
     }
     
-    func parseNoteRecord() -> RealmNoteModel? {
+    private func parseNoteRecord(isShared: Bool) -> RealmNoteModel? {
         let newNoteModel = RealmNoteModel()
         let schema = Schema.Note.self
         
@@ -105,27 +125,23 @@ extension CKRecord {
             let tags = self[schema.tags] as? String,
             let isPinned = self[schema.isPinned] as? Int,
             let isInTrash = self[schema.isInTrash] as? Int else {return nil}
-        
-        let data = NSMutableData()
-        let coder = NSKeyedArchiver(forWritingWith: data)
-        coder.requiresSecureCoding = true
-        self.encodeSystemFields(with: coder)
-        coder.finishEncoding()
-        
+
         newNoteModel.id = id
         newNoteModel.content = content
         newNoteModel.attributes = attributes
         newNoteModel.recordName = self.recordID.recordName
-        newNoteModel.ckMetaData = Data(referencing: data)
+        newNoteModel.ckMetaData = self.getMetaData()
         newNoteModel.isModified = self.modificationDate ?? Date()
         newNoteModel.tags = tags
         newNoteModel.isPinned = isPinned == 1
         newNoteModel.isInTrash = isInTrash == 1
+
+        newNoteModel.isShared = isShared
         
         return newNoteModel
     }
     
-    func parseImageRecord() -> RealmImageModel? {
+    private func parseImageRecord(isShared: Bool) -> RealmImageModel? {
         let newImageModel = RealmImageModel()
         let schema = Schema.Image.self
         
@@ -134,19 +150,14 @@ extension CKRecord {
             let image = try? Data(contentsOf: imageAsset.fileURL),
             let noteReference = self[schema.noteRecordName] as? CKReference
             else {return nil}
-        
-        let data = NSMutableData()
-        let coder = NSKeyedArchiver(forWritingWith: data)
-        coder.requiresSecureCoding = true
-        self.encodeSystemFields(with: coder)
-        coder.finishEncoding()
-        
+
         newImageModel.id = id
         newImageModel.image = image
         newImageModel.noteRecordName = noteReference.recordID.recordName
         newImageModel.recordName = self.recordID.recordName
-        newImageModel.ckMetaData = Data(referencing: data)
-        
+        newImageModel.ckMetaData = self.getMetaData()
+        newImageModel.isShared = isShared
+
         defer {
             try? FileManager.default.removeItem(at: imageAsset.fileURL)
         }

@@ -56,10 +56,11 @@ extension RxCloudDatabase {
 extension RxCloudDatabase {
     func query(for recordType: String) {
         let query = CKQuery(recordType: recordType, predicate: NSPredicate(value: true))
+        let isShared = self.database.databaseScope == .shared
 
         let operation = CKQueryOperation(query: query)
-        operation.recordFetchedBlock = { (record) in
-            //TODO: sync
+        operation.recordFetchedBlock = {[weak self] (record) in
+            self?.syncChanged(record: record, isShared: isShared)
         }
         operation.qualityOfService = .utility
 
@@ -69,6 +70,7 @@ extension RxCloudDatabase {
     func fetchZoneChanges(in recordZoneIDs: [CKRecordZoneID]) {
         let userID = CloudManager.shared.userID?.recordName ?? ""
         var optionDic: [CKRecordZoneID: CKFetchRecordZoneChangesOptions] = [:]
+        let isShared = self.database.databaseScope == .shared
 
         for zoneID in recordZoneIDs {
             let options = CKFetchRecordZoneChangesOptions()
@@ -83,12 +85,12 @@ extension RxCloudDatabase {
         let operation = CKFetchRecordZoneChangesOperation(recordZoneIDs: recordZoneIDs, optionsByRecordZoneID: optionDic)
         operation.fetchAllChanges = false
 
-        operation.recordChangedBlock = { record in
-            //TODO: sync
+        operation.recordChangedBlock = {[weak self] record in
+            self?.syncChanged(record: record, isShared: isShared)
         }
 
-        operation.recordWithIDWasDeletedBlock = { recordID, recordType in
-            //TODO: sync delete
+        operation.recordWithIDWasDeletedBlock = {[weak self] recordID, recordType in
+            self?.syncDeleted(recordID: recordID, recordType: recordType)
         }
 
         operation.recordZoneChangeTokensUpdatedBlock = {[weak self] zoneID, changeToken, _ in

@@ -83,27 +83,27 @@ class CloudManager {
         
     }
     
-    func loadRecordsFromPrivateDBWithID(recordNames: [String], completion handler: @escaping(([CKRecordID: CKRecord]?, Error?) -> Void)) {
-        privateDatabase.loadRecords(recordNames: recordNames, completion: handler)
-    }
-    
-    
-    func uploadRecordToPrivateDB(record: CKRecord, completion: @escaping ((CKRecord?, Error?) -> Void)) {
-        privateDatabase.saveRecord(record: record, completion: completion)
-    }
-    
-    func uploadRecordToSharedDB(record: CKRecord, completion: @escaping ((CKRecord?, Error?) -> Void)) {
-        sharedDatabase.saveRecord(record: record, completion: completion)
-    }
-    
-    func deleteInPrivateDB(recordNames:[String], completion: @escaping ((Error?) -> Void)) {
-        privateDatabase.deleteRecords(recordNames: recordNames, completion: completion)
-    }
-    
-    func deleteInSharedDB(recordNames:[String], in zone: CKRecordZoneID, completion: @escaping ((Error?) -> Void)) {
-        sharedDatabase.deleteRecords(recordNames: recordNames, in: zone, completion: completion)
-        
-    }
+//    func loadRecordsFromPrivateDBWithID(recordNames: [String], completion handler: @escaping(([CKRecordID: CKRecord]?, Error?) -> Void)) {
+//        privateDatabase.loadRecords(recordNames: recordNames, completion: handler)
+//    }
+//
+//
+//    func uploadRecordToPrivateDB(record: CKRecord, completion: @escaping ((CKRecord?, Error?) -> Void)) {
+//        privateDatabase.saveRecord(record: record, completion: completion)
+//    }
+//
+//    func uploadRecordToSharedDB(record: CKRecord, completion: @escaping ((CKRecord?, Error?) -> Void)) {
+//        sharedDatabase.saveRecord(record: record, completion: completion)
+//    }
+//
+//    func deleteInPrivateDB(recordNames:[String], completion: @escaping ((Error?) -> Void)) {
+//        privateDatabase.deleteRecords(recordNames: recordNames, completion: completion)
+//    }
+//
+//    func deleteInSharedDB(recordNames:[String], in zone: CKRecordZoneID, completion: @escaping ((Error?) -> Void)) {
+//        sharedDatabase.deleteRecords(recordNames: recordNames, in: zone, completion: completion)
+//
+//    }
     
     func requestUserInfo() {
         let container = CKContainer.default()
