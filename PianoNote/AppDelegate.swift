@@ -9,24 +9,29 @@
 import UIKit
 import CloudKit
 import RealmSwift
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var orientationLock: UIInterfaceOrientationMask = .allButUpsideDown
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         application.registerForRemoteNotifications()
         _ = CloudManager.shared
         performMigration()
+//        let realm = try! Realm()
+//        try? realm.write {
+//            let notes = realm.objects(RealmNoteModel.self)
+//            realm.delete(notes)
+//        }
 
-        if let realm = try? Realm(),
-                realm.objects(RealmTagsModel.self).first == nil {
-            let newModel = RealmTagsModel.getNewModel()
-
-            ModelManager.saveNew(model: newModel)
-        }
+//        let newModel = RealmNoteModel.getNewModel(content: "", categoryRecordName: "")
+//        ModelManager.saveNew(model: newModel)
+        
         return true
     }
     
@@ -36,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             fileURL: url,
             // Set the new schema version. This must be greater than the previously used
             // version (if you've never set a schema version before, the version is 0).
-            schemaVersion: 26,
+            schemaVersion: 27,
             
             // Set the block which will be called automatically when opening a Realm with
             // a schema version lower than the one set above
@@ -59,6 +64,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let _ = try! Realm()
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
+    }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return orientationLock
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         
     }
@@ -72,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        
+        FBSDKAppEvents.activateApp()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -99,8 +112,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if subscriptionID.hasPrefix(CloudManager.shared.privateDatabase.subscriptionID) {
             CloudManager.shared.privateDatabase.handleNotification()
             completionHandler(.newData)
-        } else if subscriptionID == CloudManager.shared.sharedDatabase.subscriptionID {
+        } else if subscriptionID == CloudManager.shared.sharedDatabase.subscriptionID || subscriptionID.hasSuffix("shared") {
             CloudManager.shared.sharedDatabase.handleNotification()
+            completionHandler(.newData)
+        } else if subscriptionID.hasPrefix(CloudManager.shared.publicDatabase.subscriptionID) {
+            CloudManager.shared.publicDatabase.handleNotification()
             completionHandler(.newData)
         } else {
             completionHandler(.noData)
@@ -116,6 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         acceptShareOperation.qualityOfService = .userInteractive
         acceptShareOperation.perShareCompletionBlock = {meta, share,
             error in
+            print(error)
             print("share was accepted")
         }
         acceptShareOperation.acceptSharesCompletionBlock = {
@@ -142,3 +159,4 @@ extension Realm {
         Realm.Configuration.defaultConfiguration = config
     }
 }
+

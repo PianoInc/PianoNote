@@ -8,22 +8,24 @@
 
 import InteractiveTextEngine_iOS
 
-class LinkAttachment: InteractiveTextAttachment {
-    var link: String!
+class LinkAttachment: InteractiveTextAttachment, AttributeContainingAttachment {
+    static let cellIdentifier = "LinkCell"
     
-    override init() {
-        super.init()
+    var attribute: AttachmentAttribute!
+    
+    override var identifier: String {
+        return LinkAttachment.cellIdentifier
     }
-    
+
     init(attribute: LinkAttribute) {
         super.init()
-        self.link = attribute.link
+        self.attribute = .link(attribute)
         self.currentSize = attribute.size
     }
     
     init(attachment: LinkAttachment) {
         super.init(attachment: attachment)
-        self.link = attachment.link
+        self.attribute = attachment.attribute
     }
     
     required init?(coder aDecoder: NSCoder) {

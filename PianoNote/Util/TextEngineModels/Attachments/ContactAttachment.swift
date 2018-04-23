@@ -8,22 +8,24 @@
 
 import InteractiveTextEngine_iOS
 
-class ContactAttachment: InteractiveTextAttachment {
-    var contact: String!
-    
-    override init() {
-        super.init()
+
+class ContactAttachment: InteractiveTextAttachment, AttributeContainingAttachment{
+    static let cellIdentifier = "ContactCell"
+    var attribute: AttachmentAttribute!
+
+    override var identifier: String {
+        return ContactAttachment.cellIdentifier
     }
     
     init(attribute: ContactAttribute) {
         super.init()
-        self.contact = attribute.contact
+        self.attribute = .contact(attribute)
         self.currentSize = attribute.size
     }
     
     init(attachment: ContactAttachment) {
         super.init(attachment: attachment)
-        self.contact = attachment.contact
+        self.attribute = attachment.attribute
     }
     
     required init?(coder aDecoder: NSCoder) {

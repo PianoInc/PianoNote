@@ -16,13 +16,19 @@ class NoteSynchronizer {
     let recordName: String
     let id: String
     let isShared: Bool
-    let textView: FastTextView
+    let textView: PianoTextView
     
-    init(textView: FastTextView) {
-        self.recordName = textView.memo.recordName
-        self.id = textView.memo.id
-        self.isShared = textView.memo.isShared
+    init?(textView: PianoTextView) {
+        guard let realm = try? Realm(),
+            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: textView.noteID) else {return nil}
+        self.recordName = note.recordName
+        self.id = note.id
+        self.isShared = note.isShared
         self.textView = textView
+    }
+    
+    enum SynchronizerError: Error {
+        case saveError
     }
     
     private func sync(with blocks: [Diff3Block], and attributedString: NSAttributedString) {
@@ -126,10 +132,13 @@ class NoteSynchronizer {
                     
                     DispatchQueue.global(qos: .utility).async { [weak self] in
                         let serverAttributesData = noteModel.attributes
-                        let serverAttributes = try! JSONDecoder().decode([PianoAttribute].self, from: serverAttributesData)
+                        let serverAttributes = try! JSONDecoder().decode([AttributeModel].self, from: serverAttributesData)
                         let serverAttributedString = NSMutableAttributedString(string: noteModel.content)
                         serverAttributes.forEach { serverAttributedString.add(attribute: $0) }
                         
+                        print("ancestore: \n"+oldContent)
+                        print("my: \n"+currentString)
+                        print("server: \n"+serverContent)
                         let diff3Maker = Diff3Maker(ancestor: oldContent, a: currentString, b: serverContent)
                         let diff3Chunks = diff3Maker.mergeInLineLevel().flatMap { chunk -> [Diff3Block] in
                             if case let .change(oRange, aRange, bRange) = chunk {
@@ -159,11 +168,11 @@ class NoteSynchronizer {
                 
             } else if oldNote.attributes != noteModel.attributes {
                 
-                let myAttributes = try! JSONDecoder().decode([PianoAttribute].self, from: oldNote.attributes)
-                let serverAttributes = try! JSONDecoder().decode([PianoAttribute].self, from: noteModel.attributes)
+                let myAttributes = try! JSONDecoder().decode([AttributeModel].self, from: oldNote.attributes)
+                let serverAttributes = try! JSONDecoder().decode([AttributeModel].self, from: noteModel.attributes)
                 
-                var mySet = Set<PianoAttribute>(myAttributes)
-                var serverSet = Set<PianoAttribute>(serverAttributes)
+                var mySet = Set<AttributeModel>(myAttributes)
+                var serverSet = Set<AttributeModel>(serverAttributes)
                 mySet.subtract(serverAttributes)
                 serverSet.subtract(myAttributes)
                 
@@ -193,8 +202,8 @@ class NoteSynchronizer {
         let ancestorAttributesData = myNote.attributes
         let serverAttributesData = serverRecord[Schema.Note.attributes] as! Data
         
-        let ancestorAttributes = try! JSONDecoder().decode([PianoAttribute].self, from: ancestorAttributesData)
-        let serverAttributes = try! JSONDecoder().decode([PianoAttribute].self, from: serverAttributesData)
+        let ancestorAttributes = try! JSONDecoder().decode([AttributeModel].self, from: ancestorAttributesData)
+        let serverAttributes = try! JSONDecoder().decode([AttributeModel].self, from: serverAttributesData)
         
         let serverAttributedString = NSMutableAttributedString(string: serverContent)
         serverAttributes.forEach { serverAttributedString.add(attribute: $0) }
@@ -209,6 +218,9 @@ class NoteSynchronizer {
                 let currentString = self.textView.textStorage.string
                 
                 DispatchQueue.global(qos: .utility).async { [weak self] in
+                    print("ancestore: \n"+ancestorContent)
+                    print("my: \n"+currentString)
+                    print("server: \n"+serverContent)
                     let diff3Maker = Diff3Maker(ancestor: ancestorContent, a: currentString, b: serverContent)
                     let diff3Chunks = diff3Maker.mergeInLineLevel().flatMap { chunk -> [Diff3Block] in
                         if case let .change(oRange, aRange, bRange) = chunk {
@@ -241,13 +253,13 @@ class NoteSynchronizer {
             DispatchQueue.main.sync { [weak self] in
                 guard let (_, currentAttributes) = self?.textView.get() else {print("get attributes error!");return}
                 
-                var myDeleteSet = Set<PianoAttribute>(ancestorAttributes)
-                var myAddSet = Set<PianoAttribute>(currentAttributes)
+                var myDeleteSet = Set<AttributeModel>(ancestorAttributes)
+                var myAddSet = Set<AttributeModel>(currentAttributes)
                 myDeleteSet.subtract(currentAttributes)
                 myAddSet.subtract(ancestorAttributes)
                 
-                var serverDeleteSet = Set<PianoAttribute>(ancestorAttributes)
-                var serverAddSet = Set<PianoAttribute>(serverAttributes)
+                var serverDeleteSet = Set<AttributeModel>(ancestorAttributes)
+                var serverAddSet = Set<AttributeModel>(serverAttributes)
                 serverDeleteSet.subtract(serverAttributes)
                 serverAddSet.subtract(ancestorAttributes)
                 
@@ -262,15 +274,6 @@ class NoteSynchronizer {
             completion(true)
         } else {
             if myModified.compare(serverModified) == .orderedDescending {
-                
-                if let serverTitle = serverRecord[Schema.Note.title] as? String,
-                    let myTitle = myRecord[Schema.Note.title] as? String,
-                    serverTitle != myTitle {
-                    
-                    serverRecord[Schema.Note.title] = myRecord[Schema.Note.title]
-                    completion(true)
-                    return
-                }
                 
                 if let serverCategory = serverRecord[Schema.Note.tags] as? String,
                     let myCategory = myRecord[Schema.Note.tags] as? String,
@@ -290,10 +293,13 @@ class NoteSynchronizer {
     }
     
     func saveContent(completion: ((Error?) -> Void)?) {
+        
+        guard let realm = try? Realm(),
+            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: id) else {return completion?(SynchronizerError.saveError) ?? ()}
         let (text, pianoAttributes) = textView.attributedText.getStringWithPianoAttributes()
         let attributeData = (try? JSONEncoder().encode(pianoAttributes)) ?? Data()
         
-        let localRecord = textView.memo.getRecord()
+        let localRecord = note.getRecord()
         localRecord[Schema.Note.content] = text as CKRecordValue
         localRecord[Schema.Note.attributes] = attributeData as CKRecordValue
         
@@ -306,3 +312,5 @@ class NoteSynchronizer {
         }
     }
 }
+
+

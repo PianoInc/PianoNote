@@ -60,8 +60,6 @@ class RealmNoteModel: Object, Recordable {
     static let recordTypeString = "Note"
     
     @objc dynamic var id = ""
-    //TODO: remove title!!
-    @objc dynamic var title = ""
     @objc dynamic var content = ""
     @objc dynamic var attributes = "[]".data(using: .utf8)!
     
@@ -84,7 +82,7 @@ class RealmNoteModel: Object, Recordable {
         return ["recordTypeString"]
     }
     
-    static func getNewModel(title: String, categoryRecordName: String) -> RealmNoteModel {
+    static func getNewModel(content: String, categoryRecordName: String) -> RealmNoteModel {
         let id = Util.share.getUniqueID()
         let record = CKRecord(recordType: RealmNoteModel.recordTypeString, zoneID: CloudManager.shared.privateDatabase.zoneID)
         
@@ -98,9 +96,8 @@ class RealmNoteModel: Object, Recordable {
         newModel.recordName = record.recordID.recordName
         newModel.ckMetaData = Data(referencing: data)
         newModel.id = id
-        newModel.title = title
-        newModel.tags = "!\(categoryRecordName)!"
-        newModel.content = ""
+        newModel.tags = categoryRecordName.isEmpty ? "" : "\(RealmTagsModel.tagSeparator)\(categoryRecordName)\(RealmTagsModel.tagSeparator)"
+        newModel.content = content
         
         return newModel
     }

@@ -8,22 +8,25 @@
 
 import InteractiveTextEngine_iOS
 
-class AddressAttachment: InteractiveTextAttachment {
-    var address: String!
+
+class AddressAttachment: InteractiveTextAttachment, AttributeContainingAttachment {
+    static let cellIdentifier = "AddressCell"
     
-    override init() {
-        super.init()
+    var attribute: AttachmentAttribute!
+    
+    override var identifier: String {
+        return AddressAttachment.cellIdentifier
     }
-    
+
     init(attribute: AddressAttribute) {
         super.init()
-        self.address = attribute.address
         self.currentSize = attribute.size
+        self.attribute = .address(attribute)
     }
-    
+
     init(attachment: AddressAttachment) {
         super.init(attachment: attachment)
-        self.address = attachment.address
+        self.attribute = attachment.attribute
     }
     
     required init?(coder aDecoder: NSCoder) {

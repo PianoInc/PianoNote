@@ -97,7 +97,7 @@ class CloudCommonDatabase {
                 let (ancestorRec, clientRec, serverRec) = ckError.getMergeRecords()
                 guard let clientRecord = clientRec,
                     let serverRecord = serverRec,
-                    let ancestorRecord = ancestorRec else { return completion(nil, error) }
+                    let ancestorRecord = ancestorRec ?? nil else { return completion(nil, error) }
                 
                 //Resolve conflict. If it's false, it means server record has win & no merge happened
                 self.merge(ancestor: ancestorRecord, myRecord: clientRecord, serverRecord: serverRecord) { merged in
@@ -165,6 +165,69 @@ class CloudCommonDatabase {
     }
 }
 
+class CloudPublicDatabase: CloudCommonDatabase {
+    private let customZoneName = "Cloud_Memo_Zone"
+    public var zoneID: CKRecordZoneID
+    
+    public override init(database: CKDatabase, userID: CKRecordID?) {
+        let zone = CKRecordZone(zoneName: self.customZoneName)
+        self.zoneID = zone.zoneID//Not needed
+        
+        super.init(database: database, userID: userID)
+        
+        saveSubscription()
+    }
+
+    
+    override fileprivate func saveSubscription() {
+        let userID = self.userID?.recordName ?? ""
+        let recordType = RealmRecordTypeString.latestEvent.rawValue
+        
+        let subscriptionKey = "ckSubscriptionSaved\(recordType)\(database.scopeString)\(userID)"
+        let alreadySaved = UserDefaults.standard.bool(forKey: subscriptionKey)
+        guard !alreadySaved else {return}
+        
+        
+        let predicate = NSPredicate(value: true)
+        
+        
+        let subscription = CKQuerySubscription(recordType: recordType,
+                                               predicate: predicate,
+                                               subscriptionID: "\(subscriptionID)\(recordType)",
+            options: [.firesOnRecordCreation, .firesOnRecordDeletion, .firesOnRecordUpdate])
+        
+        
+        //Set Silent Push
+        
+        let notificationInfo = CKNotificationInfo()
+        notificationInfo.shouldSendContentAvailable = true
+        subscription.notificationInfo = notificationInfo
+        
+        
+        let operation = CKModifySubscriptionsOperation(subscriptionsToSave: [subscription], subscriptionIDsToDelete: [])
+        operation.modifySubscriptionsCompletionBlock = { (_, _, error) in
+            guard error == nil else { return}
+            
+            UserDefaults.standard.set(true, forKey: subscriptionKey)
+        }
+        operation.qualityOfService = .utility
+        
+        
+        database.add(operation)
+    }
+    
+    public override func handleNotification() {
+        let query = CKQuery(recordType: RealmRecordTypeString.latestEvent.rawValue,
+                            predicate: NSPredicate(value: true))
+        let operation = CKQueryOperation(query: query)
+        operation.recordFetchedBlock = { (record) in
+            CloudCommonDatabase.syncChanged(record: record, isShared: false)
+        }
+        operation.qualityOfService = .utility
+        
+        database.add(operation)
+    }
+}
 
 class CloudPrivateDatabase: CloudCommonDatabase {
     private let customZoneName = "Cloud_Memo_Zone"
@@ -311,12 +374,12 @@ class CloudSharedDatabase: CloudCommonDatabase {
         
         //        let userID = self.userID?.recordName ?? ""
         //        let uuid = UIDevice.current.identifierForVendor?.uuidString ?? ""
-        //        let subscriptionKey = "ckSubscriptionSaved\(database.scopeString)\(userID)\(uuid)"
-        let subscriptionKey = "ckSubscriptionSaved\(database.scopeString)"
+        
+        let subscriptionKey = subscriptionID
         let alreadySaved = UserDefaults.standard.bool(forKey: subscriptionKey)
         guard !alreadySaved else {return}
         
-        let subscription = CKDatabaseSubscription(subscriptionID: subscriptionKey)
+        let subscription = CKDatabaseSubscription(subscriptionID: subscriptionID)
         
         
         //Set Silent Push

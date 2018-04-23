@@ -10,22 +10,25 @@ import InteractiveTextEngine_iOS
 import UIKit
 import CoreGraphics
 
-class ImageAttachment: InteractiveTextAttachment {
-    var imageID: String!
+
+
+class ImageAttachment: InteractiveTextAttachment, AttributeContainingAttachment {
+    static let cellIdentifier = "ImageCell"
     
-    override init() {
-        super.init()
+    override var identifier: String {
+        return ImageAttachment.cellIdentifier
     }
-    
+    var attribute: AttachmentAttribute!
+
     init(attribute: ImageAttribute) {
         super.init()
-        self.imageID = attribute.id
+        self.attribute = .image(attribute)
         self.currentSize = attribute.size
     }
     
     init(attachment: ImageAttachment) {
         super.init(attachment: attachment)
-        self.imageID = attachment.imageID
+        self.attribute = attachment.attribute
     }
     
     required init?(coder aDecoder: NSCoder) {
