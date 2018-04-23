@@ -61,7 +61,7 @@ extension NoteViewController: UITextDragDelegate, UITextDropDelegate {
     
     
     func textDroppableView(_ textDroppableView: UIView & UITextDroppable, dropSessionDidEnd session: UIDropSession) {
-        saveText()
+        saveText(isDeallocating: false)
     }
 }
 

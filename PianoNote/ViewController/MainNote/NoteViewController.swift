@@ -49,6 +49,16 @@ class NoteViewController: UIViewController {
     deinit {
         synchronizer?.unregisterFromCloud()
         removeGarbageImages()
+        
+        let (string,pianoAttribute) = textView.get()
+        
+        guard let realm = try? Realm(),
+            let noteModel = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID),
+            let jsonData = try? JSONEncoder().encode(pianoAttribute) else {return}
+        
+        if noteModel.content != string || noteModel.attributes != jsonData {
+            saveText(isDeallocating: true)
+        }
     }
     
     private func setCanvasSize(_ size: CGSize) {
@@ -77,11 +87,11 @@ class NoteViewController: UIViewController {
     }
     
     private func subscribeToChange() {
-        textView.rx.text.asObservable().distinctUntilChanged()
+        textView.rx.attributedText.asObservable().distinctUntilChanged()
             .skip(1)
             .map{_ -> Void in return}.debounce(2.0, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
-                self?.saveText()
+                self?.saveText(isDeallocating: false)
             }).disposed(by: disposeBag)
     }
 
@@ -147,24 +157,27 @@ class NoteViewController: UIViewController {
         }
     }
     
-    func saveText() {
+    func saveText(isDeallocating: Bool) {
         if self.isSaving || self.textView.isSyncing {
             return
         }
+        let (string, attributes) = self.textView.get()
         DispatchQueue.main.async {
             self.isSaving = true
-            let (string, attributes) = self.textView.get()
+            
             DispatchQueue.global().async {
                 let jsonEncoder = JSONEncoder()
                 guard let data = try? jsonEncoder.encode(attributes),
                     let noteID = self.noteID else {self.isSaving = false;return}
                 let kv: [String: Any] = ["content": string, "attributes": data]
                 
-                ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv) { [weak self] error in
+                let completion: ((Error?) -> Void)? = isDeallocating ? nil : { [weak self] error in
                     if let error = error {print(error)}
                     else {print("happy")}
                     self?.isSaving = false
                 }
+                
+                ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: completion)
             }
         }
     }
