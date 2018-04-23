@@ -13,8 +13,8 @@ struct PianoBullet {
     
     private let regexs: [(type: PianoBulletType, regex: String)] = [
         (.number, "^\\s*(\\d+)(?=\\. )"),
-        (.key, "^\\s*([123@*-])(?= )"),
-        (.value, "^\\s*([♩♪♫•○■])(?= )")
+        (.key, "^\\s*([1234])(?= )"),
+        (.value, "^\\s*([■□•◦])(?= )")
     ]
     
     enum PianoBulletType {
@@ -82,54 +82,33 @@ struct PianoBullet {
         return range.length > 20
     }
     
-    public var fontStyle: FontStyle {
-        switch string {
-        case "♫":
-            return .title1
-        case "♪":
-            return .title2
-        case "♩":
-            return .title3
-        default:
-            return .body
-        }
-    }
-    
     public var converted: String? {
         switch type {
         case .number:
             return string
         case .key:
             switch string {
-            case "3":
-                return "♩"
-            case "2":
-                return "♪"
             case "1":
-                return "♫"
-            case "-":
-                return "•"
-            case "@":
-                return "○"
-            case "*":
                 return "■"
+            case "2":
+                return "□"
+            case "3":
+                return "•"
+            case "4":
+                return "◦"
             default:
                 return nil
             }
         case .value:
             switch string {
-            case "♩":
-                return "3"
-            case "♪":
-                return "2"
-            case "♫":
-                return "1"
-            case "•":
-                return "-"
-            case "○":
-                return "@"
             case "■":
-                return "*"
+                return "1"
+            case "□":
+                return "2"
+            case "•":
+                return "3"
+            case "◦":
+                return "4"
             default:
                 return nil
             }

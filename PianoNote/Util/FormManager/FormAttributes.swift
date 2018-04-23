@@ -49,20 +49,32 @@ public class FormAttributes {
             .width
         
         let firstLineHeadIndent: CGFloat
-        if bullet.type != .number {
+        switch bullet.type {
+        case .number:
+            firstLineHeadIndent = headIndent -
+                (numberingWidth + punctuationMarkWidth + spaceWidth)
+            
+        case .key:
             let bulletWidth = NSAttributedString(string: bullet.converted!, attributes: [
                 .font : Font.preferredFont(forTextStyle: .body)]).size().width
             firstLineHeadIndent =
                 bulletWidth > numberingWidth + punctuationMarkWidth ?
                     headIndent - (spaceWidth + bulletWidth) :
                 headIndent - (spaceWidth + (numberingWidth + punctuationMarkWidth + bulletWidth )/2)
-        } else {
-            firstLineHeadIndent = headIndent -
-                (numberingWidth + punctuationMarkWidth + spaceWidth)
+            
+        case .value:
+            let bulletWidth = NSAttributedString(string: bullet.string, attributes: [
+                .font : Font.preferredFont(forTextStyle: .body)]).size().width
+            firstLineHeadIndent =
+                bulletWidth > numberingWidth + punctuationMarkWidth ?
+                    headIndent - (spaceWidth + bulletWidth) :
+                headIndent - (spaceWidth + (numberingWidth + punctuationMarkWidth + bulletWidth )/2)
+
         }
+        
         let paragraphStyle = MutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = firstLineHeadIndent
-        paragraphStyle.headIndent = headIndent + whitespaceWidth
+        paragraphStyle.headIndent = whitespaceWidth + firstLineHeadIndent
         paragraphStyle.tailIndent = tailIndent
         paragraphStyle.lineSpacing = lineSpacing
         return paragraphStyle

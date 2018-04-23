@@ -26,25 +26,25 @@ public struct FormManager {
      delete: delete bullet when typing enter key
      add: add bullet when typing enter key
      */
-    public static func textView(_ textView: TextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        guard let bullet = PianoBullet(text: textView.text, selectedRange: textView.selectedRange),
-            bullet.type != .key else { return true }
-
-        let type = operationType(textView, shouldChangeTextIn: range, replacementText: text, bullet: bullet)
-        
-        switch type {
-        case .reset:
-            return resetBullet(textView, bullet: bullet)
-        case .delete:
-            return deleteBullet(textView, bullet: bullet)
-        case .add:
-            return addBullet(textView, bullet: bullet)
-        case .none:
-            return true
-        }
-        
-    }
+//    public static func textView(_ textView: TextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        
+//        guard let bullet = PianoBullet(text: textView.text, selectedRange: textView.selectedRange),
+//            bullet.type != .key else { return true }
+//
+//        let type = operationType(textView, shouldChangeTextIn: range, replacementText: text, bullet: bullet)
+//        
+//        switch type {
+//        case .reset:
+//            return resetBullet(textView, bullet: bullet)
+//        case .delete:
+//            return deleteBullet(textView, bullet: bullet)
+//        case .add:
+//            return addBullet(textView, bullet: bullet)
+//        case .none:
+//            return true
+//        }
+//        
+//    }
     
     
     /**
@@ -77,45 +77,6 @@ public struct FormManager {
 
 //ShouldChange
 extension FormManager {
-    
-    enum OperationType {
-        case delete
-        case add
-        case reset
-        case none
-    }
-    
-    /**
-     determine the operationType before changing text
-     
-     */
-    private static func operationType(_ textView: TextView, shouldChangeTextIn range: NSRange, replacementText text: String, bullet: PianoBullet) -> OperationType {
-        print("operationType 호출")
-        if (range.location < bullet.paraRange.location
-            && (textView.text as NSString)
-                .substring(with: (textView.text as NSString).paragraphRange(for: range))
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-                .trimmingCharacters(in: .controlCharacters)
-                .count != 0)
-            || text == "" && textView.selectedRange.location == bullet.baselineIndex
-            || (bullet.range.location < textView.selectedRange.location
-                && textView.selectedRange.location < bullet.baselineIndex)
-            || (bullet.paraRange.location <= textView.selectedRange.location
-                && textView.selectedRange.location <= bullet.range.location
-                && text.trimmingCharacters(in: .whitespacesAndNewlines).count > 0) {
-            //1. 이전문단이 존재하는데 백스페이스를 눌렀을 때 && 이전 문단에 텍스트가 존재한다면(화이트스페이스 + 뉴라인 + 컨트롤캐릭터 제외)
-            //2. bullet영역 앞쪽 < 커서 < basicPoint 내에 있다면
-            //3. 커서가 서식 영역으로 들어갈 경우
-            //4. paragraph <= 커서 <= typeRange.location 이고 replaceText를 trim(whiteAndNewLine)한 것의 길이가 0보다 크다면
-            return .reset
-        } else if textView.selectedRange.location == bullet.baselineIndex && text == "\n" {
-            return .delete
-        } else if textView.selectedRange.location > bullet.baselineIndex && text == "\n" && bullet.fontStyle == .body {
-            return .add
-        } else {
-            return .none
-        }
-    }
     
     private static func resetBullet(_ textView: TextView, bullet: PianoBullet) -> Bool {
         

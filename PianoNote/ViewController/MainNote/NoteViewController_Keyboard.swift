@@ -57,7 +57,7 @@ extension NoteViewController {
     }
     
     //뒤에 이미지뷰를 붙여서 혹시나 키보드를 쓸어 내렸을 경우에 피아노 포스터 이미지 보여주기(성능의 이유로 보여지는 텍스트뷰 영역을 줄이기 위함)
-    @objc private func keyboardDidShow(notification: Notification) {
+    @objc func keyboardDidShow(notification: Notification) {
         
         guard let userInfo = notification.userInfo,
             let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue?.height else { return }
@@ -65,7 +65,7 @@ extension NoteViewController {
         
     }
     
-    @objc private func keyboardDidHide(notification: Notification) {
+    @objc func keyboardDidHide(notification: Notification) {
         detachBackingImageView()
     }
     
