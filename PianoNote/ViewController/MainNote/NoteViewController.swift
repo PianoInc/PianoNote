@@ -18,7 +18,7 @@ class NoteViewController: UIViewController {
     var invokingTextViewDelegate: Bool = false
     var noteID: String!
     var isSaving: Bool = false
-    var initialImageRecordNames: Set<String>!
+    var initialImageRecordNames: Set<String> = []
     let disposeBag = DisposeBag()
     var synchronizer: NoteSynchronizer!
 
@@ -115,6 +115,15 @@ class NoteViewController: UIViewController {
     }
     
     private func removeGarbageImages() {
+        guard let realm = try? Realm(),
+            let noteID = noteID,
+            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) else {return}
+        //get zoneID from record
+        let coder = NSKeyedUnarchiver(forReadingWith: note.ckMetaData)
+        coder.requiresSecureCoding = true
+        guard let record = CKRecord(coder: coder) else {fatalError("Data polluted!!")}
+        coder.finishDecoding()
+
         let (_, attributes) = textView.attributedText.getStringWithPianoAttributes()
         
         let imageRecordNames = attributes.map { attribute -> String in
@@ -125,23 +134,14 @@ class NoteViewController: UIViewController {
         let currentImageRecordNames = Set<String>(imageRecordNames)
         initialImageRecordNames.subtract(currentImageRecordNames)
         
-        let deletedImageRecordNames = Array<String>(initialImageRecordNames)
-        
-        guard let realm = try? Realm(),
-            let noteID = noteID,
-            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) else {return}
-        
+        let deletedImageRecordIDs = Array<String>(initialImageRecordNames).map{ CKRecordID(recordName: $0, zoneID: record.recordID.zoneID)}
+
         if note.isShared {
-            //get zoneID from record
-            let coder = NSKeyedUnarchiver(forReadingWith: note.ckMetaData)
-            coder.requiresSecureCoding = true
-            guard let record = CKRecord(coder: coder) else {fatalError("Data polluted!!")}
-            coder.finishDecoding()
-            CloudManager.shared.deleteInSharedDB(recordNames: deletedImageRecordNames, in: record.recordID.zoneID) { error in
+            CloudManager.shared.sharedDatabase.delete(recordIDs: deletedImageRecordIDs) { error in
                 guard error == nil else { return }
             }
         } else {
-            CloudManager.shared.deleteInPrivateDB(recordNames: deletedImageRecordNames) { error in
+            CloudManager.shared.privateDatabase.delete(recordIDs: deletedImageRecordIDs) { error in
                 guard error == nil else { return print(error!) }
             }
         }

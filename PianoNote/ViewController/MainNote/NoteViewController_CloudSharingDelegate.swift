@@ -40,7 +40,7 @@ extension NoteViewController: UICloudSharingControllerDelegate, UIPopoverPresent
             if let error = error {
                 print(error)
             } else {
-                CloudCommonDatabase.syncChanged(record: record, isShared: false)
+                //TODO: sync metadata with share
             }
         }
         

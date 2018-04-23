@@ -118,7 +118,6 @@ class DRContentFolderCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        lockView.isHidden = !isLock
         listView.reloadData()
         listView.isScrollEnabled = !data.isEmpty
         emptyLabel.isHidden = !data.isEmpty

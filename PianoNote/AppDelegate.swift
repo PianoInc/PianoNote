@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications()
         _ = CloudManager.shared
+        _ = LocalDatabase.shared
         performMigration()
 //        let realm = try! Realm()
 //        try? realm.write {
@@ -132,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         acceptShareOperation.qualityOfService = .userInteractive
         acceptShareOperation.perShareCompletionBlock = {meta, share,
             error in
-            print(error)
+            print(error ?? "good")
             print("share was accepted")
         }
         acceptShareOperation.acceptSharesCompletionBlock = {

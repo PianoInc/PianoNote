@@ -33,7 +33,7 @@ class PianoTextReminderCell: InteractiveAttachmentCell {
                 dueDateLabel.isHidden = false
                 largeTitleLabel.isHidden = true
                 titleLabel.text = reminderAttribute.reminder.title
-
+                
                 //TODO:get text from component
                 dueDateLabel.text = ""
             } else {
