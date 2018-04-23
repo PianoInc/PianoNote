@@ -98,10 +98,10 @@ enum Style {
             guard let color = attribute.value as? UIColor else {return nil}
             self = .foregroundColor(color.hexString)
         case .strikethroughStyle:
-            guard let value = attribute.value as? NSUnderlineStyle, value == .styleSingle else {return nil}
+            guard let _ = attribute.value as? Int else {return nil}
             self = .strikethrough
         case .underlineStyle:
-            guard let value = attribute.value as? NSUnderlineStyle, value == .styleSingle else {return nil}
+            guard let _ = attribute.value as? Int else {return nil}
             self = .underline
         case .font:
             guard let font = attribute.value as? UIFont, let fontAttribute = PianoFontAttribute(font: font) else {return nil}
@@ -121,8 +121,8 @@ enum Style {
         switch self {
         case .backgroundColor(let hex): return [.backgroundColor: UIColor(hex6: hex)]
         case .foregroundColor(let hex): return [.foregroundColor: UIColor(hex6: hex)]
-        case .strikethrough: return [.strikethroughStyle: NSUnderlineStyle.styleSingle]
-        case .underline: return [.underlineStyle: NSUnderlineStyle.styleSingle]
+        case .strikethrough: return [.strikethroughStyle: 1, .strikethroughColor: Color.point]
+        case .underline: return [.underlineStyle: 1, .underlineColor: Color.point]
         case .font(let fontAttribute): return [.font: fontAttribute.getFont()]
         case .attachment(let attachmentAttribute): return attachmentAttribute.toNSAttribute()
         case .paragraphStyle(let paragraphData):
