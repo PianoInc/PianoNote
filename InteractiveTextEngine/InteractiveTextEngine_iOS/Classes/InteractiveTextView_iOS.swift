@@ -12,8 +12,10 @@ import CoreText
 open class InteractiveTextView: UITextView {
     let dispatcher = InteractiveAttachmentCellDispatcher()
     private var contentOffsetObserver: NSKeyValueObservation?
+    private var sublayersObserver: NSKeyValueObservation?
+    var displayLink: CADisplayLink?
     
-    open weak var interactiveDatasource: InteractiveTextViewDataSource?
+    open weak var interactiveDataSource: InteractiveTextViewDataSource?
     open weak var interactiveDelegate: InteractiveTextViewDelegate?
     
     public var visibleBounds: CGRect {
@@ -21,7 +23,7 @@ open class InteractiveTextView: UITextView {
     }
     
     public override init(frame: CGRect, textContainer: NSTextContainer?) {
-        
+
         let newContainer = NSTextContainer(size: frame.size)
         let newLayoutManager = InteractiveLayoutManager()
         let newTextStorage = InteractiveTextStorage()
@@ -34,6 +36,7 @@ open class InteractiveTextView: UITextView {
         newTextStorage.textView = self
         dispatcher.superView = self
         self.backgroundColor = UIColor.clear
+        validateDisplayLink()
         setObserver()
         
     }
@@ -95,16 +98,25 @@ open class InteractiveTextView: UITextView {
 
     deinit {
         contentOffsetObserver?.invalidate()
+        sublayersObserver?.invalidate()
         contentOffsetObserver = nil
+        sublayersObserver = nil
     }
     
     func setObserver() {
-        contentOffsetObserver = observe(\.contentOffset, options: [.old, .new, .prior]) {[weak self] (object, change) in
+        contentOffsetObserver = observe(\.contentOffset, options: [.old, .new]) {[weak self] (object, change) in
             guard let new = change.newValue, let old = change.oldValue else {return}
             if new != old {
                 guard let visibleBounds = self?.visibleBounds else {return}
                 self?.dispatcher.visibleRectChanged(rect: visibleBounds)
             }
+        }
+
+        sublayersObserver = observe(\.layer.sublayers, options: [.new]) { [weak self] (_, change) in
+            guard let existingNewValue = change.newValue,
+                    let newSublayers = existingNewValue else {return}
+
+            self?.displayLink?.isPaused = newSublayers.compactMap{ $0 as? InteractiveBackgroundLayer }.count == 0
         }
     }
 }
