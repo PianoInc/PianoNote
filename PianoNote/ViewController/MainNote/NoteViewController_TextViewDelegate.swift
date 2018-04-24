@@ -45,19 +45,9 @@ extension NoteViewController: UITextViewDelegate {
         
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        invokingTextViewDelegate = true
-        let bool = FormManager.textView(textView, shouldChangeTextIn: range, replacementText: text)
-        invokingTextViewDelegate = false
-        return bool && !self.textView.isSyncing
-    }
+  
     
     func textViewDidChange(_ textView: UITextView) {
-        
-        invokingTextViewDelegate = true
-        FormManager.textViewDidChange(textView)
-        invokingTextViewDelegate = false
         
         if let pianoView = textView as? PianoTextView {
             pianoView.inputViewManager?.magnifyAccessoryView.magnifyView.sync()

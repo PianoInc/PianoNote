@@ -30,13 +30,7 @@ class PianoTextView: InteractiveTextView {
 
     override var typingAttributes: [String : Any] {
         get {
-            
-            var attributes: [String : Any] = [:]
-            FormAttributes.defaultAttributes.forEach { (key, value) in
-                attributes[key.rawValue] = value
-            }
-            return attributes
-
+            return FormAttributes.defaultTypingAttributes
         } set {
 
         }
@@ -100,6 +94,7 @@ class PianoTextView: InteractiveTextView {
         newTextView.keyboardAppearance = self.keyboardAppearance
         newTextView.keyboardDismissMode = self.keyboardDismissMode
         newTextView.keyboardType = self.keyboardType
+        newTextView.alwaysBounceVertical = self.alwaysBounceVertical
         
         newTextView.setup()
         

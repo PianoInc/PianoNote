@@ -28,8 +28,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="7pV-N3-o0w" firstAttribute="trailing" secondItem="DVP-bz-5FF" secondAttribute="trailing" id="caa-5a-rmX"/>
-                            <constraint firstAttribute="bottom" secondItem="7pV-N3-o0w" secondAttribute="bottom" id="ce1-k5-oii"/>
-                            <constraint firstItem="7pV-N3-o0w" firstAttribute="top" secondItem="wUW-bt-dZq" secondAttribute="top" id="eTV-n0-gS5"/>
+                            <constraint firstAttribute="bottom" secondItem="7pV-N3-o0w" secondAttribute="bottom" identifier="pianoTextViewBottom" id="ce1-k5-oii"/>
+                            <constraint firstItem="7pV-N3-o0w" firstAttribute="top" secondItem="wUW-bt-dZq" secondAttribute="top" identifier="pianoTextViewTop" id="eTV-n0-gS5"/>
                             <constraint firstItem="7pV-N3-o0w" firstAttribute="leading" secondItem="DVP-bz-5FF" secondAttribute="leading" id="uG2-0q-qXR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DVP-bz-5FF"/>
