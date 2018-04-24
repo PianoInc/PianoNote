@@ -130,6 +130,7 @@
 		6C7270A720730368003A4640 /* ReminderAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270A620730368003A4640 /* ReminderAttachment.swift */; };
 		6C7270A920730633003A4640 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270A820730633003A4640 /* FontManager.swift */; };
 		6C7270AB20730A6D003A4640 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270AA20730A6D003A4640 /* ModelManager.swift */; };
+		6C8851CA208DB6E600822B69 /* PianoTextView_Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8851C9208DB6E600822B69 /* PianoTextView_Pasteboard.swift */; };
 		6CC75D3B20744F6600D164D1 /* CategoryManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC75D3A20744F6600D164D1 /* CategoryManageViewController.swift */; };
 		6CC75D3D20744FAF00D164D1 /* Category.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CC75D3C20744FAF00D164D1 /* Category.storyboard */; };
 		6CC75D3F20745E6100D164D1 /* CategoryManageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC75D3E20745E6100D164D1 /* CategoryManageCell.swift */; };
@@ -367,6 +368,7 @@
 		6C7270A620730368003A4640 /* ReminderAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderAttachment.swift; sourceTree = "<group>"; };
 		6C7270A820730633003A4640 /* FontManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		6C7270AA20730A6D003A4640 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
+		6C8851C9208DB6E600822B69 /* PianoTextView_Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoTextView_Pasteboard.swift; sourceTree = "<group>"; };
 		6CC75D3A20744F6600D164D1 /* CategoryManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryManageViewController.swift; sourceTree = "<group>"; };
 		6CC75D3C20744FAF00D164D1 /* Category.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Category.storyboard; sourceTree = "<group>"; };
 		6CC75D3E20745E6100D164D1 /* CategoryManageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryManageCell.swift; sourceTree = "<group>"; };
@@ -1024,6 +1026,7 @@
 				7CD8815A2065BE33009C6C5F /* TextAnimatable.swift */,
 				7CD8815C2065BE3A009C6C5F /* Effectable.swift */,
 				7CD3EA43206A043D00B0DD31 /* PianoCoverView.xib */,
+				6C8851C9208DB6E600822B69 /* PianoTextView_Pasteboard.swift */,
 			);
 			path = Piano;
 			sourceTree = "<group>";
@@ -1431,6 +1434,7 @@
 				7CD881582065BD92009C6C5F /* PianoResult.swift in Sources */,
 				6CEC5CB2207CE25F00AE356F /* RealmImageObserver.swift in Sources */,
 				168D19DE20632998005AA85F /* Util.swift in Sources */,
+				6C8851CA208DB6E600822B69 /* PianoTextView_Pasteboard.swift in Sources */,
 				6CE16F92207200EC00231863 /* RealmDataModel.swift in Sources */,
 				167A1D3B207C936A0029E797 /* DRAlbumFolderListView.swift in Sources */,
 				167A1D2E207C936A0029E797 /* DRMagnifyView.swift in Sources */,
