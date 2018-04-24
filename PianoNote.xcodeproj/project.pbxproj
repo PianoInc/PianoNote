@@ -149,6 +149,7 @@
 		75E99470C19AF984654A35A1 /* RxCloudDatabase_Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99DECA674D9C270F85990 /* RxCloudDatabase_Subscription.swift */; };
 		75E9956121C1AF5375901F84 /* RxCloudDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E992FB261C00DC0E2FCF50 /* RxCloudDatabase.swift */; };
 		75E99565C2D701A6E52B3D67 /* CKDatabaseScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E998B1C40736A977C35943 /* CKDatabaseScope.swift */; };
+		75E995ED54D3FB044498ECF1 /* NSAttributedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99898FE167CCA04C3BF85 /* NSAttributedStringKey.swift */; };
 		75E998A9948E29C41DA1829C /* AttributeModelConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E9944045F0FAB8F29AA9B6 /* AttributeModelConfigurable.swift */; };
 		7C33B69D20745CAD0075661E /* NoteSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33B69C20745CAD0075661E /* NoteSettingViewController.swift */; };
 		7C3EF787206C558500938DF3 /* NoteViewController_TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3EF786206C558500938DF3 /* NoteViewController_TextViewDelegate.swift */; };
@@ -385,6 +386,7 @@
 		6CF1BFF6207B61080013307D /* PianoTextLinkCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PianoTextLinkCell.xib; sourceTree = "<group>"; };
 		75E992FB261C00DC0E2FCF50 /* RxCloudDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCloudDatabase.swift; sourceTree = "<group>"; };
 		75E9944045F0FAB8F29AA9B6 /* AttributeModelConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeModelConfigurable.swift; sourceTree = "<group>"; };
+		75E99898FE167CCA04C3BF85 /* NSAttributedStringKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSAttributedStringKey.swift; sourceTree = "<group>"; };
 		75E998B1C40736A977C35943 /* CKDatabaseScope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKDatabaseScope.swift; sourceTree = "<group>"; };
 		75E99DECA674D9C270F85990 /* RxCloudDatabase_Subscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCloudDatabase_Subscription.swift; sourceTree = "<group>"; };
 		75E99FE7B6D2D78BAD23A317 /* CloudDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudDatabase.swift; sourceTree = "<group>"; };
@@ -748,6 +750,7 @@
 				167A1CF8207C93210029E797 /* Window.swift */,
 				6C0F73842085CFDA004AACF7 /* NSObject.swift */,
 				75E998B1C40736A977C35943 /* CKDatabaseScope.swift */,
+				75E99898FE167CCA04C3BF85 /* NSAttributedStringKey.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1500,6 +1503,7 @@
 				75E9956121C1AF5375901F84 /* RxCloudDatabase.swift in Sources */,
 				75E99565C2D701A6E52B3D67 /* CKDatabaseScope.swift in Sources */,
 				75E99470C19AF984654A35A1 /* RxCloudDatabase_Subscription.swift in Sources */,
+				75E995ED54D3FB044498ECF1 /* NSAttributedStringKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

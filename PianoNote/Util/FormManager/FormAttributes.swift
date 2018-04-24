@@ -99,7 +99,8 @@ public class FormAttributes {
                  NSAttributedStringKey.underlineStyle.rawValue : 0,
                  NSAttributedStringKey.strikethroughStyle.rawValue : 0,
                  NSAttributedStringKey.kern.rawValue : 0,
-                 NSAttributedStringKey.font.rawValue : Font.preferredFont(forTextStyle: .body),
+                 NSAttributedStringKey.font.rawValue : PianoFontAttribute.standard().getFont(),
+                 NSAttributedStringKey.pianoFontInfo.rawValue : PianoFontAttribute.standard(),
                  NSAttributedStringKey.paragraphStyle.rawValue: defaultParagraphStyle
         ]
         

@@ -103,8 +103,8 @@ enum Style {
         case .underlineStyle:
             guard let _ = attribute.value as? Int else {return nil}
             self = .underline
-        case .font:
-            guard let font = attribute.value as? UIFont, let fontAttribute = PianoFontAttribute(font: font) else {return nil}
+        case .pianoFontInfo:
+            guard let fontAttribute = attribute.value as? PianoFontAttribute else {return nil}
             self = .font(fontAttribute)
         case .attachment:
             guard let attachment = attribute.value as? InteractiveTextAttachment & AttributeContainingAttachment,
@@ -123,7 +123,7 @@ enum Style {
         case .foregroundColor(let hex): return [.foregroundColor: UIColor(hex6: hex)]
         case .strikethrough: return [.strikethroughStyle: 1, .strikethroughColor: Color.point]
         case .underline: return [.underlineStyle: 1, .underlineColor: Color.point]
-        case .font(let fontAttribute): return [.font: fontAttribute.getFont()]
+        case .font(let fontAttribute): return [.pianoFontInfo: fontAttribute, .font: fontAttribute.getFont()]
         case .attachment(let attachmentAttribute): return attachmentAttribute.toNSAttribute()
         case .paragraphStyle(let paragraphData):
             return [.paragraphStyle: (NSParagraphStyle.unarchieve(from: paragraphData)! as! NSParagraphStyle)]

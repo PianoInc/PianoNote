@@ -32,14 +32,13 @@ enum PianoAttributes: Int {
             newAttr[.strikethroughColor] = pointColor
             
         case .bold, .italic:
-            guard let font = newAttr[.font] as? Font else { return [:] }
-            let descriptor = font.fontDescriptor
-            var sysTraits = font.fontDescriptor.symbolicTraits
-            sysTraits.insert( self != .bold ? .traitItalic : .traitBold)
-            if let fontDescriptor = descriptor.withSymbolicTraits(sysTraits) {
-                newAttr[.font] = Font(descriptor: fontDescriptor, size: 0)
-            }
-            
+            let fontAttribute = newAttr[.pianoFontInfo] as? PianoFontAttribute ?? PianoFontAttribute.standard()
+            let newTraits = fontAttribute.traits.union( self == .bold ? [.bold] : [.italic])
+            let newFontAttribute = PianoFontAttribute(traits: newTraits, sizeCategory: fontAttribute.sizeCategory)
+
+            newAttr[.pianoFontInfo] = newFontAttribute
+            newAttr[.font] = newFontAttribute.getFont()
+
         case .underline:
             newAttr[.underlineStyle] = 1
             newAttr[.underlineColor] = pointColor
@@ -63,14 +62,13 @@ enum PianoAttributes: Int {
             newAttr[.strikethroughStyle] = 0
             
         case .bold, .italic:
-            guard let font = newAttr[.font] as? Font else { return [:] }
-            let descriptor = font.fontDescriptor
-            var sysTraits = font.fontDescriptor.symbolicTraits
-            sysTraits.remove(self != .bold ? .traitItalic : .traitBold)
-            if let fontDescriptor = descriptor.withSymbolicTraits(sysTraits) {
-                newAttr[.font] = Font(descriptor: fontDescriptor, size: 0)
-            }
-            
+            let fontAttribute = newAttr[.pianoFontInfo] as? PianoFontAttribute ?? PianoFontAttribute.standard()
+            let newTraits = fontAttribute.traits.subtracting(self == .bold ? .bold : .italic)
+            let newFontAttribute = PianoFontAttribute(traits: newTraits, sizeCategory: fontAttribute.sizeCategory)
+
+            newAttr[.pianoFontInfo] = newFontAttribute
+            newAttr[.font] = newFontAttribute.getFont()
+
         case .underline:
             newAttr[.underlineStyle] = 0
         }
