@@ -133,7 +133,7 @@ class MainListViewController: DRViewController {
                 let newTags = RealmTagsModel.getNewModel()
                 ModelManager.saveNew(model: newTags) { [weak self] _ in
                     DispatchQueue.main.async {
-                        self?.validateToken(){}
+                        self?.validateToken()
                     }
                 }
                 return
