@@ -31,4 +31,18 @@ extension NSAttributedString {
         return mutableAttrString
         
     }
+    
+    func getStringWithPianoAttributes() -> (string: String, attributes: [AttributeModel]) {
+        var attributes: [AttributeModel] = []
+        
+        self.enumerateAttributes(in: NSMakeRange(0, self.length), options: .reverse) { (dic, range, _) in
+            for (key, value) in dic {
+                if let pianoAttribute = AttributeModel(range: range, attribute: (key, value)) {
+                    attributes.append(pianoAttribute)
+                }
+            }
+        }
+        
+        return (string: self.string, attributes: attributes)
+    }
 }
