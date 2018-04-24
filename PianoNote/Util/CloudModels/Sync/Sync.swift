@@ -47,23 +47,47 @@ enum RealmRecordTypeString: String {
     case note = "Note"
     case image = "Image"
     case latestEvent = "LatestEvent"
+
+    func getType() -> Object.Type? {
+        switch self {
+            case .tags: return RealmTagsModel.self
+            case .note: return RealmNoteModel.self
+            case .image: return RealmImageModel.self
+            default: return nil
+        }
+    }
 }
 
 
-extension CloudCommonDatabase {
-    
-    static func syncChanged(record: CKRecord, isShared: Bool) {
-        guard let realmType = RealmRecordTypeString(rawValue: record.recordType) else { /*fatal error*/ return }
-        
-        switch realmType {
-        case .tags: saveTagsRecord(record)
-        case .note: saveNoteRecord(record, isShared: isShared)
-        case .image: saveImageRecord(record, isShared: isShared)
-        case .latestEvent: saveLatestEventRecord(record)
-        }
+extension RxCloudDatabase {
+
+    func syncMetaDatas(records: [CKRecord]) {
+        records.forEach { syncMetaData(record: $0) }
+    }
+
+    func syncMetaData(record: CKRecord) {
+        guard let tempRealm = try? Realm(),
+                let type = RealmRecordTypeString(rawValue: record.recordType)?.getType(),
+                let id = record["id"] as? String,
+                let object = tempRealm.object(ofType: type, forPrimaryKey: id) else {return}
+
+        let ref = ThreadSafeReference(to: object)
+        LocalDatabase.shared.commit(action: { realm in
+            guard let object = realm.resolve(ref) else {return}
+            try? realm.write{ object.setValue(record.getMetaData(), forKey: "ckMetaData") }
+        })
+
+    }
+
+    func syncChanged(records: [CKRecord], isShared: Bool) {
+        records.forEach { save(record: $0, isShared: isShared) }
     }
     
-    static func syncDeleted(recordID: CKRecordID, recordType: String) {
+    func syncChanged(record: CKRecord, isShared: Bool) {
+        save(record: record, isShared: isShared)
+    }
+
+    func syncDeleted(recordID: CKRecordID, recordType: String) {
         guard let realmType = RealmRecordTypeString(rawValue: recordType) else { /*fatal error*/ return }
         
         switch realmType {
@@ -72,62 +96,52 @@ extension CloudCommonDatabase {
         case .image: deleteImageRecord(recordID.recordName)
         }
     }
-    
-    
-    private static func saveTagsRecord(_ record: CKRecord) {
-        guard let tagsModel = record.parseTagsRecord() else {return}
-        LocalDatabase.shared.saveObject(newObject: tagsModel)
-    }
-    
-    private static func saveNoteRecord(_ record: CKRecord, isShared: Bool) {
-        guard let noteModel = record.parseNoteRecord() else {return}
-        let database = isShared ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
-        
-        
-        if let synchronizer = database.synchronizers[record.recordID.recordName] {
-            synchronizer.serverContentChanged(record)
+
+    private func save(record: CKRecord, isShared: Bool) {
+        guard let object = record.parseRecord(isShared: isShared) else {return}
+
+        if record.recordType == RealmNoteModel.recordTypeString {
+            if let synchronizer = synchronizers[record.recordID.recordName] {
+                synchronizer.serverContentChanged(record)
+            }
         }
-        
-        noteModel.isShared = isShared
-        
-        LocalDatabase.shared.saveObject(newObject: noteModel)
+
+        LocalDatabase.shared.commit(action: { realm in
+            try? realm.write{ realm.add(object, update: true) }
+        })
     }
-    
-    private static func saveImageRecord(_ record: CKRecord, isShared: Bool) {
-        
-        guard let imageModel = record.parseImageRecord() else {return}
-        
-        imageModel.isShared = isShared
-        LocalDatabase.shared.saveObject(newObject: imageModel)
-    }
-    
-    private static func saveLatestEventRecord(_ record: CKRecord) {
-        guard let date = record[Schema.LatestEvent.date] as? Date else {return}
-        UserDefaults.standard.set(date, forKey: Schema.LatestEvent.key)
-        UserDefaults.standard.synchronize()
-    }
-    
-    private static func deleteNoteRecord(_ recordName: String) {
+
+    private func deleteNoteRecord(_ recordName: String) {
         
         guard let realm = try? Realm(),
             let noteModel = realm.objects(RealmNoteModel.self).filter("recordName = %@", recordName).first else {return}
-        
-        
+
         let images = realm.objects(RealmImageModel.self).filter("noteRecordName = %@", recordName)
         
         let noteRef = ThreadSafeReference(to: noteModel)
         let imagesRef = ThreadSafeReference(to: images)
-        LocalDatabase.shared.deleteObject(ref: noteRef)
-        LocalDatabase.shared.deleteObject(ref: imagesRef)
+
+        LocalDatabase.shared.commit(action: { realm in
+            guard let note = realm.resolve(noteRef),
+                    let images = realm.resolve(imagesRef) else {return}
+
+            try? realm.write {
+                realm.delete(note)
+                realm.delete(images)
+            }
+        })
     }
     
-    private static func deleteImageRecord(_ recordName: String) {
+    private func deleteImageRecord(_ recordName: String) {
         
         guard let realm = try? Realm(),
             let imageModel = realm.objects(RealmImageModel.self).filter("recordName = %@", recordName).first else {return}
         
         let ref = ThreadSafeReference(to: imageModel)
-        
-        LocalDatabase.shared.deleteObject(ref: ref)
+
+        LocalDatabase.shared.commit(action: { realm in
+            guard let image = realm.resolve(ref) else {return}
+            try? realm.write{realm.delete(image)}
+        })
     }
 }

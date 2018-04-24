@@ -132,8 +132,8 @@ class MainListViewController: DRViewController {
             } else {
                 let newTags = RealmTagsModel.getNewModel()
                 ModelManager.saveNew(model: newTags) { [weak self] _ in
-                    DispatchQueue.main.sync {
-                        self?.validateToken()
+                    DispatchQueue.main.async {
+                        self?.validateToken(){}
                     }
                 }
                 return
@@ -279,6 +279,7 @@ extension MainListViewController: UICollectionViewDataSource {
         var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
         tagsArray.insert("둘러보기", at: 0)
         cell.tagName = tagsArray[indexPath.item].replacingOccurrences(of: RealmTagsModel.lockSymbol, with: "")
+
         cell.lockView.isHidden = !tagsArray[indexPath.item].hasPrefix(RealmTagsModel.lockSymbol)
         
         return cell

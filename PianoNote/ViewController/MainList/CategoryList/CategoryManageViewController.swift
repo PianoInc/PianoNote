@@ -291,7 +291,7 @@ extension CategoryManageViewController: UITableViewDataSource, UITableViewDelega
         cell.delegate = self
         cell.lockImageView.isHidden = !array[indexPath.row].contains(RealmTagsModel.lockSymbol)
         
-        let tag = "\(RealmTagsModel.self)\(array[indexPath.row])\(RealmTagsModel.self)"
+        let tag = "\(RealmTagsModel.tagSeparator)\(array[indexPath.row])\(RealmTagsModel.tagSeparator)"
         let noteCount = realmForTableView.objects(RealmNoteModel.self).filter("tags CONTAINS[cd] %@", tag).count
         cell.subtitleLabel.text = "\(noteCount)개의 노트"
         

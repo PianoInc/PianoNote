@@ -25,9 +25,9 @@ class CloudManager {
         self.userID = CloudManager.getUserID()
         Realm.setDefaultRealmForUser(username: userID?.recordName ?? "")
         
-        self.privateDatabase = CloudPrivateDatabase(database: CKContainer.default().privateCloudDatabase, userID: userID)
-        self.sharedDatabase = CloudSharedDatabase(database: CKContainer.default().sharedCloudDatabase, userID: userID)
-        self.publicDatabase = CloudPublicDatabase(database: CKContainer.default().publicCloudDatabase, userID: userID)
+        self.privateDatabase = CloudPrivateDatabase(database: CKContainer.default().privateCloudDatabase)
+        self.sharedDatabase = CloudSharedDatabase(database: CKContainer.default().sharedCloudDatabase)
+        self.publicDatabase = CloudPublicDatabase(database: CKContainer.default().publicCloudDatabase)
         
         defer {
             resumeLongLivedOperationIfPossible()
@@ -78,33 +78,32 @@ class CloudManager {
     
     fileprivate func setupNotificationHandling() {
         // Helpers
-        
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(accountDidChange(_:)), name: Notification.Name.CKAccountChanged, object: nil)
         
     }
     
-    func loadRecordsFromPrivateDBWithID(recordNames: [String], completion handler: @escaping(([CKRecordID: CKRecord]?, Error?) -> Void)) {
-        privateDatabase.loadRecords(recordNames: recordNames, completion: handler)
-    }
-    
-    
-    func uploadRecordToPrivateDB(record: CKRecord, completion: @escaping ((CKRecord?, Error?) -> Void)) {
-        privateDatabase.saveRecord(record: record, completion: completion)
-    }
-    
-    func uploadRecordToSharedDB(record: CKRecord, completion: @escaping ((CKRecord?, Error?) -> Void)) {
-        sharedDatabase.saveRecord(record: record, completion: completion)
-    }
-    
-    func deleteInPrivateDB(recordNames:[String], completion: @escaping ((Error?) -> Void)) {
-        privateDatabase.deleteRecords(recordNames: recordNames, completion: completion)
-    }
-    
-    func deleteInSharedDB(recordNames:[String], in zone: CKRecordZoneID, completion: @escaping ((Error?) -> Void)) {
-        sharedDatabase.deleteRecords(recordNames: recordNames, in: zone, completion: completion)
-        
-    }
+//    func loadRecordsFromPrivateDBWithID(recordNames: [String], completion handler: @escaping(([CKRecordID: CKRecord]?, Error?) -> Void)) {
+//        privateDatabase.loadRecords(recordNames: recordNames, completion: handler)
+//    }
+//
+//
+//    func uploadRecordToPrivateDB(record: CKRecord, completion: @escaping ((CKRecord?, Error?) -> Void)) {
+//        privateDatabase.saveRecord(record: record, completion: completion)
+//    }
+//
+//    func uploadRecordToSharedDB(record: CKRecord, completion: @escaping ((CKRecord?, Error?) -> Void)) {
+//        sharedDatabase.saveRecord(record: record, completion: completion)
+//    }
+//
+//    func deleteInPrivateDB(recordNames:[String], completion: @escaping ((Error?) -> Void)) {
+//        privateDatabase.deleteRecords(recordNames: recordNames, completion: completion)
+//    }
+//
+//    func deleteInSharedDB(recordNames:[String], in zone: CKRecordZoneID, completion: @escaping ((Error?) -> Void)) {
+//        sharedDatabase.deleteRecords(recordNames: recordNames, in: zone, completion: completion)
+//
+//    }
     
     func requestUserInfo() {
         let container = CKContainer.default()
@@ -134,8 +133,6 @@ class CloudManager {
         //TODO: check for error messages!!
         CloudNotificationCenter.shared.postICloudUserChanged()
         
-        privateDatabase.userID = recordID
-        sharedDatabase.userID = recordID
         privateDatabase.handleNotification()
         sharedDatabase.handleNotification()
     }

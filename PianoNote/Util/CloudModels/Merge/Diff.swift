@@ -282,16 +282,12 @@ class DiffMaker {
     
     func parseTwoStrings() -> [DiffBlock] {
         fillPath()
-        
         //merge adjacent blocks
         return getPath()
     }
     
     func parseWithoutLineInterpreted() -> [DiffBlock] {
-        fillPath()
-        
-        
-        return getPath().map {
+        return parseTwoStrings().map {
             
             switch $0 {
             case .add(let index, let range):

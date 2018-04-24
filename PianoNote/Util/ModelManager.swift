@@ -10,17 +10,24 @@ import CloudKit
 import RealmSwift
 
 class ModelManager {
+    enum ModelManagerError: Error {
+        case objectNotFound
+    }
     
     static func saveNew(model: RealmTagsModel, completion: ((Error?) -> Void)? = nil) {
         let record = model.getRecord()
         
-        LocalDatabase.shared.saveObject(newObject: model)
-        
-        CloudManager.shared.uploadRecordToPrivateDB(record: record) { (conflicted, error) in
+        LocalDatabase.shared.commit(action: { (realm) in
+            try? realm.write{realm.add(model, update: true)}
+        })
+
+        CloudManager.shared.privateDatabase.upload(record: record) { (conflicted, error) in
             if let error = error {
                 return completion?(error) ?? ()
-            } else if let conflictedModel = conflicted?.parseTagsRecord() {
-                LocalDatabase.shared.saveObject(newObject: conflictedModel)
+            } else if let conflictedModel = conflicted?.parseRecord(isShared: false) {
+                LocalDatabase.shared.commit(action: {realm in
+                    try? realm.write{realm.add(conflictedModel, update: true)}
+                })
             }
             completion?(nil)
         }
@@ -29,34 +36,37 @@ class ModelManager {
     static func saveNew(model: RealmNoteModel, completion: ((Error?) -> Void)? = nil) {
         
         let record = model.getRecord()
-        LocalDatabase.shared.saveObject(newObject: model)
+        LocalDatabase.shared.commit(action: { realm in
+            try? realm.write {realm.add(model, update: true)}
+        })
         
         let cloudCompletion: (CKRecord?, Error?) -> Void = { (conflicted, error) in
             if let error = error {
                 return completion?(error) ?? ()
-            } else if let conflictedModel = conflicted?.parseNoteRecord() {
-                LocalDatabase.shared.saveObject(newObject: conflictedModel)
+            } else if let conflictedModel = conflicted?.parseRecord(isShared: false) {
+                LocalDatabase.shared.commit(action: { realm in
+                    try? realm.write {realm.add(conflictedModel, update: true)}
+                })
             }
             completion?(nil)
         }
-        
-        CloudManager.shared.uploadRecordToPrivateDB(record: record, completion: cloudCompletion)
+        CloudManager.shared.privateDatabase.upload(record: record, completion: cloudCompletion)
     }
     
     
     static func saveNew(model: RealmImageModel, completion: ((Error?) -> Void)? = nil) {
         
         let (url, record) = model.getRecord()
-        LocalDatabase.shared.saveObject(newObject: model)
+        LocalDatabase.shared.commit(action: { realm in
+            try? realm.write{ realm.add(model, update: true) }
+        })
         
-        let uploadFunc = model.isShared ? CloudManager.shared.uploadRecordToSharedDB:
-            CloudManager.shared.uploadRecordToPrivateDB
+        let database: RxCloudDatabase = model.isShared ? CloudManager.shared.sharedDatabase:
+            CloudManager.shared.privateDatabase
         
-        uploadFunc(record) { conflicted, error in
+        database.upload(record: record) { conflicted, error in
             if let error = error {
                 return completion?(error) ?? ()
-            } else if let conflictedModel = conflicted?.parseImageRecord() {
-                LocalDatabase.shared.saveObject(newObject: conflictedModel)
             }
             completion?(nil)
             try? FileManager.default.removeItem(at: url)
@@ -68,66 +78,110 @@ class ModelManager {
             let model = realm.object(ofType: type.self, forPrimaryKey: id),
             let recordable = model as? Recordable else {return}
         
-        let recordName = recordable.recordName
         let ref = ThreadSafeReference(to: model)
         
-        LocalDatabase.shared.deleteObject(ref: ref)
+        LocalDatabase.shared.commit(action: { realm in
+            guard let object = realm.resolve(ref) else {return}
+            try? realm.write {realm.delete(object)}
+        })
         
         let cloudCompletion: (Error?) -> () = { error in
             if let error = error {completion?(error)}
             else {completion?(nil)}
         }
+        let coder = NSKeyedUnarchiver(forReadingWith: recordable.ckMetaData)
+        coder.requiresSecureCoding = true
+        guard let record = CKRecord(coder: coder) else {fatalError("Data polluted!!")}
+        coder.finishDecoding()
         
         if recordable.isShared {
-            let coder = NSKeyedUnarchiver(forReadingWith: recordable.ckMetaData)
-            coder.requiresSecureCoding = true
-            guard let record = CKRecord(coder: coder) else {fatalError("Data polluted!!")}
-            coder.finishDecoding()
-            CloudManager.shared.deleteInSharedDB(recordNames: [recordName], in: record.recordID.zoneID, completion: cloudCompletion)
+            CloudManager.shared.sharedDatabase.delete(recordIDs: [record.recordID], completion: cloudCompletion)
         } else {
-            CloudManager.shared.deleteInPrivateDB(recordNames: [recordName], completion: cloudCompletion)
+            CloudManager.shared.privateDatabase.delete(recordIDs: [record.recordID], completion: cloudCompletion)
         }
     }
     
     static func update(id: String, type: Object.Type, kv: [String: Any], completion: ((Error?) -> Void)? = nil) {
-        
-        LocalDatabase.shared.updateObject(id: id, kv: kv, type: type.self) {
-            LocalDatabase.shared.databaseQueue.sync {
-                autoreleasepool {
-                    
-                    guard let realm = try? Realm(),
-                        let model = realm.object(ofType: type.self, forPrimaryKey: id) as? (Object & Recordable),
-                        let record = model.getRecord?()else {return}
-                    
-                    
-                    let uploadFunc = model.isShared ? CloudManager.shared.uploadRecordToSharedDB :
-                        CloudManager.shared.uploadRecordToPrivateDB
-                    uploadFunc(record) { (conflicted, error) in
-                        if let error = error {
-                            return completion?(error) ?? ()
-                        } else if let conflictedRecord = conflicted {
-                            let newModel: Object?
-                            
-                            switch conflictedRecord.recordType {
-                            case RealmTagsModel.recordTypeString:
-                                newModel = conflictedRecord.parseTagsRecord()
-                            case RealmNoteModel.recordTypeString:
-                                newModel = conflictedRecord.parseNoteRecord()
-                            case RealmImageModel.recordTypeString:
-                                newModel = conflictedRecord.parseImageRecord()
-                            default:
-                                newModel = nil
-                            }
-                            
-                            if let safeModel = newModel {
-                                LocalDatabase.shared.saveObject(newObject: safeModel)
-                            }
-                        } else {
-                            completion?(nil)
+        do {
+            let realm = try Realm()
+            guard let model = realm.object(ofType: type, forPrimaryKey: id)
+                else {return completion?(ModelManagerError.objectNotFound) ?? () }
+            
+            let database: RxCloudDatabase = (model as? Recordable)!.isShared ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
+            let isShared = database.database.databaseScope == .shared
+            let ancestorRecord = (model as? Recordable)?.getRecord?()
+            let ref = ThreadSafeReference(to: (model as Object))
+            
+            LocalDatabase.shared.commit(action: { realm in
+                guard let model = realm.resolve(ref) else {return completion?(ModelManagerError.objectNotFound) ?? ()}
+                try? realm.write { model.setValuesForKeys(kv) }
+            }, completion: { error in
+                print("I;m out")
+                guard let realm = try? Realm(),
+                    let model = realm.object(ofType: type.self, forPrimaryKey: id) as? (Object & Recordable),
+                    let record = model.getRecord?()else {return completion?(ModelManagerError.objectNotFound) ?? ()}
+                
+                
+                database.upload(record: record, ancestorRecord: ancestorRecord) { conflicted, error in
+                    if let error = error {
+                        return completion?(error) ?? ()
+                    } else if let conflictedRecord = conflicted {
+                        let newModel = conflictedRecord.parseRecord(isShared: isShared)
+                        
+                        if let safeModel = newModel {
+                            LocalDatabase.shared.commit(action: { realm in
+                                try? realm.write { realm.add(safeModel, update: true) }
+                            })
                         }
+                        completion?(nil)
+                    } else {
+                        completion?(nil)
                     }
                 }
-            }
-        }
+            })
+        } catch { completion?(error) }
+    }
+    
+    static func update(predicate: NSPredicate, type: Object.Type, kv: [String: Any], completion: ((Error?) -> Void)? = nil) {
+        do {
+            let realm = try Realm()
+            let model = realm.objects(type).filter(predicate)
+            
+            let database: RxCloudDatabase = (model as? Recordable)!.isShared ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
+            let isShared = database.database.databaseScope == .shared
+            
+            let ref = ThreadSafeReference(to: model)
+            
+            LocalDatabase.shared.commit(action: { realm in
+                guard let model = realm.resolve(ref) else {return completion?(ModelManagerError.objectNotFound) ?? ()}
+                try? realm.write { model.setValuesForKeys(kv) }
+            }, completion: { error in
+                print("I;m out")
+                guard let realm = try? Realm() else {return completion?(ModelManagerError.objectNotFound) ?? ()}
+                let model = realm.objects(type).filter(predicate)
+                var records: [CKRecord] = []
+                model.forEach {
+                    guard let record = ($0 as? Recordable)?.getRecord?() else {return}
+                    records.append(record)
+                }
+                
+                database.upload(records: records) { conflicted, error in
+                    if let error = error {
+                        return completion?(error) ?? ()
+                    } else if let conflictedRecord = conflicted {
+                        let newModel = conflictedRecord.parseRecord(isShared: isShared)
+                        
+                        if let safeModel = newModel {
+                            LocalDatabase.shared.commit(action: { realm in
+                                try? realm.write { realm.add(safeModel, update: true) }
+                            })
+                        }
+                        completion?(nil)
+                    } else {
+                        completion?(nil)
+                    }
+                }
+            })
+        } catch { completion?(error) }
     }
 }

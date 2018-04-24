@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         application.registerForRemoteNotifications()
         _ = CloudManager.shared
+        _ = LocalDatabase.shared
         performMigration()
 //        let realm = try! Realm()
 //        try? realm.write {
@@ -107,15 +108,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let notification = CKNotification(fromRemoteNotificationDictionary: dict)
         
         guard let subscriptionID = notification.subscriptionID else {return}
+
         
-        
-        if subscriptionID.hasPrefix(CloudManager.shared.privateDatabase.subscriptionID) {
+        if subscriptionID.hasSuffix(CKDatabaseScope.private.string) {
             CloudManager.shared.privateDatabase.handleNotification()
             completionHandler(.newData)
-        } else if subscriptionID == CloudManager.shared.sharedDatabase.subscriptionID || subscriptionID.hasSuffix("shared") {
+        } else if subscriptionID.hasSuffix(CKDatabaseScope.shared.string) {
             CloudManager.shared.sharedDatabase.handleNotification()
             completionHandler(.newData)
-        } else if subscriptionID.hasPrefix(CloudManager.shared.publicDatabase.subscriptionID) {
+        } else if subscriptionID.hasPrefix(CKDatabaseScope.public.string) {
             CloudManager.shared.publicDatabase.handleNotification()
             completionHandler(.newData)
         } else {
@@ -132,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         acceptShareOperation.qualityOfService = .userInteractive
         acceptShareOperation.perShareCompletionBlock = {meta, share,
             error in
-            print(error)
+            print(error ?? "good")
             print("share was accepted")
         }
         acceptShareOperation.acceptSharesCompletionBlock = {
