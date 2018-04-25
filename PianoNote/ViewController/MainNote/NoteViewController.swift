@@ -91,7 +91,9 @@ class NoteViewController: UIViewController {
             .skip(1)
             .map{_ -> Void in return}.debounce(2.0, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
-                self?.saveText(isDeallocating: false)
+                DispatchQueue.main.async {
+                    self?.saveText(isDeallocating: false)
+                }
             }).disposed(by: disposeBag)
     }
 
@@ -162,24 +164,23 @@ class NoteViewController: UIViewController {
             return
         }
         let (string, attributes) = self.textView.get()
-        DispatchQueue.main.async {
-            self.isSaving = true
+        let noteID = self.noteID ?? ""
+        self.isSaving = true
+        
+        DispatchQueue.global().async {
+            let jsonEncoder = JSONEncoder()
+            guard let data = try? jsonEncoder.encode(attributes) else {self.isSaving = false;return}
+            let kv: [String: Any] = ["content": string, "attributes": data]
             
-            DispatchQueue.global().async {
-                let jsonEncoder = JSONEncoder()
-                guard let data = try? jsonEncoder.encode(attributes),
-                    let noteID = self.noteID else {self.isSaving = false;return}
-                let kv: [String: Any] = ["content": string, "attributes": data]
-                
-                let completion: ((Error?) -> Void)? = isDeallocating ? nil : { [weak self] error in
-                    if let error = error {print(error)}
-                    else {print("happy")}
-                    self?.isSaving = false
-                }
-                
-                ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: completion)
+            let completion: ((Error?) -> Void)? = isDeallocating ? nil : { [weak self] error in
+                if let error = error {print(error)}
+                else {print("happy")}
+                self?.isSaving = false
             }
+            
+            ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: completion)
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

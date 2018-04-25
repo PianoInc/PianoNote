@@ -11,77 +11,56 @@ import UIKit
 
 class FontManager {
     static let shared = FontManager()
-    static private let stylesArray:[UIFontTextStyle] = [.title1, .title2, .title3, .headline, .body,
-                                                        .callout, .subheadline, .footnote, .caption1, .caption2]
-    var customFont: UIFont?
-    
-    private init() {}
-    
-    func register(font: UIFont) {
-        customFont = font
-    }
-    
-    func getFont(for style: UIFontTextStyle, with traits: FontTraits = []) -> UIFont {
-        
-        let stylePoint = UIFont.preferredFont(forTextStyle: style).pointSize
-        let baseFont = customFont ?? UIFont.preferredFont(forTextStyle: style)
-        
-        let traitedFont: UIFont
-        
-        if !traits.isEmpty {
-            guard let newFontDescriptor = baseFont.fontDescriptor.withSymbolicTraits(traits.toSymbolicTraits()) else { print("Font descriptor error!");return baseFont }
-            traitedFont = UIFont(descriptor: newFontDescriptor, size: stylePoint)
-        } else {
-            traitedFont = baseFont
-        }
-        
-        if #available(iOS 11.0, *) {
-            let metric = UIFontMetrics(forTextStyle: style)
-            return metric.scaledFont(for: traitedFont)
-        } else {
-            return traitedFont
-        }
 
+    private init() {}
+
+    private var customFont = UIFont.systemFont(ofSize: 17)
+    private var customBoldFont = UIFont.boldSystemFont(ofSize: 17)
+
+    private func getFontDescriptor() -> UIFontDescriptor {
+        return customFont.fontDescriptor
     }
-    
-    func getFont(from font: UIFont, with traits: FontTraits) -> UIFont {
-        guard let style = FontManager.getStyle(font) else {print("Font size error!!");return font}
-        
-        let stylePoint = UIFont.preferredFont(forTextStyle: style).pointSize
-        let baseFont = font
-        
-        let traitedFont: UIFont
-        
-        if !traits.isEmpty {
-            guard let newFontDescriptor = baseFont.fontDescriptor.withSymbolicTraits(traits.toSymbolicTraits()) else { print("Font descriptor error!");return baseFont }
-            traitedFont = UIFont(descriptor: newFontDescriptor, size: stylePoint)
+
+    private func getBoldFontDescriptor() -> UIFontDescriptor {
+        return customBoldFont.fontDescriptor
+    }
+
+    private func getItalicFontDescriptor() -> UIFontDescriptor {
+        let matrix = CGAffineTransform(a: 1, b: 0, c: CGFloat(tanf(Float(11*Double.pi/180.0))), d: 1, tx: 0, ty: 0)
+        return customFont.fontDescriptor.withMatrix(matrix)
+    }
+
+    private func getBoldItalicFontDescriptor() -> UIFontDescriptor {
+        let matrix = CGAffineTransform(a: 1, b: 0, c: CGFloat(tanf(Float(11*Double.pi/180.0))), d: 1, tx: 0, ty: 0)
+        return customBoldFont.fontDescriptor.withMatrix(matrix)
+    }
+
+    private func getDescriptor(from traits: FontTraits) -> UIFontDescriptor {
+        if traits.contains(.bold) && traits.contains(.italic){
+            return getBoldItalicFontDescriptor()
+        } else if traits.contains(.bold) {
+            return getBoldFontDescriptor()
+        } else if traits.contains(.italic) {
+            return getItalicFontDescriptor()
         } else {
-            traitedFont = baseFont
-        }
-        
-        
-        if #available(iOS 11.0, *) {
-            let metric = UIFontMetrics(forTextStyle: style)
-            return metric.scaledFont(for: traitedFont)
-        } else {
-            return traitedFont
+            return getFontDescriptor()
         }
     }
-    
-    static func isStyle(_ style: UIFontTextStyle, font: UIFont) -> Bool {
-        let baseFont = UIFont.preferredFont(forTextStyle: style)
-        
-        return font.pointSize == baseFont.pointSize
-    }
-    
-    static func getStyle(_ font: UIFont) -> UIFontTextStyle? {
-        for style in stylesArray {
-            let baseFont = UIFont.preferredFont(forTextStyle: style)
-            if font.pointSize == baseFont.pointSize { // leading, trailing 등은 커스텀폰트에서도 일치하는지 확인을 못해봄
-                return style
-            }
+
+    private func getSize(from category: FontSizeCategory) -> CGFloat{
+        //TODO: 글자크기 고려!
+        switch category {
+            case .title1: return 24.0
+            case .title2: return 22.0
+            case .title3: return 20.0
+            case .body: return 17.0
         }
-        return nil
     }
-    
+
+    func getFont(for attribute: PianoFontAttribute) -> UIFont {
+        let descriptor = getDescriptor(from: attribute.traits)
+        let size = getSize(from: attribute.sizeCategory)
+
+        return UIFont(descriptor: descriptor, size: size)
+    }
 }
