@@ -186,6 +186,13 @@ class NoteSynchronizer {
                 }
                 
             }
+
+            if let newBackgroundColor = record[Schema.Note.backgroundColorString] as? String {
+                let color = UIColor(hex6: newBackgroundColor)
+                DispatchQueue.main.async { [weak self] in
+                    self?.textView.backgroundColor = color
+                }
+            }
             textView.isSyncing = false
         }
     }
@@ -280,6 +287,7 @@ class NoteSynchronizer {
                     
                     serverRecord[Schema.Note.tags] = myRecord[Schema.Note.tags]
                     completion(true)
+                    textView.isSyncing = false
                     return
                 }
                 
