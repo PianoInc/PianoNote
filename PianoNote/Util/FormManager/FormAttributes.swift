@@ -84,7 +84,8 @@ public class FormAttributes {
                                .underlineStyle: 0,
                                .strikethroughStyle: 0,
                                .kern: 0,
-                               .font: Font.preferredFont(forTextStyle: .body),
+                               .pianoFontInfo: PianoFontAttribute.standard(),
+                               .font: PianoFontAttribute.standard().getFont(),
                                .backgroundColor: Color.clear
             ] as [NSAttributedStringKey : Any]
         if !keepParagraphStyle {

@@ -46,14 +46,24 @@ class FontManager {
             return getFontDescriptor()
         }
     }
+    
+    private func getOffsetFromSize() -> CGFloat {
+        switch PianoNoteSizeInspector.shared.get() {
+        case .verySmall: return -8.0
+        case .small: return -4.0
+        case .normal: return 0.0
+        case .large: return 4.0
+        case .veryLarge: return 8.0
+        }
+    }
 
     private func getSize(from category: FontSizeCategory) -> CGFloat{
-        //TODO: 글자크기 고려!
+        let offset = getOffsetFromSize()
         switch category {
-            case .title1: return 24.0
-            case .title2: return 22.0
-            case .title3: return 20.0
-            case .body: return 17.0
+            case .title1: return 24.0 + offset
+            case .title2: return 22.0 + offset
+            case .title3: return 20.0 + offset
+            case .body: return 17.0 + offset
         }
     }
 

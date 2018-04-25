@@ -130,6 +130,7 @@
 		6C7270A920730633003A4640 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270A820730633003A4640 /* FontManager.swift */; };
 		6C7270AB20730A6D003A4640 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270AA20730A6D003A4640 /* ModelManager.swift */; };
 		6C8851CA208DB6E600822B69 /* PianoTextView_Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8851C9208DB6E600822B69 /* PianoTextView_Pasteboard.swift */; };
+		6CBE4D0E209003B300C598DE /* PianoNoteSizeInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE4D0D209003B300C598DE /* PianoNoteSizeInspector.swift */; };
 		6CC75D3B20744F6600D164D1 /* CategoryManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC75D3A20744F6600D164D1 /* CategoryManageViewController.swift */; };
 		6CC75D3D20744FAF00D164D1 /* Category.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CC75D3C20744FAF00D164D1 /* Category.storyboard */; };
 		6CC75D3F20745E6100D164D1 /* CategoryManageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC75D3E20745E6100D164D1 /* CategoryManageCell.swift */; };
@@ -368,6 +369,7 @@
 		6C7270A820730633003A4640 /* FontManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		6C7270AA20730A6D003A4640 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		6C8851C9208DB6E600822B69 /* PianoTextView_Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoTextView_Pasteboard.swift; sourceTree = "<group>"; };
+		6CBE4D0D209003B300C598DE /* PianoNoteSizeInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoNoteSizeInspector.swift; sourceTree = "<group>"; };
 		6CC75D3A20744F6600D164D1 /* CategoryManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryManageViewController.swift; sourceTree = "<group>"; };
 		6CC75D3C20744FAF00D164D1 /* Category.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Category.storyboard; sourceTree = "<group>"; };
 		6CC75D3E20745E6100D164D1 /* CategoryManageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryManageCell.swift; sourceTree = "<group>"; };
@@ -1027,6 +1029,7 @@
 				7CD8815C2065BE3A009C6C5F /* Effectable.swift */,
 				7CD3EA43206A043D00B0DD31 /* PianoCoverView.xib */,
 				6C8851C9208DB6E600822B69 /* PianoTextView_Pasteboard.swift */,
+				6CBE4D0D209003B300C598DE /* PianoNoteSizeInspector.swift */,
 			);
 			path = Piano;
 			sourceTree = "<group>";
@@ -1497,6 +1500,7 @@
 				75E998A9948E29C41DA1829C /* AttributeModelConfigurable.swift in Sources */,
 				75E99241D6D37D37ABADC38C /* CloudDatabase.swift in Sources */,
 				75E9956121C1AF5375901F84 /* RxCloudDatabase.swift in Sources */,
+				6CBE4D0E209003B300C598DE /* PianoNoteSizeInspector.swift in Sources */,
 				75E99565C2D701A6E52B3D67 /* CKDatabaseScope.swift in Sources */,
 				75E99470C19AF984654A35A1 /* RxCloudDatabase_Subscription.swift in Sources */,
 				75E995ED54D3FB044498ECF1 /* NSAttributedStringKey.swift in Sources */,
