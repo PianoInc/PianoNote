@@ -32,6 +32,43 @@
             </objects>
             <point key="canvasLocation" x="-79" y="134"/>
         </scene>
+        <!--Folder View Controller-->
+        <scene sceneID="J0P-S8-uOP">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XEy-k2-fte" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="FolderViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8Vc-Dg-PzA" customClass="FolderViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CeF-fA-UR9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ORQ-wW-Erq"/>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="8pk-ZB-i4L"/>
+                        <barButtonItem id="jik-Gt-l2D">
+                            <connections>
+                                <action selector="toolBarWithLeft:" destination="fti-cI-utA" id="QED-Rm-RDx"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="4pL-fm-18F"/>
+                        <barButtonItem systemItem="trash" id="wFD-qM-EdB">
+                            <connections>
+                                <action selector="toolBarWithRight:" destination="fti-cI-utA" id="n4J-PE-v6O"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="gUI-9f-bto">
+                        <barButtonItem key="rightBarButtonItem" id="D7h-pM-szX">
+                            <connections>
+                                <action selector="naviWithEdit:" destination="8Vc-Dg-PzA" id="VvG-p8-SKI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="721" y="-636"/>
+        </scene>
         <!--Splash View Controller-->
         <scene sceneID="thZ-1x-ez0">
             <objects>
@@ -45,6 +82,7 @@
                     <navigationItem key="navigationItem" id="yK6-1c-PrM"/>
                     <connections>
                         <segue destination="jXl-cj-hWB" kind="show" identifier="MainListViewController" id="qZg-qB-95p"/>
+                        <segue destination="8Vc-Dg-PzA" kind="show" identifier="FolderViewController" id="plc-UI-8tL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n1B-A2-GTB" sceneMemberID="firstResponder"/>
@@ -168,7 +206,7 @@
                                                             <rect key="frame" x="0.0" y="145.5" width="50" height="44"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MdR-h5-tfn" id="Epa-ma-wXE">
-                                                                <rect key="frame" x="0.0" y="0.0" width="50" height="44"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="50" height="43.5"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="RU7-Y8-EsK">

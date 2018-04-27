@@ -10,6 +10,30 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+extension Int {
+    
+    /// 375 해상도를 기준하고 있는 point를 각 해상도에 맞게 변환한다.
+    var auto: CGFloat {
+        var size = UIScreen.main.bounds.width
+        if size > UIScreen.main.bounds.height {size = UIScreen.main.bounds.height}
+        size = (size < 414) ? size : 414
+        return size * (CGFloat(self) / 375)
+    }
+    
+}
+
+extension Double {
+    
+    /// 375 해상도를 기준하고 있는 point를 각 해상도에 맞게 변환한다.
+    var auto: CGFloat {
+        var size = UIScreen.main.bounds.width
+        if size > UIScreen.main.bounds.height {size = UIScreen.main.bounds.height}
+        size = (size < 414) ? size : 414
+        return size * (CGFloat(self) / 375)
+    }
+    
+}
+
 extension NSObject {
     
     /**

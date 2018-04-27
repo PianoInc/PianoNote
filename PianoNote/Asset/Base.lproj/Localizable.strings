@@ -1,4 +1,8 @@
 
+"selectFolderCount" = "%d개 폴더 선택됨";
+"edit" = "편집";
+"folder" = "폴더";
+"newFolder" = "새로운 폴더";
 "newMemoSubText" = "새 메모 작성";
 "lookAround" = "둘러보기";
 "manageFolder" = "폴더관리";
