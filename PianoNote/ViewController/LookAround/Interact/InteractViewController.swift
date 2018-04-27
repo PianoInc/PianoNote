@@ -67,14 +67,16 @@ class InteractViewController: DRViewController {
             $0.bottom.equalTo(0)
         }
         makeConst(facebookButton) {
-            $0.leading.equalTo(self.minSize * 0.08)
-            $0.trailing.equalTo(-(self.minSize * 0.08))
+            $0.leading.equalTo(self.minSize * 0.08).priority(.high)
+            $0.trailing.equalTo(-(self.minSize * 0.08)).priority(.high)
             $0.bottom.equalTo(-(self.minSize * 0.16))
             $0.height.equalTo(self.minSize * 0.1333)
+            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.centerX.equalToSuperview().priority(.required)
         }
         makeConst(listView) {
-            $0.leading.equalTo(self.safeInset.left)
-            $0.trailing.equalTo(-self.safeInset.right)
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
             $0.top.equalTo(self.statusHeight + self.naviHeight)
             $0.bottom.equalTo(-self.safeInset.bottom)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
@@ -134,7 +136,7 @@ class InteractViewController: DRViewController {
 
 extension InteractViewController: DRContentNoteDelegates {
     
-    func select(indexPath: IndexPath) {
+    func select(indexPath: IndexPath, sender: UIButton) {
         guard let postData = post(data: indexPath) else {return}
         let viewContoller = UIStoryboard.view(type: InteractDetailViewController.self)
         viewContoller.postData = (id: postData.id, title: postData.title)
@@ -224,7 +226,8 @@ extension InteractViewController: UITableViewDataSource {
      */
     private func height(cell indexPath: IndexPath) -> CGFloat {
         guard let data = post(data: indexPath)?.msg else {return 0}
-        let height = data.boundingRect(with: minSize * 0.8244, font: 16)
+        let width = UIDevice.current.userInterfaceIdiom == .phone ? minSize * 0.8244 : limitWidth
+        let height = data.boundingRect(with: width, font: 16)
         let inset = minSize * 0.2604
         return height + inset
     }

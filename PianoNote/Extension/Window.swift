@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// 최대 제한 width 값.
+/// 최대 제한 width 값. (812)
 let limitWidth: CGFloat = 812
 
 extension UIWindow {

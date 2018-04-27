@@ -23,7 +23,7 @@ class MainListViewController: DRViewController {
         super.viewDidLoad()
         initConst()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
-        initNaviBar()
+        initToolBar()
         validateToken()
     }
     
@@ -34,17 +34,19 @@ class MainListViewController: DRViewController {
     /// Constraints 설정
     private func initConst() {
         makeConst(listView) {
-            $0.leading.equalTo(self.safeInset.left)
-            $0.trailing.equalTo(-self.safeInset.right)
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
             $0.top.equalTo(self.statusHeight + self.naviHeight)
             $0.bottom.equalTo(-self.safeInset.bottom)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
         makeConst(pageControl) {
-            $0.leading.equalTo(self.safeInset.left + self.mainSize.width * 0.25)
-            $0.trailing.equalTo(-(self.safeInset.right + self.mainSize.width * 0.25))
+            $0.leading.equalTo(self.safeInset.left + self.mainSize.width * 0.25).priority(.high)
+            $0.trailing.equalTo(-(self.safeInset.right + self.mainSize.width * 0.25)).priority(.high)
             $0.bottom.equalTo(-(self.safeInset.bottom + self.minSize * 0.0266))
+            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.centerX.equalToSuperview().priority(.required)
         }
     }
     
@@ -67,7 +69,10 @@ class MainListViewController: DRViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        listView.reloadData()
         listView.collectionViewLayout.invalidateLayout()
+        initToolBar()
+        updateSelection()
     }
     
     override func viewDidLayoutSubviews() {
@@ -77,8 +82,9 @@ class MainListViewController: DRViewController {
     
     /// One time dispatch code.
     private lazy var dispatchOnce: Void = {
-        // 화면 load시 보여지는 화면을 두번째 화면으로 이동시킨다.
-        listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: false)
+        // Data load가 없을때, 화면을 전체 폴더로 이동시킨다.
+        listView.setContentOffset(CGPoint(x: listView.bounds.width - 1, y: 0), animated: false)
+        listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: true)
         navi { (_, item) in
             item.leftBarButtonItem?.title = "manageFolder".locale
             item.rightBarButtonItem?.title = "select".locale
@@ -90,8 +96,8 @@ class MainListViewController: DRViewController {
         }
     }()
     
-    /// Navigation 설정
-    private func initNaviBar() {
+    /// ToolbarItems 설정
+    private func initToolBar() {
         navi { (navi, _) in
             navi.toolbarItems = toolbarItems
             // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
@@ -102,9 +108,7 @@ class MainListViewController: DRViewController {
     
     @IBAction private func naviBar(left item: UIBarButtonItem) {
         if item.title! == "manageFolder".locale {
-            
             guard let vc = UIStoryboard(name: "Category", bundle: nil).instantiateInitialViewController() else {return}
-            
             present(vc, animated: true, completion: nil)
         } else {
             if let cell = listView.visibleCells.first as? DRContentFolderCell {
@@ -113,11 +117,22 @@ class MainListViewController: DRViewController {
                         IndexPath(row: row, section: section)
                     }
                 }
-                cell.selectedIndex.removeAll()
-                indexData.forEach {cell.selectedIndex.append($0)}
-                for cell in cell.listView.visibleCells as! [DRContentNoteCell] {
-                    cell.select = true
-                    cell.setNeedsLayout()
+                func updateToolBar(_ select: Bool) {
+                    for cell in cell.listView.visibleCells as! [DRContentNoteCell] {
+                        cell.select = select
+                        cell.setNeedsLayout()
+                    }
+                    guard let toolbarItems = navigationController?.toolbarItems else {return}
+                    toolbarItems[0].isEnabled = select
+                    toolbarItems[2].isEnabled = select
+                    toolbarItems[4].isEnabled = select
+                }
+                if indexData.count != cell.selectedIndex.count {
+                    cell.selectedIndex = indexData
+                    updateToolBar(true)
+                } else {
+                    cell.selectedIndex.removeAll()
+                    updateToolBar(false)
                 }
             }
         }
@@ -148,7 +163,32 @@ class MainListViewController: DRViewController {
                 case .error(let error): print(error)
                 }
             }
+            // Data load가 진행된 이후, 화면을 전체 폴더로 이동시킨다.
+            listView.reloadData()
+            listView.setContentOffset(CGPoint(x: listView.bounds.width - 1, y: 0), animated: false)
+            listView.setContentOffset(CGPoint(x: listView.bounds.width, y: 0), animated: true)
         } catch {print(error)}
+    }
+    
+    /// 해당 folder의 note count에 따라서 "선택" 버튼을 활성화한다.
+    private func updateSelection() {
+        guard let indexPath = listView.indexPathsForVisibleItems.first else {return}
+        guard let realm = try? Realm() else {return}
+        var tagsArray = tags?.tags.components(separatedBy: RealmTagsModel.tagSeparator) ?? []
+        if !tagsArray.isEmpty {
+            tagsArray.replaceSubrange(Range<Int>(NSMakeRange(0, 1))!, with: ["모든 메모"])
+        }
+        tagsArray.insert("둘러보기", at: 0)
+        let sortDescriptors = [SortDescriptor(keyPath: "isPinned", ascending: false), SortDescriptor(keyPath: "isModified", ascending: false)]
+        var notes: Results<RealmNoteModel>!
+        if tagsArray[indexPath.item] == "모든 메모" {
+            notes = realm.objects(RealmNoteModel.self).filter("isInTrash = false").sorted(by: sortDescriptors)
+        } else {
+            notes = realm.objects(RealmNoteModel.self)
+                .filter("tags CONTAINS[cd] %@ AND isInTrash = false", RealmTagsModel.tagSeparator + tagsArray[indexPath.item] + RealmTagsModel.tagSeparator).sorted(by: sortDescriptors)
+        }
+        guard let rightItem = navigationItem.rightBarButtonItem else {return}
+        rightItem.isEnabled = !notes.isEmpty
     }
     
     @IBAction private func naviBar(right item: UIBarButtonItem) {
@@ -165,6 +205,7 @@ class MainListViewController: DRViewController {
             guard let headerView = cell.listView.tableHeaderView else {return}
             cell.listView.contentInset.top = listView.isScrollEnabled ? 0 : -headerView.bounds.height
             headerView.isHidden = !listView.isScrollEnabled
+            updateSelection()
         }
     }
     
@@ -215,18 +256,7 @@ extension MainListViewController: UICollectionViewDelegate {
         titleView.sizeToFit()
         guard let rightItem = navigationItem.rightBarButtonItem else {return}
         rightItem.title = (indexPath.item == 0) ? "" : "select".locale
-        
-        // 노트의 갯수를 가져와서 삭제모드 사용가능 여부를 결정
-        guard let realm = try? Realm() else {return}
-        let sortDescriptors = [SortDescriptor(keyPath: "isPinned", ascending: false), SortDescriptor(keyPath: "isModified", ascending: false)]
-        var notes: Results<RealmNoteModel>!
-        if tagsArray[indexPath.item] == "모든 메모" {
-            notes = realm.objects(RealmNoteModel.self).filter("isInTrash = false").sorted(by: sortDescriptors)
-        } else {
-            notes = realm.objects(RealmNoteModel.self)
-                .filter("tags CONTAINS[cd] %@ AND isInTrash = false", RealmTagsModel.tagSeparator + tagsArray[indexPath.item] + RealmTagsModel.tagSeparator).sorted(by: sortDescriptors)
-        }
-        rightItem.isEnabled = !notes.isEmpty
+        updateSelection()
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
