@@ -20,7 +20,7 @@
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1004" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7pV-N3-o0w" customClass="PianoTextView" customModule="PianoNote" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -37,7 +37,7 @@
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="8qa-6d-uPp"/>
                     <connections>
                         <outlet property="textView" destination="7pV-N3-o0w" id="djN-92-P1i"/>
-                        <segue destination="LvF-pR-Omn" kind="show" identifier="NoteSettingViewController" id="nd0-Fs-UQ7"/>
+                        <segue destination="LvF-pR-Omn" kind="show" identifier="NoteSettingViewController" id="bHp-Eb-0fS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1W-jA-SJn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -439,11 +439,11 @@
                             <outlet property="delegate" destination="LvF-pR-Omn" id="SlH-xe-Spj"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="메모 설정" largeTitleDisplayMode="never" id="g2N-QR-K7o"/>
+                    <navigationItem key="navigationItem" title="메모 설정" largeTitleDisplayMode="always" id="g2N-QR-K7o"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z9b-kG-fSe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1245.5999999999999" y="178.56071964017991"/>
+            <point key="canvasLocation" x="2184.8000000000002" y="178.56071964017991"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="ExP-GN-Rp3">
@@ -458,7 +458,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HVr-rL-8fb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2098" y="178"/>
+            <point key="canvasLocation" x="3036" y="177.66116941529236"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2VI-hv-24R">

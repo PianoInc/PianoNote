@@ -11,22 +11,22 @@ import InteractiveTextEngine_iOS
 
 class PianoTextView: InteractiveTextView {
     
-    private(set) var inputViewManager: DRInputViewManager!
+//    private(set) var inputViewManager: DRInputViewManager!
     var isSyncing: Bool = false
     var noteID: String = ""
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        inputViewManager = DRInputViewManager(self)
+//        inputViewManager = DRInputViewManager(self)
     }
     
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if inputViewManager.magnifyAccessoryView.magnifyView.state == .paste {
-            return action == #selector(paste(_:))
-        }
-        inputViewManager.magnifyAccessoryView.magnifyView.cursor()
-        return true
-    }
+//    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+//        if inputViewManager.magnifyAccessoryView.magnifyView.state == .paste {
+//            return action == #selector(paste(_:))
+//        }
+//        inputViewManager.magnifyAccessoryView.magnifyView.cursor()
+//        return true
+//    }
 
     override var typingAttributes: [String : Any] {
         get {
