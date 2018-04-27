@@ -96,9 +96,9 @@ class NoteViewController: UIViewController {
     }
     
     private func subscribeToChange() {
-        textView.rx.attributedText.asObservable().distinctUntilChanged()
+        textView.rx.didChange
             .skip(1)
-            .map{_ -> Void in return}.debounce(2.0, scheduler: MainScheduler.instance)
+            .debounce(2.0, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 DispatchQueue.main.async {
                     self?.saveText(isDeallocating: false)
