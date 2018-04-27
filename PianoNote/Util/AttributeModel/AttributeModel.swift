@@ -98,10 +98,10 @@ enum Style {
             guard let color = attribute.value as? UIColor else {return nil}
             self = .foregroundColor(color.hexString)
         case .strikethroughStyle:
-            guard let _ = attribute.value as? Int else {return nil}
+            guard let value = attribute.value as? Int, value == 1 else {return nil}
             self = .strikethrough
         case .underlineStyle:
-            guard let _ = attribute.value as? Int else {return nil}
+            guard let value = attribute.value as? Int, value == 1 else {return nil}
             self = .underline
         case .pianoFontInfo:
             guard let fontAttribute = attribute.value as? PianoFontAttribute else {return nil}
