@@ -50,7 +50,9 @@ class NoteSynchronizer {
             default: break
             }
         }
-        
+        DispatchQueue.main.async { [weak self] in
+            self?.textView.startDisplayLink()
+        }
         
         
     }
@@ -74,12 +76,12 @@ class NoteSynchronizer {
     private func insert(_ attributedString: NSAttributedString, at index: Int) {
         DispatchQueue.main.sync { [weak self] in
             //TODO: pick background color
-            let backgroundLayer = InteractiveBackgroundLayer()
-            backgroundLayer.backgroundColor = UIColor.orange.cgColor
-            self?.textView.layer.insertSublayer(backgroundLayer, at: 0)
+//            let backgroundLayer = InteractiveBackgroundLayer()
+////            backgroundLayer.backgroundColor = UIColor.orange.cgColor
+//            self?.textView.layer.insertSublayer(backgroundLayer, at: 0)
 
             let newAttributedString = NSMutableAttributedString(attributedString: attributedString)
-            newAttributedString.addAttribute(.animatingBackground, value: backgroundLayer, range: NSMakeRange(0, newAttributedString.length))
+            newAttributedString.addAttribute(.animatingBackground, value: true, range: NSMakeRange(0, newAttributedString.length))
 
             self?.textView.textStorage.insert(newAttributedString, at: index)
         }
@@ -94,12 +96,12 @@ class NoteSynchronizer {
     private func replace(in range: NSRange, with attributedString: NSAttributedString) {
         DispatchQueue.main.sync { [weak self] in
 
-            let backgroundLayer = InteractiveBackgroundLayer()
-            backgroundLayer.backgroundColor = UIColor.orange.cgColor
-            self?.textView.layer.insertSublayer(backgroundLayer, at: 0)
+//            let backgroundLayer = InteractiveBackgroundLayer()
+////            backgroundLayer.backgroundColor = UIColor.orange.cgColor
+//            self?.textView.layer.insertSublayer(backgroundLayer, at: 0)
 
             let newAttributedString = NSMutableAttributedString(attributedString: attributedString)
-            newAttributedString.addAttribute(.animatingBackground, value: backgroundLayer, range: NSMakeRange(0, newAttributedString.length))
+            newAttributedString.addAttribute(.animatingBackground, value: true, range: NSMakeRange(0, newAttributedString.length))
 
             self?.textView.textStorage.replaceCharacters(in: range, with: newAttributedString)
         }
@@ -186,6 +188,13 @@ class NoteSynchronizer {
                 }
                 
             }
+
+            if let newBackgroundColor = record[Schema.Note.backgroundColorString] as? String {
+                let color = UIColor(hex6: newBackgroundColor)
+                DispatchQueue.main.async { [weak self] in
+                    self?.textView.backgroundColor = color
+                }
+            }
             textView.isSyncing = false
         }
     }
@@ -201,8 +210,8 @@ class NoteSynchronizer {
         let ancestorAttributesData = (ancestorRecord[Schema.Note.attributes] as? Data) ?? "[]".data(using: .utf8)!
         let serverAttributesData = serverRecord[Schema.Note.attributes] as! Data
         
-        let ancestorAttributes = try! JSONDecoder().decode([AttributeModel].self, from: ancestorAttributesData)
-        let serverAttributes = try! JSONDecoder().decode([AttributeModel].self, from: serverAttributesData)
+        let ancestorAttributes = (try? JSONDecoder().decode([AttributeModel].self, from: ancestorAttributesData)) ?? []
+        let serverAttributes = (try? JSONDecoder().decode([AttributeModel].self, from: serverAttributesData)) ?? []
         
         let serverAttributedString = NSMutableAttributedString(string: serverContent)
         serverAttributes.forEach { serverAttributedString.add(attribute: $0) }
@@ -280,6 +289,7 @@ class NoteSynchronizer {
                     
                     serverRecord[Schema.Note.tags] = myRecord[Schema.Note.tags]
                     completion(true)
+                    textView.isSyncing = false
                     return
                 }
                 

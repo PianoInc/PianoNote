@@ -60,7 +60,7 @@ class InteractiveAttachmentCellDispatcher {
         } else {
             guard let nib = nibs[identifier],
                 let textView = superView else {fatalError("Nib is not registered for identifier\"\(identifier)\"")}
-            
+        
             for object in nib.instantiate(withOwner: nil, options: nil) {
                 if let cell = object as? InteractiveAttachmentCell {
                     cell.frame = CGRect.zero
@@ -111,7 +111,8 @@ extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate
         textView.interactiveDelegate?.textView?(textView, willDisplay: cell)
         //sync frame
         
-        cell.frame = currentBounds.offsetBy(dx: 0, dy: 8).insetBy(dx: 1, dy: 0)
+        let containerInset = textView.textContainerInset
+        cell.frame = currentBounds.offsetBy(dx: 1 + containerInset.left, dy: containerInset.top)
         cell.isHidden = false
         
         //didDisplayCell

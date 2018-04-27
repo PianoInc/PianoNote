@@ -12,8 +12,9 @@ import CoreText
 open class InteractiveTextView: UITextView {
     let dispatcher = InteractiveAttachmentCellDispatcher()
     private var contentOffsetObserver: NSKeyValueObservation?
-    private var sublayersObserver: NSKeyValueObservation?
+    private var boundsObserver: NSKeyValueObservation?
     var displayLink: CADisplayLink?
+    var animationLayer: CAShapeLayer?
     
     open weak var interactiveDataSource: InteractiveTextViewDataSource?
     open weak var interactiveDelegate: InteractiveTextViewDelegate?
@@ -34,8 +35,14 @@ open class InteractiveTextView: UITextView {
         super.init(frame: frame, textContainer: newContainer)
         
         newTextStorage.textView = self
+        newLayoutManager.textView = self
         dispatcher.superView = self
         self.backgroundColor = UIColor.clear
+        animationLayer = CAShapeLayer()
+        animationLayer?.frame = self.bounds.divided(atDistance: 0.0, from: .minYEdge).remainder
+        
+        self.layer.insertSublayer(animationLayer!, at: 0)
+        
         validateDisplayLink()
         setObserver()
         
@@ -91,6 +98,7 @@ open class InteractiveTextView: UITextView {
         newTextView.keyboardAppearance = self.keyboardAppearance
         newTextView.keyboardDismissMode = self.keyboardDismissMode
         newTextView.keyboardType = self.keyboardType
+        (newTextView.layoutManager as? InteractiveLayoutManager)?.textView = self
 
         return newTextView
     }
@@ -98,9 +106,8 @@ open class InteractiveTextView: UITextView {
 
     deinit {
         contentOffsetObserver?.invalidate()
-        sublayersObserver?.invalidate()
+        boundsObserver?.invalidate()
         contentOffsetObserver = nil
-        sublayersObserver = nil
     }
     
     func setObserver() {
@@ -112,12 +119,13 @@ open class InteractiveTextView: UITextView {
             }
         }
         
-
-        sublayersObserver = observe(\.layer.sublayers, options: [.new]) { [weak self] (_, change) in
-            guard let existingNewValue = change.newValue,
-                    let newSublayers = existingNewValue else {return}
-
-            self?.displayLink?.isPaused = newSublayers.compactMap{ $0 as? InteractiveBackgroundLayer }.count == 0
+        boundsObserver = observe(\.bounds, options:[.new]) { [weak self] (_, change) in
+            guard let newBounds = change.newValue else {return}
+            if newBounds.origin.y >= 0 {
+                self?.animationLayer?.frame = newBounds
+            } else {
+                self?.animationLayer?.frame = newBounds.divided(atDistance: -newBounds.origin.y, from: .minYEdge).remainder
+            }
         }
     }
 }

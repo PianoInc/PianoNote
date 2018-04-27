@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerForRemoteNotifications()
         _ = CloudManager.shared
         _ = LocalDatabase.shared
+        _ = PianoNoteSizeInspector.shared
         performMigration()
 //        let realm = try! Realm()
 //        try? realm.write {
@@ -42,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             fileURL: url,
             // Set the new schema version. This must be greater than the previously used
             // version (if you've never set a schema version before, the version is 0).
-            schemaVersion: 27,
+            schemaVersion: 28,
             
             // Set the block which will be called automatically when opening a Realm with
             // a schema version lower than the one set above

@@ -97,7 +97,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let highlightRange = searchedContentString.lowercased().range(of: searchText.lowercased())!
         let searchedContentAttributedString = NSMutableAttributedString(string: searchedContentString)
         searchedContentAttributedString
-            .addAttributes([.font: FontManager.shared.getFont(for: .callout)], range: NSMakeRange(0, searchedContentString.count))
+            .addAttributes([.font: UIFont.preferredFont(forTextStyle: .callout)], range: NSMakeRange(0, searchedContentString.count))
         searchedContentAttributedString.addAttributes([.foregroundColor: UIColor(hex6: "157EFB")], range: highlightRange.toNSRange())
         
         searchCell.contentLabel?.attributedText = searchedContentAttributedString
