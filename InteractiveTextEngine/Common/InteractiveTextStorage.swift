@@ -5,7 +5,8 @@
 //  Created by 김범수 on 2018. 3. 23..
 //
 
-import UIKit
+//import UIKit
+import Foundation
 
 class InteractiveTextStorage: NSTextStorage {
 
@@ -62,6 +63,23 @@ class InteractiveTextStorage: NSTextStorage {
                 return
             }
             
+
+            if let card = PianoCard(
+                text: string,
+                selectedRange: NSMakeRange(cursorLocation, 0)) {
+                
+                //카드가 있다면 붙여주기
+                let attachment = card.attachment()
+                //개행을 추가해 붙이기
+                let newLine = "\n"
+                
+                //붙이기
+//                backingStore.replaceCharacters(in: <#T##NSRange#>, with: <#T##NSAttributedString#>)
+                
+                
+                endEditing()
+                return
+            }
             
             //create card logic
             //            if let card = PianoCard(bullet 생성자처럼 값 대입) {
