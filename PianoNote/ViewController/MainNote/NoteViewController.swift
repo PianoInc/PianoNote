@@ -213,6 +213,13 @@ class NoteViewController: UIViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let destination = segue.destination as? NoteSettingViewController {
+            // TODO: 필요한 정보 전달
+        }
+    }
+    
     
 }
 
