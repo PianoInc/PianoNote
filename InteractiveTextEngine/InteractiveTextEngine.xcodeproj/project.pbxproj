@@ -31,6 +31,7 @@
 		7C7A3138208EA53C00063576 /* PianoBullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A3136208EA53C00063576 /* PianoBullet.swift */; };
 		7C7A313B208EA5B300063576 /* FormAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A313A208EA5B300063576 /* FormAttributes.swift */; };
 		7C7A314D208EA7CC00063576 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A314C208EA7CC00063576 /* Color.swift */; };
+		7CE8EE2820922D6A006AB6CF /* PianoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE8EE2720922D6A006AB6CF /* PianoCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		7C7A3136208EA53C00063576 /* PianoBullet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoBullet.swift; sourceTree = "<group>"; };
 		7C7A313A208EA5B300063576 /* FormAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormAttributes.swift; sourceTree = "<group>"; };
 		7C7A314C208EA7CC00063576 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		7CE8EE2720922D6A006AB6CF /* PianoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 			children = (
 				7C7A3136208EA53C00063576 /* PianoBullet.swift */,
 				7C7A313A208EA5B300063576 /* FormAttributes.swift */,
+				7CE8EE2720922D6A006AB6CF /* PianoCard.swift */,
 			);
 			path = FormManager;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				75E9936964F92376D8CB5393 /* InteractiveAttachmentCell.swift in Sources */,
 				75E993D477DF5EB52A338D44 /* InteractiveAttachmentCellDispatcher.swift in Sources */,
 				6C31310620649891001E7E0F /* InteractiveTextStorage.swift in Sources */,
+				7CE8EE2820922D6A006AB6CF /* PianoCard.swift in Sources */,
 				7C7A3138208EA53C00063576 /* PianoBullet.swift in Sources */,
 				75E99B7726A4DC3110A7364B /* InteractiveBackgroundLayer.swift in Sources */,
 			);

@@ -38,6 +38,8 @@ class NoteViewController: UIViewController {
         setCanvasSize(view.bounds.size)
         
         navigationController?.navigationBar.shadowImage = UIImage()
+//        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        navigationController?.navigationBar.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         
         setNoteContents()
