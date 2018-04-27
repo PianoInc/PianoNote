@@ -4,6 +4,6 @@
 
 import Foundation
 
-public final class InteractiveBackgroundLayer: CALayer {
-
+public final class InteractiveBackgroundLayer: CAShapeLayer {
+    
 }
