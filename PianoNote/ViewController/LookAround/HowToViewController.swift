@@ -25,8 +25,8 @@ class HowToViewController: DRViewController {
     }
     private func initConst() {
         makeConst(listView) {
-            $0.leading.equalTo(self.safeInset.left)
-            $0.trailing.equalTo(-self.safeInset.right)
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
             $0.top.equalTo(self.statusHeight + self.naviHeight)
             $0.bottom.equalTo(-self.safeInset.bottom)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
@@ -56,7 +56,7 @@ class HowToViewController: DRViewController {
 
 extension HowToViewController: DRContentNoteDelegates {
     
-    func select(indexPath: IndexPath) {
+    func select(indexPath: IndexPath, sender: UIButton) {
         
     }
     

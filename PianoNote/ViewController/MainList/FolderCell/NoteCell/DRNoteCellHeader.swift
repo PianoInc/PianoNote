@@ -53,6 +53,8 @@ class DRNoteCellHeader: UIView {
             $0.trailing.equalTo(0).priority(.high)
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
+            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.centerX.equalToSuperview().priority(.required)
         }
     }
     
@@ -100,9 +102,6 @@ class DRNoteCellHeaderContentView: UIView {
         initView()
         initConst()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
-        
-//        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(headerViewTouched))
-//        addGestureRecognizer(gestureRecognizer)
     }
     
     private func initView() {
@@ -158,6 +157,6 @@ class DRNoteCellHeaderContentView: UIView {
     @objc private func action(new: UIButton) {
         delegates.addNewNote()
     }
-  
+    
 }
 

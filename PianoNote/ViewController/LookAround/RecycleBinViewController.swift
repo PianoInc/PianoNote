@@ -26,9 +26,8 @@ class RecycleBinViewController: DRViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setObserver()
-        initNaviBar()
+        initToolBar()
         initConst()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
     }
@@ -39,8 +38,8 @@ class RecycleBinViewController: DRViewController {
     
     private func initConst() {
         makeConst(listView) {
-            $0.leading.equalTo(self.safeInset.left)
-            $0.trailing.equalTo(-self.safeInset.right)
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
             $0.top.equalTo(self.statusHeight + self.naviHeight)
             $0.bottom.equalTo(-self.safeInset.bottom)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
@@ -72,13 +71,16 @@ class RecycleBinViewController: DRViewController {
         navigationController?.isToolbarHidden = true
     }
     
-    /// Navigation 설정
-    private func initNaviBar() {
+    /// ToolbarItems 설정
+    private func initToolBar() {
         navi { (navi, _) in
             navi.toolbarItems = toolbarItems
             // toolbarItems array 순서 = [item, <-spacer->, item, <-spacer->, item]
             guard let toolbarItems = navi.toolbarItems else {return}
             toolbarItems[0].title = "restore".locale
+            toolbarItems[0].isEnabled = !selectedIndex.isEmpty
+            toolbarItems[2].isEnabled = !selectedIndex.isEmpty
+            toolbarItems[4].isEnabled = !selectedIndex.isEmpty
         }
     }
     
@@ -88,11 +90,12 @@ class RecycleBinViewController: DRViewController {
                 IndexPath(row: row, section: section)
             }
         }
-        selectedIndex.removeAll()
-        indexData.forEach {selectedIndex.append($0)}
-        for cell in listView.visibleCells as! [DRContentNoteCell] {
-            cell.select = true
-            cell.setNeedsLayout()
+        if indexData.count != selectedIndex.count {
+            selectedIndex = indexData
+            updateSelect(cell: nil, select: true)
+        } else {
+            selectedIndex.removeAll()
+            updateSelect(cell: nil, select: false)
         }
         updateSelectCount()
     }
@@ -111,6 +114,9 @@ class RecycleBinViewController: DRViewController {
                 try? realm.write {
                     list.setValue(false, forKey: Schema.Note.isInTrash)
                 }
+                self?.selectedIndex.removeAll()
+                self?.updateSelect(cell: nil, select: false)
+                self?.updateSelectCount()
             }
         }
     }
@@ -124,11 +130,20 @@ class RecycleBinViewController: DRViewController {
                     ModelManager.delete(id: $0.id, type: RealmNoteModel.self)
                 }
                 self?.selectedIndex.removeAll()
-                for cell in self?.listView.visibleCells as! [DRContentNoteCell] {
-                    cell.select = false
-                    cell.setNeedsLayout()
-                }
+                self?.updateSelect(cell: nil, select: false)
                 self?.updateSelectCount()
+            }
+        }
+    }
+    
+    private func updateSelect(cell indexPath: IndexPath?, select: Bool) {
+        if let indexPath = indexPath, let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell {
+            cell.select = select
+            cell.setNeedsLayout()
+        } else {
+            for cell in listView.visibleCells as! [DRContentNoteCell] {
+                cell.select = select
+                cell.setNeedsLayout()
             }
         }
     }
@@ -142,6 +157,9 @@ class RecycleBinViewController: DRViewController {
             if selectedIndex.count > 0 {
                 toolbarItems[2].title = String(format: "selectMemoCount".locale, selectedIndex.count)
             }
+            toolbarItems[0].isEnabled = !selectedIndex.isEmpty
+            toolbarItems[2].isEnabled = !selectedIndex.isEmpty
+            toolbarItems[4].isEnabled = !selectedIndex.isEmpty
         }
     }
     
@@ -191,15 +209,13 @@ class RecycleBinViewController: DRViewController {
 
 extension RecycleBinViewController: DRContentNoteDelegates {
     
-    func select(indexPath: IndexPath) {
+    func select(indexPath: IndexPath, sender: UIButton) {
         if selectedIndex.contains(indexPath) {
             selectedIndex.remove(at: selectedIndex.index(of: indexPath)!)
         } else {
             selectedIndex.append(indexPath)
         }
-        guard let cell = listView.cellForRow(at: indexPath) as? DRContentNoteCell else {return}
-        cell.select = selectedIndex.contains(indexPath)
-        cell.setNeedsLayout()
+        updateSelect(cell: indexPath, select: selectedIndex.contains(indexPath))
         updateSelectCount()
     }
     
@@ -217,7 +233,8 @@ extension RecycleBinViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sections = tableView.dequeueReusableHeaderFooterView(withIdentifier: "DRNoteCellSection") as! DRNoteCellSection
-        sections.sectionLabel.text = "Section \(section)"
+        let sampleNote = data[section].first!
+        sections.sectionLabel.text = sampleNote.isModified.timeFormat
         return sections
     }
     
@@ -248,4 +265,5 @@ extension RecycleBinViewController: UITableViewDataSource {
     }
     
 }
+
 

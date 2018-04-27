@@ -31,8 +31,8 @@ class InteractDetailViewController: DRViewController {
     
     private func initConst() {
         makeConst(listView) {
-            $0.leading.equalTo(self.safeInset.left)
-            $0.trailing.equalTo(-self.safeInset.right)
+            $0.leading.equalTo(self.safeInset.left).priority(.high)
+            $0.trailing.equalTo(-self.safeInset.right).priority(.high)
             $0.top.equalTo(self.statusHeight + self.naviHeight)
             $0.bottom.equalTo(-self.safeInset.bottom)
             $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
@@ -85,8 +85,6 @@ extension InteractDetailViewController: DRDetailDelegates {
         guard !data[indexPath.section].expend else {return}
         data[indexPath.section].expend = true
         listView.reloadData()
-        listView.beginUpdates()
-        listView.endUpdates()
     }
     
 }
@@ -142,7 +140,8 @@ extension InteractDetailViewController: UITableViewDelegate {
      */
     private func height(header section: Int) -> CGFloat {
         guard !data.isEmpty else {return 0}
-        let height = data[section].msg.boundingRect(with: minSize * 0.8888, font: 15)
+        let width = UIDevice.current.userInterfaceIdiom == .phone ? minSize * 0.8888 : limitWidth
+        let height = data[section].msg.boundingRect(with: width, font: 15)
         let inset = minSize * 0.2133
         return height + inset
     }
@@ -198,7 +197,8 @@ extension InteractDetailViewController: UITableViewDataSource {
      */
     private func height(cell indexPath: IndexPath) -> CGFloat {
         guard let msg = comment(data: indexPath)?.msg else {return 0}
-        let height = ("답글 작성자 " + msg).boundingRect(with: minSize * 0.7004, font: 14)
+        let width = UIDevice.current.userInterfaceIdiom == .phone ? minSize * 0.7004 : limitWidth
+        let height = ("답글 작성자 " + msg).boundingRect(with: width, font: 14)
         let inset = minSize * 0.1631
         return data[indexPath.section].expend ? height + inset : 0
     }

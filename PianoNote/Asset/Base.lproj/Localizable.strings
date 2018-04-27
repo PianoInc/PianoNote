@@ -5,7 +5,7 @@
 "moveToNext" = "다음으로 이동...";
 "deletedMemo" = "삭제된 메모";
 "noMemo" = "메모 없음";
-"AllMemo" = "전체 메모";
+"AllMemo" = "모든 메모";
 "lockTitle" = "이 메모는 잠겨 있습니다.";
 "lockSubtitle" = "메모 보기";
 "howTo" = "사용법";
