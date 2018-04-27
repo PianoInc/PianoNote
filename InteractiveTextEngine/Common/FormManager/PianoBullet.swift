@@ -11,61 +11,17 @@ import Foundation
 //TODO: Copy-on-Write 방식 책 보고 구현하기
 struct PianoBullet {
     
-    private let regexs: [(type: PianoBulletType, regex: String)] = [
-        (.number, "^\\s*(\\d+)(?=\\. )"),
-        (.key, "^\\s*([1234])(?= )"),
-        (.value, "^\\s*([■□•◦])(?= )")
-    ]
-    
     enum PianoBulletType {
         case number
         case key
         case value
     }
     
-    init?(text: String, selectedRange: NSRange) {
-        let nsText = text as NSString
-        let paraRange = nsText.paragraphRange(for: selectedRange)
-        
-        for (type, regex) in regexs {
-            if let (string, range) = text.detect(searchRange: paraRange, regex: regex) {
-                self.type = type
-                self.string = string
-                self.range = range
-                let wsRange = NSMakeRange(paraRange.location, range.location - paraRange.location)
-                let wsString = nsText.substring(with: wsRange)
-                self.whitespaces = (wsString, wsRange)
-                self.paraRange = paraRange
-                return
-            }
-        }
-        
-        return nil
-    }
-    
-    /*
-    피아노를 위한 line 이니셜라이져
-    */
-    init?(text: String, lineRange: NSRange) {
-        
-        let nsText = text as NSString
-        guard nsText.length != 0 else { return nil }
-        let paraRange = nsText.paragraphRange(for: lineRange)
-        for (type, regex) in regexs {
-            if let (string, range) = text.detect(searchRange: lineRange, regex: regex) {
-                self.type = type
-                self.string = string
-                self.range = range
-                let wsRange = NSMakeRange(paraRange.location, range.location - paraRange.location)
-                let wsString = nsText.substring(with: wsRange)
-                self.whitespaces = (wsString, wsRange)
-                self.paraRange = paraRange
-                return
-            }
-        }
-        
-        return nil
-    }
+    private let regexs: [(type: PianoBulletType, regex: String)] = [
+        (.number, "^\\s*(\\d+)(?=\\. )"),
+        (.key, "^\\s*([1234])(?= )"),
+        (.value, "^\\s*([■□•◦])(?= )")
+    ]
     
     public let type: PianoBulletType
     public let whitespaces: (string: String, range: NSRange)
@@ -113,6 +69,50 @@ struct PianoBullet {
                 return nil
             }
         }
+    }
+    
+    init?(text: String, selectedRange: NSRange) {
+        let nsText = text as NSString
+        let paraRange = nsText.paragraphRange(for: selectedRange)
+        
+        for (type, regex) in regexs {
+            if let (string, range) = text.detect(searchRange: paraRange, regex: regex) {
+                self.type = type
+                self.string = string
+                self.range = range
+                let wsRange = NSMakeRange(paraRange.location, range.location - paraRange.location)
+                let wsString = nsText.substring(with: wsRange)
+                self.whitespaces = (wsString, wsRange)
+                self.paraRange = paraRange
+                return
+            }
+        }
+        
+        return nil
+    }
+    
+    /*
+     피아노를 위한 line 이니셜라이져
+     */
+    init?(text: String, lineRange: NSRange) {
+        
+        let nsText = text as NSString
+        guard nsText.length != 0 else { return nil }
+        let paraRange = nsText.paragraphRange(for: lineRange)
+        for (type, regex) in regexs {
+            if let (string, range) = text.detect(searchRange: lineRange, regex: regex) {
+                self.type = type
+                self.string = string
+                self.range = range
+                let wsRange = NSMakeRange(paraRange.location, range.location - paraRange.location)
+                let wsString = nsText.substring(with: wsRange)
+                self.whitespaces = (wsString, wsRange)
+                self.paraRange = paraRange
+                return
+            }
+        }
+        
+        return nil
     }
     
     public func prevBullet(text: String) -> PianoBullet? {

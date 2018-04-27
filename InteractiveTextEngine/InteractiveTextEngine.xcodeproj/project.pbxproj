@@ -28,6 +28,10 @@
 		75E9964E0AABC9510D2B8E04 /* InteractiveAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */; };
 		75E998269299F6921E98F788 /* InteractiveAttachmentCellDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */; };
 		75E99B7726A4DC3110A7364B /* InteractiveBackgroundLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99B0E985E8E1A77D477F7 /* InteractiveBackgroundLayer.swift */; };
+		7C7A3138208EA53C00063576 /* PianoBullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A3136208EA53C00063576 /* PianoBullet.swift */; };
+		7C7A313B208EA5B300063576 /* FormAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A313A208EA5B300063576 /* FormAttributes.swift */; };
+		7C7A314D208EA7CC00063576 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A314C208EA7CC00063576 /* Color.swift */; };
+		7CE8EE2820922D6A006AB6CF /* PianoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE8EE2720922D6A006AB6CF /* PianoCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +53,10 @@
 		75E99B0E985E8E1A77D477F7 /* InteractiveBackgroundLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveBackgroundLayer.swift; sourceTree = "<group>"; };
 		75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveAttachmentCell.swift; sourceTree = "<group>"; };
 		75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveAttachmentCellDispatcher.swift; sourceTree = "<group>"; };
+		7C7A3136208EA53C00063576 /* PianoBullet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoBullet.swift; sourceTree = "<group>"; };
+		7C7A313A208EA5B300063576 /* FormAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormAttributes.swift; sourceTree = "<group>"; };
+		7C7A314C208EA7CC00063576 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		7CE8EE2720922D6A006AB6CF /* PianoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +130,7 @@
 		6C72A889206324D000D124EA /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				7C7A314C208EA7CC00063576 /* Color.swift */,
 				6C31310520649891001E7E0F /* InteractiveTextStorage.swift */,
 				6C313108206498AA001E7E0F /* InteractiveLayoutManager.swift */,
 				6C72A895206326A000D124EA /* InteractiveTextView.swift */,
@@ -129,8 +138,19 @@
 				75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */,
 				75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */,
 				75E99B0E985E8E1A77D477F7 /* InteractiveBackgroundLayer.swift */,
+				7C7A3152208EA82100063576 /* FormManager */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		7C7A3152208EA82100063576 /* FormManager */ = {
+			isa = PBXGroup;
+			children = (
+				7C7A3136208EA53C00063576 /* PianoBullet.swift */,
+				7C7A313A208EA5B300063576 /* FormAttributes.swift */,
+				7CE8EE2720922D6A006AB6CF /* PianoCard.swift */,
+			);
+			path = FormManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,13 +272,17 @@
 			files = (
 				6C3130D32063747F001E7E0F /* TypeAliases_iOS.swift in Sources */,
 				6C31310F2064CE26001E7E0F /* InteractiveAttachmentCell_iOS.swift in Sources */,
+				7C7A313B208EA5B300063576 /* FormAttributes.swift in Sources */,
 				6C72A8992063277800D124EA /* InteractiveTextAttachment.swift in Sources */,
+				7C7A314D208EA7CC00063576 /* Color.swift in Sources */,
 				6C3130D1206373FD001E7E0F /* InteractiveTextView_iOS.swift in Sources */,
 				6C313109206498AA001E7E0F /* InteractiveLayoutManager.swift in Sources */,
 				6C72A897206326A900D124EA /* InteractiveTextView.swift in Sources */,
 				75E9936964F92376D8CB5393 /* InteractiveAttachmentCell.swift in Sources */,
 				75E993D477DF5EB52A338D44 /* InteractiveAttachmentCellDispatcher.swift in Sources */,
 				6C31310620649891001E7E0F /* InteractiveTextStorage.swift in Sources */,
+				7CE8EE2820922D6A006AB6CF /* PianoCard.swift in Sources */,
+				7C7A3138208EA53C00063576 /* PianoBullet.swift in Sources */,
 				75E99B7726A4DC3110A7364B /* InteractiveBackgroundLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
