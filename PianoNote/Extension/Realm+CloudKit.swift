@@ -43,6 +43,8 @@ extension RealmNoteModel {
         record[scheme.tags] = self.tags as CKRecordValue
         record[scheme.isPinned] = (self.isPinned ? 1 : 0) as CKRecordValue
         record[scheme.isInTrash] = (self.isInTrash ? 1 : 0) as CKRecordValue
+        record[scheme.sizeLevel] = self.sizeLevel as CKRecordValue
+        record[scheme.backgroundColorString] = self.backgroundColorString as CKRecordValue
         
         return record
         
@@ -120,11 +122,13 @@ extension CKRecord {
         let schema = Schema.Note.self
         
         guard let id = self[schema.id] as? String,
-            let content = self[schema.content] as? String,
-            let attributes = self[schema.attributes] as? Data,
-            let tags = self[schema.tags] as? String,
-            let isPinned = self[schema.isPinned] as? Int,
-            let isInTrash = self[schema.isInTrash] as? Int else {return nil}
+                let content = self[schema.content] as? String,
+                let attributes = self[schema.attributes] as? Data,
+                let tags = self[schema.tags] as? String,
+                let isPinned = self[schema.isPinned] as? Int,
+                let isInTrash = self[schema.isInTrash] as? Int,
+                let backgroundColorString = self[schema.backgroundColorString] as? String,
+                let sizeLevel = self[schema.sizeLevel] as? Int else {return nil}
 
         newNoteModel.id = id
         newNoteModel.content = content
@@ -135,6 +139,8 @@ extension CKRecord {
         newNoteModel.tags = tags
         newNoteModel.isPinned = isPinned == 1
         newNoteModel.isInTrash = isInTrash == 1
+        newNoteModel.backgroundColorString = backgroundColorString
+        newNoteModel.sizeLevel = sizeLevel
 
         newNoteModel.isShared = isShared
         

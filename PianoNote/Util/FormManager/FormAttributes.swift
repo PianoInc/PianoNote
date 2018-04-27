@@ -96,7 +96,8 @@ public class FormAttributes {
                                .underlineStyle: 0,
                                .strikethroughStyle: 0,
                                .kern: 0,
-                               .font: Font.preferredFont(forTextStyle: .body),
+                               .pianoFontInfo: PianoFontAttribute.standard(),
+                               .font: PianoFontAttribute.standard().getFont(),
                                .backgroundColor: Color.clear
             ] as [NSAttributedStringKey : Any]
         if !keepParagraphStyle {
@@ -111,7 +112,8 @@ public class FormAttributes {
                  NSAttributedStringKey.underlineStyle.rawValue : 0,
                  NSAttributedStringKey.strikethroughStyle.rawValue : 0,
                  NSAttributedStringKey.kern.rawValue : 0,
-                 NSAttributedStringKey.font.rawValue : Font.preferredFont(forTextStyle: .body),
+                 NSAttributedStringKey.font.rawValue : PianoFontAttribute.standard().getFont(),
+                 NSAttributedStringKey.pianoFontInfo.rawValue : PianoFontAttribute.standard(),
                  NSAttributedStringKey.paragraphStyle.rawValue: defaultParagraphStyle
         ]
         

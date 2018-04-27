@@ -26,6 +26,7 @@ extension RxCloudDatabase {
             guard error == nil else {return}
             UserDefaults.standard.set(true, forKey: subscriptionKey)
         }
+        operation.qualityOfService = .utility
 
         database.add(operation)
     }
@@ -109,6 +110,9 @@ extension RxCloudDatabase {
 
             if more { self?.fetchZoneChanges(in: [zoneID]) }
         }
+        
+        operation.qualityOfService = .utility
+        database.add(operation)
     }
 
     func fetchDatabaseChanges() {

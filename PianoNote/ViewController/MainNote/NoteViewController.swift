@@ -21,14 +21,22 @@ class NoteViewController: UIViewController {
     var initialImageRecordNames: Set<String> = []
     let disposeBag = DisposeBag()
     var synchronizer: NoteSynchronizer!
+    var notificationToken: NotificationToken?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        if let realm = try? Realm(),
+            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) {
+            if let size = PianoNoteSize(level: note.sizeLevel) {
+                PianoNoteSizeInspector.shared.set(to: size)
+            }
+            //TODO: set colors
+        }
         setDelegates()
         registerNibs()
-        
+
         textView.noteID = noteID
         textView.typingAttributes = FormAttributes.defaultTypingAttributes
         synchronizer = NoteSynchronizer(textView: textView)
@@ -44,12 +52,11 @@ class NoteViewController: UIViewController {
         
         setNoteContents()
         subscribeToChange()
-        
-        
     }
     
     deinit {
         synchronizer?.unregisterFromCloud()
+        notificationToken?.invalidate()
         removeGarbageImages()
         
         let (string,pianoAttribute) = textView.get()
@@ -93,8 +100,40 @@ class NoteViewController: UIViewController {
             .skip(1)
             .map{_ -> Void in return}.debounce(2.0, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
-                self?.saveText(isDeallocating: false)
+                DispatchQueue.main.async {
+                    self?.saveText(isDeallocating: false)
+                }
             }).disposed(by: disposeBag)
+
+        if let realm = try? Realm(),
+                let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) {
+            notificationToken = note.observe { [weak self] change in
+                switch change {
+                    case .change(let properties):
+                        if let newBackground = (properties.filter{ $0.name == Schema.Note.backgroundColorString }).first?.newValue as? String {
+                            let color = Color(hex6: newBackground)
+                            //TODO: set Color
+                        }
+
+                        if let newSizeLevel = (properties.filter { $0.name == Schema.Note.sizeLevel}).first?.newValue as? Int,
+                            let newSize = PianoNoteSize(level: newSizeLevel) {
+                            PianoNoteSizeInspector.shared.set(to: newSize)
+                            DispatchQueue.main.async {
+                                self?.resetFonts()
+                            }
+                        }
+                    default: break
+                }
+            }
+        }
+    }
+
+    private func resetFonts() {
+        self.textView.textStorage.enumerateAttribute(.pianoFontInfo, in: NSMakeRange(0, textView.textStorage.length), options: .longestEffectiveRangeNotRequired) { value, range, _ in
+            guard let fontAttribute = value as? PianoFontAttribute else {return}
+            let font = fontAttribute.getFont()
+            textView.textStorage.addAttribute(.font, value: font, range: range)
+        }
     }
 
     private func registerNibs() {
@@ -164,24 +203,23 @@ class NoteViewController: UIViewController {
             return
         }
         let (string, attributes) = self.textView.get()
-        DispatchQueue.main.async {
-            self.isSaving = true
+        let noteID = self.noteID ?? ""
+        self.isSaving = true
+        
+        DispatchQueue.global().async {
+            let jsonEncoder = JSONEncoder()
+            guard let data = try? jsonEncoder.encode(attributes) else {self.isSaving = false;return}
+            let kv: [String: Any] = ["content": string, "attributes": data]
             
-            DispatchQueue.global().async {
-                let jsonEncoder = JSONEncoder()
-                guard let data = try? jsonEncoder.encode(attributes),
-                    let noteID = self.noteID else {self.isSaving = false;return}
-                let kv: [String: Any] = ["content": string, "attributes": data]
-                
-                let completion: ((Error?) -> Void)? = isDeallocating ? nil : { [weak self] error in
-                    if let error = error {print(error)}
-                    else {print("happy")}
-                    self?.isSaving = false
-                }
-                
-                ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: completion)
+            let completion: ((Error?) -> Void)? = isDeallocating ? nil : { [weak self] error in
+                if let error = error {print(error)}
+                else {print("happy")}
+                self?.isSaving = false
             }
+            
+            ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: completion)
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -215,11 +253,11 @@ class NoteViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if let destination = segue.destination as? NoteSettingViewController {
-            // TODO: 필요한 정보 전달
+        if segue.identifier == "NoteSettingViewController" {
+            guard let destVC = segue.destination as? NoteSettingViewController else {return}
+            destVC.noteID = noteID
         }
     }
-    
     
 }
 
