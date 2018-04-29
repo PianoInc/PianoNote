@@ -456,7 +456,18 @@ extension InteractiveTextStorage {
                 changeInLength: 0)
             
         case .value:
-            ()
+            let formatString = bullet.string
+            let kern = FormAttributes.makeFormatKern(formatString: formatString)
+            backingStore.addAttributes(
+                [.font : Font.preferredFont(forTextStyle: .body),
+                 .foregroundColor : FormAttributes.effectColor,
+                 .kern : kern],
+                range: bullet.range)
+            
+            edited(
+                [.editedAttributes],
+                range: bullet.range,
+                changeInLength: 0)
             
         }
         

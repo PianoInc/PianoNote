@@ -51,7 +51,7 @@ class PianoTextView: InteractiveTextView {
     
     override func awakeAfter(using aDecoder: NSCoder) -> Any? {
         let newTextView = PianoTextView(frame: self.frame)
-        
+  
         //get constraints
         var constraints: Array<NSLayoutConstraint> = []
         self.constraints.forEach {

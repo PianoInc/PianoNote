@@ -23,7 +23,6 @@ class NoteViewController: UIViewController {
     var synchronizer: NoteSynchronizer!
     var notificationToken: NotificationToken?
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 

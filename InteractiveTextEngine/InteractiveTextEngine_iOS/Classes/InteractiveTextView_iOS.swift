@@ -25,7 +25,8 @@ open class InteractiveTextView: UITextView {
     
     public override init(frame: CGRect, textContainer: NSTextContainer?) {
 
-        let newContainer = NSTextContainer(size: frame.size)
+        let size = CGSize(width: frame.width, height: CGFloat.greatestFiniteMagnitude)
+        let newContainer = NSTextContainer(size: size)
         let newLayoutManager = InteractiveLayoutManager()
         let newTextStorage = InteractiveTextStorage()
         
@@ -54,6 +55,7 @@ open class InteractiveTextView: UITextView {
     }
 
     open override func awakeAfter(using aDecoder: NSCoder) -> Any? {
+        
         let newTextView = InteractiveTextView(frame: self.frame)
 
         //get constraints
