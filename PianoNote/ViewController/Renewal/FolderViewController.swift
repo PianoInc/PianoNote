@@ -89,6 +89,9 @@ class FolderNodeController: ASDisplayNode {
     fileprivate var removeCandidate = [IndexPath]()
     fileprivate let countBinder = DRBinder(0)
     
+    typealias MoveItemSpec = (origin: IndexPath, dest: IndexPath, item: UIView)
+    fileprivate var moveItem = MoveItemSpec(origin: IndexPath(), dest: IndexPath(), item: UIView())
+    
     override init() {
         super.init()
         automaticallyManagesSubnodes = true
@@ -143,35 +146,48 @@ class FolderNodeController: ASDisplayNode {
         guard isEdit else {return}
         let point = tap.location(in: listNode.view)
         guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
-        guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
-        item.isSelected = !item.isSelected
-        item.setNeedsLayout()
-        
-        if item.isSelected {
-            removeCandidate.append(indexPath)
+        if removeCandidate.contains(indexPath) {
+            removeCandidate.remove(at: removeCandidate.index(where: {$0 == indexPath})!)
         } else {
-            guard let index = removeCandidate.index(where: {$0 == indexPath}) else {return}
-            removeCandidate.remove(at: index)
+            removeCandidate.append(indexPath)
         }
+        listNode.reloadItems(at: [indexPath])
         countBinder.value = removeCandidate.count
     }
     
     @objc private func action(longPress: UILongPressGestureRecognizer) {
         guard isEdit else {return}
-        let _ = longPress.location(in: listNode.view)
+        let point = longPress.location(in: listNode.view)
+        guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
+        guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
         switch longPress.state {
         case .began:
-            
-            break
-        case .changed:
-            
-            break
+            moveItem.origin = indexPath
+            moveItem.dest = indexPath
+            moveItem.item = item.view.snapshotView(afterScreenUpdates: true)!
+            moveItem.item.center = moveItem.item.convert(point, to: view)
+            listNode.view.addSubview(moveItem.item)
+            item.isHidden = true
         case .ended:
-            
-            break
+            self.data[0].row!.swapAt(moveItem.origin.row, moveItem.dest.row)
+            self.moveItem.item.removeFromSuperview()
+            let origin = removeCandidate.index(where: {$0 == moveItem.origin})
+            let dest = removeCandidate.index(where: {$0 == moveItem.dest})
+            if origin != nil && dest == nil {
+                removeCandidate.remove(at: origin!)
+                removeCandidate.append(moveItem.dest)
+            } else if origin == nil && dest != nil {
+                removeCandidate.remove(at: dest!)
+                removeCandidate.append(moveItem.origin)
+            }
         default:
-            
-            break
+            moveItem.item.center = point
+            if moveItem.dest != indexPath {
+                listNode.moveItem(at: moveItem.dest, to: indexPath)
+                moveItem.dest = indexPath
+            } else {
+                item.isHidden = true
+            }
         }
     }
     
@@ -222,6 +238,7 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
         return { () -> ASCellNode in
             let rowNode = FolderRowNode(data: (title: data[indexPath.row], count: String(data.count)))
             guard indexPath.row != 0 else {return rowNode}
+            rowNode.isSelect = self.removeCandidate.contains(indexPath)
             rowNode.isEdit = self.isEdit
             return rowNode
         }
@@ -240,6 +257,7 @@ class FolderSectionNode: ASCellNode {
         self.isFolder = data.isFolder
         super.init()
         automaticallyManagesSubnodes = true
+        backgroundColor = .white
         
         titleNode.isLayerBacked = true
         titleNode.attributedText = NSAttributedString(string: data.title, attributes: [.font : UIFont.systemFont(ofSize: isFolder ? 34 : 22, weight: .bold)])
@@ -279,11 +297,13 @@ class FolderRowNode: ASCellNode {
     let titleNode = ASTextNode()
     let countNode = ASTextNode()
     let moveNode = ASImageNode()
+    var isSelect = false
     var isEdit = false
     
     init(data: (title: String, count: String)) {
         super.init()
         automaticallyManagesSubnodes = true
+        backgroundColor = .white
         
         lineNode.backgroundColor = UIColor(hex6: "c8c7cc")
         lineNode.isLayerBacked = true
@@ -339,7 +359,7 @@ class FolderRowNode: ASCellNode {
     
     override func layout() {
         super.layout()
-        checkNode.image = isSelected ? #imageLiteral(resourceName: "checkSelect") : #imageLiteral(resourceName: "checkEmpty")
+        checkNode.image = isSelect ? #imageLiteral(resourceName: "checkSelect") : #imageLiteral(resourceName: "checkEmpty")
     }
     
 }
