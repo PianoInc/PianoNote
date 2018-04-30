@@ -15,14 +15,14 @@ import CloudKit
 class NoteViewController: UIViewController {
 
     @IBOutlet weak var textView: PianoTextView!
-    var invokingTextViewDelegate: Bool = false
     var noteID: String!
     var isSaving: Bool = false
     var initialImageRecordNames: Set<String> = []
     let disposeBag = DisposeBag()
     var synchronizer: NoteSynchronizer!
     var notificationToken: NotificationToken?
-
+    internal var keyboardToken: NSKeyValueObservation?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -67,6 +67,8 @@ class NoteViewController: UIViewController {
         if noteModel.content != string || noteModel.attributes != jsonData {
             saveText(isDeallocating: true)
         }
+        
+        
     }
     
     private func setCanvasSize(_ size: CGSize) {
