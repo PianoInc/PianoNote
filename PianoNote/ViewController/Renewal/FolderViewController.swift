@@ -156,7 +156,9 @@ class FolderNodeController: ASDisplayNode {
         alert.addTextField {
             $0.placeholder = "name".locale
             _ = $0.rx.text.orEmpty.subscribe {
-                alert.actions[1].isEnabled = !$0.element!.isEmpty
+                guard let text = $0.element else {return}
+                alert.message = self.data[0].row!.contains(text) ? "newFolderExist".locale : "newFolderSubText".locale
+                alert.actions[1].isEnabled = !(text.isEmpty || self.data[0].row!.contains(text))
             }
         }
         if let topViewController = UIWindow.topVC {

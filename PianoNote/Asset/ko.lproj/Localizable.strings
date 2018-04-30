@@ -4,6 +4,7 @@
 "folder" = "폴더";
 "newFolder" = "새로운 폴더";
 "newFolderSubText" = "폴더의 이름을 입력하십시오.";
+"newFolderExist" = "동일한 이름의 폴더가 존재합니다.";
 "name" = "이름";
 "newMemoSubText" = "새 메모 작성";
 "lookAround" = "둘러보기";
