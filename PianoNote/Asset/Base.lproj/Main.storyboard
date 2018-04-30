@@ -35,7 +35,6 @@
         <!--Folder View Controller-->
         <scene sceneID="J0P-S8-uOP">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XEy-k2-fte" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="FolderViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8Vc-Dg-PzA" customClass="FolderViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CeF-fA-UR9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -53,7 +52,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="4pL-fm-18F"/>
                         <barButtonItem systemItem="trash" id="wFD-qM-EdB">
                             <connections>
-                                <action selector="toolBarWithRight:" destination="fti-cI-utA" id="n4J-PE-v6O"/>
+                                <action selector="toolWithDelete:" destination="8Vc-Dg-PzA" id="IQx-jw-TFr"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -66,6 +65,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XEy-k2-fte" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="721" y="-636"/>
         </scene>

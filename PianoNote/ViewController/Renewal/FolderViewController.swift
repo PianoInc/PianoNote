@@ -18,24 +18,29 @@ class FolderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubnode(nodeCtrl)
-        
         initData()
-        navi { (navi, item) in
-            item.title = "folder".locale
-            item.rightBarButtonItem?.title = "edit".locale
-            navi.toolbarItems = toolbarItems
-            guard let newFolder = navi.toolbarItems?[3] else {return}
-            newFolder.title = String(format: "selectFolderCount".locale, 0)
-        }
+        initNavi()
     }
     
     private func initData() {
         var data = [FolderData]()
-        data.append(FolderData(section: "폴더", row: ["모든 메모", "검은등할미새", "두루미", "개개비사촌", "검은등할미새", "두루미", "개개비사촌", "검은등할미새", "두루미", "개개비사촌"]))
+        data.append(FolderData(section: "폴더", row: ["모든 메모", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]))
         data.append(FolderData(section: "삭제된 메모", row: nil))
         data.append(FolderData(section: "커뮤니티", row: nil))
         data.append(FolderData(section: "Info", row: nil))
         nodeCtrl.data = data
+    }
+    
+    private func initNavi() {
+        navi { (navi, item) in
+            item.title = "folder".locale
+            item.rightBarButtonItem?.title = "edit".locale
+            navi.toolbarItems = toolbarItems
+            navi.toolbarItems![1].title = String(format: "selectFolderCount".locale, 0)
+        }
+        nodeCtrl.countBinder.subscribe {
+            self.navigationController?.toolbarItems![1].title = String(format: "selectFolderCount".locale, $0)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -62,6 +67,15 @@ extension FolderViewController {
         nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
     }
     
+    @IBAction private func tool(delete button: UIBarButtonItem) {
+        nodeCtrl.data[0].row = nodeCtrl.data[0].row!.filter({
+            let index = nodeCtrl.data[0].row!.index(of: $0)
+            return !nodeCtrl.removeCandidate.contains(IndexPath(row: index!, section: 0))
+        })
+        nodeCtrl.removeCandidate.removeAll()
+        navi(edit: button)
+    }
+    
 }
 
 class FolderNodeController: ASDisplayNode {
@@ -72,6 +86,8 @@ class FolderNodeController: ASDisplayNode {
         didSet {listNode.reloadData()}
     }
     fileprivate var isEdit = false
+    fileprivate var removeCandidate = [IndexPath]()
+    fileprivate let countBinder = DRBinder(0)
     
     override init() {
         super.init()
@@ -89,6 +105,17 @@ class FolderNodeController: ASDisplayNode {
         newFolderButton.setAttributedTitle(NSAttributedString(string: "newMemoSubText".locale,
                                                               attributes: [.font : UIFont.systemFont(ofSize: 17, weight: .regular),
                                                                            .foregroundColor : UIColor(hex6: "007aff")]), for: .normal)
+        
+        initGesture()
+    }
+    
+    private func initGesture() {
+        ASMainSerialQueue().performBlock {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.action(tap:)))
+            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.action(longPress:)))
+            self.listNode.view.addGestureRecognizer(tap)
+            self.listNode.view.addGestureRecognizer(longPress)
+        }
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -111,6 +138,43 @@ class FolderNodeController: ASDisplayNode {
         }
         return viewInset
     }
+    
+    @objc private func action(tap: UITapGestureRecognizer) {
+        guard isEdit else {return}
+        let point = tap.location(in: listNode.view)
+        guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
+        guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
+        item.isSelected = !item.isSelected
+        item.setNeedsLayout()
+        
+        if item.isSelected {
+            removeCandidate.append(indexPath)
+        } else {
+            guard let index = removeCandidate.index(where: {$0 == indexPath}) else {return}
+            removeCandidate.remove(at: index)
+        }
+        countBinder.value = removeCandidate.count
+    }
+    
+    @objc private func action(longPress: UILongPressGestureRecognizer) {
+        guard isEdit else {return}
+        let _ = longPress.location(in: listNode.view)
+        switch longPress.state {
+        case .began:
+            
+            break
+        case .changed:
+            
+            break
+        case .ended:
+            
+            break
+        default:
+            
+            break
+        }
+    }
+    
 }
 
 extension FolderNodeController: ASCollectionViewLayoutInspecting {
@@ -162,7 +226,7 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
             return rowNode
         }
     }
-   
+    
 }
 
 class FolderSectionNode: ASCellNode {
@@ -211,10 +275,10 @@ class FolderSectionNode: ASCellNode {
 class FolderRowNode: ASCellNode {
     
     let lineNode = ASDisplayNode()
-    let checkNode = ASDisplayNode()
+    let checkNode = ASImageNode()
     let titleNode = ASTextNode()
     let countNode = ASTextNode()
-    let moveNode = ASDisplayNode()
+    let moveNode = ASImageNode()
     var isEdit = false
     
     init(data: (title: String, count: String)) {
@@ -225,8 +289,6 @@ class FolderRowNode: ASCellNode {
         lineNode.isLayerBacked = true
         
         checkNode.isLayerBacked = true
-        checkNode.borderWidth = 1
-        checkNode.borderColor = UIColor.lightGray.cgColor
         
         titleNode.isLayerBacked = true
         titleNode.attributedText = NSAttributedString(string: data.title,
@@ -238,7 +300,7 @@ class FolderRowNode: ASCellNode {
                                                                    .foregroundColor : UIColor(hex6: "8a8a8f")])
         
         moveNode.isLayerBacked = true
-        moveNode.backgroundColor = .lightGray
+        moveNode.image = #imageLiteral(resourceName: "listMoveIcon")
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -277,7 +339,7 @@ class FolderRowNode: ASCellNode {
     
     override func layout() {
         super.layout()
-        checkNode.cornerRadius = checkNode.frame.width / 2
+        checkNode.image = isSelected ? #imageLiteral(resourceName: "checkSelect") : #imageLiteral(resourceName: "checkEmpty")
     }
     
 }
