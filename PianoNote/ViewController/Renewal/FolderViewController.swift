@@ -11,7 +11,7 @@ import AsyncDisplayKit
 
 typealias FolderData = (section: String, row: [String]?)
 
-class FolderViewController: UIViewController {
+class FolderViewController: DRViewController {
     
     private let nodeCtrl = FolderNodeController()
     
@@ -38,8 +38,8 @@ class FolderViewController: UIViewController {
             navi.toolbarItems = toolbarItems
             navi.toolbarItems![1].title = String(format: "selectFolderCount".locale, 0)
         }
-        nodeCtrl.countBinder.subscribe {
-            self.navigationController?.toolbarItems![1].title = String(format: "selectFolderCount".locale, $0)
+        nodeCtrl.countBinder.subscribe { [weak self] in
+            self?.navigationController?.toolbarItems![1].title = String(format: "selectFolderCount".locale, $0)
         }
     }
     
@@ -64,6 +64,7 @@ extension FolderViewController {
             navi.isToolbarHidden = !toEditMode
         }
         nodeCtrl.isEdit = !nodeCtrl.isEdit
+        nodeCtrl.removeCandidate.removeAll()
         nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
     }
     
@@ -73,7 +74,11 @@ extension FolderViewController {
             return !nodeCtrl.removeCandidate.contains(IndexPath(row: index!, section: 0))
         })
         nodeCtrl.removeCandidate.removeAll()
-        navi(edit: button)
+        if nodeCtrl.data[0].row!.count > 1 {
+            nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
+        } else {
+            navi(edit: button)
+        }
     }
     
 }
@@ -82,9 +87,7 @@ class FolderNodeController: ASDisplayNode {
     
     fileprivate let newFolderButton = ASButtonNode()
     fileprivate let listNode = ASCollectionNode(collectionViewLayout: UICollectionViewFlowLayout())
-    fileprivate var data = [FolderData]() {
-        didSet {listNode.reloadData()}
-    }
+    fileprivate var data = [FolderData]()
     fileprivate var isEdit = false
     fileprivate var removeCandidate = [IndexPath]()
     fileprivate let countBinder = DRBinder(0)
@@ -105,14 +108,15 @@ class FolderNodeController: ASDisplayNode {
         listNode.delegate = self
         
         newFolderButton.backgroundColor = .white
-        newFolderButton.setAttributedTitle(NSAttributedString(string: "newMemoSubText".locale,
+        newFolderButton.addTarget(self, action: #selector(action(newFolder:)), forControlEvents: .touchUpInside)
+        newFolderButton.setAttributedTitle(NSAttributedString(string: "newFolder".locale,
                                                               attributes: [.font : UIFont.systemFont(ofSize: 17, weight: .regular),
                                                                            .foregroundColor : UIColor(hex6: "007aff")]), for: .normal)
         
-        initGesture()
+        initViewGesture()
     }
     
-    private func initGesture() {
+    private func initViewGesture() {
         ASMainSerialQueue().performBlock {
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.action(tap:)))
             let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.action(longPress:)))
@@ -142,6 +146,24 @@ class FolderNodeController: ASDisplayNode {
         return viewInset
     }
     
+    @objc private func action(newFolder: ASButtonNode) {
+        let alert = UIAlertController(title: "newFolder".locale, message: "newFolderSubText".locale, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "cancel".locale, style: .cancel))
+        alert.addAction(UIAlertAction(title: "create".locale, style: .default) { _ in
+            self.data[0].row!.append(alert.textFields![0].text!)
+            self.listNode.insertItems(at: [IndexPath(row: self.data[0].row!.count - 1, section: 0)])
+        })
+        alert.addTextField {
+            $0.placeholder = "name".locale
+            _ = $0.rx.text.orEmpty.subscribe {
+                alert.actions[1].isEnabled = !$0.element!.isEmpty
+            }
+        }
+        if let topViewController = UIWindow.topVC {
+            topViewController.present(alert, animated: true)
+        }
+    }
+    
     @objc private func action(tap: UITapGestureRecognizer) {
         guard isEdit else {return}
         let point = tap.location(in: listNode.view)
@@ -158,36 +180,38 @@ class FolderNodeController: ASDisplayNode {
     @objc private func action(longPress: UILongPressGestureRecognizer) {
         guard isEdit else {return}
         let point = longPress.location(in: listNode.view)
-        guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
-        guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
         switch longPress.state {
         case .began:
+            guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
+            guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
             moveItem.origin = indexPath
             moveItem.dest = indexPath
             moveItem.item = item.view.snapshotView(afterScreenUpdates: true)!
-            moveItem.item.center = moveItem.item.convert(point, to: view)
+            moveItem.item.center.y = point.y
             listNode.view.addSubview(moveItem.item)
-            item.isHidden = true
-        case .ended:
-            self.data[0].row!.swapAt(moveItem.origin.row, moveItem.dest.row)
-            self.moveItem.item.removeFromSuperview()
-            let origin = removeCandidate.index(where: {$0 == moveItem.origin})
-            let dest = removeCandidate.index(where: {$0 == moveItem.dest})
-            if origin != nil && dest == nil {
-                removeCandidate.remove(at: origin!)
-                removeCandidate.append(moveItem.dest)
-            } else if origin == nil && dest != nil {
-                removeCandidate.remove(at: dest!)
-                removeCandidate.append(moveItem.origin)
-            }
-        default:
-            moveItem.item.center = point
+        case .changed:
+            guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
+            guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
+            moveItem.item.center.y = point.y
             if moveItem.dest != indexPath {
+                data[0].row?.swapAt(moveItem.dest.row, indexPath.row)
                 listNode.moveItem(at: moveItem.dest, to: indexPath)
+                let origin = removeCandidate.index(where: {$0 == moveItem.dest})
+                let dest = removeCandidate.index(where: {$0 == indexPath})
+                if origin != nil && dest == nil {
+                    removeCandidate.remove(at: origin!)
+                    removeCandidate.append(indexPath)
+                } else if origin == nil && dest != nil {
+                    removeCandidate.remove(at: dest!)
+                    removeCandidate.append(moveItem.dest)
+                }
                 moveItem.dest = indexPath
             } else {
                 item.isHidden = true
             }
+        default:
+            listNode.reloadSections(IndexSet(integer: moveItem.origin.section))
+            moveItem.item.removeFromSuperview()
         }
     }
     
