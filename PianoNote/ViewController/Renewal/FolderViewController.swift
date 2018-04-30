@@ -18,6 +18,7 @@ class FolderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubnode(nodeCtrl)
+        
         initData()
         navi { (navi, item) in
             item.title = "folder".locale
@@ -85,23 +86,31 @@ class FolderNodeController: ASDisplayNode {
         listNode.delegate = self
         
         newFolderButton.backgroundColor = .white
-        newFolderButton.setAttributedTitle(NSAttributedString.init(string: "newMemoSubText".locale,
-                                                                   attributes: [.font : UIFont.systemFont(ofSize: 17, weight: .regular),
-                                                                                .foregroundColor : UIColor(hex6: "007aff")]), for: .normal)
+        newFolderButton.setAttributedTitle(NSAttributedString(string: "newMemoSubText".locale,
+                                                              attributes: [.font : UIFont.systemFont(ofSize: 17, weight: .regular),
+                                                                           .foregroundColor : UIColor(hex6: "007aff")]), for: .normal)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        var viewInset = safeInset
-        viewInset.top += naviHeight
-        let listInset = ASInsetLayoutSpec(insets: viewInset, child: listNode)
+        let listInset = ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: listNode)
         
         newFolderButton.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: 118.auto), height: ASDimension(unit: .points, value: 44.5.auto))
         let buttonRelative = ASRelativeLayoutSpec(horizontalPosition: .end, verticalPosition: .end, sizingOption: .minimumSize, child: newFolderButton)
-        let buttonInset = ASInsetLayoutSpec(insets: viewInset, child: buttonRelative)
+        let buttonInset = ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: buttonRelative)
         
         return ASOverlayLayoutSpec(child: listInset, overlay: buttonInset)
     }
     
+    private func safeArea(from width: CGFloat) -> UIEdgeInsets {
+        var viewInset = safeInset
+        viewInset.top += naviHeight
+        let limitInset = (width - limitWidth) / 2
+        if limitInset > 0 {
+            viewInset.left += limitInset
+            viewInset.right += limitInset
+        }
+        return viewInset
+    }
 }
 
 extension FolderNodeController: ASCollectionViewLayoutInspecting {
@@ -153,7 +162,7 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
             return rowNode
         }
     }
-    
+   
 }
 
 class FolderSectionNode: ASCellNode {
@@ -233,7 +242,7 @@ class FolderRowNode: ASCellNode {
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        lineNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .auto, value: 0), height: ASDimension(unit: .points, value: 0.5))
+        lineNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimensionAuto, height: ASDimension(unit: .points, value: 0.5))
         let lineInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 16.auto, r: 16.auto), child: lineNode)
         
         checkNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: 22.auto), height: ASDimension(unit: .points, value: 22.auto))
