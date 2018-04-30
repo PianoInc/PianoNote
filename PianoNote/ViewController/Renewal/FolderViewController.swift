@@ -48,6 +48,13 @@ class FolderViewController: DRViewController {
         nodeCtrl.frame = view.frame
     }
     
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        coordinator.animate(alongsideTransition: { _ in
+            self.nodeCtrl.listNode.contentInset.bottom = self.inputHeight
+        })
+    }
+    
     override func willMove(toParentViewController parent: UIViewController?) {
         super.willMove(toParentViewController: parent)
         navigationController?.isToolbarHidden = true
@@ -64,6 +71,7 @@ extension FolderViewController {
             navi.isToolbarHidden = !toEditMode
         }
         nodeCtrl.isEdit = !nodeCtrl.isEdit
+        nodeCtrl.countBinder.value = 0
         nodeCtrl.removeCandidate.removeAll()
         nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
     }
@@ -97,16 +105,17 @@ class FolderNodeController: ASDisplayNode {
     override init() {
         super.init()
         automaticallyManagesSubnodes = true
+        
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
+        listNode.contentInset.bottom = inputHeight
         listNode.view.alwaysBounceVertical = true
         listNode.allowsSelection = false
         listNode.layoutInspector = self
         listNode.dataSource = self
         listNode.delegate = self
         
-        newFolderButton.backgroundColor = .white
         newFolderButton.addTarget(self, action: #selector(action(newFolder:)), forControlEvents: .touchUpInside)
         newFolderButton.setAttributedTitle(NSAttributedString(string: "newFolder".locale,
                                                               attributes: [.font : UIFont.systemFont(ofSize: 17, weight: .regular),
@@ -276,7 +285,6 @@ class FolderSectionNode: ASCellNode {
         self.isFolder = data.isFolder
         super.init()
         automaticallyManagesSubnodes = true
-        backgroundColor = .white
         
         titleNode.isLayerBacked = true
         titleNode.attributedText = NSAttributedString(string: data.title, attributes: [.font : UIFont.systemFont(ofSize: isFolder ? 34 : 22, weight: .bold)])
