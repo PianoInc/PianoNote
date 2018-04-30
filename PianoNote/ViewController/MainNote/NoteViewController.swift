@@ -58,16 +58,7 @@ class NoteViewController: UIViewController {
         synchronizer?.unregisterFromCloud()
         notificationToken?.invalidate()
         removeGarbageImages()
-        
-        let (string,pianoAttribute) = textView.get()
-        
-        guard let realm = try? Realm(),
-            let noteModel = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID),
-            let jsonData = try? JSONEncoder().encode(pianoAttribute) else {return}
-        
-        if noteModel.content != string || noteModel.attributes != jsonData {
-            saveText(isDeallocating: true)
-        }
+        saveWhenDeallocating()
     }
     
     private func setCanvasSize(_ size: CGSize) {
@@ -219,7 +210,18 @@ class NoteViewController: UIViewController {
             
             ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: completion)
         }
+    }
+    
+    func saveWhenDeallocating() {
+        if isSaving {
+            return
+        }
+        let (string, attributes) = textView.get()
+        let noteID = self.noteID ?? ""
+        guard let data = try? JSONEncoder().encode(attributes) else {isSaving = false;return}
+        let kv: [String: Any] = ["content": string, "attributes": data]
         
+        ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
