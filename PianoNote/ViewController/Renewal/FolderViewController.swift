@@ -189,27 +189,29 @@ class FolderNodeController: ASDisplayNode {
             moveItem.item = item.view.snapshotView(afterScreenUpdates: true)!
             moveItem.item.center.y = point.y
             listNode.view.addSubview(moveItem.item)
+            item.isHidden = true
         case .changed:
             guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
-            guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
             moveItem.item.center.y = point.y
             if moveItem.dest != indexPath {
-                data[0].row?.swapAt(moveItem.dest.row, indexPath.row)
                 listNode.moveItem(at: moveItem.dest, to: indexPath)
-                let origin = removeCandidate.index(where: {$0 == moveItem.dest})
-                let dest = removeCandidate.index(where: {$0 == indexPath})
-                if origin != nil && dest == nil {
-                    removeCandidate.remove(at: origin!)
-                    removeCandidate.append(indexPath)
-                } else if origin == nil && dest != nil {
-                    removeCandidate.remove(at: dest!)
-                    removeCandidate.append(moveItem.dest)
-                }
                 moveItem.dest = indexPath
-            } else {
-                item.isHidden = true
             }
+            guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
+            item.isHidden = true
         default:
+            if let delete = data[0].row?.remove(at: moveItem.origin.row) {
+                data[0].row?.insert(delete, at: moveItem.dest.row)
+            }
+            let origin = removeCandidate.index(where: {$0 == moveItem.origin})
+            let dest = removeCandidate.index(where: {$0 == moveItem.dest})
+            if origin != nil && dest == nil {
+                removeCandidate.remove(at: origin!)
+                removeCandidate.append(moveItem.dest)
+            } else if origin == nil && dest != nil {
+                removeCandidate.remove(at: dest!)
+                removeCandidate.append(moveItem.origin)
+            }
             listNode.reloadSections(IndexSet(integer: moveItem.origin.section))
             moveItem.item.removeFromSuperview()
         }

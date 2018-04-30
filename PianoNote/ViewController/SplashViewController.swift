@@ -13,9 +13,9 @@ class SplashViewController: DRViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.transition(with: navigationController!.view, duration: 0.5, options: [.transitionCrossDissolve], animations: {
-            /*let folderViewController = UIStoryboard.view(type: FolderViewController.self)
-            self.present(view: folderViewController, animated: false)*/
-            self.present(id: "MainListViewController", animated: false)
+            let folderViewController = UIStoryboard.view(type: FolderViewController.self)
+            self.present(view: folderViewController, animated: false)
+            //self.present(id: "MainListViewController", animated: false)
         })
     }
     
