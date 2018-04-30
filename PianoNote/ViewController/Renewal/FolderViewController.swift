@@ -70,8 +70,7 @@ extension FolderViewController {
     
     @IBAction private func tool(delete button: UIBarButtonItem) {
         nodeCtrl.data[0].row = nodeCtrl.data[0].row!.filter({
-            let index = nodeCtrl.data[0].row!.index(of: $0)
-            return !nodeCtrl.removeCandidate.contains(IndexPath(row: index!, section: 0))
+            return !nodeCtrl.removeCandidate.contains($0)
         })
         nodeCtrl.removeCandidate.removeAll()
         if nodeCtrl.data[0].row!.count > 1 {
@@ -89,7 +88,7 @@ class FolderNodeController: ASDisplayNode {
     fileprivate let listNode = ASCollectionNode(collectionViewLayout: UICollectionViewFlowLayout())
     fileprivate var data = [FolderData]()
     fileprivate var isEdit = false
-    fileprivate var removeCandidate = [IndexPath]()
+    fileprivate var removeCandidate = [String]()
     fileprivate let countBinder = DRBinder(0)
     
     typealias MoveItemSpec = (origin: IndexPath, dest: IndexPath, item: UIView)
@@ -170,10 +169,12 @@ class FolderNodeController: ASDisplayNode {
         guard isEdit else {return}
         let point = tap.location(in: listNode.view)
         guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
-        if removeCandidate.contains(indexPath) {
-            removeCandidate.remove(at: removeCandidate.index(where: {$0 == indexPath})!)
+        guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
+        guard let title = item.titleNode.attributedText?.string else {return}
+        if removeCandidate.contains(title) {
+            removeCandidate.remove(at: removeCandidate.index(where: {$0 == title})!)
         } else {
-            removeCandidate.append(indexPath)
+            removeCandidate.append(title)
         }
         listNode.reloadItems(at: [indexPath])
         countBinder.value = removeCandidate.count
@@ -185,13 +186,13 @@ class FolderNodeController: ASDisplayNode {
         switch longPress.state {
         case .began:
             guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
-            guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
             moveItem.origin = indexPath
             moveItem.dest = indexPath
+            guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
+            item.isHidden = true
             moveItem.item = item.view.snapshotView(afterScreenUpdates: true)!
             moveItem.item.center.y = point.y
             listNode.view.addSubview(moveItem.item)
-            item.isHidden = true
         case .changed:
             guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
             moveItem.item.center.y = point.y
@@ -199,20 +200,10 @@ class FolderNodeController: ASDisplayNode {
                 listNode.moveItem(at: moveItem.dest, to: indexPath)
                 moveItem.dest = indexPath
             }
-            guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
-            item.isHidden = true
+            listNode.nodeForItem(at: indexPath)?.isHidden = true
         default:
             if let delete = data[0].row?.remove(at: moveItem.origin.row) {
                 data[0].row?.insert(delete, at: moveItem.dest.row)
-            }
-            let origin = removeCandidate.index(where: {$0 == moveItem.origin})
-            let dest = removeCandidate.index(where: {$0 == moveItem.dest})
-            if origin != nil && dest == nil {
-                removeCandidate.remove(at: origin!)
-                removeCandidate.append(moveItem.dest)
-            } else if origin == nil && dest != nil {
-                removeCandidate.remove(at: dest!)
-                removeCandidate.append(moveItem.origin)
             }
             listNode.reloadSections(IndexSet(integer: moveItem.origin.section))
             moveItem.item.removeFromSuperview()
@@ -266,7 +257,7 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
         return { () -> ASCellNode in
             let rowNode = FolderRowNode(data: (title: data[indexPath.row], count: String(data.count)))
             guard indexPath.row != 0 else {return rowNode}
-            rowNode.isSelect = self.removeCandidate.contains(indexPath)
+            rowNode.isSelect = self.removeCandidate.contains(data[indexPath.row])
             rowNode.isEdit = self.isEdit
             return rowNode
         }
