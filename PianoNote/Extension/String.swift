@@ -90,15 +90,16 @@ extension NSAttributedString {
      - parameter width : 제한하고자 하는 width값.
      - returns : 첫번째줄에 해당하는 text.
      */
-    func firstLine(width: CGFloat) -> String {
+    func firstLine(width: CGFloat) -> NSAttributedString {
         let frameSetter = CTFramesetterCreateWithAttributedString(self)
         let maxWidth = CGFloat.greatestFiniteMagnitude
         let rect =  CGRect(x: 0, y: 0, width: width, height: maxWidth)
         let path = CGPath(rect: rect, transform: nil)
         let frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), path, nil)
-        
-        guard let line = (CTFrameGetLines(frame) as! [CTLine]).first else {return ""}
-        return string.sub(0...CTLineGetStringRange(line).length)
+        guard let line = (CTFrameGetLines(frame) as! [CTLine]).first else {
+            return NSAttributedString(string: "")
+        }
+        return attributedSubstring(from: NSMakeRange(0, CTLineGetStringRange(line).length))
     }
     
 }

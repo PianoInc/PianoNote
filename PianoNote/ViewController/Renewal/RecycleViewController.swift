@@ -23,20 +23,21 @@ class RecycleViewController: DRViewController {
     private func initData() {
         var data = [NoteData]()
         data.append(NoteData(section: "삭제된 메모", row: nil))
-        data.append(NoteData(section: "오늘", row: ["연주하기", "소통공간"]))
-        data.append(NoteData(section: "1월 18일", row: ["폴더명", "날짜"]))
+        data.append(NoteData(section: "오늘", row: [""]))
+        data.append(NoteData(section: "오늘", row: ["", ""]))
+        data.append(NoteData(section: "1월 18일", row: ["", "", ""]))
         nodeCtrl.data = data
     }
     
     private func initNavi() {
         navi { (navi, item) in
-            item.title = "folder".locale
-            item.rightBarButtonItem?.title = "edit".locale
+            item.rightBarButtonItem?.title = "selectAll".locale
             navi.toolbarItems = toolbarItems
-            navi.toolbarItems![1].title = String(format: "selectFolderCount".locale, 0)
+            navi.toolbarItems?[0].title = "restore".locale
+            navi.toolbarItems?[2].title = String(format: "selectFolderCount".locale, 0)
         }
         nodeCtrl.countBinder.subscribe { [weak self] in
-            self?.navigationController?.toolbarItems?[1].title = String(format: "selectFolderCount".locale, $0)
+            self?.navigationController?.toolbarItems?[2].title = String(format: "selectFolderCount".locale, $0)
         }
     }
     
@@ -63,11 +64,16 @@ class RecycleViewController: DRViewController {
     }
     
     @IBAction private func navi(selectAll button: UIBarButtonItem) {
-        nodeCtrl.candidate = nodeCtrl.data.enumerated().compactMap({ (section, data) in
+        let indexPath = nodeCtrl.data.enumerated().compactMap({ (section, data) in
             data.row?.enumerated().map({ (row, data) in
                 IndexPath(row: row, section: section)
             })
         }).flatMap({$0})
+        if nodeCtrl.candidate.count != indexPath.count {
+            nodeCtrl.candidate = indexPath
+        } else {
+            nodeCtrl.candidate.removeAll()
+        }
         nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 1...(nodeCtrl.data.count - 1)))
     }
     
@@ -84,6 +90,10 @@ class RecycleViewController: DRViewController {
 }
 
 typealias NoteData = (section: String, row: [String]?)
+
+enum NodePlace {
+    case top, middle, bottom, single
+}
 
 class RecycleNodeController: ASDisplayNode {
     
@@ -125,7 +135,7 @@ class RecycleNodeController: ASDisplayNode {
     @objc private func action(tap: UITapGestureRecognizer) {
         let point = tap.location(in: listNode.view)
         guard let indexPath = listNode.indexPathForItem(at: point) else {return}
-        guard listNode.nodeForItem(at: indexPath) is FolderRowNode else {return}
+        guard listNode.nodeForItem(at: indexPath) is RecycleRowNode else {return}
         if candidate.contains(indexPath) {
             candidate.remove(at: candidate.index(where: {$0 == indexPath})!)
         } else {
@@ -168,23 +178,168 @@ extension RecycleNodeController: ASCollectionDelegate, ASCollectionDataSource {
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
-            return ASCellNode()
+            let recycleSectionNode = RecycleSectionNode()
+            recycleSectionNode.title = self.data[indexPath.section].section
+            return recycleSectionNode
         }
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
-            return ASCellNode()
+            let recycleRowNode = RecycleRowNode()
+            recycleRowNode.place = self.node(place: indexPath)
+            recycleRowNode.isSelect = self.candidate.contains(indexPath)
+            recycleRowNode.folder = "\(indexPath.row)"
+            recycleRowNode.content = "12345678901234567890123456789012345678901234567890123456789012345678901234567890"
+            return recycleRowNode
         }
+    }
+    
+    /**
+     해당 indexPath의 node가 section내 어디에 위치하는지를 판별한다.
+     - parameter indexPath: Node의 indexPath값.
+     */
+    private func node(place indexPath: IndexPath) -> NodePlace {
+        if listNode.numberOfItems(inSection: indexPath.section) == 1 {
+            return .single
+        } else if indexPath.row == 0 {
+            return .top
+        } else if indexPath.row == listNode.numberOfItems(inSection: indexPath.section) - 1 {
+            return .bottom
+        }
+        return .middle
     }
     
 }
 
 class RecycleSectionNode: ASCellNode {
-
+    
+    fileprivate let titleNode = ASTextNode()
+    
+    fileprivate var title = ""
+    fileprivate var isHeader: Bool {
+        return indexPath?.section == 0
+    }
+    
+    override init() {
+        super.init()
+        automaticallyManagesSubnodes = true
+        
+        titleNode.isLayerBacked = true
+    }
+    
+    override func didLoad() {
+        super.didLoad()
+        let font = UIFont.systemFont(ofSize: isHeader ? 34.auto : 23.auto, weight: .bold)
+        titleNode.attributedText = NSAttributedString(string: "title", attributes: [.font : font])
+    }
+    
+    override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+        let titleCenter = ASCenterLayoutSpec(centeringOptions: .Y, sizingOptions: .minimumY, child: titleNode)
+        titleCenter.style.preferredSize = constrainedSize.max
+        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: isHeader ? 24.auto : 31.auto), child: titleCenter)
+        return titleInset
+    }
+    
 }
 
-class RecycleRoWNode: ASCellNode {
+class RecycleRowNode: ASCellNode {
+    
+    fileprivate let backgroundNode = ASDisplayNode()
+    fileprivate let foregroundNode = ASDisplayNode()
+    fileprivate let folderNode = ASTextNode()
+    fileprivate let titleNode = ASTextNode()
+    fileprivate let contentNode = ASTextNode()
+    
+    fileprivate var place = NodePlace.single
+    fileprivate var isSelect = false
+    fileprivate var folder = ""
+    fileprivate var content = ""
+    
+    override init() {
+        super.init()
+        automaticallyManagesSubnodes = true
+        
+        backgroundNode.backgroundColor = UIColor(hex6: "eaebed")
+        backgroundNode.isLayerBacked = true
+        backgroundNode.cornerRadius = 14
+        
+        foregroundNode.backgroundColor = .white
+        foregroundNode.isLayerBacked = true
+        foregroundNode.cornerRadius = 10
+        
+        folderNode.maximumNumberOfLines = 1
+        folderNode.isLayerBacked = true
+        
+        titleNode.maximumNumberOfLines = 1
+        titleNode.isLayerBacked = true
+        
+        contentNode.maximumNumberOfLines = 2
+        contentNode.isLayerBacked = true
+    }
+    
+    override func didLoad() {
+        super.didLoad()
+        let folderFont = UIFont.systemFont(ofSize: 13.5.auto)
+        folderNode.attributedText = NSAttributedString(string: folder, attributes: [.font : folderFont])
+    }
+    
+    override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+        let folderInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 14.auto, l: 15.5.auto, r: 15.5.auto), child: folderNode)
+        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 8.auto, l: 15.5.auto, b: 8.auto, r: 15.5.auto), child: titleNode)
+        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 15.5.auto, b: 14.auto, r: 15.5.auto), child: contentNode)
+        
+        let vStack = ASStackLayoutSpec.vertical()
+        vStack.children = [folderInset, titleInset, contentInset]
+        
+        let foreOver = ASOverlayLayoutSpec(child: foregroundNode, overlay: vStack)
+        let foreInset = ASInsetLayoutSpec(insets: shapeInset().fore, child: foreOver)
+        
+        let backOver = ASOverlayLayoutSpec(child: backgroundNode, overlay: foreInset)
+        let backInset = ASInsetLayoutSpec(insets: shapeInset().back, child: backOver)
+        
+        return backInset
+    }
+    
+    private func shapeInset() -> (fore: UIEdgeInsets, back: UIEdgeInsets) {
+        var fore = UIEdgeInsets(t: 6.auto, l: 6.auto, b: 6.auto, r: 6.auto)
+        var back = UIEdgeInsets(l: 12.5.auto, r: 12.5.auto)
+        let offset = backgroundNode.cornerRadius * 2
+        if place == .top {
+            fore.bottom = offset + 3
+            back.bottom = -offset
+        } else if place == .middle {
+            fore.top = offset + 3
+            back.top = -offset
+            fore.bottom = offset + 3
+            back.bottom = -offset
+        } else if place == .bottom {
+            fore.top = offset + 3
+            back.top = -offset
+        }
+        return (fore: fore, back: back)
+    }
+    
+    override func layout() {
+        super.layout()
+        continuousText()
+        selectionBorder()
+    }
+    
+    private func continuousText() {
+        let titleFont = UIFont.systemFont(ofSize: 29.2.auto, weight: .bold)
+        let titleAttStr = NSAttributedString(string: content, attributes: [.font : titleFont])
+        titleNode.attributedText = titleAttStr.firstLine(width: titleNode.frame.width)
+        
+        let contentText = titleAttStr.string.sub(titleNode.attributedText!.length...)
+        let contentFont = UIFont.systemFont(ofSize: 16.8.auto)
+        contentNode.attributedText = NSAttributedString(string: contentText, attributes: [.font : contentFont])
+    }
+    
+    private func selectionBorder() {
+        foregroundNode.borderColor = UIColor(hex6: isSelect ? "1784ff" : "b5b5b5").cgColor
+        foregroundNode.borderWidth = isSelect ? 2 : 0.5
+    }
     
 }
 

@@ -31,8 +31,7 @@ class FolderViewController: DRViewController {
     
     private func initNavi() {
         navi { (navi, item) in
-            item.title = "folder".locale
-            item.rightBarButtonItem?.title = "selectAll".locale
+            item.rightBarButtonItem?.title = "edit".locale
             navi.toolbarItems = toolbarItems
             navi.toolbarItems![1].title = String(format: "selectFolderCount".locale, 0)
         }
@@ -115,7 +114,7 @@ class FolderNodeController: ASDisplayNode {
         
         newFolderButton.addTarget(self, action: #selector(action(newFolder:)), forControlEvents: .touchUpInside)
         newFolderButton.setAttributedTitle(NSAttributedString(string: "newFolder".locale,
-                                                              attributes: [.font : UIFont.systemFont(ofSize: 17, weight: .regular),
+                                                              attributes: [.font : UIFont.systemFont(ofSize: 17.auto, weight: .regular),
                                                                            .foregroundColor : UIColor(hex6: "007aff")]), for: .normal)
         
         initListGesture()
@@ -261,10 +260,11 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
 
 class FolderSectionNode: ASCellNode {
     
-    let titleNode = ASTextNode()
-    let arrowNode = ASImageNode()
-    var isFolder = true
-    var isEdit = false
+    fileprivate let titleNode = ASTextNode()
+    fileprivate let arrowNode = ASImageNode()
+   
+    fileprivate var isFolder = true
+    fileprivate var isEdit = false
     
     init(data: (title: String, isFolder: Bool)) {
         self.isFolder = data.isFolder
@@ -272,7 +272,8 @@ class FolderSectionNode: ASCellNode {
         automaticallyManagesSubnodes = true
         
         titleNode.isLayerBacked = true
-        titleNode.attributedText = NSAttributedString(string: data.title, attributes: [.font : UIFont.systemFont(ofSize: isFolder ? 34 : 22, weight: .bold)])
+        let titleFont = UIFont.systemFont(ofSize: isFolder ? 34.auto : 22.auto, weight: .bold)
+        titleNode.attributedText = NSAttributedString(string: data.title, attributes: [.font : titleFont])
         
         arrowNode.isLayerBacked = true
         arrowNode.isHidden = isFolder
@@ -304,13 +305,14 @@ class FolderSectionNode: ASCellNode {
 
 class FolderRowNode: ASCellNode {
     
-    let lineNode = ASDisplayNode()
-    let checkNode = ASImageNode()
-    let titleNode = ASTextNode()
-    let countNode = ASTextNode()
-    let moveNode = ASImageNode()
-    var isSelect = false
-    var isEdit = false
+    fileprivate let lineNode = ASDisplayNode()
+    fileprivate let checkNode = ASImageNode()
+    fileprivate let titleNode = ASTextNode()
+    fileprivate let countNode = ASTextNode()
+    fileprivate let moveNode = ASImageNode()
+  
+    fileprivate var isSelect = false
+    fileprivate var isEdit = false
     
     init(data: (title: String, count: String)) {
         super.init()
@@ -323,13 +325,12 @@ class FolderRowNode: ASCellNode {
         checkNode.isLayerBacked = true
         
         titleNode.isLayerBacked = true
-        titleNode.attributedText = NSAttributedString(string: data.title,
-                                                      attributes: [.font : UIFont.systemFont(ofSize: 17, weight: .regular)])
+        let titleFont = UIFont.systemFont(ofSize: 17.auto)
+        titleNode.attributedText = NSAttributedString(string: data.title, attributes: [.font : titleFont])
         
         countNode.isLayerBacked = true
-        countNode.attributedText = NSAttributedString(string: data.count,
-                                                      attributes: [.font : UIFont.systemFont(ofSize: 13, weight: .regular),
-                                                                   .foregroundColor : UIColor(hex6: "8a8a8f")])
+        let countFont = UIFont.systemFont(ofSize: 17.auto)
+        countNode.attributedText = NSAttributedString(string: data.count, attributes: [.font : countFont, .foregroundColor : UIColor(hex6: "8a8a8f")])
         
         moveNode.isLayerBacked = true
         moveNode.image = #imageLiteral(resourceName: "listMoveIcon")

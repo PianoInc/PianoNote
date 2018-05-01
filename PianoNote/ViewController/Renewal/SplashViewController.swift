@@ -14,9 +14,9 @@ class SplashViewController: DRViewController {
         super.viewDidAppear(animated)
         UIView.transition(with: navigationController!.view, duration: 0.5, options: [.transitionCrossDissolve], animations: {
             //let folderViewController = UIStoryboard.view(type: FolderViewController.self)
-            let recycleViewController = UIStoryboard.view(type: RecycleViewController.self)
-            //let fracebookViewController = UIStoryboard.view(type: FacebookViewController.self)
-            self.present(view: recycleViewController, animated: false)
+            //let recycleViewController = UIStoryboard.view(type: RecycleViewController.self)
+            let facebookViewController = UIStoryboard.view(type: FacebookViewController.self)
+            self.present(view: facebookViewController, animated: false)
             //self.present(id: "MainListViewController", animated: false)
         })
     }
