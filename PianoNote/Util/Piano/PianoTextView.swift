@@ -170,9 +170,10 @@ extension PianoTextView {
 extension PianoTextView {
     func set(string: String, with attributes: [AttributeModel]) {
         let newAttributedString = NSMutableAttributedString(string: string)
+        newAttributedString.addAttributes(FormAttributes.defaultAttributes, range: NSMakeRange(0, newAttributedString.length))
         attributes.forEach{ newAttributedString.add(attribute: $0) }
         
-        attributedText = newAttributedString
+        set(newAttributedString: newAttributedString)
     }
     
     func get() -> (string: String, attributes: [AttributeModel]) {
