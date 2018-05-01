@@ -18,6 +18,7 @@ class PianoTextView: InteractiveTextView {
     override func didMoveToWindow() {
         super.didMoveToWindow()
 //        inputViewManager = DRInputViewManager(self)
+        
     }
     
 //    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
@@ -45,7 +46,6 @@ class PianoTextView: InteractiveTextView {
         
         setup()
         tag = ViewTag.PianoTextView.rawValue
-        textContainerInset.top = 20
         noteID = ""
     }
     
@@ -99,7 +99,6 @@ class PianoTextView: InteractiveTextView {
         newTextView.setup()
         
         newTextView.tag = ViewTag.PianoTextView.rawValue
-        newTextView.textContainerInset.top = 20
         
         return newTextView
     }
