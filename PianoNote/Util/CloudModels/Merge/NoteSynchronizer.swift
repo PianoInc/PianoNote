@@ -136,6 +136,7 @@ class NoteSynchronizer {
                         let serverAttributesData = noteModel.attributes
                         let serverAttributes = try! JSONDecoder().decode([AttributeModel].self, from: serverAttributesData)
                         let serverAttributedString = NSMutableAttributedString(string: noteModel.content)
+                        serverAttributedString.addAttributes(FormAttributes.defaultAttributes, range: NSMakeRange(0, serverAttributedString.length))
                         serverAttributes.forEach { serverAttributedString.add(attribute: $0) }
                         
                         print("ancestore: \n"+oldContent)
@@ -214,7 +215,9 @@ class NoteSynchronizer {
         let serverAttributes = (try? JSONDecoder().decode([AttributeModel].self, from: serverAttributesData)) ?? []
         
         let serverAttributedString = NSMutableAttributedString(string: serverContent)
+        serverAttributedString.addAttributes(FormAttributes.defaultAttributes, range: NSMakeRange(0, serverAttributedString.length))
         serverAttributes.forEach { serverAttributedString.add(attribute: $0) }
+        
         
         
         textView.isSyncing = true
