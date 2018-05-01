@@ -29,9 +29,10 @@ class NoteViewController: UIViewController {
         super.viewDidLoad()
 
         if let realm = try? Realm(),
-            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) {
+            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID),
+            let code = ColorPreset(rawValue: note.colorThemeCode) {
             
-            //TODO: set colors
+            resetColors(code: code)
         }
         setFormAttributes()
         setDelegates()
@@ -65,7 +66,8 @@ class NoteViewController: UIViewController {
         FormAttributes.defaultFont = PianoFontAttribute.standard().getFont()
 //        FormAttributes.defaultColor =
         FormAttributes.numFont = UIFont(name: "Avenir Next", size: PianoFontAttribute.standard().getFont().pointSize)!
-        FormAttributes.effectColor = ColorManager.shared.foreground()
+        FormAttributes.effectColor = ColorManager.shared.pointForeground()
+        FormAttributes.defaultColor = ColorManager.shared.defaultForeground()
         FormAttributes.customMakeParagraphStyle = { bullet, spaceCount, tabCount in
             return DynamicParagraphStyle(bullet: bullet, spaceCount: spaceCount, tabCount: tabCount)
         }
@@ -118,14 +120,18 @@ class NoteViewController: UIViewController {
             notificationToken = note.observe { [weak self] change in
                 switch change {
                     case .change(let properties):
-                        if let newBackground = (properties.filter{ $0.name == Schema.Note.backgroundColorString }).first?.newValue as? String {
-                            let color = Color(hex6: newBackground)
-                            //TODO: set Color
+                        if let colorThemeCode = (properties.filter{ $0.name == Schema.Note.colorThemeCode }).first?.newValue as? String,
+                            let code = ColorPreset(rawValue: colorThemeCode) {
+                            self?.resetColors(code: code)
                         }
                     default: break
                 }
             }
         }
+    }
+    
+    private func resetColors(code: ColorPreset) {
+        textView.resetColors(preset: code)
     }
 
     private func resetFonts() {

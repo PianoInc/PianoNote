@@ -180,4 +180,14 @@ extension PianoTextView {
         
         return attributedText.getStringWithPianoAttributes()
     }
+    
+    func resetColors(preset: ColorPreset) {
+        let foregroundAttributes = get().attributes.filter{ $0.style == .foregroundColor }
+        ColorManager.shared.set(preset: preset)
+        FormAttributes.defaultColor = ColorManager.shared.defaultForeground()
+        FormAttributes.effectColor = ColorManager.shared.pointForeground()
+        
+        textStorage.addAttribute(.foregroundColor, value: FormAttributes.defaultColor, range: NSMakeRange(0, textStorage.length))
+        foregroundAttributes.forEach { textStorage.add(attribute: $0) }
+    }
 }

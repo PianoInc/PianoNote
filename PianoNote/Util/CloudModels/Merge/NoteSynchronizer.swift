@@ -190,10 +190,12 @@ class NoteSynchronizer {
                 
             }
 
-            if let newBackgroundColor = record[Schema.Note.backgroundColorString] as? String {
-                let color = UIColor(hex6: newBackgroundColor)
+            if let colorThemeCode = record[Schema.Note.colorThemeCode] as? String,
+                let preset = ColorPreset(rawValue: colorThemeCode) {
+//                let color = UIColor(hex6: newBackgroundColor)
                 DispatchQueue.main.async { [weak self] in
-                    self?.textView.backgroundColor = color
+//                    self?.textView.backgroundColor = color
+                    self?.textView.resetColors(preset: preset)
                 }
             }
             textView.isSyncing = false

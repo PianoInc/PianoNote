@@ -22,7 +22,7 @@ enum PianoAttributes: Int {
         var newAttr = attr
         switch self {
         case .foregroundColor:
-            newAttr[.foregroundColor] = ColorManager.shared.foreground()
+            newAttr[.foregroundColor] = ColorManager.shared.pointForeground()
             
         case .backgroundColor:
             newAttr[.backgroundColor] = ColorManager.shared.highlightBackground()

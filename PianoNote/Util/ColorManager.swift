@@ -22,15 +22,25 @@ class ColorManager {
     //underline, strikethrough color
     //merge highlight color
     
+    func set(preset: ColorPreset) {
+        self.preset = preset
+    }
+    
     func textViewBackground() -> UIColor {
         switch preset {
         case .white: return UIColor.white
         }
     }
     
-    func foreground() -> UIColor {
+    func pointForeground() -> UIColor {
         switch preset {
         case .white: return UIColor.blue
+        }
+    }
+    
+    func defaultForeground() -> UIColor {
+        switch preset {
+        case .white: return UIColor.black
         }
     }
     
@@ -53,6 +63,6 @@ class ColorManager {
     }
 }
 
-enum ColorPreset {
+enum ColorPreset: String {
     case white
 }

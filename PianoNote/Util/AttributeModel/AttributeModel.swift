@@ -97,7 +97,7 @@ enum Style {
             self = .highlight
         case .foregroundColor:
             guard let color = attribute.value as? UIColor ,
-                    color == ColorManager.shared.foreground() else {return nil}
+                    color == ColorManager.shared.pointForeground() else {return nil}
             self = .foregroundColor
         case .strikethroughStyle:
             guard let value = attribute.value as? Int, value == 1 else {return nil}
@@ -126,7 +126,7 @@ enum Style {
     func toNSAttribute() -> [NSAttributedStringKey: Any] {
         switch self {
         case .highlight: return [.backgroundColor: ColorManager.shared.highlightBackground()]
-        case .foregroundColor: return [.foregroundColor: ColorManager.shared.foreground()]
+        case .foregroundColor: return [.foregroundColor: ColorManager.shared.pointForeground()]
         case .strikethrough: return [.strikethroughStyle: 1, .strikethroughColor: ColorManager.shared.underLine()]
         case .underline: return [.underlineStyle: 1, .underlineColor: ColorManager.shared.underLine()]
         case .font(let fontAttribute): return [.pianoFontInfo: fontAttribute, .font: fontAttribute.getFont()]
