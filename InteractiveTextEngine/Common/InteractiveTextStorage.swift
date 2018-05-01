@@ -267,20 +267,20 @@ extension InteractiveTextStorage {
     private func resetBullet(range: inout NSRange, bullet: PianoBullet?) {
         
         guard let uBullet = bullet else { return }
-        
+
         switch uBullet.type {
         case .number:
             //구두점을 포함해서 색상, 폰트를 리셋한다.
             var resetRange = uBullet.range
             resetRange.length += 1 //punctuation
-            backingStore.addAttributes([.foregroundColor : Color.darkText, .font: Font.preferredFont(forTextStyle: .body)], range: resetRange)
+            backingStore.addAttributes([.foregroundColor : FormAttributes.defaultColor, .font: FormAttributes.defaultFont], range: resetRange)
             edited([.editedAttributes], range: resetRange, changeInLength: 0)
             
         case .value:
             //키로 바꿔주고 색상, 폰트를 리셋한다.
             let attrString = NSAttributedString(
                 string: uBullet.converted!,
-                attributes: [.foregroundColor: Color.darkText,
+                attributes: [.foregroundColor: FormAttributes.defaultColor,
                              .font : Font.preferredFont(forTextStyle: .body)
                 ])
             
@@ -442,8 +442,14 @@ extension InteractiveTextStorage {
             
         }
         
-        let width = backingStore.attributedSubstring(from: NSMakeRange(bullet.paraRange.location, bullet.baselineIndex - bullet.paraRange.location)).size().width
-        let paragraphStyle = FormAttributes.makeParagraphStyle(bullet: bullet, whitespaceWidth: width)
+//        let width = backingStore.attributedSubstring(from: NSMakeRange(bullet.paraRange.location, bullet.baselineIndex - bullet.paraRange.location)).size().width
+        let blankString = backingStore.attributedSubstring(from: NSMakeRange(bullet.paraRange.location, bullet.baselineIndex - bullet.paraRange.location))
+        
+        let width = blankString.size().width
+        let spaceCount = blankString.string.filter{$0 == " "}.count
+        let tabCount = blankString.string.filter{$0 == "\t"}.count
+        let paragraphStyle = FormAttributes.customMakeParagraphStyle?(bullet, spaceCount, tabCount) ??
+            FormAttributes.makeParagraphStyle(bullet: bullet, whitespaceWidth: width)
         
         backingStore.addAttributes(
             [.paragraphStyle: paragraphStyle],
@@ -478,8 +484,12 @@ extension InteractiveTextStorage {
             guard let adjustNextBullet = PianoBullet(text: string, selectedRange: range),
                 !adjustNextBullet.isOverflow else { return }
             
-            let width = backingStore.attributedSubstring(from: adjustNextBullet.range).size().width
-            let paragraphStyle = FormAttributes.makeParagraphStyle(bullet: adjustNextBullet, whitespaceWidth: width)
+            let blankString = backingStore.attributedSubstring(from: adjustNextBullet.range)
+            let width = blankString.size().width
+            let spaceCount = blankString.string.filter{$0 == " "}.count
+            let tabCount = blankString.string.filter{$0 == "\t"}.count
+            let paragraphStyle = FormAttributes.customMakeParagraphStyle?(adjustNextBullet, spaceCount, tabCount) ??
+                    FormAttributes.makeParagraphStyle(bullet: adjustNextBullet, whitespaceWidth: width)
             
             backingStore.addAttributes(
                 [.font : FormAttributes.numFont,

@@ -67,10 +67,33 @@ class FontManager {
         }
     }
 
-    func getFont(for attribute: PianoFontAttribute) -> UIFont {
+    func font(for attribute: PianoFontAttribute) -> UIFont {
         let descriptor = getDescriptor(from: attribute.traits)
         let size = getSize(from: attribute.sizeCategory)
 
         return UIFont(descriptor: descriptor, size: size)
+    }
+
+    func fontAttribute(for font: UIFont) -> PianoFontAttribute {
+        var traits: FontTraits = []
+        
+        if !font.fontDescriptor.matrix.c.isZero {
+            traits.insert(.italic)
+            //TODO: check
+        }
+        if font.fontDescriptor.symbolicTraits.contains(.traitBold) {
+            traits.insert(.bold)
+        }
+
+        var size = FontSizeCategory.body
+
+        for sizeCategory in ([.body, .title1, .title2, .title3] as [FontSizeCategory]) {
+            if font.pointSize == getSize(from: sizeCategory) {
+                size = sizeCategory
+                break
+            }
+        }
+
+        return PianoFontAttribute(traits: traits, sizeCategory: size)
     }
 }

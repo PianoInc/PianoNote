@@ -11,6 +11,7 @@ import RealmSwift
 import RxCocoa
 import RxSwift
 import CloudKit
+import InteractiveTextEngine_iOS
 
 class NoteViewController: UIViewController {
 
@@ -34,6 +35,7 @@ class NoteViewController: UIViewController {
             }
             //TODO: set colors
         }
+        setFormAttributes()
         setDelegates()
         registerNibs()
 
@@ -59,6 +61,16 @@ class NoteViewController: UIViewController {
         notificationToken?.invalidate()
         removeGarbageImages()
         saveWhenDeallocating()
+    }
+
+    private func setFormAttributes() {
+        FormAttributes.defaultFont = PianoFontAttribute.standard().getFont()
+//        FormAttributes.defaultColor =
+        FormAttributes.numFont = UIFont(name: "Avenir Next", size: PianoFontAttribute.standard().getFont().pointSize)!
+        FormAttributes.effectColor = ColorManager.shared.foreground()
+        FormAttributes.customMakeParagraphStyle = { bullet, spaceCount, tabCount in
+            return DynamicParagraphStyle(bullet: bullet, spaceCount: spaceCount, tabCount: tabCount)
+        }
     }
     
     private func setCanvasSize(_ size: CGSize) {
