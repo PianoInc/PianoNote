@@ -8,9 +8,6 @@
 
 import UIKit
 
-/// 최대 제한 width 값. (812)
-let limitWidth: CGFloat = 812
-
 extension UIWindow {
     
     /// 호출하는 순간의 최상위 ViewController를 반환한다.

@@ -9,8 +9,6 @@
 import UIKit
 import AsyncDisplayKit
 
-typealias FolderData = (section: String, row: [String]?)
-
 class FolderViewController: DRViewController {
     
     private let nodeCtrl = FolderNodeController()
@@ -34,12 +32,12 @@ class FolderViewController: DRViewController {
     private func initNavi() {
         navi { (navi, item) in
             item.title = "folder".locale
-            item.rightBarButtonItem?.title = "edit".locale
+            item.rightBarButtonItem?.title = "selectAll".locale
             navi.toolbarItems = toolbarItems
             navi.toolbarItems![1].title = String(format: "selectFolderCount".locale, 0)
         }
         nodeCtrl.countBinder.subscribe { [weak self] in
-            self?.navigationController?.toolbarItems![1].title = String(format: "selectFolderCount".locale, $0)
+            self?.navigationController?.toolbarItems?[1].title = String(format: "selectFolderCount".locale, $0)
         }
     }
     
@@ -60,10 +58,6 @@ class FolderViewController: DRViewController {
         navigationController?.isToolbarHidden = true
     }
     
-}
-
-extension FolderViewController {
-    
     @IBAction private func navi(edit button: UIBarButtonItem) {
         navi { (navi, item) in
             let toEditMode = (button.title == "edit".locale)
@@ -71,7 +65,6 @@ extension FolderViewController {
             navi.isToolbarHidden = !toEditMode
         }
         nodeCtrl.isEdit = !nodeCtrl.isEdit
-        nodeCtrl.countBinder.value = 0
         nodeCtrl.removeCandidate.removeAll()
         nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
     }
@@ -90,13 +83,17 @@ extension FolderViewController {
     
 }
 
+typealias FolderData = (section: String, row: [String]?)
+
 class FolderNodeController: ASDisplayNode {
     
     fileprivate let newFolderButton = ASButtonNode()
     fileprivate let listNode = ASCollectionNode(collectionViewLayout: UICollectionViewFlowLayout())
     fileprivate var data = [FolderData]()
     fileprivate var isEdit = false
-    fileprivate var removeCandidate = [String]()
+    fileprivate var removeCandidate = [String]() {
+        didSet {countBinder.value = removeCandidate.count}
+    }
     fileprivate let countBinder = DRBinder(0)
     
     typealias MoveItemSpec = (origin: IndexPath, dest: IndexPath, item: UIView)
@@ -121,10 +118,10 @@ class FolderNodeController: ASDisplayNode {
                                                               attributes: [.font : UIFont.systemFont(ofSize: 17, weight: .regular),
                                                                            .foregroundColor : UIColor(hex6: "007aff")]), for: .normal)
         
-        initViewGesture()
+        initListGesture()
     }
     
-    private func initViewGesture() {
+    private func initListGesture() {
         ASMainSerialQueue().performBlock {
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.action(tap:)))
             let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.action(longPress:)))
@@ -141,17 +138,6 @@ class FolderNodeController: ASDisplayNode {
         let buttonInset = ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: buttonRelative)
         
         return ASOverlayLayoutSpec(child: listInset, overlay: buttonInset)
-    }
-    
-    private func safeArea(from width: CGFloat) -> UIEdgeInsets {
-        var viewInset = safeInset
-        viewInset.top += naviHeight
-        let limitInset = (width - limitWidth) / 2
-        if limitInset > 0 {
-            viewInset.left += limitInset
-            viewInset.right += limitInset
-        }
-        return viewInset
     }
     
     @objc private func action(newFolder: ASButtonNode) {
@@ -186,7 +172,6 @@ class FolderNodeController: ASDisplayNode {
             removeCandidate.append(title)
         }
         listNode.reloadItems(at: [indexPath])
-        countBinder.value = removeCandidate.count
     }
     
     @objc private func action(longPress: UILongPressGestureRecognizer) {

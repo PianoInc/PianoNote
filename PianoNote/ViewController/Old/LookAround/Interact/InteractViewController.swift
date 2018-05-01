@@ -71,7 +71,7 @@ class InteractViewController: DRViewController {
             $0.trailing.equalTo(-(self.minSize * 0.08)).priority(.high)
             $0.bottom.equalTo(-(self.minSize * 0.16))
             $0.height.equalTo(self.minSize * 0.1333)
-            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.width.lessThanOrEqualTo(self.limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
         makeConst(listView) {
@@ -79,7 +79,7 @@ class InteractViewController: DRViewController {
             $0.trailing.equalTo(-self.safeInset.right).priority(.high)
             $0.top.equalTo(self.statusHeight + self.naviHeight)
             $0.bottom.equalTo(-self.safeInset.bottom)
-            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.width.lessThanOrEqualTo(self.limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
     }
