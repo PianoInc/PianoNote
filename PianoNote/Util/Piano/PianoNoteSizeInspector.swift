@@ -41,14 +41,31 @@ enum PianoNoteSize {
 class PianoNoteSizeInspector {
     static let shared = PianoNoteSizeInspector()
     private var currentSize: PianoNoteSize = .normal
+    private let key = "sizeKey"
     
-    private init() {}
+    private init() {
+        let level = UserDefaults.standard.integer(forKey: key)
+        if let size = PianoNoteSize(level: level) {
+            currentSize = size
+        }
+    }
     
     func set(to size: PianoNoteSize) {
+        if size != currentSize {
+            defer {
+                NotificationCenter.default.post(name: .pianoSizeInspectorSizeChanged, object: nil)
+            }
+        }
+        UserDefaults.standard.set(size.level, forKey: key)
         currentSize = size
+        
     }
     
     func get() -> PianoNoteSize {
         return currentSize
     }
+}
+
+extension Notification.Name {
+    static let pianoSizeInspectorSizeChanged = Notification.Name("pianoSizeInspectorSizeChanged")
 }

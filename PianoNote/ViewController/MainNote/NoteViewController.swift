@@ -30,9 +30,7 @@ class NoteViewController: UIViewController {
 
         if let realm = try? Realm(),
             let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) {
-            if let size = PianoNoteSize(level: note.sizeLevel) {
-                PianoNoteSizeInspector.shared.set(to: size)
-            }
+            
             //TODO: set colors
         }
         setFormAttributes()
@@ -108,6 +106,13 @@ class NoteViewController: UIViewController {
                 }
             }).disposed(by: disposeBag)
 
+        NotificationCenter.default.rx.notification(.pianoSizeInspectorSizeChanged)
+            .subscribe(onNext: { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.resetFonts()
+                }
+        }).disposed(by: disposeBag)
+        
         if let realm = try? Realm(),
                 let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) {
             notificationToken = note.observe { [weak self] change in
@@ -117,14 +122,6 @@ class NoteViewController: UIViewController {
                             let color = Color(hex6: newBackground)
                             //TODO: set Color
                         }
-
-                        if let newSizeLevel = (properties.filter { $0.name == Schema.Note.sizeLevel}).first?.newValue as? Int,
-                            let newSize = PianoNoteSize(level: newSizeLevel) {
-                            PianoNoteSizeInspector.shared.set(to: newSize)
-                            DispatchQueue.main.async {
-                                self?.resetFonts()
-                            }
-                        }
                     default: break
                 }
             }
@@ -132,6 +129,10 @@ class NoteViewController: UIViewController {
     }
 
     private func resetFonts() {
+        self.textView.textStorage.addAttributes([.font: PianoFontAttribute.standard().getFont()], range: NSMakeRange(0, textView.textStorage.length))
+        
+        
+        
         self.textView.textStorage.enumerateAttribute(.pianoFontInfo, in: NSMakeRange(0, textView.textStorage.length), options: .longestEffectiveRangeNotRequired) { value, range, _ in
             guard let fontAttribute = value as? PianoFontAttribute else {return}
             let font = fontAttribute.getFont()

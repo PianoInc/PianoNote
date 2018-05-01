@@ -27,7 +27,7 @@ public class FormAttributes {
     public static var defaultFont: Font = Font.preferredFont(forTextStyle: .body)
     
     static var defaultParagraphStyle: MutableParagraphStyle = makeDefaultParaStyle()
-    static var defaultAttributes: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: false)
+    public static var defaultAttributes: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: false)
     public static var defaultTypingAttributes: [String : Any] = makeDefaultTypingAttributes()
     static var defaultAttributesWithoutParagraphStyle: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: true)
     
