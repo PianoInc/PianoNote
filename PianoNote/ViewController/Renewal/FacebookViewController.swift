@@ -75,6 +75,7 @@ class FacebookViewController: DRViewController {
     
     /// Data의 변화를 감지하여 listView에 이어 붙인다.
     private func attachData() {
+        nodeCtrl.data.append(["interact".locale : [DRFBPost(create: Date(), id: "", title: "", msg: "")]])
         DRFBService.share.rxPost.subscribe { [weak self] data in
             self?.nodeCtrl.isHidden = false
             self?.group(time: data)
@@ -86,20 +87,26 @@ class FacebookViewController: DRViewController {
      - parameter data: Non-grouped data.
      */
     private func group(time data: [DRFBPost]) {
+        var appendPath = [IndexPath]()
         for post in data {
             let key = post.create.timeFormat
             if nodeCtrl.data.contains(where: {$0.contains {$0.0 == key}}) {
                 if let idx = nodeCtrl.data.index(where: {$0.contains {$0.0 == key}}) {
-                    nodeCtrl.data[idx][key]?.append(post)
-                    let indexPath = IndexPath(row: nodeCtrl.data[idx][key]!.count - 1, section: idx)
+                    nodeCtrl.data[idx][key]!.append(post)
+                    var indexPath = IndexPath(row: nodeCtrl.data[idx][key]!.count - 1, section: idx)
                     nodeCtrl.listNode.insertItems(at: [indexPath])
+                    appendPath.append(indexPath)
+                    guard indexPath.row >= 1 else {continue}
+                    indexPath = IndexPath(row: nodeCtrl.data[idx][key]!.count - 2, section: idx)
+                    guard !appendPath.contains(indexPath) else {continue}
+                    appendPath.append(indexPath)
                 }
             } else {
                 nodeCtrl.data.append([key : [post]])
-                let indexSet = IndexSet(integer: nodeCtrl.data.count - 1)
-                nodeCtrl.listNode.insertSections(indexSet)
+                nodeCtrl.listNode.insertSections(IndexSet(integer: nodeCtrl.data.count - 1))
             }
         }
+        nodeCtrl.listNode.reloadItems(at: appendPath)
     }
     
     @IBAction private func action(login: UIButton) {
@@ -125,6 +132,7 @@ class FacebookNodeController: ASDisplayNode {
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
+        listNode.contentInset.top = 16.auto
         listNode.view.alwaysBounceVertical = true
         listNode.allowsSelection = false
         listNode.layoutInspector = self
@@ -147,8 +155,12 @@ class FacebookNodeController: ASDisplayNode {
     
     @objc private func action(tap: UITapGestureRecognizer) {
         let point = tap.location(in: listNode.view)
-        guard let _ = listNode.indexPathForItem(at: point) else {return}
-        
+        guard let indexPath = listNode.indexPathForItem(at: point) else {return}
+        guard let postData = post(data: indexPath) else {return}
+        let facebookDetailViewController = UIStoryboard.view(type: FacebookDetailViewController.self)
+        facebookDetailViewController.postData = (id: postData.id, title: postData.title)
+        guard let currentVC = UIWindow.topVC else {return}
+        currentVC.present(view: facebookDetailViewController, animated: true)
     }
     
 }
@@ -187,7 +199,7 @@ extension FacebookNodeController: ASCollectionDelegate, ASCollectionDataSource {
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, numberOfItemsInSection section: Int) -> Int {
-        return data[section].first?.value.count ?? 0
+        return (section == 0) ? 0 : (data[section].first?.value.count ?? 0)
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> ASCellNodeBlock {
@@ -235,7 +247,7 @@ extension FacebookNodeController: ASCollectionDelegate, ASCollectionDataSource {
         }
         return .middle
     }
-        
+    
 }
 
 class FacebookSectionNode: ASCellNode {
@@ -257,7 +269,7 @@ class FacebookSectionNode: ASCellNode {
     override func didLoad() {
         super.didLoad()
         let font = UIFont.systemFont(ofSize: isHeader ? 34.auto : 23.auto, weight: .bold)
-        titleNode.attributedText = NSAttributedString(string: "title", attributes: [.font : font])
+        titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : font])
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {

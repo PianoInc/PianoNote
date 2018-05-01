@@ -152,7 +152,7 @@
         <!--Facebook Detail View Controller-->
         <scene sceneID="ryZ-r8-QTH">
             <objects>
-                <viewController storyboardIdentifier="cebookDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aHz-e6-BeV" customClass="FacebookDetailViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FacebookDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aHz-e6-BeV" customClass="FacebookDetailViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8eb-dl-Rzh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

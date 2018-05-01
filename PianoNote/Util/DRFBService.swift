@@ -33,6 +33,7 @@ class DRFBService: NSObject {
     
     private let postLimit = "10"
     private let commentLimit = "10"
+    private var isRunning = false
     
     /// postData을 감시하며 self return한다.
     var rxPost = DRBinder([DRFBPost]())
@@ -62,7 +63,8 @@ class DRFBService: NSObject {
      - parameter pageID : 가져오고자 하는 page의 id.
      */
     func facebook(post pageID: String) {
-        guard postState.state == .next else {return}
+        guard !isRunning, postState.state == .next else {return}
+        isRunning = true
         
         let params = ["fields" : "created_time, name, message", "limit" : postLimit, "after" : postState.cursor]
         let request = FBSDKGraphRequest(graphPath: "/\(pageID)/posts", parameters: params)!
@@ -91,6 +93,7 @@ class DRFBService: NSObject {
                 self.postState.state = .next
                 self.postState.cursor = next.sub(next.index(lastOf: "=")...)
             }
+            self.isRunning = false
         }
     }
     
@@ -99,8 +102,9 @@ class DRFBService: NSObject {
      - parameter postID : 가져오고자 하는 post의 id.
      */
     func facebook(comment postID: String) {
-        guard commentState.state == .next else {return}
-        
+        guard !isRunning, commentState.state == .next else {return}
+        isRunning = true
+        print("run", "run", "run")
         let params = ["fields" : "comments.limit(\(commentLimit)){created_time, comment_count, message, comments{created_time, message}}", "after" : commentState.cursor]
         let request = FBSDKGraphRequest(graphPath: postID, parameters: params)!
         request.start { (_, result, _) in
@@ -137,6 +141,7 @@ class DRFBService: NSObject {
                 self.commentState.state = .next
                 self.commentState.cursor = next.sub(next.index(lastOf: "=")...)
             }
+            self.isRunning = false
         }
     }
     
