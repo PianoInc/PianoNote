@@ -182,10 +182,10 @@ class FolderNodeController: ASDisplayNode {
             moveItem.origin = indexPath
             moveItem.dest = indexPath
             guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
-            item.isHidden = true
             moveItem.item = item.view.snapshotView(afterScreenUpdates: true)!
             moveItem.item.center.y = point.y
             listNode.view.addSubview(moveItem.item)
+            item.isHidden = true
         case .changed:
             guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
             moveItem.item.center.y = point.y
@@ -238,7 +238,7 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> ASCellNodeBlock {
         let data = self.data[indexPath.section]
         return { () -> ASCellNode in
-            let sectionNode = FolderSectionNode(data: (title: data.section, isFolder: data.row != nil))
+            let sectionNode = FolderSectionNode(title: data.section, isFolder: (data.row != nil))
             guard indexPath.section != 0 else {return sectionNode}
             sectionNode.isEdit = self.isEdit
             return sectionNode
@@ -248,7 +248,7 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         let data = self.data[indexPath.section].row!
         return { () -> ASCellNode in
-            let rowNode = FolderRowNode(data: (title: data[indexPath.row], count: String(data.count)))
+            let rowNode = FolderRowNode(title: data[indexPath.row], count: String(data.count))
             guard indexPath.row != 0 else {return rowNode}
             rowNode.isSelect = self.removeCandidate.contains(data[indexPath.row])
             rowNode.isEdit = self.isEdit
@@ -262,20 +262,19 @@ class FolderSectionNode: ASCellNode {
     
     fileprivate let titleNode = ASTextNode()
     fileprivate let arrowNode = ASImageNode()
-   
+    
     fileprivate var isFolder = true
     fileprivate var isEdit = false
     
-    init(data: (title: String, isFolder: Bool)) {
-        self.isFolder = data.isFolder
+    init(title: String, isFolder: Bool) {
+        self.isFolder = isFolder
         super.init()
         automaticallyManagesSubnodes = true
         
         titleNode.isLayerBacked = true
         let titleFont = UIFont.systemFont(ofSize: isFolder ? 34.auto : 22.auto, weight: .bold)
-        titleNode.attributedText = NSAttributedString(string: data.title, attributes: [.font : titleFont])
+        titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : titleFont])
         
-        arrowNode.isLayerBacked = true
         arrowNode.isHidden = isFolder
         arrowNode.image = #imageLiteral(resourceName: "nextArrow")
     }
@@ -310,11 +309,11 @@ class FolderRowNode: ASCellNode {
     fileprivate let titleNode = ASTextNode()
     fileprivate let countNode = ASTextNode()
     fileprivate let moveNode = ASImageNode()
-  
+    
     fileprivate var isSelect = false
     fileprivate var isEdit = false
     
-    init(data: (title: String, count: String)) {
+    init(title: String, count: String) {
         super.init()
         automaticallyManagesSubnodes = true
         backgroundColor = .white
@@ -322,17 +321,14 @@ class FolderRowNode: ASCellNode {
         lineNode.backgroundColor = UIColor(hex6: "c8c7cc")
         lineNode.isLayerBacked = true
         
-        checkNode.isLayerBacked = true
-        
         titleNode.isLayerBacked = true
         let titleFont = UIFont.systemFont(ofSize: 17.auto)
-        titleNode.attributedText = NSAttributedString(string: data.title, attributes: [.font : titleFont])
+        titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : titleFont])
         
         countNode.isLayerBacked = true
         let countFont = UIFont.systemFont(ofSize: 17.auto)
-        countNode.attributedText = NSAttributedString(string: data.count, attributes: [.font : countFont, .foregroundColor : UIColor(hex6: "8a8a8f")])
+        countNode.attributedText = NSAttributedString(string: count, attributes: [.font : countFont, .foregroundColor : UIColor(hex6: "8a8a8f")])
         
-        moveNode.isLayerBacked = true
         moveNode.image = #imageLiteral(resourceName: "listMoveIcon")
     }
     

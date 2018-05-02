@@ -178,19 +178,18 @@ extension RecycleNodeController: ASCollectionDelegate, ASCollectionDataSource {
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
-            let recycleSectionNode = RecycleSectionNode()
-            recycleSectionNode.title = self.data[indexPath.section].section
+            let title = self.data[indexPath.section].section
+            let recycleSectionNode = RecycleSectionNode(title: title, isHeader: indexPath.section == 0)
             return recycleSectionNode
         }
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
-            let recycleRowNode = RecycleRowNode()
+            let recycleRowNode = RecycleRowNode(folder: "\(indexPath.row)")
             recycleRowNode.place = self.node(place: indexPath)
             recycleRowNode.isSelect = self.candidate.contains(indexPath)
-            recycleRowNode.folder = "\(indexPath.row)"
-            recycleRowNode.content = "12345678901234567890123456789012345678901234567890123456789012345678901234567890"
+            recycleRowNode.content = "12345678901234567890111213141516171819202122232425262728293031323334353637383940"
             return recycleRowNode
         }
     }
@@ -216,29 +215,19 @@ class RecycleSectionNode: ASCellNode {
     
     fileprivate let titleNode = ASTextNode()
     
-    fileprivate var title = ""
-    fileprivate var isHeader: Bool {
-        return indexPath?.section == 0
-    }
-    
-    override init() {
+    init(title: String, isHeader: Bool) {
         super.init()
         automaticallyManagesSubnodes = true
         
         titleNode.isLayerBacked = true
-    }
-    
-    override func didLoad() {
-        super.didLoad()
         let font = UIFont.systemFont(ofSize: isHeader ? 34.auto : 23.auto, weight: .bold)
-        titleNode.attributedText = NSAttributedString(string: "title", attributes: [.font : font])
+        titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : font])
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         let titleCenter = ASCenterLayoutSpec(centeringOptions: .Y, sizingOptions: .minimumY, child: titleNode)
         titleCenter.style.preferredSize = constrainedSize.max
-        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: isHeader ? 24.auto : 31.auto), child: titleCenter)
-        return titleInset
+        return ASInsetLayoutSpec(insets: UIEdgeInsets(l: indexPath?.section == 0 ? 24.auto : 31.auto), child: titleCenter)
     }
     
 }
@@ -253,10 +242,9 @@ class RecycleRowNode: ASCellNode {
     
     fileprivate var place = NodePlace.single
     fileprivate var isSelect = false
-    fileprivate var folder = ""
     fileprivate var content = ""
     
-    override init() {
+    init(folder: String) {
         super.init()
         automaticallyManagesSubnodes = true
         
@@ -270,18 +258,14 @@ class RecycleRowNode: ASCellNode {
         
         folderNode.maximumNumberOfLines = 1
         folderNode.isLayerBacked = true
+        let folderFont = UIFont.systemFont(ofSize: 13.5.auto)
+        folderNode.attributedText = NSAttributedString(string: folder, attributes: [.font : folderFont])
         
         titleNode.maximumNumberOfLines = 1
         titleNode.isLayerBacked = true
         
         contentNode.maximumNumberOfLines = 2
         contentNode.isLayerBacked = true
-    }
-    
-    override func didLoad() {
-        super.didLoad()
-        let folderFont = UIFont.systemFont(ofSize: 13.5.auto)
-        folderNode.attributedText = NSAttributedString(string: folder, attributes: [.font : folderFont])
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -296,9 +280,7 @@ class RecycleRowNode: ASCellNode {
         let foreInset = ASInsetLayoutSpec(insets: shapeInset().fore, child: foreOver)
         
         let backOver = ASOverlayLayoutSpec(child: backgroundNode, overlay: foreInset)
-        let backInset = ASInsetLayoutSpec(insets: shapeInset().back, child: backOver)
-        
-        return backInset
+        return ASInsetLayoutSpec(insets: shapeInset().back, child: backOver)
     }
     
     private func shapeInset() -> (fore: UIEdgeInsets, back: UIEdgeInsets) {

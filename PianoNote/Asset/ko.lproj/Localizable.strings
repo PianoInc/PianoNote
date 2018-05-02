@@ -27,6 +27,7 @@
 "facebookLogin" = "  페이스북으로 로그인";
 "facebookNoReply" = "답글 없음";
 "facebookReply" = "답글 %d개 보기";
+"facebookVisit" = "페이스북으로 댓글달기";
 "dateYearPast" = "%d년 %d월";
 "dateYear" = "%d개월 전";
 "dateMonth" = "최근 한달";

@@ -9,9 +9,6 @@
 import UIKit
 import FBSDKCoreKit
 
-// Facebook piano page ID
-let PianoPageID = "602234013303895"
-
 class InteractViewController: DRViewController {
     
     @IBOutlet private var facebookLabel: UILabel! { didSet {

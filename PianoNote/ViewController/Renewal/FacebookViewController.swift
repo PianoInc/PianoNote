@@ -132,8 +132,9 @@ class FacebookNodeController: ASDisplayNode {
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
-        listNode.contentInset.top = 16.auto
+        listNode.backgroundColor = UIColor(hex6: "F9F9F9")
         listNode.view.alwaysBounceVertical = true
+        listNode.contentInset.top = 16.auto
         listNode.allowsSelection = false
         listNode.layoutInspector = self
         listNode.dataSource = self
@@ -157,10 +158,10 @@ class FacebookNodeController: ASDisplayNode {
         let point = tap.location(in: listNode.view)
         guard let indexPath = listNode.indexPathForItem(at: point) else {return}
         guard let postData = post(data: indexPath) else {return}
-        let facebookDetailViewController = UIStoryboard.view(type: FacebookDetailViewController.self)
-        facebookDetailViewController.postData = (id: postData.id, title: postData.title)
+        let viewController = UIStoryboard.view(type: FacebookDetailViewController.self)
+        viewController.postData = (id: postData.id, title: postData.title)
         guard let currentVC = UIWindow.topVC else {return}
-        currentVC.present(view: facebookDetailViewController, animated: true)
+        currentVC.present(view: viewController, animated: true)
     }
     
 }
@@ -204,23 +205,19 @@ extension FacebookNodeController: ASCollectionDelegate, ASCollectionDataSource {
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
-            let facebookSectionNode = FacebookSectionNode()
-            guard !self.data.isEmpty else {return facebookSectionNode}
-            facebookSectionNode.title = self.data[indexPath.section].first!.key
-            return facebookSectionNode
+            guard !self.data.isEmpty else {return ASCellNode()}
+            let title = self.data[indexPath.section].first!.key
+            return FacebookSectionNode(title: title, isHeader: indexPath.section == 0)
         }
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
-            let facebookRowNode = FacebookRowNode()
-            guard let data = self.post(data: indexPath) else {return facebookRowNode}
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy.MM.dd"
-            facebookRowNode.date = formatter.string(from: data.create)
-            facebookRowNode.content = data.msg
-            facebookRowNode.place = self.node(place: indexPath)
-            return facebookRowNode
+            guard let data = self.post(data: indexPath) else {return ASCellNode()}
+            let rowNode = FacebookRowNode(date: data.create)
+            rowNode.place = self.node(place: indexPath)
+            rowNode.content = data.msg
+            return rowNode
         }
     }
     
@@ -230,7 +227,10 @@ extension FacebookNodeController: ASCollectionDelegate, ASCollectionDataSource {
      - returns : 해상 indexPath에 부합하는 data값.
      */
     private func post(data indexPath: IndexPath) -> DRFBPost? {
-        return data[indexPath.section].first?.value[indexPath.row]
+        guard indexPath.section < data.count else {return nil}
+        guard let data = data[indexPath.section].first?.value else {return nil}
+        guard indexPath.row < data.count else {return nil}
+        return data[indexPath.row]
     }
     
     /**
@@ -254,20 +254,10 @@ class FacebookSectionNode: ASCellNode {
     
     fileprivate let titleNode = ASTextNode()
     
-    fileprivate var title = ""
-    fileprivate var isHeader: Bool {
-        return indexPath?.section == 0
-    }
-    
-    override init() {
+    init(title: String, isHeader: Bool) {
         super.init()
         automaticallyManagesSubnodes = true
-        
         titleNode.isLayerBacked = true
-    }
-    
-    override func didLoad() {
-        super.didLoad()
         let font = UIFont.systemFont(ofSize: isHeader ? 34.auto : 23.auto, weight: .bold)
         titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : font])
     }
@@ -275,8 +265,7 @@ class FacebookSectionNode: ASCellNode {
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         let titleCenter = ASCenterLayoutSpec(centeringOptions: .Y, sizingOptions: .minimumY, child: titleNode)
         titleCenter.style.preferredSize = constrainedSize.max
-        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: isHeader ? 24.auto : 31.auto), child: titleCenter)
-        return titleInset
+        return ASInsetLayoutSpec(insets: UIEdgeInsets(l: (indexPath?.section == 0) ? 24.auto : 31.auto), child: titleCenter)
     }
     
 }
@@ -290,10 +279,9 @@ class FacebookRowNode: ASCellNode {
     fileprivate let contentNode = ASTextNode()
     
     fileprivate var place = NodePlace.single
-    fileprivate var date = ""
     fileprivate var content = ""
     
-    override init() {
+    init(date: Date) {
         super.init()
         automaticallyManagesSubnodes = true
         
@@ -309,17 +297,15 @@ class FacebookRowNode: ASCellNode {
         
         dateNode.maximumNumberOfLines = 1
         dateNode.isLayerBacked = true
+        let folderFont = UIFont.systemFont(ofSize: 13.5.auto)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        dateNode.attributedText = NSAttributedString(string: formatter.string(from: date), attributes: [.font : folderFont])
         
         titleNode.maximumNumberOfLines = 1
         titleNode.isLayerBacked = true
         
         contentNode.isLayerBacked = true
-    }
-    
-    override func didLoad() {
-        super.didLoad()
-        let folderFont = UIFont.systemFont(ofSize: 13.5.auto)
-        dateNode.attributedText = NSAttributedString(string: date, attributes: [.font : folderFont])
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
@@ -328,22 +314,20 @@ class FacebookRowNode: ASCellNode {
         let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 15.5.auto, b: 14.auto, r: 15.5.auto), child: contentNode)
         
         let vStack = ASStackLayoutSpec.vertical()
-        vStack.style.preferredLayoutSize = ASLayoutSize(width: ASDimension.init(unit: .points, value: constrainedSize.max.width), height: ASDimensionAuto)
+        vStack.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimensionAuto)
         vStack.children = [folderInset, titleInset, contentInset]
         
         let foreOver = ASBackgroundLayoutSpec(child: vStack, background: foregroundNode)
         let foreInset = ASInsetLayoutSpec(insets: shapeInset().fore, child: foreOver)
         
         let backOver = ASBackgroundLayoutSpec(child: foreInset, background: backgroundNode)
-        let backInset = ASInsetLayoutSpec(insets: shapeInset().back, child: backOver)
-        
-        return backInset
+        return ASInsetLayoutSpec(insets: shapeInset().back, child: backOver)
     }
     
     private func shapeInset() -> (fore: UIEdgeInsets, back: UIEdgeInsets) {
         var fore = UIEdgeInsets(t: 6.auto, l: 6.auto, b: 6.auto, r: 6.auto)
         var back = UIEdgeInsets(l: 12.5.auto, r: 12.5.auto)
-        let offset = backgroundNode.cornerRadius * 2
+        let offset: CGFloat = 28
         if place == .top {
             fore.bottom = offset + 3
             back.bottom = -offset

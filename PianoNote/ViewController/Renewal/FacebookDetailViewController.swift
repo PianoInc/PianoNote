@@ -17,6 +17,7 @@ class FacebookDetailViewController: DRViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nodeCtrl.postData = postData
         view.addSubnode(nodeCtrl)
         attachData()
         DRFBService.share.facebook(comment: postData.id)
@@ -44,9 +45,12 @@ class FacebookDetailViewController: DRViewController {
     
 }
 
-class FacebookDetailNodeController: ASDisplayNode {
+class FacebookDetailNodeController: ASDisplayNode, FBDetailSectionDelegates {
     
     fileprivate let listNode = ASCollectionNode(collectionViewLayout: UICollectionViewFlowLayout())
+    fileprivate let facebookNode = ASButtonNode()
+    
+    fileprivate var postData = (id : "", title : "")
     fileprivate var data = [DRFBComment]()
     
     override init() {
@@ -56,16 +60,38 @@ class FacebookDetailNodeController: ASDisplayNode {
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
-        listNode.contentInset.top = 16.auto
+        listNode.backgroundColor = UIColor(hex6: "F9F9F9")
         listNode.view.alwaysBounceVertical = true
+        listNode.contentInset.top = 16.auto
         listNode.allowsSelection = false
         listNode.layoutInspector = self
         listNode.dataSource = self
         listNode.delegate = self
+        
+        facebookNode.setImage(#imageLiteral(resourceName: "info"), for: .normal)
+        let facebookFont = UIFont.systemFont(ofSize: 16.auto)
+        facebookNode.setAttributedTitle(NSAttributedString(string: "facebookVisit".locale, attributes: [.font : facebookFont, .foregroundColor : UIColor(hex6: "007aff")]), for: .normal)
+        facebookNode.addTarget(self, action: #selector(action(facebook:)), forControlEvents: .touchUpInside)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        return ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: listNode)
+        listNode.style.flexGrow = 1
+        facebookNode.style.flexShrink = 0
+        facebookNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimension(unit: .points, value: 45.auto))
+        let vStack = ASStackLayoutSpec.vertical()
+        vStack.children = [listNode, facebookNode]
+        return ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: vStack)
+    }
+    
+    func expand(indexPath: IndexPath) {
+        data[indexPath.section].expend = true
+        listNode.reloadSections(IndexSet(integer: indexPath.section))
+    }
+    
+    @objc private func action(facebook: ASButtonNode) {
+        let url = URL(string: "https://www.facebook.com/pg/OurLovePiano/posts")!
+        guard UIApplication.shared.canOpenURL(url) else {return}
+        UIApplication.shared.open(url)
     }
     
 }
@@ -81,7 +107,7 @@ extension FacebookDetailNodeController: ASCollectionViewLayoutInspecting {
     }
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForSupplementaryNodeOfKind kind: String, at indexPath: IndexPath) -> ASSizeRange {
-        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 60.auto))
+        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: CGFloat.greatestFiniteMagnitude))
     }
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
@@ -96,8 +122,7 @@ extension FacebookDetailNodeController: ASCollectionDelegate, ASCollectionDataSo
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         guard currentOffset / maximumOffset > 0.9 else {return}
-        guard let currentVC = UIWindow.topVC as? FacebookDetailViewController else {return}
-        DRFBService.share.facebook(comment: currentVC.postData.id)
+        DRFBService.share.facebook(comment: postData.id)
     }
     
     func numberOfSections(in collectionNode: ASCollectionNode) -> Int {
@@ -105,27 +130,226 @@ extension FacebookDetailNodeController: ASCollectionDelegate, ASCollectionDataSo
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, numberOfItemsInSection section: Int) -> Int {
-        return data[section].reply?.count ?? 0
+        return (section == 0 || !data[section].expend) ? 0 : (data[section].reply?.count ?? 0)
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
-            return ASCellNode()
+            guard indexPath.section != 0 else {
+                return FacebookDetailHeaderNode(title: self.postData.title)
+            }
+            let sectionNode = FacebookDetailSectionNode(data: self.data[indexPath.section])
+            sectionNode.delegates = self
+            return sectionNode
         }
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
-            return ASCellNode()
+            guard let data = self.reply(data: indexPath) else {return ASCellNode()}
+            return FacebookDetailRowNode(data: data)
         }
     }
     
     /**
-     해당 indexPath에 부합하는 data를 반환한다.
+     해당 indexPath에 부합하는 reply data를 반환한다.
      - parameter indexPath: 찾고자 하는 indexPath.
      */
-    private func comment(data indexPath: IndexPath) -> DRFBReply? {
-        return data[indexPath.section].reply?[indexPath.row]
+    private func reply(data indexPath: IndexPath) -> DRFBReply? {
+        guard indexPath.section < data.count else {return nil}
+        guard let data = data[indexPath.section].reply else {return nil}
+        guard indexPath.row < data.count else {return nil}
+        return data[indexPath.row]
+    }
+    
+}
+
+class FacebookDetailHeaderNode: ASCellNode {
+    
+    fileprivate let titleNode = ASTextNode()
+    
+    init(title: String) {
+        super.init()
+        automaticallyManagesSubnodes = true
+        
+        titleNode.isLayerBacked = true
+        let font = UIFont.systemFont(ofSize: 23.auto, weight: .bold)
+        titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : font])
+    }
+    
+    override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+        return ASInsetLayoutSpec(insets: UIEdgeInsets(t: 24.auto, l: 40.auto, b: 24.auto, r: 40.auto), child: titleNode)
+    }
+    
+}
+
+protocol FBDetailSectionDelegates: NSObjectProtocol {
+    func expand(indexPath: IndexPath)
+}
+
+class FacebookDetailSectionNode: ASCellNode {
+    
+    weak var delegates: FBDetailSectionDelegates!
+    
+    fileprivate let backgroundNode = ASDisplayNode()
+    fileprivate let portraitNode = ASImageNode()
+    fileprivate let nameNode = ASTextNode()
+    fileprivate let contentNode = ASTextNode()
+    fileprivate let arrowNode = ASImageNode()
+    fileprivate let replyNode = ASButtonNode()
+    fileprivate let dateNode = ASTextNode()
+    
+    fileprivate var data: DRFBComment
+    
+    init(data: DRFBComment) {
+        self.data = data
+        super.init()
+        automaticallyManagesSubnodes = true
+        
+        backgroundNode.backgroundColor = .white
+        backgroundNode.isLayerBacked = true
+        backgroundNode.cornerRadius = 13
+        backgroundNode.shadowColor = UIColor(hex8: "56565626").cgColor
+        backgroundNode.shadowOffset = CGSize(width: 0, height: 1)
+        backgroundNode.shadowRadius = 2.5
+        backgroundNode.shadowOpacity = 1
+        
+        portraitNode.contentMode = .scaleAspectFit
+        portraitNode.image = #imageLiteral(resourceName: "info")
+        
+        nameNode.isLayerBacked = true
+        nameNode.maximumNumberOfLines = 1
+        let nameFont = UIFont.systemFont(ofSize: 13.auto, weight: .bold)
+        let nameColor = UIColor(hex6: "365899")
+        nameNode.attributedText = NSAttributedString(string: "작성자", attributes: [.font : nameFont, .foregroundColor : nameColor])
+        
+        contentNode.isLayerBacked = true
+        let contentFont = UIFont.systemFont(ofSize: 15.auto)
+        contentNode.attributedText = NSAttributedString(string: data.msg, attributes: [.font : contentFont])
+        
+        arrowNode.contentMode = .scaleAspectFit
+        arrowNode.image = #imageLiteral(resourceName: "reply")
+        
+        replyNode.addTarget(self, action: #selector(action(button:)), forControlEvents: .touchUpInside)
+        
+        dateNode.isLayerBacked = true
+        dateNode.maximumNumberOfLines = 1
+        let dateFont = UIFont.systemFont(ofSize: 12.auto)
+        let dateColor = UIColor.black.withAlphaComponent(0.8)
+        dateNode.attributedText = NSAttributedString(string: data.create.timeFormat, attributes: [.font : dateFont, .foregroundColor : dateColor])
+    }
+    
+    override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+        portraitNode.style.preferredSize = CGSize(width: 25.5.auto, height: 25.5.auto)
+        let portraitInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 6.auto, l: 11.5.auto), child: portraitNode)
+        let nameInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 11.auto, l: 10.5.auto, r: 10.5.auto), child: nameNode)
+        let h1Stack = ASStackLayoutSpec.horizontal()
+        h1Stack.children = [portraitInset, nameInset]
+        
+        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 7.5.auto, l: 15.auto, b: 15.auto, r: 15.auto), child: contentNode)
+        
+        let v1Stack = ASStackLayoutSpec.vertical()
+        v1Stack.children = [h1Stack, contentInset]
+        
+        let backSpec = ASBackgroundLayoutSpec(child: v1Stack, background: backgroundNode)
+        let backInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 8.auto, r: 8.auto), child: backSpec)
+        
+        arrowNode.style.preferredSize = CGSize(width: 13.auto, height: 13.auto)
+        let arrowInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 27.5.auto, r: 8.auto), child: arrowNode)
+        let replyInset = ASInsetLayoutSpec(insets: UIEdgeInsets(r: 8.auto), child: replyNode)
+        let dateInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 9.5.auto), child: dateNode)
+        
+        let h2Stack = ASStackLayoutSpec.horizontal()
+        h2Stack.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimension(unit: .points, value: 34.auto))
+        h2Stack.children = [arrowInset, replyInset, dateInset]
+        
+        let v2Stack = ASStackLayoutSpec.vertical()
+        v2Stack.children = [backInset, h2Stack]
+        return v2Stack
+    }
+    
+    override func layout() {
+        super.layout()
+        initReplyNode()
+    }
+    
+    private func initReplyNode() {
+        var replyText = "facebookNoReply".locale
+        if data.count > 0 {replyText = String(format: "facebookReply".locale, data.count)}
+        let replyFont = UIFont.systemFont(ofSize: 12.auto, weight: .semibold)
+        replyNode.isEnabled = (!data.expend && data.count > 0)
+        let replyColor = replyNode.isEnabled ? UIColor(hex6: "007aff") : .black
+        replyNode.setAttributedTitle(NSAttributedString(string: replyText, attributes: [.font : replyFont, .foregroundColor : replyColor]), for: .normal)
+    }
+    
+    @objc private func action(button: ASButtonNode) {
+        guard let indexPath = indexPath else {return}
+        delegates.expand(indexPath: indexPath)
+    }
+    
+}
+
+class FacebookDetailRowNode: ASCellNode {
+    
+    fileprivate let backgroundNode = ASDisplayNode()
+    fileprivate let portraitNode = ASImageNode()
+    fileprivate let nameNode = ASTextNode()
+    fileprivate let contentNode = ASTextNode()
+    fileprivate let dateNode = ASTextNode()
+    
+    init(data: DRFBReply) {
+        super.init()
+        automaticallyManagesSubnodes = true
+        
+        backgroundNode.backgroundColor = .white
+        backgroundNode.isLayerBacked = true
+        backgroundNode.cornerRadius = 13
+        backgroundNode.shadowColor = UIColor(hex8: "56565626").cgColor
+        backgroundNode.shadowOffset = CGSize(width: 0, height: 1)
+        backgroundNode.shadowRadius = 2.5
+        backgroundNode.shadowOpacity = 1
+        
+        portraitNode.contentMode = .scaleAspectFit
+        portraitNode.image = #imageLiteral(resourceName: "info")
+        
+        nameNode.isLayerBacked = true
+        nameNode.backgroundColor = .white
+        let nameFont = UIFont.systemFont(ofSize: 13.auto, weight: .bold)
+        let nameColor = UIColor(hex6: "365899")
+        nameNode.attributedText = NSAttributedString(string: " 작성자 ", attributes: [.font : nameFont, .foregroundColor : nameColor])
+        
+        contentNode.isLayerBacked = true
+        let contentFont = UIFont.systemFont(ofSize: 15.auto)
+        contentNode.attributedText = NSAttributedString(string: "작성자" + data.msg, attributes: [.font : contentFont])
+        
+        dateNode.isLayerBacked = true
+        let dateFont = UIFont.systemFont(ofSize: 12.auto)
+        let dateColor = UIColor.black.withAlphaComponent(0.8)
+        dateNode.attributedText = NSAttributedString(string: data.create.timeFormat, attributes: [.font : dateFont, .foregroundColor : dateColor])
+    }
+    
+    override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+        contentNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width - 120.5.auto), height: ASDimensionAuto)
+        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 14.auto, l: 15.auto, b: 15.auto, r: 15.auto), child: contentNode)
+        
+        let nameInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 15.auto, l: 14.auto), child: nameNode)
+        let absSpec = ASAbsoluteLayoutSpec(children: [contentInset, nameInset])
+        let backSpec = ASBackgroundLayoutSpec(child: absSpec, background: backgroundNode)
+        
+        dateNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimensionAuto, height: ASDimension(unit: .points, value: 24.5.auto))
+        let dateInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 9.5.auto, l: 19.5.auto), child: dateNode)
+        
+        let vStack = ASStackLayoutSpec.vertical()
+        vStack.children = [backSpec, dateInset]
+        
+        portraitNode.style.preferredSize = CGSize(width: 25.5.auto, height: 25.5.auto)
+        let portraitInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 6.auto, l: 53.auto, r: 6.auto), child: portraitNode)
+        
+        let hStack = ASStackLayoutSpec.horizontal()
+        hStack.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimensionAuto)
+        hStack.alignItems = .start
+        hStack.children = [portraitInset, vStack]
+        return hStack
     }
     
 }

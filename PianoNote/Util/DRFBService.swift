@@ -21,6 +21,9 @@ enum DRFBState {
     case next, finish
 }
 
+// Facebook piano page ID
+let PianoPageID = "602234013303895"
+
 class DRFBService: NSObject {
     
     static let share = DRFBService()
