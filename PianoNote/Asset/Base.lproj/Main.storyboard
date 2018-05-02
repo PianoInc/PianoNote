@@ -32,6 +32,153 @@
             </objects>
             <point key="canvasLocation" x="-79" y="134"/>
         </scene>
+        <!--Folder View Controller-->
+        <scene sceneID="J0P-S8-uOP">
+            <objects>
+                <viewController storyboardIdentifier="FolderViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8Vc-Dg-PzA" customClass="FolderViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CeF-fA-UR9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="ORQ-wW-Erq"/>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="8pk-ZB-i4L"/>
+                        <barButtonItem id="jik-Gt-l2D">
+                            <connections>
+                                <action selector="toolBarWithLeft:" destination="fti-cI-utA" id="QED-Rm-RDx"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="4pL-fm-18F"/>
+                        <barButtonItem systemItem="trash" id="wFD-qM-EdB">
+                            <connections>
+                                <action selector="toolWithDelete:" destination="8Vc-Dg-PzA" id="IQx-jw-TFr"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="gUI-9f-bto">
+                        <barButtonItem key="rightBarButtonItem" id="D7h-pM-szX">
+                            <connections>
+                                <action selector="naviWithEdit:" destination="8Vc-Dg-PzA" id="VvG-p8-SKI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XEy-k2-fte" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1524" y="-1347"/>
+        </scene>
+        <!--Recycle View Controller-->
+        <scene sceneID="Jns-62-UtQ">
+            <objects>
+                <viewController storyboardIdentifier="RecycleViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="API-DF-QvD" customClass="RecycleViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aPR-cJ-yck">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="Od6-P9-Vcl"/>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem id="yt5-cL-ZhY">
+                            <connections>
+                                <action selector="toolWithRestore:" destination="API-DF-QvD" id="2zV-aE-GR3"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="96Y-CK-9O7"/>
+                        <barButtonItem id="rQW-I2-ao8">
+                            <connections>
+                                <action selector="toolBarWithLeft:" destination="fti-cI-utA" id="uoe-qr-yXC"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="44t-dF-dXR"/>
+                        <barButtonItem systemItem="trash" id="JDG-mN-lzy">
+                            <connections>
+                                <action selector="toolWithRemove:" destination="API-DF-QvD" id="m1e-bo-Cvj"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="SOq-iX-gEw">
+                        <barButtonItem key="rightBarButtonItem" id="pzE-5B-aOO">
+                            <connections>
+                                <action selector="naviWithSelectAll:" destination="API-DF-QvD" id="WXI-ZR-wVG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="veq-mk-TTA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2250" y="-1347"/>
+        </scene>
+        <!--Facebook View Controller-->
+        <scene sceneID="HWs-2v-BDo">
+            <objects>
+                <viewController storyboardIdentifier="FacebookViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ok0-aC-h19" customClass="FacebookViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jrg-eS-4bK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="33L-zU-Z62">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lNC-sL-831">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.23529411759999999" green="0.34901960780000002" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="actionWithLogin:" destination="ok0-aC-h19" eventType="touchUpInside" id="5dK-Zo-Mvc"/>
+                                    <action selector="actionWithLogin:" destination="uZo-Ud-35H" eventType="touchUpInside" id="Eb8-E8-g07"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="hFc-gl-NCd"/>
+                    </view>
+                    <connections>
+                        <outlet property="facebookButton" destination="lNC-sL-831" id="awF-SD-07f"/>
+                        <outlet property="facebookLabel" destination="33L-zU-Z62" id="wB1-qG-Lxt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vZk-R1-ljb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2988" y="-1347"/>
+        </scene>
+        <!--Facebook Detail View Controller-->
+        <scene sceneID="ryZ-r8-QTH">
+            <objects>
+                <viewController storyboardIdentifier="FacebookDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aHz-e6-BeV" customClass="FacebookDetailViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8eb-dl-Rzh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="LNT-DO-laN"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w06-Df-1h6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3719" y="-1347"/>
+        </scene>
+        <!--Info View Controller-->
+        <scene sceneID="hye-ag-Z1T">
+            <objects>
+                <viewController storyboardIdentifier="InfoViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="95L-A7-jOY" customClass="InfoViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JKZ-lY-jks">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="1uO-KC-F5h"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qHM-lU-9qf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4444" y="-1347"/>
+        </scene>
         <!--Splash View Controller-->
         <scene sceneID="thZ-1x-ez0">
             <objects>
@@ -45,6 +192,7 @@
                     <navigationItem key="navigationItem" id="yK6-1c-PrM"/>
                     <connections>
                         <segue destination="jXl-cj-hWB" kind="show" identifier="MainListViewController" id="qZg-qB-95p"/>
+                        <segue destination="8Vc-Dg-PzA" kind="show" identifier="FolderViewController" id="plc-UI-8tL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n1B-A2-GTB" sceneMemberID="firstResponder"/>
@@ -168,7 +316,7 @@
                                                             <rect key="frame" x="0.0" y="145.5" width="50" height="44"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MdR-h5-tfn" id="Epa-ma-wXE">
-                                                                <rect key="frame" x="0.0" y="0.0" width="50" height="44"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="50" height="43.5"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="RU7-Y8-EsK">

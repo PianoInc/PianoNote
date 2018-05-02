@@ -53,7 +53,7 @@ class DRNoteCellHeader: UIView {
             $0.trailing.equalTo(0).priority(.high)
             $0.top.equalTo(0)
             $0.bottom.equalTo(0)
-            $0.width.lessThanOrEqualTo(limitWidth).priority(.required)
+            $0.width.lessThanOrEqualTo(self.limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
     }

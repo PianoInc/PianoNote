@@ -31,6 +31,14 @@ func makeConst<T>(_ view: T, _ const: @escaping ((ConstraintMaker) -> ())) where
     view.snp.makeConstraints {const($0)}
 }
 
+extension UIEdgeInsets {
+    
+    init(t: CGFloat = 0, l: CGFloat = 0, b: CGFloat = 0, r: CGFloat = 0) {
+        self.init(top: t, left: l, bottom: b, right: r)
+    }
+    
+}
+
 extension UIView {
     
     /// InputView를 전체화면으로 animate 한다.
