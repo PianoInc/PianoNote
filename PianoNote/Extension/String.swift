@@ -8,7 +8,18 @@
 
 import UIKit
 
+
+extension Range where Bound == String.Index {
+    func toNSRange() -> NSRange {
+        return NSMakeRange(lowerBound.encodedOffset, upperBound.encodedOffset - lowerBound.encodedOffset)
+    }
+}
+
 extension String {
+    
+    var nsString: NSString {
+        return NSString(string: self)
+    }
     
     /// 해당 id를 가지는 localized string을 반환한다.
     var locale: String {
@@ -100,6 +111,31 @@ extension NSAttributedString {
             return NSAttributedString(string: "")
         }
         return attributedSubstring(from: NSMakeRange(0, CTLineGetStringRange(line).length))
+    }
+    
+    func withoutParagraphStyle() -> NSAttributedString {
+        
+        let mutableAttrString = NSMutableAttributedString(attributedString: self)
+        let paragraphStyle = ParagraphStyle()
+        if mutableAttrString.length != 0 {
+            mutableAttrString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, mutableAttrString.length))
+        }
+        return mutableAttrString
+        
+    }
+    
+    func getStringWithPianoAttributes() -> (string: String, attributes: [AttributeModel]) {
+        var attributes: [AttributeModel] = []
+        
+        self.enumerateAttributes(in: NSMakeRange(0, self.length), options: .reverse) { (dic, range, _) in
+            for (key, value) in dic {
+                if let pianoAttribute = AttributeModel(range: range, attribute: (key, value)) {
+                    attributes.append(pianoAttribute)
+                }
+            }
+        }
+        
+        return (string: self.string, attributes: attributes)
     }
     
 }
