@@ -164,6 +164,21 @@
             </objects>
             <point key="canvasLocation" x="3719" y="-1347"/>
         </scene>
+        <!--Info View Controller-->
+        <scene sceneID="hye-ag-Z1T">
+            <objects>
+                <viewController storyboardIdentifier="InfoViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="95L-A7-jOY" customClass="InfoViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JKZ-lY-jks">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="1uO-KC-F5h"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qHM-lU-9qf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4444" y="-1347"/>
+        </scene>
         <!--Splash View Controller-->
         <scene sceneID="thZ-1x-ez0">
             <objects>

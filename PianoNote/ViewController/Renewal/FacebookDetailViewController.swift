@@ -60,7 +60,7 @@ class FacebookDetailNodeController: ASDisplayNode, FBDetailSectionDelegates {
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
-        listNode.backgroundColor = UIColor(hex6: "F9F9F9")
+        listNode.backgroundColor = .clear
         listNode.view.alwaysBounceVertical = true
         listNode.contentInset.top = 16.auto
         listNode.allowsSelection = false

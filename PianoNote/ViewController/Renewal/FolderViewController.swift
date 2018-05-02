@@ -107,6 +107,7 @@ class FolderNodeController: ASDisplayNode {
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
         listNode.contentInset.bottom = inputHeight
         listNode.view.alwaysBounceVertical = true
+        listNode.backgroundColor = .clear
         listNode.allowsSelection = false
         listNode.layoutInspector = self
         listNode.dataSource = self
@@ -316,7 +317,6 @@ class FolderRowNode: ASCellNode {
     init(title: String, count: String) {
         super.init()
         automaticallyManagesSubnodes = true
-        backgroundColor = .white
         
         lineNode.backgroundColor = UIColor(hex6: "c8c7cc")
         lineNode.isLayerBacked = true

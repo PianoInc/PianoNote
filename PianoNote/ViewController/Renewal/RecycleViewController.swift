@@ -113,6 +113,7 @@ class RecycleNodeController: ASDisplayNode {
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
         listNode.contentInset.bottom = inputHeight
         listNode.view.alwaysBounceVertical = true
+        listNode.backgroundColor = .clear
         listNode.allowsSelection = false
         listNode.layoutInspector = self
         listNode.dataSource = self
@@ -220,8 +221,8 @@ class RecycleSectionNode: ASCellNode {
         automaticallyManagesSubnodes = true
         
         titleNode.isLayerBacked = true
-        let font = UIFont.systemFont(ofSize: isHeader ? 34.auto : 23.auto, weight: .bold)
-        titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : font])
+        let titleFont = UIFont.systemFont(ofSize: isHeader ? 34.auto : 23.auto, weight: .bold)
+        titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : titleFont])
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
