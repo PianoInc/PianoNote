@@ -39,12 +39,6 @@ class NoteSettingViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return 11
     }
-    
-    deinit {
-        if let noteID = noteID {
-            ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: [Schema.Note.sizeLevel : PianoNoteSizeInspector.shared.get().level])
-        }
-    }
 
     @IBAction func valueChanged(_ sender: UISlider) {
         

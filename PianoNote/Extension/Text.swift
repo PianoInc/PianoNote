@@ -34,15 +34,46 @@ extension NSAttributedString {
     
     func getStringWithPianoAttributes() -> (string: String, attributes: [AttributeModel]) {
         var attributes: [AttributeModel] = []
+        let myRange = NSMakeRange(0, self.length)
         
-        self.enumerateAttributes(in: NSMakeRange(0, self.length), options: .reverse) { (dic, range, _) in
-            for (key, value) in dic {
-                if let pianoAttribute = AttributeModel(range: range, attribute: (key, value)) {
-                    attributes.append(pianoAttribute)
-                }
+        self.enumerateAttribute(.attachment, in: myRange, options: .longestEffectiveRangeNotRequired) { (value, range, _) in
+            if let pianoAttribute = AttributeModel(range: range, attribute: (.attachment, value as Any)) {
+                attributes.append(pianoAttribute)
             }
         }
+        
+        self.enumerateAttribute(.font, in: myRange, options: .longestEffectiveRangeNotRequired) { (value, range, _) in
+            if let pianoAttribute = AttributeModel(range: range, attribute: (.font, value as Any)) {
+                attributes.append(pianoAttribute)
+            }
+        }
+        
+        self.enumerateAttribute(.backgroundColor, in: myRange, options: .longestEffectiveRangeNotRequired) { (value, range, _) in
+            if let pianoAttribute = AttributeModel(range: range, attribute: (.backgroundColor, value as Any)) {
+                attributes.append(pianoAttribute)
+            }
+        }
+        
+        self.enumerateAttribute(.foregroundColor, in: myRange, options: .longestEffectiveRangeNotRequired) { (value, range, _) in
+            if let pianoAttribute = AttributeModel(range: range, attribute: (.foregroundColor, value as Any)) {
+                attributes.append(pianoAttribute)
+            }
+        }
+        
+        self.enumerateAttribute(.underlineStyle, in: myRange, options: .longestEffectiveRangeNotRequired) { (value, range, _) in
+            if let pianoAttribute = AttributeModel(range: range, attribute: (.underlineStyle, value as Any)) {
+                attributes.append(pianoAttribute)
+            }
+        }
+        
+        self.enumerateAttribute(.strikethroughStyle, in: myRange, options: .longestEffectiveRangeNotRequired) { (value, range, _) in
+            if let pianoAttribute = AttributeModel(range: range, attribute: (.strikethroughStyle, value as Any)) {
+                attributes.append(pianoAttribute)
+            }
+        }
+        
         
         return (string: self.string, attributes: attributes)
     }
 }
+

@@ -1,4 +1,11 @@
 
+"selectFolderCount" = "%d개 폴더 선택됨";
+"edit" = "편집";
+"folder" = "폴더";
+"newFolder" = "새로운 폴더";
+"newFolderSubText" = "폴더의 이름을 입력하십시오.";
+"newFolderExist" = "동일한 이름의 폴더가 존재합니다.";
+"name" = "이름";
 "newMemoSubText" = "새 메모 작성";
 "lookAround" = "둘러보기";
 "manageFolder" = "폴더관리";
@@ -11,6 +18,7 @@
 "howTo" = "사용법";
 "interact" = "소통공간";
 "select" = "선택";
+"create" = "생성";
 "selectAll" = "전체선택";
 "done" = "완료";
 "restore" = "복원";
@@ -19,6 +27,7 @@
 "facebookLogin" = "  페이스북으로 로그인";
 "facebookNoReply" = "답글 없음";
 "facebookReply" = "답글 %d개 보기";
+"facebookVisit" = "페이스북으로 댓글달기";
 "dateYearPast" = "%d년 %d월";
 "dateYear" = "%d개월 전";
 "dateMonth" = "최근 한달";

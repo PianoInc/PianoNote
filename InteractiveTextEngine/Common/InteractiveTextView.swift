@@ -8,6 +8,9 @@
 import Foundation
 
 extension InteractiveTextView {
+    public func set(newAttributedString: NSAttributedString) {
+        (textStorage as? InteractiveTextStorage)?.set(attributedString: newAttributedString)
+    }
 
     func add(_ attachment: InteractiveTextAttachment) {
         dispatcher.add(attachment: attachment)

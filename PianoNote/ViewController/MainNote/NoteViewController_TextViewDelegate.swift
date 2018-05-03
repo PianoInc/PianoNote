@@ -105,7 +105,7 @@ extension NoteViewController: UITextViewDelegate {
     
     private func hideAssistView() {
         assistTableView.removeFromSuperview()
-        
     }
+
 }
 

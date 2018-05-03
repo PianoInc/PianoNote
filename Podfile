@@ -12,7 +12,7 @@ end
 target 'PianoNote' do
     use_frameworks!
     common
-    pod 'SwiftyUserDefaults'
+    pod 'Texture'
     pod 'SwiftyJSON'
     pod 'FBSDKLoginKit'
     pod 'CryptoSwift'

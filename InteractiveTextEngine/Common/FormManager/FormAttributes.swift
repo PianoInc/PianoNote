@@ -16,19 +16,22 @@ public class FormAttributes {
     }
     public static var tailIndent: CGFloat = -20
     
-    public static var numFont: Font {
-        return Font(name: "Avenir Next", size: Font.preferredFont(forTextStyle: .body).pointSize)!
-    }
+    public static var numFont: Font = Font(name: "Avenir Next", size: Font.preferredFont(forTextStyle: .body).pointSize)!
 
+    public static var defaultColor: Color = Color.black
     public static var punctuationColor: Color = Color.lightGray
     public static var effectColor: Color = Color.point
     public static var alignment: TextAlignment = TextAlignment.natural
-    public static var lineSpacing: CGFloat = 10
+    public static var lineSpacing: CGFloat = 5
+
+    public static var defaultFont: Font = Font.preferredFont(forTextStyle: .body)
     
     static var defaultParagraphStyle: MutableParagraphStyle = makeDefaultParaStyle()
-    static var defaultAttributes: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: false)
-    static var defaultTypingAttributes: [String : Any] = makeDefaultTypingAttributes()
+    public static var defaultAttributes: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: false)
+    public static var defaultTypingAttributes: [String : Any] = makeDefaultTypingAttributes()
     static var defaultAttributesWithoutParagraphStyle: [NSAttributedStringKey : Any] = makeDefaultAttributes(keepParagraphStyle: true)
+    
+    public static var customMakeParagraphStyle: ((PianoBullet, Int, Int) -> MutableParagraphStyle)? = nil
     
     internal static func makeParagraphStyle(bullet: PianoBullet, whitespaceWidth: CGFloat) -> MutableParagraphStyle {
         
@@ -92,12 +95,13 @@ public class FormAttributes {
     }
     
     internal static func makeDefaultAttributes(keepParagraphStyle: Bool) -> [NSAttributedStringKey : Any] {
-        var paragraphStyle = [ .foregroundColor: Color.darkText,
+        var paragraphStyle = [ .foregroundColor: defaultColor,
                                .underlineStyle: 0,
                                .strikethroughStyle: 0,
                                .kern: 0,
-                               .font: Font.preferredFont(forTextStyle: .body),
-                               .backgroundColor: Color.clear
+                               .font: defaultFont,
+                               .backgroundColor: Color.clear,
+                               .baselineOffset: -lineSpacing
             ] as [NSAttributedStringKey : Any]
         if !keepParagraphStyle {
             paragraphStyle[.paragraphStyle] = defaultParagraphStyle
@@ -107,11 +111,12 @@ public class FormAttributes {
     
     internal static func makeDefaultTypingAttributes() -> [String : Any] {
         
-        return [ NSAttributedStringKey.foregroundColor.rawValue : Color.darkText,
+        return [ NSAttributedStringKey.foregroundColor.rawValue : defaultColor,
                  NSAttributedStringKey.underlineStyle.rawValue : 0,
                  NSAttributedStringKey.strikethroughStyle.rawValue : 0,
                  NSAttributedStringKey.kern.rawValue : 0,
-                 NSAttributedStringKey.font.rawValue : Font.preferredFont(forTextStyle: .body),
+                 NSAttributedStringKey.font.rawValue : defaultFont,
+                 NSAttributedStringKey.baselineOffset.rawValue: -lineSpacing,
                  NSAttributedStringKey.paragraphStyle.rawValue: defaultParagraphStyle
         ]
         

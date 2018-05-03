@@ -10,7 +10,36 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+extension Int {
+    
+    /// 375 해상도를 기준하고 있는 point를 각 해상도에 맞게 변환한다.
+    var fit: CGFloat {
+        var size = UIScreen.main.bounds.width
+        if size > UIScreen.main.bounds.height {size = UIScreen.main.bounds.height}
+        size = (size < 414) ? size : 414
+        return size * (CGFloat(self) / 375)
+    }
+    
+}
+
+extension Double {
+    
+    /// 375 해상도를 기준하고 있는 point를 각 해상도에 맞게 변환한다.
+    var fit: CGFloat {
+        var size = UIScreen.main.bounds.width
+        if size > UIScreen.main.bounds.height {size = UIScreen.main.bounds.height}
+        size = (size < 414) ? size : 414
+        return size * (CGFloat(self) / 375)
+    }
+    
+}
+
 extension NSObject {
+    
+    /// 최대 제한 width 값. (812)
+    var limitWidth: CGFloat {
+        return 812
+    }
     
     /**
      Device의 가로 세로중 더 작은 방향의 화면크기 값, iPhone의 최대 minSize인
@@ -101,6 +130,22 @@ extension NSObject {
         #else
         return 0
         #endif
+    }
+    
+    /**
+     Navigation 및 limitWidth를 고려한 safeAreaInset을 반환한다.
+     - parameter width : 제한크기에 대한 확인을 진행하려는 width값.
+     - returns : 상황이 고려된 inset값.
+     */
+    func safeArea(from width: CGFloat) -> UIEdgeInsets {
+        var inset = safeInset
+        inset.top += naviHeight
+        let limitInset = (width - limitWidth) / 2
+        if limitInset > 0 {
+            inset.left += limitInset
+            inset.right += limitInset
+        }
+        return inset
     }
     
     /**

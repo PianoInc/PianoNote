@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import InteractiveTextEngine_iOS
 
-
 struct AttributeModel {
     let startIndex: Int
     let endIndex: Int
@@ -40,11 +39,11 @@ extension AttributeModel: Hashable {
 
 extension AttributeModel: Codable {
     
-    private enum CodingKeys: CodingKey {
-        case startIndex
-        case endIndex
+    private enum CodingKeys: String, CodingKey {
+        case startIndex = "s"
+        case endIndex = "e"
         
-        case style
+        case style = "st"
     }
     
     init(from decoder: Decoder) throws {
@@ -81,52 +80,62 @@ extension NSMutableAttributedString {
 }
 
 enum Style {
-    case backgroundColor(String)
-    case foregroundColor(String)
+    case highlight
+    case foregroundColor//point
     case strikethrough
     case underline
     case font(PianoFontAttribute)
     case attachment(AttachmentAttribute)
-    case paragraphStyle(Data)
-    
+    case paragraphStyle(Int, String, Int, Int)//bullet type, bullet string, space count ,tab count
+
     init?(from attribute: (key: NSAttributedStringKey, value: Any)) {
         switch attribute.key {
         case .backgroundColor:
-            guard let color = attribute.value as? UIColor else {return nil}
-            self = .backgroundColor(color.hexString)
+            guard let color = attribute.value as? UIColor,
+                    color == ColorManager.shared.highlightBackground() else {return nil}
+            
+            self = .highlight
         case .foregroundColor:
-            guard let color = attribute.value as? UIColor else {return nil}
-            self = .foregroundColor(color.hexString)
+            guard let color = attribute.value as? UIColor ,
+                    color == ColorManager.shared.pointForeground() else {return nil}
+            self = .foregroundColor
         case .strikethroughStyle:
             guard let value = attribute.value as? Int, value == 1 else {return nil}
             self = .strikethrough
         case .underlineStyle:
             guard let value = attribute.value as? Int, value == 1 else {return nil}
             self = .underline
-        case .pianoFontInfo:
-            guard let fontAttribute = attribute.value as? PianoFontAttribute else {return nil}
-            self = .font(fontAttribute)
+        case .font:
+            guard let font = attribute.value as? UIFont,
+                    FontManager.shared.fontAttribute(for: font) != PianoFontAttribute.standard() else {return nil}
+            self = .font(FontManager.shared.fontAttribute(for: font))
         case .attachment:
             guard let attachment = attribute.value as? InteractiveTextAttachment & AttributeContainingAttachment,
                 let attribute = AttachmentAttribute(attachment: attachment) else {return nil}
             self = .attachment(attribute)
+
         case .paragraphStyle:
-            guard let paragraphStyle = attribute.value as? NSParagraphStyle else {return nil}
-            self = .paragraphStyle(paragraphStyle.archieve())
+            guard let paragraphStyle = attribute.value as? DynamicParagraphStyle,
+                    paragraphStyle != DynamicParagraphStyle.defaultStyle else {return nil}
+            self = .paragraphStyle(paragraphStyle.bulletType.rawValue, paragraphStyle.bulletString, paragraphStyle.spaceCount, paragraphStyle.tabCount)
+
         default: return nil
         }
     }
     
     func toNSAttribute() -> [NSAttributedStringKey: Any] {
         switch self {
-        case .backgroundColor(let hex): return [.backgroundColor: UIColor(hex6: hex)]
-        case .foregroundColor(let hex): return [.foregroundColor: UIColor(hex6: hex)]
-        case .strikethrough: return [.strikethroughStyle: 1, .strikethroughColor: Color.point]
-        case .underline: return [.underlineStyle: 1, .underlineColor: Color.point]
+        case .highlight: return [.backgroundColor: ColorManager.shared.highlightBackground()]
+        case .foregroundColor: return [.foregroundColor: ColorManager.shared.pointForeground()]
+        case .strikethrough: return [.strikethroughStyle: 1, .strikethroughColor: ColorManager.shared.underLine()]
+        case .underline: return [.underlineStyle: 1, .underlineColor: ColorManager.shared.underLine()]
         case .font(let fontAttribute): return [.pianoFontInfo: fontAttribute, .font: fontAttribute.getFont()]
         case .attachment(let attachmentAttribute): return attachmentAttribute.toNSAttribute()
-        case .paragraphStyle(let paragraphData):
-            return [.paragraphStyle: (NSParagraphStyle.unarchieve(from: paragraphData)! as! NSParagraphStyle)]
+        case .paragraphStyle(let bulletType, let bulletString, let spaceCount, let tabCount):
+            return [.paragraphStyle:
+                            DynamicParagraphStyle(bulletType: PianoBullet.PianoBulletType(rawValue: bulletType)!,
+                                    bulletString: bulletString, spaceCount: spaceCount, tabCount: tabCount)]
+
         }
     }
 }
@@ -134,38 +143,26 @@ enum Style {
 extension Style: Hashable {
     var hashValue: Int {
         switch self {
-        case .backgroundColor(let hex): return "backgroundColor".hashValue ^ hex.hashValue
-        case .foregroundColor(let hex): return "foregroundColor".hashValue ^ hex.hashValue
+        case .highlight: return "backgroundColor".hashValue
+        case .foregroundColor: return "foregroundColor".hashValue
         case .strikethrough: return "strikethrough".hashValue
         case .underline: return "underline".hashValue
         case .font(let fontAttribute): return fontAttribute.hashValue
         case .attachment(let attachmentAttribute): return attachmentAttribute.hashValue
-        case .paragraphStyle(let data): return data.hashValue
+        case .paragraphStyle(let t, let str, let sc, let tc): return t ^ str.hashValue ^ sc ^ tc
         }
     }
     
     static func ==(lhs: Style, rhs: Style) -> Bool {
         switch lhs {
-        case .backgroundColor(let hex):
-            if case let .backgroundColor(rHex) = rhs {
-                if hex == rHex {return true}
-            }
-            return false
-        case .foregroundColor(let hex):
-            if case let .foregroundColor(rHex) = rhs {
-                if hex == rHex {return true}
-            }
-            return false
+        case .highlight:
+            return rhs == .highlight
+        case .foregroundColor:
+            return rhs == .foregroundColor
         case .strikethrough:
-            if case .strikethrough = rhs {
-                return true
-            }
-            return false
+            return rhs == .strikethrough
         case .underline:
-            if case .underline = rhs {
-                return true
-            }
-            return false
+            return rhs == .underline
         case .font(let fontAttribute):
             if case let .font(rFontAttribute) = rhs {
                 return fontAttribute.hashValue == rFontAttribute.hashValue
@@ -176,9 +173,9 @@ extension Style: Hashable {
                 return attachmentAttribute == rAttachmentAttribute
             }
             return false
-        case .paragraphStyle(let data):
-            if case let .paragraphStyle(rData) = rhs {
-                return data == rData
+        case .paragraphStyle(let type, let str, let sc, let tc):
+            if case let .paragraphStyle(rType, rStr, rSc, rTc) = rhs {
+                return type == rType && str == rStr && sc == rSc && tc == rTc
             }
             return false
         }
@@ -190,13 +187,13 @@ extension Style: Hashable {
 extension Style: Codable {
     
     private enum CodingKeys: String, CodingKey {
-        case backgroundColor
-        case foregroundColor
-        case strikeThrough
-        case underline
-        case font
-        case attachment
-        case paragraphStyle
+        case highlight = "bg"
+        case foregroundColor = "fg"
+        case strikeThrough = "strk"
+        case underline = "undr"
+        case font = "fnt"
+        case attachment = "atch"
+        case paragraphStyle = "para"
     }
     
     enum CodingError: Error {
@@ -206,12 +203,12 @@ extension Style: Codable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        if let hexString = try? values.decode(String.self, forKey: .backgroundColor) {
-            self = .backgroundColor(hexString)
+        if let _ = try? values.decode(String.self, forKey: .highlight) {
+            self = .highlight
             return
         }
-        if let hexString = try? values.decode(String.self, forKey: .foregroundColor) {
-            self = .foregroundColor(hexString)
+        if let _ = try? values.decode(String.self, forKey: .foregroundColor) {
+            self = .foregroundColor
             return
         }
         if let _ = try? values.decode(String.self, forKey: .strikeThrough) {
@@ -232,9 +229,15 @@ extension Style: Codable {
             self = .attachment(attachmentAttribute)
             return
         }
-        
-        if let paragraphData = try? values.decode(Data.self, forKey: .paragraphStyle) {
-            self = .paragraphStyle(paragraphData)
+
+        if let paraString = try? values.decode(String.self, forKey: .paragraphStyle) {
+            let chunks = paraString.components(separatedBy: "|")
+            guard chunks.count == 4,
+                    let type = Int(chunks[0]),
+                    let spaceCount = Int(chunks[2]),
+                    let tabCount = Int(chunks[3]) else {throw  CodingError.decoding("Decode Failed!!!")}
+
+            self = .paragraphStyle(type, chunks[1], spaceCount, tabCount)
             return
         }
         
@@ -246,13 +249,13 @@ extension Style: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         switch self {
-        case .backgroundColor(let hexString): try container.encode(hexString, forKey: .backgroundColor)
-        case .foregroundColor(let hexString): try container.encode(hexString, forKey: .foregroundColor)
+        case .highlight: try container.encode("", forKey: .highlight)
+        case .foregroundColor: try container.encode("", forKey: .foregroundColor)
         case .strikethrough: try container.encode("", forKey: .strikeThrough)
         case .underline: try container.encode("", forKey: .underline)
         case .font(let fontDescriptor): try container.encode(fontDescriptor, forKey: .font)
         case .attachment(let attachmentAttribute): try container.encode(attachmentAttribute, forKey: .attachment)
-        case .paragraphStyle(let data): try container.encode(data, forKey: .paragraphStyle)
+        case .paragraphStyle(let type, let str, let sc, let tc): try container.encode("\(type)|\(str)|\(sc)|\(tc)", forKey: .paragraphStyle)
         }
     }
 }
