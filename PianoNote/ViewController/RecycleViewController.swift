@@ -158,11 +158,11 @@ extension RecycleNodeController: ASCollectionViewLayoutInspecting {
     }
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForSupplementaryNodeOfKind kind: String, at indexPath: IndexPath) -> ASSizeRange {
-        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 60.auto))
+        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 60.fit))
     }
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
-        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 150.auto))
+        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 150.fit))
     }
     
 }
@@ -221,14 +221,14 @@ class RecycleSectionNode: ASCellNode {
         automaticallyManagesSubnodes = true
         
         titleNode.isLayerBacked = true
-        let titleFont = UIFont.systemFont(ofSize: isHeader ? 34.auto : 23.auto, weight: .bold)
+        let titleFont = UIFont.systemFont(ofSize: isHeader ? 34.fit: 23.fit, weight: .bold)
         titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : titleFont])
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         let titleCenter = ASCenterLayoutSpec(centeringOptions: .Y, sizingOptions: .minimumY, child: titleNode)
         titleCenter.style.preferredSize = constrainedSize.max
-        return ASInsetLayoutSpec(insets: UIEdgeInsets(l: indexPath?.section == 0 ? 24.auto : 31.auto), child: titleCenter)
+        return ASInsetLayoutSpec(insets: UIEdgeInsets(l: indexPath?.section == 0 ? 24.fit: 31.fit), child: titleCenter)
     }
     
 }
@@ -259,7 +259,7 @@ class RecycleRowNode: ASCellNode {
         
         folderNode.maximumNumberOfLines = 1
         folderNode.isLayerBacked = true
-        let folderFont = UIFont.systemFont(ofSize: 13.5.auto)
+        let folderFont = UIFont.systemFont(ofSize: 13.5.fit)
         folderNode.attributedText = NSAttributedString(string: folder, attributes: [.font : folderFont])
         
         titleNode.maximumNumberOfLines = 1
@@ -270,9 +270,9 @@ class RecycleRowNode: ASCellNode {
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        let folderInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 14.auto, l: 15.5.auto, r: 15.5.auto), child: folderNode)
-        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 8.auto, l: 15.5.auto, b: 8.auto, r: 15.5.auto), child: titleNode)
-        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 15.5.auto, b: 14.auto, r: 15.5.auto), child: contentNode)
+        let folderInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 14.fit, l: 15.5.fit, r: 15.5.fit), child: folderNode)
+        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 8.fit, l: 15.5.fit, b: 8.fit, r: 15.5.fit), child: titleNode)
+        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 15.5.fit, b: 14.fit, r: 15.5.fit), child: contentNode)
         
         let vStack = ASStackLayoutSpec.vertical()
         vStack.children = [folderInset, titleInset, contentInset]
@@ -285,8 +285,8 @@ class RecycleRowNode: ASCellNode {
     }
     
     private func shapeInset() -> (fore: UIEdgeInsets, back: UIEdgeInsets) {
-        var fore = UIEdgeInsets(t: 6.auto, l: 6.auto, b: 6.auto, r: 6.auto)
-        var back = UIEdgeInsets(l: 12.5.auto, r: 12.5.auto)
+        var fore = UIEdgeInsets(t: 6.fit, l: 6.fit, b: 6.fit, r: 6.fit)
+        var back = UIEdgeInsets(l: 12.5.fit, r: 12.5.fit)
         let offset = backgroundNode.cornerRadius * 2
         if place == .top {
             fore.bottom = offset + 3
@@ -310,12 +310,12 @@ class RecycleRowNode: ASCellNode {
     }
     
     private func continuousText() {
-        let titleFont = UIFont.systemFont(ofSize: 29.2.auto, weight: .bold)
+        let titleFont = UIFont.systemFont(ofSize: 29.2.fit, weight: .bold)
         let titleAttStr = NSAttributedString(string: content, attributes: [.font : titleFont])
         titleNode.attributedText = titleAttStr.firstLine(width: titleNode.frame.width)
         
         let contentText = titleAttStr.string.sub(titleNode.attributedText!.length...)
-        let contentFont = UIFont.systemFont(ofSize: 16.8.auto)
+        let contentFont = UIFont.systemFont(ofSize: 16.8.fit)
         contentNode.attributedText = NSAttributedString(string: contentText, attributes: [.font : contentFont])
     }
     

@@ -62,14 +62,14 @@ class FacebookDetailNodeController: ASDisplayNode, FBDetailSectionDelegates {
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
         listNode.backgroundColor = .clear
         listNode.view.alwaysBounceVertical = true
-        listNode.contentInset.top = 16.auto
+        listNode.contentInset.top = 16.fit
         listNode.allowsSelection = false
         listNode.layoutInspector = self
         listNode.dataSource = self
         listNode.delegate = self
         
         facebookNode.setImage(#imageLiteral(resourceName: "info"), for: .normal)
-        let facebookFont = UIFont.systemFont(ofSize: 16.auto)
+        let facebookFont = UIFont.systemFont(ofSize: 16.fit)
         facebookNode.setAttributedTitle(NSAttributedString(string: "facebookVisit".locale, attributes: [.font : facebookFont, .foregroundColor : UIColor(hex6: "007aff")]), for: .normal)
         facebookNode.addTarget(self, action: #selector(action(facebook:)), forControlEvents: .touchUpInside)
     }
@@ -77,7 +77,7 @@ class FacebookDetailNodeController: ASDisplayNode, FBDetailSectionDelegates {
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         listNode.style.flexGrow = 1
         facebookNode.style.flexShrink = 0
-        facebookNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimension(unit: .points, value: 45.auto))
+        facebookNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimension(unit: .points, value: 45.fit))
         let vStack = ASStackLayoutSpec.vertical()
         vStack.children = [listNode, facebookNode]
         return ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: vStack)
@@ -173,12 +173,12 @@ class FacebookDetailHeaderNode: ASCellNode {
         automaticallyManagesSubnodes = true
         
         titleNode.isLayerBacked = true
-        let font = UIFont.systemFont(ofSize: 23.auto, weight: .bold)
+        let font = UIFont.systemFont(ofSize: 23.fit, weight: .bold)
         titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : font])
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        return ASInsetLayoutSpec(insets: UIEdgeInsets(t: 24.auto, l: 40.auto, b: 24.auto, r: 40.auto), child: titleNode)
+        return ASInsetLayoutSpec(insets: UIEdgeInsets(t: 24.fit, l: 40.fit, b: 24.fit, r: 40.fit), child: titleNode)
     }
     
 }
@@ -219,12 +219,12 @@ class FacebookDetailSectionNode: ASCellNode {
         
         nameNode.isLayerBacked = true
         nameNode.maximumNumberOfLines = 1
-        let nameFont = UIFont.systemFont(ofSize: 13.auto, weight: .bold)
+        let nameFont = UIFont.systemFont(ofSize: 13.fit, weight: .bold)
         let nameColor = UIColor(hex6: "365899")
         nameNode.attributedText = NSAttributedString(string: "작성자", attributes: [.font : nameFont, .foregroundColor : nameColor])
         
         contentNode.isLayerBacked = true
-        let contentFont = UIFont.systemFont(ofSize: 15.auto)
+        let contentFont = UIFont.systemFont(ofSize: 15.fit)
         contentNode.attributedText = NSAttributedString(string: data.msg, attributes: [.font : contentFont])
         
         arrowNode.contentMode = .scaleAspectFit
@@ -234,33 +234,33 @@ class FacebookDetailSectionNode: ASCellNode {
         
         dateNode.isLayerBacked = true
         dateNode.maximumNumberOfLines = 1
-        let dateFont = UIFont.systemFont(ofSize: 12.auto)
+        let dateFont = UIFont.systemFont(ofSize: 12.fit)
         let dateColor = UIColor.black.withAlphaComponent(0.8)
         dateNode.attributedText = NSAttributedString(string: data.create.timeFormat, attributes: [.font : dateFont, .foregroundColor : dateColor])
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        portraitNode.style.preferredSize = CGSize(width: 25.5.auto, height: 25.5.auto)
-        let portraitInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 6.auto, l: 11.5.auto), child: portraitNode)
-        let nameInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 11.auto, l: 10.5.auto, r: 10.5.auto), child: nameNode)
+        portraitNode.style.preferredSize = CGSize(width: 25.5.fit, height: 25.5.fit)
+        let portraitInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 6.fit, l: 11.5.fit), child: portraitNode)
+        let nameInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 11.fit, l: 10.5.fit, r: 10.5.fit), child: nameNode)
         let h1Stack = ASStackLayoutSpec.horizontal()
         h1Stack.children = [portraitInset, nameInset]
         
-        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 7.5.auto, l: 15.auto, b: 15.auto, r: 15.auto), child: contentNode)
+        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 7.5.fit, l: 15.fit, b: 15.fit, r: 15.fit), child: contentNode)
         
         let v1Stack = ASStackLayoutSpec.vertical()
         v1Stack.children = [h1Stack, contentInset]
         
         let backSpec = ASBackgroundLayoutSpec(child: v1Stack, background: backgroundNode)
-        let backInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 8.auto, r: 8.auto), child: backSpec)
+        let backInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 8.fit, r: 8.fit), child: backSpec)
         
-        arrowNode.style.preferredSize = CGSize(width: 13.auto, height: 13.auto)
-        let arrowInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 27.5.auto, r: 8.auto), child: arrowNode)
-        let replyInset = ASInsetLayoutSpec(insets: UIEdgeInsets(r: 8.auto), child: replyNode)
-        let dateInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 9.5.auto), child: dateNode)
+        arrowNode.style.preferredSize = CGSize(width: 13.fit, height: 13.fit)
+        let arrowInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 27.5.fit, r: 8.fit), child: arrowNode)
+        let replyInset = ASInsetLayoutSpec(insets: UIEdgeInsets(r: 8.fit), child: replyNode)
+        let dateInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 9.5.fit), child: dateNode)
         
         let h2Stack = ASStackLayoutSpec.horizontal()
-        h2Stack.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimension(unit: .points, value: 34.auto))
+        h2Stack.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimension(unit: .points, value: 34.fit))
         h2Stack.children = [arrowInset, replyInset, dateInset]
         
         let v2Stack = ASStackLayoutSpec.vertical()
@@ -276,7 +276,7 @@ class FacebookDetailSectionNode: ASCellNode {
     private func initReplyNode() {
         var replyText = "facebookNoReply".locale
         if data.count > 0 {replyText = String(format: "facebookReply".locale, data.count)}
-        let replyFont = UIFont.systemFont(ofSize: 12.auto, weight: .semibold)
+        let replyFont = UIFont.systemFont(ofSize: 12.fit, weight: .semibold)
         replyNode.isEnabled = (!data.expend && data.count > 0)
         let replyColor = replyNode.isEnabled ? UIColor(hex6: "007aff") : .black
         replyNode.setAttributedTitle(NSAttributedString(string: replyText, attributes: [.font : replyFont, .foregroundColor : replyColor]), for: .normal)
@@ -314,36 +314,36 @@ class FacebookDetailRowNode: ASCellNode {
         
         nameNode.isLayerBacked = true
         nameNode.backgroundColor = .white
-        let nameFont = UIFont.systemFont(ofSize: 13.auto, weight: .bold)
+        let nameFont = UIFont.systemFont(ofSize: 13.fit, weight: .bold)
         let nameColor = UIColor(hex6: "365899")
         nameNode.attributedText = NSAttributedString(string: " 작성자 ", attributes: [.font : nameFont, .foregroundColor : nameColor])
         
         contentNode.isLayerBacked = true
-        let contentFont = UIFont.systemFont(ofSize: 15.auto)
+        let contentFont = UIFont.systemFont(ofSize: 15.fit)
         contentNode.attributedText = NSAttributedString(string: "작성자" + data.msg, attributes: [.font : contentFont])
         
         dateNode.isLayerBacked = true
-        let dateFont = UIFont.systemFont(ofSize: 12.auto)
+        let dateFont = UIFont.systemFont(ofSize: 12.fit)
         let dateColor = UIColor.black.withAlphaComponent(0.8)
         dateNode.attributedText = NSAttributedString(string: data.create.timeFormat, attributes: [.font : dateFont, .foregroundColor : dateColor])
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        contentNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width - 120.5.auto), height: ASDimensionAuto)
-        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 14.auto, l: 15.auto, b: 15.auto, r: 15.auto), child: contentNode)
+        contentNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width - 120.5.fit), height: ASDimensionAuto)
+        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 14.fit, l: 15.fit, b: 15.fit, r: 15.fit), child: contentNode)
         
-        let nameInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 15.auto, l: 14.auto), child: nameNode)
+        let nameInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 15.fit, l: 14.fit), child: nameNode)
         let absSpec = ASAbsoluteLayoutSpec(children: [contentInset, nameInset])
         let backSpec = ASBackgroundLayoutSpec(child: absSpec, background: backgroundNode)
         
-        dateNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimensionAuto, height: ASDimension(unit: .points, value: 24.5.auto))
-        let dateInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 9.5.auto, l: 19.5.auto), child: dateNode)
+        dateNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimensionAuto, height: ASDimension(unit: .points, value: 24.5.fit))
+        let dateInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 9.5.fit, l: 19.5.fit), child: dateNode)
         
         let vStack = ASStackLayoutSpec.vertical()
         vStack.children = [backSpec, dateInset]
         
-        portraitNode.style.preferredSize = CGSize(width: 25.5.auto, height: 25.5.auto)
-        let portraitInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 6.auto, l: 53.auto, r: 6.auto), child: portraitNode)
+        portraitNode.style.preferredSize = CGSize(width: 25.5.fit, height: 25.5.fit)
+        let portraitInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 6.fit, l: 53.fit, r: 6.fit), child: portraitNode)
         
         let hStack = ASStackLayoutSpec.horizontal()
         hStack.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimensionAuto)

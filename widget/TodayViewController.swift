@@ -91,16 +91,16 @@ class DRTodayListCell: UITableViewCell {
         roundedView.corner(rad: 13)
         }}
     @IBOutlet fileprivate var folderLabel: UILabel! { didSet {
-        folderLabel.font = UIFont.preferred(font: 12.5, weight: .regular)
+        folderLabel.font = UIFont.systemFont(ofSize: 12.5)
         }}
     @IBOutlet fileprivate var timeLabel: UILabel! { didSet {
-        timeLabel.font = UIFont.preferred(font: 12.5, weight: .regular)
+        timeLabel.font = UIFont.systemFont(ofSize: 12.5)
         }}
     @IBOutlet fileprivate var titleLabel: UILabel! { didSet {
-        titleLabel.font = UIFont.preferred(font: 14.2, weight: .semibold)
+        titleLabel.font = UIFont.systemFont(ofSize: 14.2)
         }}
     @IBOutlet fileprivate var contentLabel: UILabel! { didSet {
-        contentLabel.font = UIFont.preferred(font: 15.2, weight: .regular)
+        contentLabel.font = UIFont.systemFont(ofSize: 15.2)
         }}
     
     fileprivate var isExpanded = true
@@ -140,9 +140,9 @@ class DRTodayListCell: UITableViewCell {
     
     /// titleLabel과 contentLabel의 Text가 하나의 문장으로 이어지도록 만든다.
     private func continuousText() {
-        titleLabel.text = data
-        titleLabel.text = titleLabel.firstLineText
-        contentLabel.text = data.sub(titleLabel.firstLineText.count...)
+        //titleLabel.text = data.fist
+        //titleLabel.text = titleLabel.firstLineText
+        //contentLabel.text = data.sub(titleLabel.firstLineText.count...)
     }
     
     /// 위젯 mode에 따라 cell의 모습을 바꾼다.

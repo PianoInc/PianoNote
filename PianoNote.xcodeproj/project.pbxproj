@@ -10,6 +10,7 @@
 		163199BF2097DC5200140AC1 /* RecycleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163199BE2097DC5200140AC1 /* RecycleViewController.swift */; };
 		163199C12097DC5C00140AC1 /* FacebookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163199C02097DC5C00140AC1 /* FacebookViewController.swift */; };
 		163199C32097DC6300140AC1 /* FacebookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163199C22097DC6300140AC1 /* FacebookDetailViewController.swift */; };
+		1636A10E209A8D5900FCEA7B /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1636A10D209A8D5900FCEA7B /* Text.swift */; };
 		16722B88207CA70E0041ED1E /* DRClearNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16722B86207CA70E0041ED1E /* DRClearNavigationController.swift */; };
 		16722B89207CA70E0041ED1E /* DRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16722B87207CA70E0041ED1E /* DRViewController.swift */; };
 		167A1CE2207C91E30029E797 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 167A1CDE207C91E30029E797 /* Localizable.strings */; };
@@ -201,6 +202,7 @@
 		163199BE2097DC5200140AC1 /* RecycleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleViewController.swift; sourceTree = "<group>"; };
 		163199C02097DC5C00140AC1 /* FacebookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookViewController.swift; sourceTree = "<group>"; };
 		163199C22097DC6300140AC1 /* FacebookDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookDetailViewController.swift; sourceTree = "<group>"; };
+		1636A10D209A8D5900FCEA7B /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		16722B86207CA70E0041ED1E /* DRClearNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRClearNavigationController.swift; sourceTree = "<group>"; };
 		16722B87207CA70E0041ED1E /* DRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRViewController.swift; sourceTree = "<group>"; };
 		167A1CDF207C91E30029E797 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -535,6 +537,7 @@
 				167A1CF5207C93210029E797 /* Realm+CloudKit.swift */,
 				167A1CEA207C93200029E797 /* SegueIdentifer.swift */,
 				167A1CED207C93200029E797 /* String.swift */,
+				1636A10D209A8D5900FCEA7B /* Text.swift */,
 				167A1CEB207C93200029E797 /* UIImage+resize.swift */,
 				167A1CF7207C93210029E797 /* View.swift */,
 				167A1CE8207C93200029E797 /* ViewController+Alert.swift */,
@@ -1164,6 +1167,7 @@
 				6CEC5CB4207CE2E100AE356F /* LocalImageCache.swift in Sources */,
 				7CD881542065357F009C6C5F /* PianoControl.swift in Sources */,
 				16722B88207CA70E0041ED1E /* DRClearNavigationController.swift in Sources */,
+				1636A10E209A8D5900FCEA7B /* Text.swift in Sources */,
 				6C3C3E78207B4D5B00A087B7 /* SearchCell.swift in Sources */,
 				163199C32097DC6300140AC1 /* FacebookDetailViewController.swift in Sources */,
 				167A1CFA207C93210029E797 /* ViewController+Alert.swift in Sources */,
