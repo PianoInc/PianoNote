@@ -77,7 +77,7 @@ class FacebookDetailNodeController: ASDisplayNode, FBDetailSectionDelegates {
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         listNode.style.flexGrow = 1
         facebookNode.style.flexShrink = 0
-        facebookNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimension(unit: .points, value: 45.fit))
+        facebookNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimensionAuto, height: ASDimension(unit: .points, value: 45.fit))
         let vStack = ASStackLayoutSpec.vertical()
         vStack.children = [listNode, facebookNode]
         return ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: vStack)

@@ -12,12 +12,26 @@ import AsyncDisplayKit
 class FolderViewController: DRViewController {
     
     private let nodeCtrl = FolderNodeController()
+    private let newFolderButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubnode(nodeCtrl)
+        newFolderButton.addTarget(self, action: #selector(action(newFolder:)), for: .touchUpInside)
+        let buttonFont = UIFont.systemFont(ofSize: 17.fit, weight: .regular)
+        let buttonTitle = NSAttributedString(string: "newFolder".locale, attributes: [.font : buttonFont])
+        newFolderButton.setAttributedTitle(buttonTitle, for: .normal)
+        view.addSubview(newFolderButton)
+        initConst()
         initData()
         initNavi()
+    }
+    
+    private func initConst() {
+        makeConst(newFolderButton) {
+            $0.bottom.equalTo(-5.fit)
+            $0.trailing.equalTo(-15.fit)
+        }
     }
     
     private func initData() {
@@ -48,6 +62,7 @@ class FolderViewController: DRViewController {
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { _ in
+            self.initConst()
             self.nodeCtrl.listNode.contentInset.bottom = self.inputHeight
         })
     }
@@ -58,12 +73,13 @@ class FolderViewController: DRViewController {
     }
     
     @IBAction private func navi(edit button: UIBarButtonItem) {
+        nodeCtrl.isEdit = !nodeCtrl.isEdit
+        device(orientationLock: nodeCtrl.isEdit)
         navi { (navi, item) in
             let toEditMode = (button.title == "edit".locale)
             item.rightBarButtonItem?.title = toEditMode ? "done".locale : "edit".locale
             navi.isToolbarHidden = !toEditMode
         }
-        nodeCtrl.isEdit = !nodeCtrl.isEdit
         nodeCtrl.removeCandidate.removeAll()
         nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
     }
@@ -80,23 +96,44 @@ class FolderViewController: DRViewController {
         }
     }
     
+    @objc private func action(newFolder: ASButtonNode) {
+        let alert = UIAlertController(title: "newFolder".locale, message: "newFolderSubText".locale, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "cancel".locale, style: .cancel))
+        alert.addAction(UIAlertAction(title: "create".locale, style: .default) { _ in
+            self.nodeCtrl.data[0].row!.append(alert.textFields![0].text!)
+            self.nodeCtrl.listNode.insertItems(at: [IndexPath(row: self.nodeCtrl.data[0].row!.count - 1, section: 0)])
+        })
+        alert.addTextField {
+            $0.placeholder = "name".locale
+            _ = $0.rx.text.orEmpty.subscribe {
+                guard let text = $0.element else {return}
+                alert.message = self.nodeCtrl.data[0].row!.contains(text) ? "newFolderExist".locale : "newFolderSubText".locale
+                alert.actions[1].isEnabled = !(text.isEmpty || self.nodeCtrl.data[0].row!.contains(text))
+            }
+        }
+        if let topViewController = UIWindow.topVC {
+            topViewController.present(alert, animated: true)
+        }
+    }
+    
 }
 
 typealias FolderData = (section: String, row: [String]?)
 
 class FolderNodeController: ASDisplayNode {
     
-    fileprivate let newFolderButton = ASButtonNode()
+    typealias MoveItemSpec = (origin: IndexPath, dest: IndexPath, item: UIView)
+    fileprivate var moveItem = MoveItemSpec(origin: IndexPath(), dest: IndexPath(), item: UIView())
+    
     fileprivate let listNode = ASCollectionNode(collectionViewLayout: UICollectionViewFlowLayout())
+    
     fileprivate var data = [FolderData]()
-    fileprivate var isEdit = false
     fileprivate var removeCandidate = [String]() {
         didSet {countBinder.value = removeCandidate.count}
     }
-    fileprivate let countBinder = DRBinder(0)
     
-    typealias MoveItemSpec = (origin: IndexPath, dest: IndexPath, item: UIView)
-    fileprivate var moveItem = MoveItemSpec(origin: IndexPath(), dest: IndexPath(), item: UIView())
+    fileprivate let countBinder = DRBinder(0)
+    fileprivate var isEdit = false
     
     override init() {
         super.init()
@@ -112,12 +149,6 @@ class FolderNodeController: ASDisplayNode {
         listNode.layoutInspector = self
         listNode.dataSource = self
         listNode.delegate = self
-        
-        newFolderButton.addTarget(self, action: #selector(action(newFolder:)), forControlEvents: .touchUpInside)
-        newFolderButton.setAttributedTitle(NSAttributedString(string: "newFolder".locale,
-                                                              attributes: [.font : UIFont.systemFont(ofSize: 17.fit, weight: .regular),
-                                                                           .foregroundColor : UIColor(hex6: "007aff")]), for: .normal)
-        
         initListGesture()
     }
     
@@ -131,33 +162,7 @@ class FolderNodeController: ASDisplayNode {
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        let listInset = ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: listNode)
-        
-        newFolderButton.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: 118.fit), height: ASDimension(unit: .points, value: 44.5.fit))
-        let buttonRelative = ASRelativeLayoutSpec(horizontalPosition: .end, verticalPosition: .end, sizingOption: .minimumSize, child: newFolderButton)
-        let buttonInset = ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: buttonRelative)
-        
-        return ASOverlayLayoutSpec(child: listInset, overlay: buttonInset)
-    }
-    
-    @objc private func action(newFolder: ASButtonNode) {
-        let alert = UIAlertController(title: "newFolder".locale, message: "newFolderSubText".locale, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "cancel".locale, style: .cancel))
-        alert.addAction(UIAlertAction(title: "create".locale, style: .default) { _ in
-            self.data[0].row!.append(alert.textFields![0].text!)
-            self.listNode.insertItems(at: [IndexPath(row: self.data[0].row!.count - 1, section: 0)])
-        })
-        alert.addTextField {
-            $0.placeholder = "name".locale
-            _ = $0.rx.text.orEmpty.subscribe {
-                guard let text = $0.element else {return}
-                alert.message = self.data[0].row!.contains(text) ? "newFolderExist".locale : "newFolderSubText".locale
-                alert.actions[1].isEnabled = !(text.isEmpty || self.data[0].row!.contains(text))
-            }
-        }
-        if let topViewController = UIWindow.topVC {
-            topViewController.present(alert, animated: true)
-        }
+        return ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: listNode)
     }
     
     @objc private func action(tap: UITapGestureRecognizer) {
