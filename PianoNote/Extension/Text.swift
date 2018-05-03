@@ -46,3 +46,4 @@ extension NSAttributedString {
         return (string: self.string, attributes: attributes)
     }
 }
+

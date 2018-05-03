@@ -13,12 +13,12 @@ import FBSDKCoreKit
 class FacebookViewController: DRViewController {
     
     @IBOutlet private var facebookLabel: UILabel! { didSet {
-        facebookLabel.font = UIFont.preferred(font: 23, weight: .bold)
+        facebookLabel.font = UIFont.systemFont(ofSize: 23.fit, weight: .bold)
         facebookLabel.text = "facebookNotice".locale
         }}
     @IBOutlet private var facebookButton: UIButton! { didSet {
         facebookButton.corner(rad: 6)
-        facebookButton.titleLabel?.font = UIFont.preferred(font: 18, weight: .regular)
+        facebookButton.titleLabel?.font = UIFont.systemFont(ofSize: 18.fit)
         let attr = NSMutableAttributedString(string: "")
         let attach = NSTextAttachment()
         attach.bounds.size = CGSize(width: 16.5, height: 16.5)
@@ -134,7 +134,7 @@ class FacebookNodeController: ASDisplayNode {
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
         listNode.backgroundColor = .clear
         listNode.view.alwaysBounceVertical = true
-        listNode.contentInset.top = 16.auto
+        listNode.contentInset.top = 16.fit
         listNode.allowsSelection = false
         listNode.layoutInspector = self
         listNode.dataSource = self
@@ -177,7 +177,7 @@ extension FacebookNodeController: ASCollectionViewLayoutInspecting {
     }
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForSupplementaryNodeOfKind kind: String, at indexPath: IndexPath) -> ASSizeRange {
-        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 60.auto))
+        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 60.fit))
     }
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
@@ -258,14 +258,14 @@ class FacebookSectionNode: ASCellNode {
         super.init()
         automaticallyManagesSubnodes = true
         titleNode.isLayerBacked = true
-        let font = UIFont.systemFont(ofSize: isHeader ? 34.auto : 23.auto, weight: .bold)
+        let font = UIFont.systemFont(ofSize: isHeader ? 34.fit: 23.fit, weight: .bold)
         titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : font])
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         let titleCenter = ASCenterLayoutSpec(centeringOptions: .Y, sizingOptions: .minimumY, child: titleNode)
         titleCenter.style.preferredSize = constrainedSize.max
-        return ASInsetLayoutSpec(insets: UIEdgeInsets(l: (indexPath?.section == 0) ? 24.auto : 31.auto), child: titleCenter)
+        return ASInsetLayoutSpec(insets: UIEdgeInsets(l: (indexPath?.section == 0) ? 24.fit: 31.fit), child: titleCenter)
     }
     
 }
@@ -297,7 +297,7 @@ class FacebookRowNode: ASCellNode {
         
         dateNode.maximumNumberOfLines = 1
         dateNode.isLayerBacked = true
-        let folderFont = UIFont.systemFont(ofSize: 13.5.auto)
+        let folderFont = UIFont.systemFont(ofSize: 13.5.fit)
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
         dateNode.attributedText = NSAttributedString(string: formatter.string(from: date), attributes: [.font : folderFont])
@@ -309,9 +309,9 @@ class FacebookRowNode: ASCellNode {
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        let folderInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 14.auto, l: 15.5.auto, r: 15.5.auto), child: dateNode)
-        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 8.auto, l: 15.5.auto, b: 8.auto, r: 15.5.auto), child: titleNode)
-        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 15.5.auto, b: 14.auto, r: 15.5.auto), child: contentNode)
+        let folderInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 14.fit, l: 15.5.fit, r: 15.5.fit), child: dateNode)
+        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 8.fit, l: 15.5.fit, b: 8.fit, r: 15.5.fit), child: titleNode)
+        let contentInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 15.5.fit, b: 14.fit, r: 15.5.fit), child: contentNode)
         
         let vStack = ASStackLayoutSpec.vertical()
         vStack.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width), height: ASDimensionAuto)
@@ -325,8 +325,8 @@ class FacebookRowNode: ASCellNode {
     }
     
     private func shapeInset() -> (fore: UIEdgeInsets, back: UIEdgeInsets) {
-        var fore = UIEdgeInsets(t: 6.auto, l: 6.auto, b: 6.auto, r: 6.auto)
-        var back = UIEdgeInsets(l: 12.5.auto, r: 12.5.auto)
+        var fore = UIEdgeInsets(t: 6.fit, l: 6.fit, b: 6.fit, r: 6.fit)
+        var back = UIEdgeInsets(l: 12.5.fit, r: 12.5.fit)
         let offset: CGFloat = 28
         if place == .top {
             fore.bottom = offset + 3
@@ -349,12 +349,12 @@ class FacebookRowNode: ASCellNode {
     }
     
     private func continuousText() {
-        let titleFont = UIFont.systemFont(ofSize: 29.2.auto, weight: .bold)
+        let titleFont = UIFont.systemFont(ofSize: 29.2.fit, weight: .bold)
         let titleAttStr = NSAttributedString(string: content, attributes: [.font : titleFont])
         titleNode.attributedText = titleAttStr.firstLine(width: titleNode.frame.width)
         
         let contentText = titleAttStr.string.sub(titleNode.attributedText!.length...)
-        let contentFont = UIFont.systemFont(ofSize: 16.8.auto)
+        let contentFont = UIFont.systemFont(ofSize: 16.8.fit)
         contentNode.attributedText = NSAttributedString(string: contentText, attributes: [.font : contentFont])
     }
     

@@ -76,7 +76,7 @@ extension String {
     func boundingRect(with width: CGFloat, font point: CGFloat) -> CGFloat {
         let size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
         let set: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading]
-        let font = [NSAttributedStringKey.font : UIFont.preferred(font: point, weight: .regular)]
+        let font = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: point)]
         let contentSize = self.boundingRect(with: size, options: set, attributes: font, context: nil)
         return contentSize.height
     }

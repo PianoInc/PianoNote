@@ -10,6 +10,7 @@
 		163199BF2097DC5200140AC1 /* RecycleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163199BE2097DC5200140AC1 /* RecycleViewController.swift */; };
 		163199C12097DC5C00140AC1 /* FacebookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163199C02097DC5C00140AC1 /* FacebookViewController.swift */; };
 		163199C32097DC6300140AC1 /* FacebookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163199C22097DC6300140AC1 /* FacebookDetailViewController.swift */; };
+		1636A10E209A8D5900FCEA7B /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1636A10D209A8D5900FCEA7B /* Text.swift */; };
 		16722B88207CA70E0041ED1E /* DRClearNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16722B86207CA70E0041ED1E /* DRClearNavigationController.swift */; };
 		16722B89207CA70E0041ED1E /* DRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16722B87207CA70E0041ED1E /* DRViewController.swift */; };
 		167A1CE2207C91E30029E797 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 167A1CDE207C91E30029E797 /* Localizable.strings */; };
@@ -19,10 +20,8 @@
 		167A1CFB207C93210029E797 /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CE9207C93200029E797 /* Layer.swift */; };
 		167A1CFC207C93210029E797 /* SegueIdentifer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CEA207C93200029E797 /* SegueIdentifer.swift */; };
 		167A1CFD207C93210029E797 /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CEB207C93200029E797 /* UIImage+resize.swift */; };
-		167A1CFE207C93210029E797 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CEC207C93200029E797 /* Text.swift */; };
 		167A1CFF207C93210029E797 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CED207C93200029E797 /* String.swift */; };
 		167A1D00207C93210029E797 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CEE207C93200029E797 /* Date.swift */; };
-		167A1D01207C93210029E797 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CEF207C93200029E797 /* Font.swift */; };
 		167A1D02207C93210029E797 /* CKError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CF0207C93200029E797 /* CKError.swift */; };
 		167A1D03207C93210029E797 /* ViewTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CF1207C93210029E797 /* ViewTag.swift */; };
 		167A1D04207C93210029E797 /* CKAsset+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CF2207C93210029E797 /* CKAsset+UIImage.swift */; };
@@ -35,28 +34,9 @@
 		167A1D0E207C93480029E797 /* DRBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D0B207C93470029E797 /* DRBinder.swift */; };
 		167A1D0F207C93480029E797 /* DRAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D0C207C93470029E797 /* DRAuth.swift */; };
 		167A1D10207C93480029E797 /* DRFBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D0D207C93480029E797 /* DRFBService.swift */; };
-		167A1D2D207C936A0029E797 /* DRMagnifyAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D14207C93690029E797 /* DRMagnifyAccessoryView.swift */; };
-		167A1D2E207C936A0029E797 /* DRMagnifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D15207C93690029E797 /* DRMagnifyView.swift */; };
-		167A1D2F207C936A0029E797 /* DRInputViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D16207C93690029E797 /* DRInputViewManager.swift */; };
-		167A1D30207C936A0029E797 /* DRMenuAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D18207C93690029E797 /* DRMenuAccessoryView.swift */; };
-		167A1D31207C936A0029E797 /* DRMenuCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D19207C93690029E797 /* DRMenuCollectionView.swift */; };
-		167A1D32207C936A0029E797 /* DRDrawingUndoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D1C207C93690029E797 /* DRDrawingUndoManager.swift */; };
-		167A1D33207C936A0029E797 /* DRCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D1D207C93690029E797 /* DRCanvasView.swift */; };
-		167A1D34207C936A0029E797 /* DRDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D1E207C93690029E797 /* DRDrawingView.swift */; };
-		167A1D35207C936A0029E797 /* DRCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D20207C93690029E797 /* DRCameraView.swift */; };
-		167A1D36207C936A0029E797 /* DRCameraSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D21207C93690029E797 /* DRCameraSession.swift */; };
-		167A1D37207C936A0029E797 /* DRCameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D22207C93690029E797 /* DRCameraCapture.swift */; };
-		167A1D38207C936A0029E797 /* DRAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D24207C93690029E797 /* DRAlbumView.swift */; };
-		167A1D39207C936A0029E797 /* DRAlbumFolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D26207C93690029E797 /* DRAlbumFolderCell.swift */; };
-		167A1D3A207C936A0029E797 /* DRAlbumPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D27207C93690029E797 /* DRAlbumPhotoCell.swift */; };
-		167A1D3B207C936A0029E797 /* DRAlbumFolderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D28207C93690029E797 /* DRAlbumFolderListView.swift */; };
-		167A1D3C207C936A0029E797 /* DRAlbumPhotoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D29207C93690029E797 /* DRAlbumPhotoListView.swift */; };
-		167A1D3D207C936A0029E797 /* DRMenuDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D2A207C93690029E797 /* DRMenuDelegates.swift */; };
-		167A1D3E207C936A0029E797 /* DRPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D2B207C936A0029E797 /* DRPageControl.swift */; };
 		167A1D55207C94890029E797 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1D4E207C94890029E797 /* SplashViewController.swift */; };
 		167A1D6C207C95260029E797 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CF3207C93210029E797 /* Color.swift */; };
 		167A1D6D207C95260029E797 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CF6207C93210029E797 /* Device.swift */; };
-		167A1D6E207C95260029E797 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CEF207C93200029E797 /* Font.swift */; };
 		167A1D6F207C95260029E797 /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CE9207C93200029E797 /* Layer.swift */; };
 		167A1D70207C95260029E797 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CED207C93200029E797 /* String.swift */; };
 		167A1D71207C95260029E797 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167A1CF7207C93210029E797 /* View.swift */; };
@@ -75,15 +55,8 @@
 		168D19EF20632A5F005AA85F /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D19EE20632A5F005AA85F /* TodayViewController.swift */; };
 		168D19F220632A5F005AA85F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168D19F020632A5F005AA85F /* MainInterface.storyboard */; };
 		168D19F620632A5F005AA85F /* widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 168D19E920632A5F005AA85F /* widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		168D1A0220636501005AA85F /* FolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168D1A0120636501005AA85F /* FolderCell.swift */; };
 		169789992099533E000D6E8B /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169789982099533E000D6E8B /* InfoViewController.swift */; };
 		16BABD9C2092EFA500E15FDB /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BABD9B2092EFA500E15FDB /* FolderViewController.swift */; };
-		16DBA3212097E97C008C45B9 /* HowToViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA2FF2097E97C008C45B9 /* HowToViewController.swift */; };
-		16DBA3222097E97C008C45B9 /* InteractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3012097E97C008C45B9 /* InteractViewController.swift */; };
-		16DBA3232097E97C008C45B9 /* DRDetailReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3042097E97C008C45B9 /* DRDetailReplyCell.swift */; };
-		16DBA3242097E97C008C45B9 /* DRDetailCommentSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3052097E97C008C45B9 /* DRDetailCommentSection.swift */; };
-		16DBA3252097E97C008C45B9 /* InteractDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3062097E97C008C45B9 /* InteractDetailViewController.swift */; };
-		16DBA3262097E97C008C45B9 /* RecycleBinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3072097E97C008C45B9 /* RecycleBinViewController.swift */; };
 		16DBA3272097E97C008C45B9 /* NoteViewController_NavigationItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3092097E97C008C45B9 /* NoteViewController_NavigationItems.swift */; };
 		16DBA3282097E97C008C45B9 /* NoteViewController_Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA30A2097E97C008C45B9 /* NoteViewController_Keyboard.swift */; };
 		16DBA3292097E97C008C45B9 /* NoteViewController_TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA30B2097E97C008C45B9 /* NoteViewController_TextViewDelegate.swift */; };
@@ -93,16 +66,6 @@
 		16DBA32D2097E97C008C45B9 /* NoteViewController_CloudSharingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA30F2097E97C008C45B9 /* NoteViewController_CloudSharingDelegate.swift */; };
 		16DBA32E2097E97C008C45B9 /* NoteViewController_DragDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3102097E97C008C45B9 /* NoteViewController_DragDelegate.swift */; };
 		16DBA32F2097E97C008C45B9 /* NoteSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3122097E97C008C45B9 /* NoteSettingViewController.swift */; };
-		16DBA3302097E97C008C45B9 /* DRBrowseFolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3152097E97C008C45B9 /* DRBrowseFolderCell.swift */; };
-		16DBA3312097E97C008C45B9 /* DRPageFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3162097E97C008C45B9 /* DRPageFlowLayout.swift */; };
-		16DBA3322097E97C008C45B9 /* DRContentFolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3172097E97C008C45B9 /* DRContentFolderCell.swift */; };
-		16DBA3332097E97C008C45B9 /* DRBrowseNoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3192097E97C008C45B9 /* DRBrowseNoteCell.swift */; };
-		16DBA3342097E97C008C45B9 /* DRContentNoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA31A2097E97C008C45B9 /* DRContentNoteCell.swift */; };
-		16DBA3352097E97C008C45B9 /* DRNoteCellSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA31B2097E97C008C45B9 /* DRNoteCellSection.swift */; };
-		16DBA3362097E97C008C45B9 /* DRNoteCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA31C2097E97C008C45B9 /* DRNoteCellHeader.swift */; };
-		16DBA3372097E97C008C45B9 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA31D2097E97C008C45B9 /* MainListViewController.swift */; };
-		16DBA3382097E97C008C45B9 /* CategoryManageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA31F2097E97C008C45B9 /* CategoryManageCell.swift */; };
-		16DBA3392097E97C008C45B9 /* CategoryManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA3202097E97C008C45B9 /* CategoryManageViewController.swift */; };
 		280F68BCAA0C6DA45DD283FB /* Pods_PianoNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AB9736E27D98C751D71B7D /* Pods_PianoNote.framework */; };
 		54723D0E09A70312043401F8 /* Pods_widget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A175366D5D2E82F861F0A /* Pods_widget.framework */; };
 		6C0F73852085CFDB004AACF7 /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0F73842085CFDA004AACF7 /* NSObject.swift */; };
@@ -144,7 +107,6 @@
 		6C7270AB20730A6D003A4640 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7270AA20730A6D003A4640 /* ModelManager.swift */; };
 		6C8851CA208DB6E600822B69 /* PianoTextView_Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8851C9208DB6E600822B69 /* PianoTextView_Pasteboard.swift */; };
 		6CBE4D0E209003B300C598DE /* PianoNoteSizeInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBE4D0D209003B300C598DE /* PianoNoteSizeInspector.swift */; };
-		6CC75D3B20744F6600D164D1 /* CategoryManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC75D3A20744F6600D164D1 /* CategoryManageViewController.swift */; };
 		6CC75D3D20744FAF00D164D1 /* Category.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CC75D3C20744FAF00D164D1 /* Category.storyboard */; };
 		6CE16F92207200EC00231863 /* RealmDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F91207200EC00231863 /* RealmDataModel.swift */; };
 		6CE16F94207202E900231863 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE16F93207202E900231863 /* CloudManager.swift */; };
@@ -240,6 +202,7 @@
 		163199BE2097DC5200140AC1 /* RecycleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleViewController.swift; sourceTree = "<group>"; };
 		163199C02097DC5C00140AC1 /* FacebookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookViewController.swift; sourceTree = "<group>"; };
 		163199C22097DC6300140AC1 /* FacebookDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookDetailViewController.swift; sourceTree = "<group>"; };
+		1636A10D209A8D5900FCEA7B /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		16722B86207CA70E0041ED1E /* DRClearNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRClearNavigationController.swift; sourceTree = "<group>"; };
 		16722B87207CA70E0041ED1E /* DRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRViewController.swift; sourceTree = "<group>"; };
 		167A1CDF207C91E30029E797 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -252,10 +215,8 @@
 		167A1CE9207C93200029E797 /* Layer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layer.swift; sourceTree = "<group>"; };
 		167A1CEA207C93200029E797 /* SegueIdentifer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIdentifer.swift; sourceTree = "<group>"; };
 		167A1CEB207C93200029E797 /* UIImage+resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+resize.swift"; sourceTree = "<group>"; };
-		167A1CEC207C93200029E797 /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		167A1CED207C93200029E797 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		167A1CEE207C93200029E797 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
-		167A1CEF207C93200029E797 /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		167A1CF0207C93200029E797 /* CKError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CKError.swift; sourceTree = "<group>"; };
 		167A1CF1207C93210029E797 /* ViewTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewTag.swift; sourceTree = "<group>"; };
 		167A1CF2207C93210029E797 /* CKAsset+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CKAsset+UIImage.swift"; sourceTree = "<group>"; };
@@ -268,24 +229,6 @@
 		167A1D0B207C93470029E797 /* DRBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRBinder.swift; sourceTree = "<group>"; };
 		167A1D0C207C93470029E797 /* DRAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRAuth.swift; sourceTree = "<group>"; };
 		167A1D0D207C93480029E797 /* DRFBService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRFBService.swift; sourceTree = "<group>"; };
-		167A1D14207C93690029E797 /* DRMagnifyAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRMagnifyAccessoryView.swift; sourceTree = "<group>"; };
-		167A1D15207C93690029E797 /* DRMagnifyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRMagnifyView.swift; sourceTree = "<group>"; };
-		167A1D16207C93690029E797 /* DRInputViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRInputViewManager.swift; sourceTree = "<group>"; };
-		167A1D18207C93690029E797 /* DRMenuAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRMenuAccessoryView.swift; sourceTree = "<group>"; };
-		167A1D19207C93690029E797 /* DRMenuCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRMenuCollectionView.swift; sourceTree = "<group>"; };
-		167A1D1C207C93690029E797 /* DRDrawingUndoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDrawingUndoManager.swift; sourceTree = "<group>"; };
-		167A1D1D207C93690029E797 /* DRCanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRCanvasView.swift; sourceTree = "<group>"; };
-		167A1D1E207C93690029E797 /* DRDrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDrawingView.swift; sourceTree = "<group>"; };
-		167A1D20207C93690029E797 /* DRCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRCameraView.swift; sourceTree = "<group>"; };
-		167A1D21207C93690029E797 /* DRCameraSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRCameraSession.swift; sourceTree = "<group>"; };
-		167A1D22207C93690029E797 /* DRCameraCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRCameraCapture.swift; sourceTree = "<group>"; };
-		167A1D24207C93690029E797 /* DRAlbumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRAlbumView.swift; sourceTree = "<group>"; };
-		167A1D26207C93690029E797 /* DRAlbumFolderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRAlbumFolderCell.swift; sourceTree = "<group>"; };
-		167A1D27207C93690029E797 /* DRAlbumPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRAlbumPhotoCell.swift; sourceTree = "<group>"; };
-		167A1D28207C93690029E797 /* DRAlbumFolderListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRAlbumFolderListView.swift; sourceTree = "<group>"; };
-		167A1D29207C93690029E797 /* DRAlbumPhotoListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRAlbumPhotoListView.swift; sourceTree = "<group>"; };
-		167A1D2A207C93690029E797 /* DRMenuDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRMenuDelegates.swift; sourceTree = "<group>"; };
-		167A1D2B207C936A0029E797 /* DRPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRPageControl.swift; sourceTree = "<group>"; };
 		167A1D4E207C94890029E797 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		168D198420632949005AA85F /* PianoNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		168D19982063294A005AA85F /* PianoNoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PianoNoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -311,15 +254,8 @@
 		168D19F320632A5F005AA85F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		168D19FD206338FB005AA85F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		168D19FE206338FB005AA85F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		168D1A0120636501005AA85F /* FolderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCell.swift; sourceTree = "<group>"; };
 		169789982099533E000D6E8B /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		16BABD9B2092EFA500E15FDB /* FolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
-		16DBA2FF2097E97C008C45B9 /* HowToViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HowToViewController.swift; sourceTree = "<group>"; };
-		16DBA3012097E97C008C45B9 /* InteractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractViewController.swift; sourceTree = "<group>"; };
-		16DBA3042097E97C008C45B9 /* DRDetailReplyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDetailReplyCell.swift; sourceTree = "<group>"; };
-		16DBA3052097E97C008C45B9 /* DRDetailCommentSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRDetailCommentSection.swift; sourceTree = "<group>"; };
-		16DBA3062097E97C008C45B9 /* InteractDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractDetailViewController.swift; sourceTree = "<group>"; };
-		16DBA3072097E97C008C45B9 /* RecycleBinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecycleBinViewController.swift; sourceTree = "<group>"; };
 		16DBA3092097E97C008C45B9 /* NoteViewController_NavigationItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_NavigationItems.swift; sourceTree = "<group>"; };
 		16DBA30A2097E97C008C45B9 /* NoteViewController_Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_Keyboard.swift; sourceTree = "<group>"; };
 		16DBA30B2097E97C008C45B9 /* NoteViewController_TextViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_TextViewDelegate.swift; sourceTree = "<group>"; };
@@ -329,16 +265,6 @@
 		16DBA30F2097E97C008C45B9 /* NoteViewController_CloudSharingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_CloudSharingDelegate.swift; sourceTree = "<group>"; };
 		16DBA3102097E97C008C45B9 /* NoteViewController_DragDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteViewController_DragDelegate.swift; sourceTree = "<group>"; };
 		16DBA3122097E97C008C45B9 /* NoteSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteSettingViewController.swift; sourceTree = "<group>"; };
-		16DBA3152097E97C008C45B9 /* DRBrowseFolderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRBrowseFolderCell.swift; sourceTree = "<group>"; };
-		16DBA3162097E97C008C45B9 /* DRPageFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRPageFlowLayout.swift; sourceTree = "<group>"; };
-		16DBA3172097E97C008C45B9 /* DRContentFolderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRContentFolderCell.swift; sourceTree = "<group>"; };
-		16DBA3192097E97C008C45B9 /* DRBrowseNoteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRBrowseNoteCell.swift; sourceTree = "<group>"; };
-		16DBA31A2097E97C008C45B9 /* DRContentNoteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRContentNoteCell.swift; sourceTree = "<group>"; };
-		16DBA31B2097E97C008C45B9 /* DRNoteCellSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRNoteCellSection.swift; sourceTree = "<group>"; };
-		16DBA31C2097E97C008C45B9 /* DRNoteCellHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRNoteCellHeader.swift; sourceTree = "<group>"; };
-		16DBA31D2097E97C008C45B9 /* MainListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
-		16DBA31F2097E97C008C45B9 /* CategoryManageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryManageCell.swift; sourceTree = "<group>"; };
-		16DBA3202097E97C008C45B9 /* CategoryManageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryManageViewController.swift; sourceTree = "<group>"; };
 		1B545199900A284C87CCE1A0 /* Pods_PianoNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PianoNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEAD3B25C82A9D5AD3AD7F3 /* Pods-PianoNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNoteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		20EC9305AF23FD8D000CC78B /* Pods-PianoNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNote.release.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote.release.xcconfig"; sourceTree = "<group>"; };
@@ -386,7 +312,6 @@
 		6C7270AA20730A6D003A4640 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		6C8851C9208DB6E600822B69 /* PianoTextView_Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoTextView_Pasteboard.swift; sourceTree = "<group>"; };
 		6CBE4D0D209003B300C598DE /* PianoNoteSizeInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoNoteSizeInspector.swift; sourceTree = "<group>"; };
-		6CC75D3A20744F6600D164D1 /* CategoryManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryManageViewController.swift; sourceTree = "<group>"; };
 		6CC75D3C20744FAF00D164D1 /* Category.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Category.storyboard; sourceTree = "<group>"; };
 		6CE16F91207200EC00231863 /* RealmDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDataModel.swift; sourceTree = "<group>"; };
 		6CE16F93207202E900231863 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
@@ -477,86 +402,6 @@
 				16722B87207CA70E0041ED1E /* DRViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		167A1D11207C93690029E797 /* InputView */ = {
-			isa = PBXGroup;
-			children = (
-				167A1D13207C93690029E797 /* MagnifyView */,
-				167A1D17207C93690029E797 /* MenuView */,
-				167A1D16207C93690029E797 /* DRInputViewManager.swift */,
-			);
-			path = InputView;
-			sourceTree = "<group>";
-		};
-		167A1D13207C93690029E797 /* MagnifyView */ = {
-			isa = PBXGroup;
-			children = (
-				167A1D14207C93690029E797 /* DRMagnifyAccessoryView.swift */,
-				167A1D15207C93690029E797 /* DRMagnifyView.swift */,
-			);
-			path = MagnifyView;
-			sourceTree = "<group>";
-		};
-		167A1D17207C93690029E797 /* MenuView */ = {
-			isa = PBXGroup;
-			children = (
-				167A1D1A207C93690029E797 /* Menu */,
-				167A1D18207C93690029E797 /* DRMenuAccessoryView.swift */,
-				167A1D19207C93690029E797 /* DRMenuCollectionView.swift */,
-				167A1D2A207C93690029E797 /* DRMenuDelegates.swift */,
-			);
-			path = MenuView;
-			sourceTree = "<group>";
-		};
-		167A1D1A207C93690029E797 /* Menu */ = {
-			isa = PBXGroup;
-			children = (
-				167A1D1F207C93690029E797 /* Camera */,
-				167A1D23207C93690029E797 /* Album */,
-				167A1D1B207C93690029E797 /* Drawing */,
-			);
-			path = Menu;
-			sourceTree = "<group>";
-		};
-		167A1D1B207C93690029E797 /* Drawing */ = {
-			isa = PBXGroup;
-			children = (
-				167A1D1D207C93690029E797 /* DRCanvasView.swift */,
-				167A1D1E207C93690029E797 /* DRDrawingView.swift */,
-				167A1D1C207C93690029E797 /* DRDrawingUndoManager.swift */,
-			);
-			path = Drawing;
-			sourceTree = "<group>";
-		};
-		167A1D1F207C93690029E797 /* Camera */ = {
-			isa = PBXGroup;
-			children = (
-				167A1D20207C93690029E797 /* DRCameraView.swift */,
-				167A1D21207C93690029E797 /* DRCameraSession.swift */,
-				167A1D22207C93690029E797 /* DRCameraCapture.swift */,
-			);
-			path = Camera;
-			sourceTree = "<group>";
-		};
-		167A1D23207C93690029E797 /* Album */ = {
-			isa = PBXGroup;
-			children = (
-				167A1D25207C93690029E797 /* AlbumCell */,
-				167A1D24207C93690029E797 /* DRAlbumView.swift */,
-				167A1D28207C93690029E797 /* DRAlbumFolderListView.swift */,
-				167A1D29207C93690029E797 /* DRAlbumPhotoListView.swift */,
-			);
-			path = Album;
-			sourceTree = "<group>";
-		};
-		167A1D25207C93690029E797 /* AlbumCell */ = {
-			isa = PBXGroup;
-			children = (
-				167A1D26207C93690029E797 /* DRAlbumFolderCell.swift */,
-				167A1D27207C93690029E797 /* DRAlbumPhotoCell.swift */,
-			);
-			path = AlbumCell;
 			sourceTree = "<group>";
 		};
 		168D197B20632949005AA85F = {
@@ -664,8 +509,15 @@
 		168D19D020632998005AA85F /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				16DBA2FD2097E97C008C45B9 /* Old */,
-				16BABD9A2092EF7900E15FDB /* Renewal */,
+				16DBA3082097E97C008C45B9 /* MainNote */,
+				16DBA3112097E97C008C45B9 /* NoteSetting */,
+				6C3C3E76207B4D4600A087B7 /* Search */,
+				167A1D4E207C94890029E797 /* SplashViewController.swift */,
+				16BABD9B2092EFA500E15FDB /* FolderViewController.swift */,
+				163199BE2097DC5200140AC1 /* RecycleViewController.swift */,
+				163199C02097DC5C00140AC1 /* FacebookViewController.swift */,
+				163199C22097DC6300140AC1 /* FacebookDetailViewController.swift */,
+				169789982099533E000D6E8B /* InfoViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -680,13 +532,12 @@
 				167A1CE7207C93200029E797 /* ConstraintIdentifier.swift */,
 				167A1CEE207C93200029E797 /* Date.swift */,
 				167A1CF6207C93210029E797 /* Device.swift */,
-				167A1CEF207C93200029E797 /* Font.swift */,
 				167A1CE9207C93200029E797 /* Layer.swift */,
 				167A1CF4207C93210029E797 /* List.swift */,
 				167A1CF5207C93210029E797 /* Realm+CloudKit.swift */,
 				167A1CEA207C93200029E797 /* SegueIdentifer.swift */,
 				167A1CED207C93200029E797 /* String.swift */,
-				167A1CEC207C93200029E797 /* Text.swift */,
+				1636A10D209A8D5900FCEA7B /* Text.swift */,
 				167A1CEB207C93200029E797 /* UIImage+resize.swift */,
 				167A1CF7207C93210029E797 /* View.swift */,
 				167A1CE8207C93200029E797 /* ViewController+Alert.swift */,
@@ -729,82 +580,9 @@
 		168D1A00206364AE005AA85F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				167A1D11207C93690029E797 /* InputView */,
-				168D1A0420636649005AA85F /* MainList */,
 				7C9926C420647AB6000327AD /* MainNote */,
-				167A1D2B207C936A0029E797 /* DRPageControl.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		168D1A0420636649005AA85F /* MainList */ = {
-			isa = PBXGroup;
-			children = (
-				6C3C3E76207B4D4600A087B7 /* Search */,
-				168D1A0120636501005AA85F /* FolderCell.swift */,
-			);
-			path = MainList;
-			sourceTree = "<group>";
-		};
-		16BABD9A2092EF7900E15FDB /* Renewal */ = {
-			isa = PBXGroup;
-			children = (
-				167A1D4E207C94890029E797 /* SplashViewController.swift */,
-				16BABD9B2092EFA500E15FDB /* FolderViewController.swift */,
-				163199BE2097DC5200140AC1 /* RecycleViewController.swift */,
-				163199C02097DC5C00140AC1 /* FacebookViewController.swift */,
-				163199C22097DC6300140AC1 /* FacebookDetailViewController.swift */,
-				169789982099533E000D6E8B /* InfoViewController.swift */,
-			);
-			path = Renewal;
-			sourceTree = "<group>";
-		};
-		16DBA2FD2097E97C008C45B9 /* Old */ = {
-			isa = PBXGroup;
-			children = (
-				16DBA2FE2097E97C008C45B9 /* LookAround */,
-				16DBA3082097E97C008C45B9 /* MainNote */,
-				16DBA3112097E97C008C45B9 /* NoteSetting */,
-				16DBA3132097E97C008C45B9 /* MainList */,
-			);
-			path = Old;
-			sourceTree = "<group>";
-		};
-		16DBA2FE2097E97C008C45B9 /* LookAround */ = {
-			isa = PBXGroup;
-			children = (
-				16DBA3002097E97C008C45B9 /* Interact */,
-				16DBA2FF2097E97C008C45B9 /* HowToViewController.swift */,
-				16DBA3072097E97C008C45B9 /* RecycleBinViewController.swift */,
-			);
-			path = LookAround;
-			sourceTree = "<group>";
-		};
-		16DBA3002097E97C008C45B9 /* Interact */ = {
-			isa = PBXGroup;
-			children = (
-				16DBA3012097E97C008C45B9 /* InteractViewController.swift */,
-				16DBA3022097E97C008C45B9 /* InteractDetailView */,
-			);
-			path = Interact;
-			sourceTree = "<group>";
-		};
-		16DBA3022097E97C008C45B9 /* InteractDetailView */ = {
-			isa = PBXGroup;
-			children = (
-				16DBA3032097E97C008C45B9 /* DetailCell */,
-				16DBA3062097E97C008C45B9 /* InteractDetailViewController.swift */,
-			);
-			path = InteractDetailView;
-			sourceTree = "<group>";
-		};
-		16DBA3032097E97C008C45B9 /* DetailCell */ = {
-			isa = PBXGroup;
-			children = (
-				16DBA3042097E97C008C45B9 /* DRDetailReplyCell.swift */,
-				16DBA3052097E97C008C45B9 /* DRDetailCommentSection.swift */,
-			);
-			path = DetailCell;
 			sourceTree = "<group>";
 		};
 		16DBA3082097E97C008C45B9 /* MainNote */ = {
@@ -828,47 +606,6 @@
 				16DBA3122097E97C008C45B9 /* NoteSettingViewController.swift */,
 			);
 			path = NoteSetting;
-			sourceTree = "<group>";
-		};
-		16DBA3132097E97C008C45B9 /* MainList */ = {
-			isa = PBXGroup;
-			children = (
-				16DBA3142097E97C008C45B9 /* FolderCell */,
-				16DBA31D2097E97C008C45B9 /* MainListViewController.swift */,
-				16DBA31E2097E97C008C45B9 /* CategoryList */,
-			);
-			path = MainList;
-			sourceTree = "<group>";
-		};
-		16DBA3142097E97C008C45B9 /* FolderCell */ = {
-			isa = PBXGroup;
-			children = (
-				16DBA3152097E97C008C45B9 /* DRBrowseFolderCell.swift */,
-				16DBA3162097E97C008C45B9 /* DRPageFlowLayout.swift */,
-				16DBA3172097E97C008C45B9 /* DRContentFolderCell.swift */,
-				16DBA3182097E97C008C45B9 /* NoteCell */,
-			);
-			path = FolderCell;
-			sourceTree = "<group>";
-		};
-		16DBA3182097E97C008C45B9 /* NoteCell */ = {
-			isa = PBXGroup;
-			children = (
-				16DBA3192097E97C008C45B9 /* DRBrowseNoteCell.swift */,
-				16DBA31A2097E97C008C45B9 /* DRContentNoteCell.swift */,
-				16DBA31B2097E97C008C45B9 /* DRNoteCellSection.swift */,
-				16DBA31C2097E97C008C45B9 /* DRNoteCellHeader.swift */,
-			);
-			path = NoteCell;
-			sourceTree = "<group>";
-		};
-		16DBA31E2097E97C008C45B9 /* CategoryList */ = {
-			isa = PBXGroup;
-			children = (
-				16DBA31F2097E97C008C45B9 /* CategoryManageCell.swift */,
-				16DBA3202097E97C008C45B9 /* CategoryManageViewController.swift */,
-			);
-			path = CategoryList;
 			sourceTree = "<group>";
 		};
 		419757B10061036B027FA047 /* Pods */ = {
@@ -1402,8 +1139,6 @@
 				167A1D03207C93210029E797 /* ViewTag.swift in Sources */,
 				7C7A314B208EA6FC00063576 /* iOS.swift in Sources */,
 				6C7270A120730324003A4640 /* AddressAttachment.swift in Sources */,
-				16DBA3392097E97C008C45B9 /* CategoryManageViewController.swift in Sources */,
-				16DBA3302097E97C008C45B9 /* DRBrowseFolderCell.swift in Sources */,
 				16DBA32F2097E97C008C45B9 /* NoteSettingViewController.swift in Sources */,
 				16DBA3292097E97C008C45B9 /* NoteViewController_TextViewDelegate.swift in Sources */,
 				167A1D55207C94890029E797 /* SplashViewController.swift in Sources */,
@@ -1415,38 +1150,29 @@
 				167A1D04207C93210029E797 /* CKAsset+UIImage.swift in Sources */,
 				6C72709320730158003A4640 /* ContactAttribute.swift in Sources */,
 				16DBA32B2097E97C008C45B9 /* NoteViewController_InteractiveDelegate.swift in Sources */,
-				16DBA3332097E97C008C45B9 /* DRBrowseNoteCell.swift in Sources */,
-				16DBA3382097E97C008C45B9 /* CategoryManageCell.swift in Sources */,
 				6C72709720730193003A4640 /* ReminderAttribute.swift in Sources */,
 				6C5CD4A1207C3827002C0CA4 /* PianoTextContactCell.swift in Sources */,
 				6C7270752072F4D6003A4640 /* LocalDatabase.swift in Sources */,
 				6C72707E2072FDCB003A4640 /* NoteSynchronizer.swift in Sources */,
-				16DBA3212097E97C008C45B9 /* HowToViewController.swift in Sources */,
-				167A1D01207C93210029E797 /* Font.swift in Sources */,
 				6C72709F20730306003A4640 /* LinkAttachment.swift in Sources */,
 				168D19E020632998005AA85F /* AppDelegate.swift in Sources */,
-				167A1D35207C936A0029E797 /* DRCameraView.swift in Sources */,
 				167A1D06207C93210029E797 /* List.swift in Sources */,
 				167A1D0F207C93480029E797 /* DRAuth.swift in Sources */,
 				167A1D07207C93210029E797 /* Realm+CloudKit.swift in Sources */,
 				16DBA32E2097E97C008C45B9 /* NoteViewController_DragDelegate.swift in Sources */,
 				167A1D02207C93210029E797 /* CKError.swift in Sources */,
-				16DBA3372097E97C008C45B9 /* MainListViewController.swift in Sources */,
 				7CD8814D2064D552009C6C5F /* PianoView.swift in Sources */,
 				7C7A314A208EA6FC00063576 /* iOS&mac.swift in Sources */,
-				167A1D3E207C936A0029E797 /* DRPageControl.swift in Sources */,
 				7CD881562065BD78009C6C5F /* AnimatableText.swift in Sources */,
 				6CEC5CB4207CE2E100AE356F /* LocalImageCache.swift in Sources */,
 				7CD881542065357F009C6C5F /* PianoControl.swift in Sources */,
-				16DBA3352097E97C008C45B9 /* DRNoteCellSection.swift in Sources */,
 				16722B88207CA70E0041ED1E /* DRClearNavigationController.swift in Sources */,
+				1636A10E209A8D5900FCEA7B /* Text.swift in Sources */,
 				6C3C3E78207B4D5B00A087B7 /* SearchCell.swift in Sources */,
 				163199C32097DC6300140AC1 /* FacebookDetailViewController.swift in Sources */,
-				168D1A0220636501005AA85F /* FolderCell.swift in Sources */,
 				167A1CFA207C93210029E797 /* ViewController+Alert.swift in Sources */,
 				7CD8816720687D5D009C6C5F /* PianoSetup.swift in Sources */,
 				167A1D0A207C93210029E797 /* Window.swift in Sources */,
-				16DBA3312097E97C008C45B9 /* DRPageFlowLayout.swift in Sources */,
 				6C72708F207300F4003A4640 /* LinkAttribute.swift in Sources */,
 				16722B89207CA70E0041ED1E /* DRViewController.swift in Sources */,
 				6C72707A2072FD1F003A4640 /* Diff3.swift in Sources */,
@@ -1454,29 +1180,20 @@
 				6C72709D207302E6003A4640 /* ImageAttachment.swift in Sources */,
 				6CF1BFF5207B60DC0013307D /* PianoTextLinkCell.swift in Sources */,
 				6C5CD4A5207C3ACD002C0CA4 /* PianoTextEventCell.swift in Sources */,
-				167A1D2D207C936A0029E797 /* DRMagnifyAccessoryView.swift in Sources */,
 				169789992099533E000D6E8B /* InfoViewController.swift in Sources */,
 				7CD8813D2064C76F009C6C5F /* AppNavigator.swift in Sources */,
 				16DBA3272097E97C008C45B9 /* NoteViewController_NavigationItems.swift in Sources */,
 				6C5CD4AD207C7023002C0CA4 /* UIImageView+Letters.swift in Sources */,
 				7CD8815B2065BE33009C6C5F /* TextAnimatable.swift in Sources */,
-				16DBA3222097E97C008C45B9 /* InteractViewController.swift in Sources */,
-				167A1D37207C936A0029E797 /* DRCameraCapture.swift in Sources */,
-				16DBA3242097E97C008C45B9 /* DRDetailCommentSection.swift in Sources */,
 				16DBA32D2097E97C008C45B9 /* NoteViewController_CloudSharingDelegate.swift in Sources */,
 				167A1D08207C93210029E797 /* Device.swift in Sources */,
 				16DBA3282097E97C008C45B9 /* NoteViewController_Keyboard.swift in Sources */,
-				16DBA3262097E97C008C45B9 /* RecycleBinViewController.swift in Sources */,
 				7CD881462064CC1D009C6C5F /* PianoSegmentControl.swift in Sources */,
 				7CD881582065BD92009C6C5F /* PianoResult.swift in Sources */,
 				6CEC5CB2207CE25F00AE356F /* RealmImageObserver.swift in Sources */,
-				16DBA3322097E97C008C45B9 /* DRContentFolderCell.swift in Sources */,
 				168D19DE20632998005AA85F /* Util.swift in Sources */,
 				6C8851CA208DB6E600822B69 /* PianoTextView_Pasteboard.swift in Sources */,
 				6CE16F92207200EC00231863 /* RealmDataModel.swift in Sources */,
-				167A1D3B207C936A0029E797 /* DRAlbumFolderListView.swift in Sources */,
-				167A1D2E207C936A0029E797 /* DRMagnifyView.swift in Sources */,
-				167A1D3C207C936A0029E797 /* DRAlbumPhotoListView.swift in Sources */,
 				7CD8815D2065BE3A009C6C5F /* Effectable.swift in Sources */,
 				7CD881652068778C009C6C5F /* PianoTextView.swift in Sources */,
 				6C5CD4A9207C4A6A002C0CA4 /* PianoTextReminderCell.swift in Sources */,
@@ -1486,51 +1203,35 @@
 				167A1D0E207C93480029E797 /* DRBinder.swift in Sources */,
 				6C7270A920730633003A4640 /* FontManager.swift in Sources */,
 				167A1CFF207C93210029E797 /* String.swift in Sources */,
-				167A1D30207C936A0029E797 /* DRMenuAccessoryView.swift in Sources */,
-				167A1D34207C936A0029E797 /* DRDrawingView.swift in Sources */,
 				167A1CF9207C93210029E797 /* ConstraintIdentifier.swift in Sources */,
-				167A1D3D207C936A0029E797 /* DRMenuDelegates.swift in Sources */,
 				6C72708D207300D9003A4640 /* ImageAttribute.swift in Sources */,
 				167A1D00207C93210029E797 /* Date.swift in Sources */,
-				167A1D33207C936A0029E797 /* DRCanvasView.swift in Sources */,
-				167A1D32207C936A0029E797 /* DRDrawingUndoManager.swift in Sources */,
 				6C3C3E7520775A0D00A087B7 /* SearchViewController.swift in Sources */,
 				167A1CFD207C93210029E797 /* UIImage+resize.swift in Sources */,
 				6CE16F94207202E900231863 /* CloudManager.swift in Sources */,
-				167A1D36207C936A0029E797 /* DRCameraSession.swift in Sources */,
-				16DBA3232097E97C008C45B9 /* DRDetailReplyCell.swift in Sources */,
 				6CE16FA02072183900231863 /* Sync.swift in Sources */,
 				16DBA32A2097E97C008C45B9 /* NoteViewController.swift in Sources */,
 				6C5CD49D207C33D2002C0CA4 /* PianoTextAddressCell.swift in Sources */,
-				167A1D3A207C936A0029E797 /* DRAlbumPhotoCell.swift in Sources */,
-				167A1D2F207C936A0029E797 /* DRInputViewManager.swift in Sources */,
-				167A1D38207C936A0029E797 /* DRAlbumView.swift in Sources */,
 				6C7270782072FCCB003A4640 /* Diff.swift in Sources */,
 				167A1D09207C93210029E797 /* View.swift in Sources */,
 				6C72708820730084003A4640 /* FontAttribute.swift in Sources */,
-				167A1D31207C936A0029E797 /* DRMenuCollectionView.swift in Sources */,
 				6CE16F9B207213D800231863 /* CloudNotificationCenter.swift in Sources */,
 				6C7270A720730368003A4640 /* ReminderAttachment.swift in Sources */,
 				7C7A3151208EA81C00063576 /* PianoBullet.swift in Sources */,
-				16DBA3362097E97C008C45B9 /* DRNoteCellHeader.swift in Sources */,
 				6C7270A520730352003A4640 /* EventAttachment.swift in Sources */,
 				6CF1BFF0207B5D410013307D /* PianoTextImageCell.swift in Sources */,
 				163199BF2097DC5200140AC1 /* RecycleViewController.swift in Sources */,
 				6C72709120730139003A4640 /* AddressAttribute.swift in Sources */,
 				167A1D05207C93210029E797 /* Color.swift in Sources */,
 				167A1D10207C93480029E797 /* DRFBService.swift in Sources */,
-				167A1CFE207C93210029E797 /* Text.swift in Sources */,
 				6C7270812072FFBD003A4640 /* AttributeModel.swift in Sources */,
-				167A1D39207C936A0029E797 /* DRAlbumFolderCell.swift in Sources */,
 				167A1CFB207C93210029E797 /* Layer.swift in Sources */,
 				6C7270952073016F003A4640 /* EventAttribute.swift in Sources */,
 				167A1CFC207C93210029E797 /* SegueIdentifer.swift in Sources */,
-				16DBA3342097E97C008C45B9 /* DRContentNoteCell.swift in Sources */,
 				6C72707C2072FD8E003A4640 /* ConflictResolver.swift in Sources */,
 				75E998A9948E29C41DA1829C /* AttributeModelConfigurable.swift in Sources */,
 				75E99241D6D37D37ABADC38C /* CloudDatabase.swift in Sources */,
 				16DBA32C2097E97C008C45B9 /* NoteViewController_NSTextStorageDelegate.swift in Sources */,
-				16DBA3252097E97C008C45B9 /* InteractDetailViewController.swift in Sources */,
 				75E9956121C1AF5375901F84 /* RxCloudDatabase.swift in Sources */,
 				6CBE4D0E209003B300C598DE /* PianoNoteSizeInspector.swift in Sources */,
 				75E99565C2D701A6E52B3D67 /* CKDatabaseScope.swift in Sources */,
@@ -1560,7 +1261,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				167A1D70207C95260029E797 /* String.swift in Sources */,
-				167A1D6E207C95260029E797 /* Font.swift in Sources */,
 				167A1D6D207C95260029E797 /* Device.swift in Sources */,
 				167A1D6F207C95260029E797 /* Layer.swift in Sources */,
 				168D19EF20632A5F005AA85F /* TodayViewController.swift in Sources */,

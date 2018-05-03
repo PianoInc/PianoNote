@@ -45,27 +45,5 @@ extension NoteViewController: UITextViewDelegate {
         
     }
     
-  
-    
-    func textViewDidChange(_ textView: UITextView) {
-        
-        if let pianoView = textView as? PianoTextView {
-            pianoView.inputViewManager?.magnifyAccessoryView.magnifyView.sync()
-        }
-    }
-    
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        if let pianoView = textView as? PianoTextView {
-            pianoView.inputViewManager?.magnifyAccessoryView.magnifyView.sync()
-        }
-    }
-    
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if let pianoView = textView as? PianoTextView {
-            pianoView.inputViewManager?.magnifyAccessoryView.magnifyView.cursor()
-        }
-        return true
-    }
-    
 }
 

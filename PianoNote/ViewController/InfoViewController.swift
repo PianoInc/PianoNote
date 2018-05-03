@@ -90,11 +90,11 @@ extension InfoNodeController: ASCollectionViewLayoutInspecting {
     }
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForSupplementaryNodeOfKind kind: String, at indexPath: IndexPath) -> ASSizeRange {
-        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 55.auto))
+        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 55.fit))
     }
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
-        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 45.auto))
+        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 45.fit))
     }
     
 }
@@ -157,7 +157,7 @@ class InfoSectionNode: ASCellNode {
         automaticallyManagesSubnodes = true
         
         titleNode.isLayerBacked = true
-        let titleFont = UIFont.systemFont(ofSize: isHeader ? 34.auto : 14.auto,
+        let titleFont = UIFont.systemFont(ofSize: isHeader ? 34.fit : 14.fit,
                                           weight: isHeader ? .semibold : .regular)
         let titleColor = isHeader ? .black : UIColor(hex8: "0a0a0acc")
         titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : titleFont, .foregroundColor : titleColor])
@@ -165,8 +165,8 @@ class InfoSectionNode: ASCellNode {
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         titleNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: constrainedSize.max.width),height: ASDimension(unit: .points, value: constrainedSize.max.height))
-        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: (indexPath?.section == 0) ? 20.auto : 30.auto,
-                                                                l: (indexPath?.section == 0) ? 23.auto : 14.auto), child: titleNode)
+        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: (indexPath?.section == 0) ? 20.fit : 30.fit,
+                                                                l: (indexPath?.section == 0) ? 23.fit : 14.fit), child: titleNode)
         return titleInset
     }
     
@@ -191,7 +191,7 @@ class InfoRowNode: ASCellNode {
         imageNode.image = #imageLiteral(resourceName: "info")
         
         titleNode.isLayerBacked = true
-        let titleFont = UIFont.systemFont(ofSize: 16.auto)
+        let titleFont = UIFont.systemFont(ofSize: 16.fit)
         titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : titleFont])
         
         bottomLineNode.isLayerBacked = true
@@ -202,12 +202,12 @@ class InfoRowNode: ASCellNode {
         topLineNode.style.preferredSize = CGSize(width: constrainedSize.max.width, height: 0.5)
         let topLineInset = ASInsetLayoutSpec(insets: UIEdgeInsets(), child: topLineNode)
         
-        imageNode.style.preferredSize = CGSize(width: 29.auto, height: 29.auto)
+        imageNode.style.preferredSize = CGSize(width: 29.fit, height: 29.fit)
         let imageCenter = ASCenterLayoutSpec(centeringOptions: .Y, sizingOptions: .minimumY, child: imageNode)
-        let imageInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 7.auto, l: 14.auto, b: 7.auto), child: imageCenter)
+        let imageInset = ASInsetLayoutSpec(insets: UIEdgeInsets(t: 7.fit, l: 14.fit, b: 7.fit), child: imageCenter)
         
         let titleCenter = ASCenterLayoutSpec(centeringOptions: .Y, sizingOptions: .minimumY, child: titleNode)
-        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 14.auto), child: titleCenter)
+        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 14.fit), child: titleCenter)
         
         let hStack = ASStackLayoutSpec.horizontal()
         hStack.children = [imageInset, titleInset]
@@ -218,10 +218,10 @@ class InfoRowNode: ASCellNode {
         if place == .top  {
             bottomLineNode.isHidden = true
         } else if place == .halfTop {
-            bottomLineInset.insets.left = 54.auto
+            bottomLineInset.insets.left = 54.fit
         } else if place == .middle {
-            topLineInset.insets.left = 54.auto
-            bottomLineInset.insets.left = 54.auto
+            topLineInset.insets.left = 54.fit
+            bottomLineInset.insets.left = 54.fit
         } else if place == .bottom {
             topLineNode.isHidden = true
         }
