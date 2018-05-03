@@ -27,8 +27,7 @@ struct Schema {
         static let id = "id"
         static let content = "content"
         static let attributes = "attributes"
-        static let sizeLevel = "sizeLevel"
-        static let backgroundColorString = "backgroundColorString"
+        static let colorThemeCode = "colorThemeCode"
         
         static let tags = "tags"
         static let isPinned = "isPinned"

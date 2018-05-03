@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import InteractiveTextEngine_iOS
 
 protocol Effectable: class {
     

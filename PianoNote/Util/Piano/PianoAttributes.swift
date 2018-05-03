@@ -18,18 +18,18 @@ enum PianoAttributes: Int {
     case underline
     
     func addAttribute(from attr: [NSAttributedStringKey : Any]) -> [NSAttributedStringKey : Any] {
-        let pointColor = Color.point
+        
         var newAttr = attr
         switch self {
         case .foregroundColor:
-            newAttr[.foregroundColor] = pointColor
+            newAttr[.foregroundColor] = ColorManager.shared.pointForeground()
             
         case .backgroundColor:
-            newAttr[.backgroundColor] = pointColor.withAlphaComponent(0.3)
+            newAttr[.backgroundColor] = ColorManager.shared.highlightBackground()
             
         case .strikeThrough:
             newAttr[.strikethroughStyle] = 1
-            newAttr[.strikethroughColor] = pointColor
+            newAttr[.strikethroughColor] = ColorManager.shared.underLine()
             
         case .bold, .italic:
             let fontAttribute = newAttr[.pianoFontInfo] as? PianoFontAttribute ?? PianoFontAttribute.standard()
@@ -41,7 +41,7 @@ enum PianoAttributes: Int {
 
         case .underline:
             newAttr[.underlineStyle] = 1
-            newAttr[.underlineColor] = pointColor
+            newAttr[.underlineColor] = ColorManager.shared.underLine()
         }
         
         return newAttr

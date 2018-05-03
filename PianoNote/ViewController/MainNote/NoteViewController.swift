@@ -11,6 +11,7 @@ import RealmSwift
 import RxCocoa
 import RxSwift
 import CloudKit
+import InteractiveTextEngine_iOS
 
 class NoteViewController: UIViewController {
 
@@ -27,12 +28,12 @@ class NoteViewController: UIViewController {
         super.viewDidLoad()
 
         if let realm = try? Realm(),
-            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) {
-            if let size = PianoNoteSize(level: note.sizeLevel) {
-                PianoNoteSizeInspector.shared.set(to: size)
-            }
-            //TODO: set colors
+            let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID),
+            let code = ColorPreset(rawValue: note.colorThemeCode) {
+            
+            resetColors(code: code)
         }
+        setFormAttributes()
         setDelegates()
         registerNibs()
 
@@ -57,15 +58,17 @@ class NoteViewController: UIViewController {
         synchronizer?.unregisterFromCloud()
         notificationToken?.invalidate()
         removeGarbageImages()
-        
-        let (string,pianoAttribute) = textView.get()
-        
-        guard let realm = try? Realm(),
-            let noteModel = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID),
-            let jsonData = try? JSONEncoder().encode(pianoAttribute) else {return}
-        
-        if noteModel.content != string || noteModel.attributes != jsonData {
-            saveText(isDeallocating: true)
+        saveWhenDeallocating()
+    }
+
+    private func setFormAttributes() {
+        FormAttributes.defaultFont = PianoFontAttribute.standard().getFont()
+//        FormAttributes.defaultColor =
+        FormAttributes.numFont = UIFont(name: "Avenir Next", size: PianoFontAttribute.standard().getFont().pointSize)!
+        FormAttributes.effectColor = ColorManager.shared.pointForeground()
+        FormAttributes.defaultColor = ColorManager.shared.defaultForeground()
+        FormAttributes.customMakeParagraphStyle = { bullet, spaceCount, tabCount in
+            return DynamicParagraphStyle(bullet: bullet, spaceCount: spaceCount, tabCount: tabCount)
         }
         
         
@@ -97,39 +100,46 @@ class NoteViewController: UIViewController {
     }
     
     private func subscribeToChange() {
-        textView.rx.attributedText.asObservable().distinctUntilChanged()
+        textView.rx.didChange
             .skip(1)
-            .map{_ -> Void in return}.debounce(2.0, scheduler: MainScheduler.instance)
+            .debounce(2.0, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 DispatchQueue.main.async {
                     self?.saveText(isDeallocating: false)
                 }
             }).disposed(by: disposeBag)
 
+        NotificationCenter.default.rx.notification(.pianoSizeInspectorSizeChanged)
+            .subscribe(onNext: { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.resetFonts()
+                }
+        }).disposed(by: disposeBag)
+        
         if let realm = try? Realm(),
                 let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) {
             notificationToken = note.observe { [weak self] change in
                 switch change {
                     case .change(let properties):
-                        if let newBackground = (properties.filter{ $0.name == Schema.Note.backgroundColorString }).first?.newValue as? String {
-                            let color = Color(hex6: newBackground)
-                            //TODO: set Color
-                        }
-
-                        if let newSizeLevel = (properties.filter { $0.name == Schema.Note.sizeLevel}).first?.newValue as? Int,
-                            let newSize = PianoNoteSize(level: newSizeLevel) {
-                            PianoNoteSizeInspector.shared.set(to: newSize)
-                            DispatchQueue.main.async {
-                                self?.resetFonts()
-                            }
+                        if let colorThemeCode = (properties.filter{ $0.name == Schema.Note.colorThemeCode }).first?.newValue as? String,
+                            let code = ColorPreset(rawValue: colorThemeCode) {
+                            self?.resetColors(code: code)
                         }
                     default: break
                 }
             }
         }
     }
+    
+    private func resetColors(code: ColorPreset) {
+        textView.resetColors(preset: code)
+    }
 
     private func resetFonts() {
+        self.textView.textStorage.addAttributes([.font: PianoFontAttribute.standard().getFont()], range: NSMakeRange(0, textView.textStorage.length))
+        
+        
+        
         self.textView.textStorage.enumerateAttribute(.pianoFontInfo, in: NSMakeRange(0, textView.textStorage.length), options: .longestEffectiveRangeNotRequired) { value, range, _ in
             guard let fontAttribute = value as? PianoFontAttribute else {return}
             let font = fontAttribute.getFont()
@@ -220,7 +230,18 @@ class NoteViewController: UIViewController {
             
             ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: completion)
         }
+    }
+    
+    func saveWhenDeallocating() {
+        if isSaving {
+            return
+        }
+        let (string, attributes) = textView.get()
+        let noteID = self.noteID ?? ""
+        guard let data = try? JSONEncoder().encode(attributes) else {isSaving = false;return}
+        let kv: [String: Any] = ["content": string, "attributes": data]
         
+        ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
