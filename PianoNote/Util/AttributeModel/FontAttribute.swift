@@ -79,25 +79,25 @@ struct FontTraits: OptionSet {
 }
 
 
-struct PianoFontAttribute: Hashable {
+public struct PianoFontAttribute: Hashable {
     
     static func standard() -> PianoFontAttribute {
         return PianoFontAttribute(traits: [], sizeCategory: .body)
     }
-    static func ==(lhs: PianoFontAttribute, rhs: PianoFontAttribute) -> Bool {
-        return lhs.traits == rhs.traits
+    public static func ==(lhs: PianoFontAttribute, rhs: PianoFontAttribute) -> Bool {
+        return lhs.traits == rhs.traits && lhs.sizeCategory == rhs.sizeCategory
     }
     
     let traits: FontTraits
     let sizeCategory: FontSizeCategory
     
-    var hashValue: Int {
+    public var hashValue: Int {
         return traits.rawValue
     }
 
-    func getFont() -> UIFont {
+    public func getFont() -> UIFont {
         
-        return FontManager.shared.getFont(for: self)
+        return FontManager.shared.font(for: self)
     }
 }
 
@@ -109,7 +109,7 @@ extension PianoFontAttribute: Codable {
     }
     
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         let optionInt = try values.decode(Int.self, forKey: .traits)
@@ -118,7 +118,7 @@ extension PianoFontAttribute: Codable {
         self.sizeCategory = try values.decode(FontSizeCategory.self, forKey: .sizeCategory)
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(traits.rawValue, forKey: .traits)

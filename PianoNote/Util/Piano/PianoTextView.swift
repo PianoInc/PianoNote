@@ -160,13 +160,24 @@ extension PianoTextView {
 extension PianoTextView {
     func set(string: String, with attributes: [AttributeModel]) {
         let newAttributedString = NSMutableAttributedString(string: string)
+        newAttributedString.addAttributes(FormAttributes.defaultAttributes, range: NSMakeRange(0, newAttributedString.length))
         attributes.forEach{ newAttributedString.add(attribute: $0) }
         
-        attributedText = newAttributedString
+        set(newAttributedString: newAttributedString)
     }
     
     func get() -> (string: String, attributes: [AttributeModel]) {
         
         return attributedText.getStringWithPianoAttributes()
+    }
+    
+    func resetColors(preset: ColorPreset) {
+        let foregroundAttributes = get().attributes.filter{ $0.style == .foregroundColor }
+        ColorManager.shared.set(preset: preset)
+        FormAttributes.defaultColor = ColorManager.shared.defaultForeground()
+        FormAttributes.effectColor = ColorManager.shared.pointForeground()
+        
+        textStorage.addAttribute(.foregroundColor, value: FormAttributes.defaultColor, range: NSMakeRange(0, textStorage.length))
+        foregroundAttributes.forEach { textStorage.add(attribute: $0) }
     }
 }

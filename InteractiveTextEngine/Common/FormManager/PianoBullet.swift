@@ -9,9 +9,9 @@
 import Foundation
 
 //TODO: Copy-on-Write 방식 책 보고 구현하기
-struct PianoBullet {
+public struct PianoBullet {
     
-    enum PianoBulletType {
+    public enum PianoBulletType: Int {
         case number
         case key
         case value
@@ -71,7 +71,7 @@ struct PianoBullet {
         }
     }
     
-    init?(text: String, selectedRange: NSRange) {
+    public init?(text: String, selectedRange: NSRange) {
         let nsText = text as NSString
         let paraRange = nsText.paragraphRange(for: selectedRange)
         
@@ -94,7 +94,7 @@ struct PianoBullet {
     /*
      피아노를 위한 line 이니셜라이져
      */
-    init?(text: String, lineRange: NSRange) {
+    public init?(text: String, lineRange: NSRange) {
         
         let nsText = text as NSString
         guard nsText.length != 0 else { return nil }

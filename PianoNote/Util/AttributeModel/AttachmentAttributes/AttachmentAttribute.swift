@@ -90,13 +90,13 @@ extension AttachmentAttribute: Hashable {
 
 extension AttachmentAttribute: Codable {
     
-    private enum CodingKeys: CodingKey {
-        case image
-        case link
-        case address
-        case contact
-        case event
-        case reminder
+    private enum CodingKeys: String, CodingKey {
+        case image = "img"
+        case link = "lnk"
+        case address = "adr"
+        case contact = "cnt"
+        case event = "evnt"
+        case reminder = "rmd"
     }
     
     enum CodingError: Error {

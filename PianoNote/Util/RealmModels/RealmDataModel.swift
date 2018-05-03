@@ -63,8 +63,7 @@ class RealmNoteModel: Object, Recordable {
     @objc dynamic var id = ""
     @objc dynamic var content = ""
     @objc dynamic var attributes = "[]".data(using: .utf8)!
-    @objc dynamic var sizeLevel = 2
-    @objc dynamic var backgroundColorString = "FFFFFF"
+    @objc dynamic var colorThemeCode = ColorPreset.white.rawValue
     
     @objc dynamic var recordName = ""
     @objc dynamic var ckMetaData = Data()
