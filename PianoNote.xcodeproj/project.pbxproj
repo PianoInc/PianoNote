@@ -434,7 +434,6 @@
 				168D19EA20632A5F005AA85F /* Frameworks */,
 				168D198520632949005AA85F /* Products */,
 				419757B10061036B027FA047 /* Pods */,
-				7CB60350209AA5AC000713BF /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
