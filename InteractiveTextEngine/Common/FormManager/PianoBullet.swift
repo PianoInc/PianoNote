@@ -137,7 +137,7 @@ extension PianoBullet {
 }
 
 extension String {
-    func detect(searchRange: NSRange, regex: String) -> (String, NSRange)? {
+    public func detect(searchRange: NSRange, regex: String) -> (String, NSRange)? {
         
         do {
             let regularExpression = try NSRegularExpression(pattern: regex, options: .anchorsMatchLines)
