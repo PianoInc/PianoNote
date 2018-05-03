@@ -11,12 +11,26 @@ import InteractiveTextEngine_iOS
 
 class PianoTextView: InteractiveTextView {
     
+
+//    private(set) var inputViewManager: DRInputViewManager!
+
     var isSyncing: Bool = false
     var noteID: String = ""
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
+
+//        inputViewManager = DRInputViewManager(self)
+        
     }
+    
+//    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+//        if inputViewManager.magnifyAccessoryView.magnifyView.state == .paste {
+//            return action == #selector(paste(_:))
+//        }
+//        inputViewManager.magnifyAccessoryView.magnifyView.cursor()
+//        return true
+//    }
 
     override var typingAttributes: [String : Any] {
         get {
@@ -35,13 +49,12 @@ class PianoTextView: InteractiveTextView {
         
         setup()
         tag = ViewTag.PianoTextView.rawValue
-        textContainerInset.top = 20
         noteID = ""
     }
     
     override func awakeAfter(using aDecoder: NSCoder) -> Any? {
         let newTextView = PianoTextView(frame: self.frame)
-        
+  
         //get constraints
         var constraints: Array<NSLayoutConstraint> = []
         self.constraints.forEach {
@@ -89,7 +102,6 @@ class PianoTextView: InteractiveTextView {
         newTextView.setup()
         
         newTextView.tag = ViewTag.PianoTextView.rawValue
-        newTextView.textContainerInset.top = 20
         
         return newTextView
     }

@@ -16,14 +16,13 @@ import InteractiveTextEngine_iOS
 class NoteViewController: UIViewController {
 
     @IBOutlet weak var textView: PianoTextView!
-    var invokingTextViewDelegate: Bool = false
     var noteID: String!
     var isSaving: Bool = false
     var initialImageRecordNames: Set<String> = []
     let disposeBag = DisposeBag()
     var synchronizer: NoteSynchronizer!
     var notificationToken: NotificationToken?
-
+    internal var keyboardToken: NSKeyValueObservation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +70,8 @@ class NoteViewController: UIViewController {
         FormAttributes.customMakeParagraphStyle = { bullet, spaceCount, tabCount in
             return DynamicParagraphStyle(bullet: bullet, spaceCount: spaceCount, tabCount: tabCount)
         }
+        
+        
     }
     
     private func setCanvasSize(_ size: CGSize) {
@@ -273,6 +274,7 @@ class NoteViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "NoteSettingViewController" {
             guard let destVC = segue.destination as? NoteSettingViewController else {return}
             destVC.noteID = noteID

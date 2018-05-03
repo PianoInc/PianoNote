@@ -8,8 +8,10 @@
 
 import UIKit
 import RealmSwift
+import CloudKit
 
 class NoteSettingViewController: UITableViewController {
+    
 
     var noteID: String?
     @IBOutlet weak var slider: UISlider!
@@ -17,12 +19,8 @@ class NoteSettingViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
         slider.value = Float(PianoNoteSizeInspector.shared.get().level)
+
     }
     
     override func didReceiveMemoryWarning() {

@@ -70,7 +70,8 @@ extension PianoTextView: Effectable {
     
     private func animatableInfo(touch: UITouch) -> (CGRect, NSRange, NSAttributedString)? {
         guard attributedText.length != 0 else { return nil }
-        let point = touch.location(in: self)
+        var point = touch.location(in: self)
+        point.y -= textContainerInset.top
         let index = layoutManager.glyphIndex(for: point, in: textContainer)
         var lineRange = NSRange()
         let lineRect = layoutManager.lineFragmentRect(forGlyphAt: index, effectiveRange: &lineRange)
