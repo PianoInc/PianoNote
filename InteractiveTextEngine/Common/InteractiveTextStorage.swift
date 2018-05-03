@@ -69,7 +69,7 @@ class InteractiveTextStorage: NSTextStorage {
                 selectedRange: NSMakeRange(cursorLocation, 0)) {
                 
                 //카드가 있다면 붙여주기
-                let attachment = card.attachment()
+//                let attachment = card.attachment()
                 //개행을 추가해 붙이기
                 let newLine = "\n"
                 

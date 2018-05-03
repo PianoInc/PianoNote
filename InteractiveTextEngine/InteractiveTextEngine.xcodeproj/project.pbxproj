@@ -43,6 +43,8 @@
 		7C7A3138208EA53C00063576 /* PianoBullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A3136208EA53C00063576 /* PianoBullet.swift */; };
 		7C7A313B208EA5B300063576 /* FormAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A313A208EA5B300063576 /* FormAttributes.swift */; };
 		7C7A314D208EA7CC00063576 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A314C208EA7CC00063576 /* Color.swift */; };
+		7C8B88332097FC8C00A5AC15 /* PianoKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B88322097FC8C00A5AC15 /* PianoKeyword.swift */; };
+		7C8B88342097FC8C00A5AC15 /* PianoKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B88322097FC8C00A5AC15 /* PianoKeyword.swift */; };
 		7CE8EE2820922D6A006AB6CF /* PianoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE8EE2720922D6A006AB6CF /* PianoCard.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,7 +79,8 @@
 		7C7A3136208EA53C00063576 /* PianoBullet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoBullet.swift; sourceTree = "<group>"; };
 		7C7A313A208EA5B300063576 /* FormAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormAttributes.swift; sourceTree = "<group>"; };
 		7C7A314C208EA7CC00063576 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		7CE8EE2720922D6A006AB6CF /* PianoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoCard.swift; sourceTree = "<group>"; };
+		7C8B88322097FC8C00A5AC15 /* PianoKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoKeyword.swift; sourceTree = "<group>"; };
+		7CE8EE2720922D6A006AB6CF /* PianoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PianoCard.swift; path = ../../../PianoNote/Util/FormManager/PianoCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +190,7 @@
 				7C7A3136208EA53C00063576 /* PianoBullet.swift */,
 				7C7A313A208EA5B300063576 /* FormAttributes.swift */,
 				7CE8EE2720922D6A006AB6CF /* PianoCard.swift */,
+				7C8B88322097FC8C00A5AC15 /* PianoKeyword.swift */,
 			);
 			path = FormManager;
 			sourceTree = "<group>";
@@ -322,6 +326,7 @@
 				7C7A313B208EA5B300063576 /* FormAttributes.swift in Sources */,
 				6C72A8992063277800D124EA /* InteractiveTextAttachment.swift in Sources */,
 				7C7A314D208EA7CC00063576 /* Color.swift in Sources */,
+				7C8B88342097FC8C00A5AC15 /* PianoKeyword.swift in Sources */,
 				6C3130D1206373FD001E7E0F /* InteractiveTextView_iOS.swift in Sources */,
 				6C313109206498AA001E7E0F /* InteractiveLayoutManager.swift in Sources */,
 				6C72A897206326A900D124EA /* InteractiveTextView.swift in Sources */,
@@ -343,6 +348,7 @@
 				7C31E8CF2092B87B00470A90 /* PianoBullet.swift in Sources */,
 				6C72A89A2063277800D124EA /* InteractiveTextAttachment.swift in Sources */,
 				6C72A896206326A000D124EA /* InteractiveTextView.swift in Sources */,
+				7C8B88332097FC8C00A5AC15 /* PianoKeyword.swift in Sources */,
 				6C31310A206498AA001E7E0F /* InteractiveLayoutManager.swift in Sources */,
 				75E9964E0AABC9510D2B8E04 /* InteractiveAttachmentCell.swift in Sources */,
 				75E998269299F6921E98F788 /* InteractiveAttachmentCellDispatcher.swift in Sources */,
