@@ -31,26 +31,10 @@ func makeConst<T>(_ view: T, _ const: @escaping ((ConstraintMaker) -> ())) where
     view.snp.makeConstraints {const($0)}
 }
 
-extension UIView {
+extension UIEdgeInsets {
     
-    /// InputView를 전체화면으로 animate 한다.
-    func fillCustomInput(animate: Bool = true) {
-        guard let accessoryView = inputAccessoryView else {return}
-        guard let inputView = inputView else {return}
-        let offsetY = accessoryView.bounds.height
-        let height = UIScreen.main.bounds.height
-        
-        for const in inputView.constraints where const.firstAttribute == .height {
-            const.constant = height
-        }
-        
-        UIView.animate(withDuration: animate ? 0.3 : 0) {
-            accessoryView.superview?.frame.origin.y = offsetY
-            accessoryView.superview?.frame.size.height = height
-            inputView.superview?.frame.origin.y = offsetY
-            inputView.superview?.frame.size.height = height
-            inputView.frame.size.height = height
-        }
+    init(t: CGFloat = 0, l: CGFloat = 0, b: CGFloat = 0, r: CGFloat = 0) {
+        self.init(top: t, left: l, bottom: b, right: r)
     }
     
 }
