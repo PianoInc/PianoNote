@@ -11,17 +11,16 @@ import AsyncDisplayKit
 
 class FolderViewController: DRViewController {
     
+    @IBOutlet private var newFolderButton: UIButton!
+    
     private let nodeCtrl = FolderNodeController()
-    private let newFolderButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubnode(nodeCtrl)
-        newFolderButton.addTarget(self, action: #selector(action(newFolder:)), for: .touchUpInside)
-        let buttonFont = UIFont.systemFont(ofSize: 17.fit, weight: .regular)
-        let buttonTitle = NSAttributedString(string: "newFolder".locale, attributes: [.font : buttonFont, .backgroundColor : UIColor(hex6: "f9f9f9")])
-        newFolderButton.setAttributedTitle(buttonTitle, for: .normal)
-        view.addSubview(newFolderButton)
+        newFolderButton.titleLabel?.font = UIFont.systemFont(ofSize: 17.fit, weight: .regular)
+        newFolderButton.setTitle("newFolder".locale, for: .normal)
+        view.bringSubview(toFront: newFolderButton)
         initConst()
         initData()
         initNavi()
@@ -63,7 +62,6 @@ class FolderViewController: DRViewController {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { _ in
             self.initConst()
-            self.nodeCtrl.listNode.contentInset.bottom = self.inputHeight
         })
     }
     
@@ -96,7 +94,7 @@ class FolderViewController: DRViewController {
         }
     }
     
-    @objc private func action(newFolder: ASButtonNode) {
+    @IBAction private func action(newFolder: ASButtonNode) {
         let alert = UIAlertController(title: "newFolder".locale, message: "newFolderSubText".locale, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "cancel".locale, style: .cancel))
         alert.addAction(UIAlertAction(title: "create".locale, style: .default) { _ in
@@ -135,14 +133,20 @@ class FolderNodeController: ASDisplayNode {
     fileprivate let countBinder = DRBinder(0)
     fileprivate var isEdit = false
     
+    fileprivate let uDetectNode = ASDisplayNode()
+    fileprivate let dDetectNode = ASDisplayNode()
+    fileprivate var scroller: Timer!
+    
     override init() {
         super.init()
         automaticallyManagesSubnodes = true
         
+        uDetectNode.backgroundColor = .clear
+        dDetectNode.backgroundColor = .clear
+        
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
-        listNode.contentInset.bottom = inputHeight
         listNode.view.alwaysBounceVertical = true
         listNode.backgroundColor = .clear
         listNode.allowsSelection = false
@@ -189,30 +193,78 @@ class FolderNodeController: ASDisplayNode {
             moveItem.dest = indexPath
             guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
             moveItem.item = item.view.snapshotView(afterScreenUpdates: true)!
-            moveItem.item.shadow(color: UIColor.black.withAlphaComponent(0.5), offset: [0, 10], rad: 10)
+            moveItem.item.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            moveItem.item.shadow(color: UIColor.black.withAlphaComponent(0.5), offset: [0, 0], rad: 10)
             moveItem.item.center.y = point.y
             listNode.view.addSubview(moveItem.item)
             item.isHidden = true
+            
+            uDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y, width: listNode.bounds.width, height: 40.fit)
+            listNode.addSubnode(uDetectNode)
+            let offset = listNode.bounds.height - toolHeight - 40.fit
+            dDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + offset, width: listNode.bounds.width, height: 40.fit)
+            listNode.addSubnode(dDetectNode)
         case .changed:
-            guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
             moveItem.item.center.y = point.y
-            if moveItem.dest != indexPath {
-                listNode.moveItem(at: moveItem.dest, to: indexPath)
-                moveItem.dest = indexPath
+            if uDetectNode.frame.contains(point) {
+                guard scroller == nil else {return}
+                scroller = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                    let offsetY = self.listNode.contentOffset.y - 40.fit
+                    guard offsetY > 0 else {
+                        self.scroller.invalidate()
+                        self.listNode.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+                        return
+                    }
+                    self.moveItem.item.center.y -= 40.fit
+                    self.listNode.setContentOffset(CGPoint(x: 0, y: offsetY), animated: false)
+                }
+            } else if dDetectNode.frame.contains(point) {
+                guard scroller == nil else {return}
+                scroller = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                    let offsetY = self.listNode.contentOffset.y + 40.fit
+                    let max = self.listNode.view.contentSize.height - self.listNode.bounds.height + self.toolHeight
+                    guard offsetY < max else {
+                        self.scroller.invalidate()
+                        self.listNode.setContentOffset(CGPoint(x: 0, y: max), animated: false)
+                        return
+                    }
+                    self.moveItem.item.center.y += 40.fit
+                    self.listNode.setContentOffset(CGPoint(x: 0, y: offsetY), animated: false)
+                }
+            } else {
+                guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
+                if moveItem.dest != indexPath {
+                    listNode.moveItem(at: moveItem.dest, to: indexPath)
+                    moveItem.dest = indexPath
+                }
+                listNode.nodeForItem(at: indexPath)?.isHidden = true
+                guard scroller != nil else {return}
+                scroller.invalidate()
+                scroller = nil
             }
-            listNode.nodeForItem(at: indexPath)?.isHidden = true
         default:
             if let delete = data[0].row?.remove(at: moveItem.origin.row) {
                 data[0].row?.insert(delete, at: moveItem.dest.row)
             }
             listNode.reloadSections(IndexSet(integer: moveItem.origin.section))
             moveItem.item.removeFromSuperview()
+            uDetectNode.removeFromSupernode()
+            dDetectNode.removeFromSupernode()
+            guard scroller != nil else {return}
+            scroller.invalidate()
+            scroller = nil
         }
     }
     
 }
 
 extension FolderNodeController: ASCollectionViewLayoutInspecting {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        uDetectNode.frame.origin.y = scrollView.contentOffset.y
+        let offset = listNode.bounds.height - toolHeight - 40.fit
+        dDetectNode.frame.origin.y = offset + scrollView.contentOffset.y
+    }
     
     func scrollableDirections() -> ASScrollDirection {
         return .down

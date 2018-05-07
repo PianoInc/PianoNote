@@ -88,10 +88,7 @@ extension NSObject {
     var toolHeight: CGFloat {
         #if PIANONOTE
         guard let navigationController = UIWindow.topVC?.navigationController else {return 0}
-        if !navigationController.isToolbarHidden {
-            return navigationController.toolbar.frame.height
-        }
-        return 0
+        return navigationController.toolbar.frame.height
         #else
         return 0
         #endif
@@ -145,6 +142,7 @@ extension NSObject {
             inset.left += limitInset
             inset.right += limitInset
         }
+        inset.bottom += toolHeight
         return inset
     }
     
