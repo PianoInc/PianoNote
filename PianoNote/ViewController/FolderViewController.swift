@@ -19,7 +19,7 @@ class FolderViewController: DRViewController {
         view.addSubnode(nodeCtrl)
         newFolderButton.addTarget(self, action: #selector(action(newFolder:)), for: .touchUpInside)
         let buttonFont = UIFont.systemFont(ofSize: 17.fit, weight: .regular)
-        let buttonTitle = NSAttributedString(string: "newFolder".locale, attributes: [.font : buttonFont])
+        let buttonTitle = NSAttributedString(string: "newFolder".locale, attributes: [.font : buttonFont, .backgroundColor : UIColor(hex6: "f9f9f9")])
         newFolderButton.setAttributedTitle(buttonTitle, for: .normal)
         view.addSubview(newFolderButton)
         initConst()
@@ -29,14 +29,14 @@ class FolderViewController: DRViewController {
     
     private func initConst() {
         makeConst(newFolderButton) {
-            $0.bottom.equalTo(-5.fit)
-            $0.trailing.equalTo(-15.fit)
+            $0.bottom.equalTo(-(self.safeInset.bottom + 5.fit))
+            $0.trailing.equalTo(-(self.safeInset.right + 15.fit))
         }
     }
     
     private func initData() {
         var data = [FolderData]()
-        data.append(FolderData(section: "폴더", row: ["모든 메모", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]))
+        data.append(FolderData(section: "폴더", row: ["모든 메모", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]))
         data.append(FolderData(section: "삭제된 메모", row: nil))
         data.append(FolderData(section: "커뮤니티", row: nil))
         data.append(FolderData(section: "Info", row: nil))
@@ -189,6 +189,7 @@ class FolderNodeController: ASDisplayNode {
             moveItem.dest = indexPath
             guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
             moveItem.item = item.view.snapshotView(afterScreenUpdates: true)!
+            moveItem.item.shadow(color: UIColor.black.withAlphaComponent(0.5), offset: [0, 10], rad: 10)
             moveItem.item.center.y = point.y
             listNode.view.addSubview(moveItem.item)
             item.isHidden = true
@@ -322,6 +323,7 @@ class FolderRowNode: ASCellNode {
     init(title: String, count: String) {
         super.init()
         automaticallyManagesSubnodes = true
+        backgroundColor = UIColor(hex6: "f9f9f9")
         
         lineNode.backgroundColor = UIColor(hex6: "c8c7cc")
         lineNode.isLayerBacked = true

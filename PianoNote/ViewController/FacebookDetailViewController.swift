@@ -17,6 +17,7 @@ class FacebookDetailViewController: DRViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nodeCtrl.isHidden = true
         nodeCtrl.postData = postData
         view.addSubnode(nodeCtrl)
         attachData()
@@ -26,6 +27,7 @@ class FacebookDetailViewController: DRViewController {
     /// Data의 변화를 감지하여 listView에 이어 붙인다.
     private func attachData() {
         DRFBService.share.rxComment.subscribe { [weak self] data in
+            self?.nodeCtrl.isHidden = false
             data.enumerated().forEach {
                 self?.nodeCtrl.data.append($1)
                 self?.nodeCtrl.listNode.insertSections(IndexSet(integer: $0))
@@ -56,6 +58,7 @@ class FacebookDetailNodeController: ASDisplayNode, FBDetailSectionDelegates {
     override init() {
         super.init()
         automaticallyManagesSubnodes = true
+        backgroundColor = UIColor(hex6: "f9f9f9")
         
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0

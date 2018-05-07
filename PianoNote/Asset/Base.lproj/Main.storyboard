@@ -338,10 +338,15 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="API-DF-QvD" kind="show" identifier="RecycleViewController" id="AHL-CH-INX"/>
+                        <segue destination="95L-A7-jOY" kind="show" identifier="InfoViewController" id="9Tz-bA-BZ1"/>
+                        <segue destination="ok0-aC-h19" kind="show" identifier="FacebookViewController" id="Ayy-rH-KOu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XEy-k2-fte" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-79" y="860"/>
+            <point key="canvasLocation" x="-79" y="908"/>
         </scene>
         <!--Recycle View Controller-->
         <scene sceneID="Jns-62-UtQ">
@@ -379,7 +384,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="veq-mk-TTA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="721" y="860"/>
+            <point key="canvasLocation" x="721" y="907"/>
         </scene>
         <!--Facebook View Controller-->
         <scene sceneID="HWs-2v-BDo">
@@ -389,6 +394,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9EK-Us-E2M">
+                                <rect key="frame" x="178" y="324" width="20" height="20"/>
+                            </activityIndicatorView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="33L-zU-Z62">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -407,16 +415,23 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="hFc-gl-NCd" firstAttribute="trailing" secondItem="9EK-Us-E2M" secondAttribute="trailing" constant="177" id="D4k-KC-DtX"/>
+                            <constraint firstItem="9EK-Us-E2M" firstAttribute="top" secondItem="hFc-gl-NCd" secondAttribute="top" constant="260" id="JIu-7l-mD3"/>
+                            <constraint firstItem="hFc-gl-NCd" firstAttribute="bottom" secondItem="9EK-Us-E2M" secondAttribute="bottom" constant="279" id="VSe-eH-Lxw"/>
+                            <constraint firstItem="9EK-Us-E2M" firstAttribute="leading" secondItem="hFc-gl-NCd" secondAttribute="leading" constant="178" id="vuD-tF-vnY"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="hFc-gl-NCd"/>
                     </view>
                     <connections>
                         <outlet property="facebookButton" destination="lNC-sL-831" id="awF-SD-07f"/>
                         <outlet property="facebookLabel" destination="33L-zU-Z62" id="wB1-qG-Lxt"/>
+                        <segue destination="aHz-e6-BeV" kind="show" identifier="FacebookDetailViewController" id="eiy-X8-lFq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vZk-R1-ljb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-79" y="1600"/>
+            <point key="canvasLocation" x="-79" y="1684"/>
         </scene>
         <!--Facebook Detail View Controller-->
         <scene sceneID="ryZ-r8-QTH">
@@ -425,13 +440,24 @@
                     <view key="view" contentMode="scaleToFill" id="8eb-dl-Rzh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="SeJ-tY-dDc">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="SeJ-tY-dDc" firstAttribute="leading" secondItem="LNT-DO-laN" secondAttribute="leading" constant="177" id="baL-BR-hwv"/>
+                            <constraint firstItem="SeJ-tY-dDc" firstAttribute="top" secondItem="LNT-DO-laN" secondAttribute="top" constant="259" id="hIt-az-JNP"/>
+                            <constraint firstItem="LNT-DO-laN" firstAttribute="bottom" secondItem="SeJ-tY-dDc" secondAttribute="bottom" constant="280" id="oyd-PQ-Oaj"/>
+                            <constraint firstItem="LNT-DO-laN" firstAttribute="trailing" secondItem="SeJ-tY-dDc" secondAttribute="trailing" constant="178" id="pfv-mh-B4t"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="LNT-DO-laN"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w06-Df-1h6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="721" y="1600"/>
+            <point key="canvasLocation" x="721" y="1684"/>
         </scene>
         <!--Info View Controller-->
         <scene sceneID="hye-ag-Z1T">
@@ -446,7 +472,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qHM-lU-9qf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1524" y="860"/>
+            <point key="canvasLocation" x="1524" y="906"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="thZ-1x-ez0">
@@ -779,6 +805,7 @@
                     <connections>
                         <outlet property="listView" destination="Ggu-IN-ixo" id="TlV-1q-pPw"/>
                         <outlet property="pageControl" destination="XmF-vY-xsm" id="48w-BE-V8s"/>
+                        <segue destination="8Vc-Dg-PzA" kind="show" identifier="FolderViewController" id="rlv-Ej-l2U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XWY-lS-gUY" userLabel="First Responder" sceneMemberID="firstResponder"/>
