@@ -128,6 +128,7 @@ class FacebookNodeController: ASDisplayNode {
     override init() {
         super.init()
         automaticallyManagesSubnodes = true
+        backgroundColor = UIColor(hex6: "f9f9f9")
         
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
