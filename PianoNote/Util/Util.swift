@@ -20,5 +20,6 @@ class Util: NSObject {
         
         return (uuidString + dateString).sha256()
     }
+    
 }
 
