@@ -47,12 +47,6 @@ class FacebookViewController: DRViewController {
     }
     
     private func initConst() {
-        makeConst(facebookLabel) {
-            $0.leading.equalTo(0)
-            $0.trailing.equalTo(0)
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(0)
-        }
         makeConst(facebookButton) {
             $0.leading.equalTo(self.minSize * 0.08).priority(.high)
             $0.trailing.equalTo(-(self.minSize * 0.08)).priority(.high)
@@ -60,6 +54,12 @@ class FacebookViewController: DRViewController {
             $0.height.equalTo(self.minSize * 0.1333)
             $0.width.lessThanOrEqualTo(self.limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
+        }
+        makeConst(facebookLabel) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(self.safeInset.top + self.naviHeight)
+            $0.bottom.equalTo(self.facebookButton.snp.top)
         }
     }
     
