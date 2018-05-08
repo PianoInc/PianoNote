@@ -253,6 +253,7 @@ class FolderNodeController: ASDisplayNode {
                     let offsetY = self.listNode.contentOffset.y - 40.fit
                     guard offsetY > -self.naviHeight else {
                         self.scroller.invalidate()
+                        self.moveItem.item.center.y -= self.naviHeight + self.listNode.contentOffset.y
                         self.listNode.setContentOffset(CGPoint(x: 0, y: -self.naviHeight), animated: false)
                         return
                     }
@@ -267,6 +268,7 @@ class FolderNodeController: ASDisplayNode {
                     let max = self.listNode.view.contentSize.height - self.listNode.bounds.height + self.toolHeight * 2
                     guard offsetY < max else {
                         self.scroller.invalidate()
+                        self.moveItem.item.center.y += max - self.listNode.contentOffset.y
                         self.listNode.setContentOffset(CGPoint(x: 0, y: max), animated: false)
                         return
                     }
@@ -283,7 +285,6 @@ class FolderNodeController: ASDisplayNode {
 extension FolderNodeController: ASCollectionViewLayoutInspecting {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset)
         uDetectNode.frame.origin.y = naviHeight + scrollView.contentOffset.y
         let offset = listNode.bounds.height - 40.fit - toolHeight
         dDetectNode.frame.origin.y = offset + scrollView.contentOffset.y
