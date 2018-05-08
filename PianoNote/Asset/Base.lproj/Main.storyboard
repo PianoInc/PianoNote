@@ -13,7 +13,7 @@
         <!--Clear Navigation Controller-->
         <scene sceneID="Rbl-DM-2pa">
             <objects>
-                <navigationController storyboardIdentifier="DRClearNavigationController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lhp-sM-15n" customClass="DRClearNavigationController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DRClearNavigationController" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lhp-sM-15n" customClass="DRClearNavigationController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="gtM-Hg-3uG">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -22,7 +22,7 @@
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="gWb-nV-65w">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </toolbar>
                     <connections>
                         <segue destination="43E-ev-ksp" kind="relationship" relationship="rootViewController" id="W4q-0U-gMy"/>
@@ -209,7 +209,7 @@
         <!--Splash View Controller-->
         <scene sceneID="thZ-1x-ez0">
             <objects>
-                <viewController storyboardIdentifier="SplashViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="43E-ev-ksp" customClass="SplashViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SplashViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="43E-ev-ksp" customClass="SplashViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Okp-MF-O2V">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -228,7 +228,7 @@
         <!--Main List View Controller-->
         <scene sceneID="fR8-92-eBv">
             <objects>
-                <viewController storyboardIdentifier="MainListViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jXl-cj-hWB" customClass="MainListViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jXl-cj-hWB" customClass="MainListViewController" customModule="PianoNote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Y1g-sw-zRf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

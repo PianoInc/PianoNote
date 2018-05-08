@@ -61,6 +61,7 @@ class FolderViewController: DRViewController {
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { _ in
+            self.nodeCtrl.listNode.contentInset.bottom = self.toolHeight
             self.initConst()
         })
     }
@@ -73,6 +74,7 @@ class FolderViewController: DRViewController {
     @IBAction private func navi(edit button: UIBarButtonItem) {
         nodeCtrl.isEdit = !nodeCtrl.isEdit
         device(orientationLock: nodeCtrl.isEdit)
+        newFolderButton.isHidden = nodeCtrl.isEdit
         navi { (navi, item) in
             let toEditMode = (button.title == "edit".locale)
             item.rightBarButtonItem?.title = toEditMode ? "done".locale : "edit".locale
@@ -147,6 +149,7 @@ class FolderNodeController: ASDisplayNode {
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
+        listNode.contentInset.bottom = toolHeight
         listNode.view.alwaysBounceVertical = true
         listNode.backgroundColor = .clear
         listNode.allowsSelection = false
@@ -193,26 +196,27 @@ class FolderNodeController: ASDisplayNode {
             moveItem.dest = indexPath
             guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
             moveItem.item = item.view.snapshotView(afterScreenUpdates: true)!
-            moveItem.item.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            moveItem.item.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
             moveItem.item.shadow(color: UIColor.black.withAlphaComponent(0.5), offset: [0, 0], rad: 10)
             moveItem.item.center.y = point.y
             listNode.view.addSubview(moveItem.item)
             item.isHidden = true
             
-            uDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y, width: listNode.bounds.width, height: 40.fit)
+            uDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + naviHeight, width: listNode.bounds.width, height: 40.fit)
             listNode.addSubnode(uDetectNode)
-            let offset = listNode.bounds.height - toolHeight - 40.fit
+            let offset = listNode.bounds.height - 40.fit - toolHeight
             dDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + offset, width: listNode.bounds.width, height: 40.fit)
             listNode.addSubnode(dDetectNode)
         case .changed:
+            guard !moveItem.origin.isEmpty else {return}
             moveItem.item.center.y = point.y
             if uDetectNode.frame.contains(point) {
                 guard scroller == nil else {return}
                 scroller = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                     let offsetY = self.listNode.contentOffset.y - 40.fit
-                    guard offsetY > 0 else {
+                    guard offsetY > -self.naviHeight else {
                         self.scroller.invalidate()
-                        self.listNode.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+                        self.listNode.setContentOffset(CGPoint(x: 0, y: -self.naviHeight), animated: false)
                         return
                     }
                     self.moveItem.item.center.y -= 40.fit
@@ -222,7 +226,7 @@ class FolderNodeController: ASDisplayNode {
                 guard scroller == nil else {return}
                 scroller = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                     let offsetY = self.listNode.contentOffset.y + 40.fit
-                    let max = self.listNode.view.contentSize.height - self.listNode.bounds.height + self.toolHeight
+                    let max = self.listNode.view.contentSize.height - self.listNode.bounds.height + self.toolHeight * 2
                     guard offsetY < max else {
                         self.scroller.invalidate()
                         self.listNode.setContentOffset(CGPoint(x: 0, y: max), animated: false)
@@ -238,16 +242,19 @@ class FolderNodeController: ASDisplayNode {
                     moveItem.dest = indexPath
                 }
                 listNode.nodeForItem(at: indexPath)?.isHidden = true
+                
                 guard scroller != nil else {return}
                 scroller.invalidate()
                 scroller = nil
             }
         default:
+            guard !moveItem.origin.isEmpty else {return}
             if let delete = data[0].row?.remove(at: moveItem.origin.row) {
                 data[0].row?.insert(delete, at: moveItem.dest.row)
             }
             listNode.reloadSections(IndexSet(integer: moveItem.origin.section))
             moveItem.item.removeFromSuperview()
+            moveItem = MoveItemSpec(origin: IndexPath(), dest: IndexPath(), item: UIView())
             uDetectNode.removeFromSupernode()
             dDetectNode.removeFromSupernode()
             guard scroller != nil else {return}
@@ -261,8 +268,9 @@ class FolderNodeController: ASDisplayNode {
 extension FolderNodeController: ASCollectionViewLayoutInspecting {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        uDetectNode.frame.origin.y = scrollView.contentOffset.y
-        let offset = listNode.bounds.height - toolHeight - 40.fit
+        print(scrollView.contentOffset)
+        uDetectNode.frame.origin.y = naviHeight + scrollView.contentOffset.y
+        let offset = listNode.bounds.height - 40.fit - toolHeight
         dDetectNode.frame.origin.y = offset + scrollView.contentOffset.y
     }
     

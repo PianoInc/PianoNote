@@ -75,10 +75,9 @@ extension NSObject {
     /// NavigationBar의 높이를 반환한다.
     var naviHeight: CGFloat {
         #if PIANONOTE
-        if let navigationController = UIWindow.topVC?.navigationController {
-            return navigationController.navigationBar.frame.height
-        }
-        return 0
+        guard let navigationController = UIWindow.topVC?.navigationController else {return 0}
+        let naviFrame = navigationController.navigationBar.frame
+        return naviFrame.origin.y + naviFrame.size.height
         #else
         return 0
         #endif
@@ -136,13 +135,11 @@ extension NSObject {
      */
     func safeArea(from width: CGFloat) -> UIEdgeInsets {
         var inset = safeInset
-        inset.top += naviHeight
         let limitInset = (width - limitWidth) / 2
         if limitInset > 0 {
             inset.left += limitInset
             inset.right += limitInset
         }
-        inset.bottom += toolHeight
         return inset
     }
     

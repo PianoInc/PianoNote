@@ -68,6 +68,13 @@ class FacebookViewController: DRViewController {
         nodeCtrl.frame = view.frame
     }
     
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        coordinator.animate(alongsideTransition: { _ in
+            self.nodeCtrl.listNode.contentInset.bottom = self.toolHeight
+        })
+    }
+    
     override func willMove(toParentViewController parent: UIViewController?) {
         super.willMove(toParentViewController: parent)
         DRFBService.share.resetPost()
@@ -133,9 +140,10 @@ class FacebookNodeController: ASDisplayNode {
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
-        listNode.backgroundColor = .clear
+        listNode.contentInset.bottom = toolHeight
         listNode.view.alwaysBounceVertical = true
         listNode.contentInset.top = 16.fit
+        listNode.backgroundColor = .clear
         listNode.allowsSelection = false
         listNode.layoutInspector = self
         listNode.dataSource = self
