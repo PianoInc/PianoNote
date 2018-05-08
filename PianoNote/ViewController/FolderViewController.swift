@@ -196,22 +196,59 @@ class FolderNodeController: ASDisplayNode {
             moveItem.dest = indexPath
             guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
             moveItem.item = item.view.snapshotView(afterScreenUpdates: true)!
-            moveItem.item.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
             moveItem.item.shadow(color: UIColor.black.withAlphaComponent(0.5), offset: [0, 0], rad: 10)
+            moveItem.item.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
             moveItem.item.center.y = point.y
             listNode.view.addSubview(moveItem.item)
             item.isHidden = true
-            
-            uDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + naviHeight, width: listNode.bounds.width, height: 40.fit)
-            listNode.addSubnode(uDetectNode)
-            let offset = listNode.bounds.height - 40.fit - toolHeight
-            dDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + offset, width: listNode.bounds.width, height: 40.fit)
-            listNode.addSubnode(dDetectNode)
+            autoScroll(prepare: true)
         case .changed:
             guard !moveItem.origin.isEmpty else {return}
             moveItem.item.center.y = point.y
-            if uDetectNode.frame.contains(point) {
-                guard scroller == nil else {return}
+            if !autoScroll(move: point) {
+                guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
+                if moveItem.dest != indexPath {
+                    listNode.moveItem(at: moveItem.dest, to: indexPath)
+                    moveItem.dest = indexPath
+                }
+                listNode.nodeForItem(at: indexPath)?.isHidden = true
+                autoScroll(prepare: false)
+            }
+        default:
+            guard !moveItem.origin.isEmpty else {return}
+            if let delete = data[0].row?.remove(at: moveItem.origin.row) {
+                data[0].row?.insert(delete, at: moveItem.dest.row)
+            }
+            listNode.reloadSections(IndexSet(integer: moveItem.origin.section))
+            moveItem.item.removeFromSuperview()
+            moveItem = MoveItemSpec(origin: IndexPath(), dest: IndexPath(), item: UIView())
+            autoScroll(prepare: false, with: true)
+        }
+    }
+    
+    private func autoScroll(prepare: Bool, with detector: Bool = false) {
+        if prepare {
+            uDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + naviHeight,
+                                       width: listNode.bounds.width, height: 40.fit)
+            listNode.addSubnode(uDetectNode)
+            let offset = listNode.bounds.height - 40.fit - toolHeight
+            dDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + offset,
+                                       width: listNode.bounds.width, height: 40.fit)
+            listNode.addSubnode(dDetectNode)
+        } else {
+            if detector {
+                uDetectNode.removeFromSupernode()
+                dDetectNode.removeFromSupernode()
+            }
+            guard scroller != nil else {return}
+            scroller.invalidate()
+            scroller = nil
+        }
+    }
+    
+    private func autoScroll(move point: CGPoint) -> Bool {
+        if uDetectNode.frame.contains(point) {
+            if scroller == nil {
                 scroller = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                     let offsetY = self.listNode.contentOffset.y - 40.fit
                     guard offsetY > -self.naviHeight else {
@@ -222,8 +259,9 @@ class FolderNodeController: ASDisplayNode {
                     self.moveItem.item.center.y -= 40.fit
                     self.listNode.setContentOffset(CGPoint(x: 0, y: offsetY), animated: false)
                 }
-            } else if dDetectNode.frame.contains(point) {
-                guard scroller == nil else {return}
+            }
+        } else if dDetectNode.frame.contains(point) {
+            if scroller == nil {
                 scroller = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                     let offsetY = self.listNode.contentOffset.y + 40.fit
                     let max = self.listNode.view.contentSize.height - self.listNode.bounds.height + self.toolHeight * 2
@@ -235,32 +273,9 @@ class FolderNodeController: ASDisplayNode {
                     self.moveItem.item.center.y += 40.fit
                     self.listNode.setContentOffset(CGPoint(x: 0, y: offsetY), animated: false)
                 }
-            } else {
-                guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
-                if moveItem.dest != indexPath {
-                    listNode.moveItem(at: moveItem.dest, to: indexPath)
-                    moveItem.dest = indexPath
-                }
-                listNode.nodeForItem(at: indexPath)?.isHidden = true
-                
-                guard scroller != nil else {return}
-                scroller.invalidate()
-                scroller = nil
             }
-        default:
-            guard !moveItem.origin.isEmpty else {return}
-            if let delete = data[0].row?.remove(at: moveItem.origin.row) {
-                data[0].row?.insert(delete, at: moveItem.dest.row)
-            }
-            listNode.reloadSections(IndexSet(integer: moveItem.origin.section))
-            moveItem.item.removeFromSuperview()
-            moveItem = MoveItemSpec(origin: IndexPath(), dest: IndexPath(), item: UIView())
-            uDetectNode.removeFromSupernode()
-            dDetectNode.removeFromSupernode()
-            guard scroller != nil else {return}
-            scroller.invalidate()
-            scroller = nil
         }
+        return uDetectNode.frame.contains(point) || dDetectNode.frame.contains(point)
     }
     
 }
