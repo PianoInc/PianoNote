@@ -113,7 +113,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일기" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wkj-Yh-oiM">
-                                                                    <rect key="frame" x="14" y="41" width="48.5" height="34"/>
+                                                                    <rect key="frame" x="14" y="41" width="48.5" height="33.5"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -201,18 +201,18 @@
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.91764705882352937" green="0.92156862745098034" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
+                                                        <constraint firstItem="wSI-aq-Ne7" firstAttribute="bottom" secondItem="lag-jg-O4u" secondAttribute="bottom" id="2ld-AN-Wf5"/>
+                                                        <constraint firstItem="gNq-09-16W" firstAttribute="top" secondItem="lag-jg-O4u" secondAttribute="top" id="Dtj-sz-q6o"/>
                                                         <constraint firstItem="gNq-09-16W" firstAttribute="leading" relation="lessThanOrEqual" secondItem="lag-jg-O4u" secondAttribute="trailing" id="Hoj-Ug-F9U"/>
                                                         <constraint firstItem="lag-jg-O4u" firstAttribute="leading" secondItem="0Ye-6f-7Gx" secondAttribute="leading" constant="6" id="ID2-Na-4Br"/>
+                                                        <constraint firstItem="gNq-09-16W" firstAttribute="bottom" secondItem="lag-jg-O4u" secondAttribute="bottom" id="KgD-cb-ebw"/>
                                                         <constraint firstItem="lag-jg-O4u" firstAttribute="leading" relation="lessThanOrEqual" secondItem="wSI-aq-Ne7" secondAttribute="trailing" id="OZt-MR-vdq"/>
                                                         <constraint firstItem="wSI-aq-Ne7" firstAttribute="leading" secondItem="0Ye-6f-7Gx" secondAttribute="leading" constant="6" id="PJZ-BL-f5V"/>
                                                         <constraint firstItem="lag-jg-O4u" firstAttribute="width" secondItem="0Ye-6f-7Gx" secondAttribute="width" constant="-12" id="VjO-W8-kfu"/>
                                                         <constraint firstItem="lag-jg-O4u" firstAttribute="top" secondItem="0Ye-6f-7Gx" secondAttribute="top" constant="6" id="Vvd-s3-0pV"/>
                                                         <constraint firstAttribute="bottom" secondItem="lag-jg-O4u" secondAttribute="bottom" constant="6" id="WJT-7E-mdT"/>
-                                                        <constraint firstItem="gNq-09-16W" firstAttribute="top" secondItem="0Ye-6f-7Gx" secondAttribute="top" constant="6" id="atc-4Q-8ca"/>
-                                                        <constraint firstAttribute="bottom" secondItem="wSI-aq-Ne7" secondAttribute="bottom" constant="6" id="bnE-ev-YXW"/>
-                                                        <constraint firstItem="wSI-aq-Ne7" firstAttribute="top" secondItem="0Ye-6f-7Gx" secondAttribute="top" constant="6" id="ryI-z7-s7D"/>
                                                         <constraint firstAttribute="trailing" secondItem="gNq-09-16W" secondAttribute="trailing" constant="6" id="wsj-05-Tia"/>
-                                                        <constraint firstAttribute="bottom" secondItem="gNq-09-16W" secondAttribute="bottom" constant="6" id="xcH-9g-42p"/>
+                                                        <constraint firstItem="wSI-aq-Ne7" firstAttribute="top" secondItem="lag-jg-O4u" secondAttribute="top" id="xdh-5n-BPt"/>
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4AL-1k-ao9">

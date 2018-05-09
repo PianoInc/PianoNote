@@ -47,10 +47,11 @@ class NoteListCell: UITableViewCell {
         trashButton.layer.cornerRadius = 6
         
         cellGestureRecognizer = NoteListGestureRecognizer(target: self, action: #selector(didPan(sender:)))
+        cellGestureRecognizer?.cancelsTouchesInView = false
         addGestureRecognizer(cellGestureRecognizer!)
         
         let tapGS = UITapGestureRecognizer(target: self, action: #selector(didTap))
-        addGestureRecognizer(tapGS)
+        innerView.addGestureRecognizer(tapGS)
         
         NotificationCenter.default.addObserver(forName: Notification.Name.UIDeviceOrientationDidChange, object: nil, queue: nil) { [weak self](_) in
             //다른 오리엔테이션은 걸러라!
@@ -116,6 +117,7 @@ class NoteListCell: UITableViewCell {
         largeLabel.text = largeLabel.firstLineText
         //Note: 이거 나중에 문제될거같다.... 200정도로 잘라주는게 좋을듯?
         contentLabel.text = currentModel.content.sub(largeLabel.firstLineText.count...)
+        pinImageView.isHidden = !currentModel.isPinned
 
         noteID = currentModel.id
 
@@ -123,12 +125,21 @@ class NoteListCell: UITableViewCell {
     }
     
     @IBAction func pinButtonTouched() {
+        if let id = noteID {
+            delegate?.requestPin(noteID: id)
+        }
     }
 
     @IBAction func lockButtonTouched() {
+        if let id = noteID {
+            delegate?.requestLock(noteID: id)
+        }
     }
     
     @IBAction func trashButtonTouched() {
+        if let id = noteID {
+            delegate?.requestDelete(noteID: id)
+        }
     }
 
 }
@@ -197,4 +208,7 @@ extension NoteListCell {
 
 protocol NoteListCellDelegate: class {
     func didTap(noteID: String)
+    func requestDelete(noteID: String)
+    func requestPin(noteID: String)
+    func requestLock(noteID: String)
 }
