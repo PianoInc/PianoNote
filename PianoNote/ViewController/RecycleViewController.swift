@@ -54,7 +54,7 @@ class RecycleViewController: DRViewController {
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { _ in
-            self.nodeCtrl.listNode.contentInset.bottom = self.inputHeight
+            self.nodeCtrl.listNode.contentInset.bottom = self.toolHeight * 2
         })
     }
     
@@ -111,7 +111,7 @@ class RecycleNodeController: ASDisplayNode {
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
-        listNode.contentInset.bottom = inputHeight
+        listNode.contentInset.bottom = toolHeight * 2
         listNode.view.alwaysBounceVertical = true
         listNode.backgroundColor = .clear
         listNode.allowsSelection = false

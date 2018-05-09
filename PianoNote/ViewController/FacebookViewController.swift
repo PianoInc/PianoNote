@@ -47,12 +47,6 @@ class FacebookViewController: DRViewController {
     }
     
     private func initConst() {
-        makeConst(facebookLabel) {
-            $0.leading.equalTo(0)
-            $0.trailing.equalTo(0)
-            $0.top.equalTo(0)
-            $0.bottom.equalTo(0)
-        }
         makeConst(facebookButton) {
             $0.leading.equalTo(self.minSize * 0.08).priority(.high)
             $0.trailing.equalTo(-(self.minSize * 0.08)).priority(.high)
@@ -61,11 +55,24 @@ class FacebookViewController: DRViewController {
             $0.width.lessThanOrEqualTo(self.limitWidth).priority(.required)
             $0.centerX.equalToSuperview().priority(.required)
         }
+        makeConst(facebookLabel) {
+            $0.leading.equalTo(0)
+            $0.trailing.equalTo(0)
+            $0.top.equalTo(self.safeInset.top + self.naviHeight)
+            $0.bottom.equalTo(self.facebookButton.snp.top)
+        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         nodeCtrl.frame = view.frame
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        coordinator.animate(alongsideTransition: { _ in
+            self.nodeCtrl.listNode.contentInset.bottom = self.toolHeight
+        })
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {
@@ -133,9 +140,10 @@ class FacebookNodeController: ASDisplayNode {
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
-        listNode.backgroundColor = .clear
+        listNode.contentInset.bottom = toolHeight
         listNode.view.alwaysBounceVertical = true
         listNode.contentInset.top = 16.fit
+        listNode.backgroundColor = .clear
         listNode.allowsSelection = false
         listNode.layoutInspector = self
         listNode.dataSource = self
