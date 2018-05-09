@@ -11,6 +11,5 @@ import Foundation
 struct PianoKeyword {
     
     let keyword: String
-    let subKeyword: String
 
 }

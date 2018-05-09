@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 
 extension NoteViewController {
     
@@ -42,7 +41,7 @@ extension NoteViewController {
         UIView.animate(withDuration: duration, animations: { [weak self] in
             self?.view.constraints.forEach({ (constraint) in
                 if constraint.identifier == ConstraintIdentifier.pianoTextViewBottom {
-                    constraint.constant = -kbHeight
+                    constraint.constant = kbHeight
                     self?.view.layoutIfNeeded()
                     return
                 }

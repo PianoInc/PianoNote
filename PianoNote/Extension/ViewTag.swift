@@ -17,7 +17,7 @@ enum ViewTag: Int {
     case PianoTextView = 1004
     case PianoCoverView = 1005
     
-    case TempImageView = 2000
+    case PianoAssistTableView = 2000
     
     var identifier: String {
         return String(describing: self)
@@ -26,15 +26,37 @@ enum ViewTag: Int {
 
 extension View {
     
-    internal func subView(tag: ViewTag) -> View {
+    internal func hasSubView(tag: ViewTag) -> Bool {
+        return self.viewWithTag(tag.rawValue) != nil ? true : false
+    }
+    
+//    internal func subView(tag: ViewTag) -> View {
+//
+//        if let view = self.viewWithTag(tag.rawValue) {
+//            return view
+//        }
+//        let nib = Nib(nibName: tag.identifier, bundle: nil)
+//        let view = nib.instantiate(withOwner: nil, options: nil).first as! View
+//        view.tag = tag.rawValue
+//
+//        return view
+//
+//    }
+    
+    internal func subView(tag: ViewTag) -> View? {
+        return viewWithTag(tag.rawValue)
+        
+    }
+    
+    internal func createSubviewIfNeeded(tag: ViewTag) -> View {
         
         if let view = self.viewWithTag(tag.rawValue) {
             return view
         }
+        
         let nib = Nib(nibName: tag.identifier, bundle: nil)
         let view = nib.instantiate(withOwner: nil, options: nil).first as! View
         view.tag = tag.rawValue
-
         return view
         
     }

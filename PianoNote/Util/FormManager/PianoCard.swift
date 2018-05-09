@@ -10,13 +10,13 @@ import Foundation
 struct PianoCard {
     
     static let keywords = [
-        PianoKeyword(keyword: "사진", subKeyword: "#사진 우리들의 추억(선택사항)"),
-        PianoKeyword(keyword: "링크", subKeyword: "#링크 www.naver.com"),
-        PianoKeyword(keyword: "주소", subKeyword: "#주소 서울시 강남구 개포2동 166-3번지"),
-        PianoKeyword(keyword: "연락처", subKeyword: "#연락처 010-7359-4004 김찬기"),
-        PianoKeyword(keyword: "파일", subKeyword: "#파일 학교 과제"),
-        PianoKeyword(keyword: "일정", subKeyword: "#일정 목요일 오후 세시 지오와 미팅"),
-        PianoKeyword(keyword: "미리알림", subKeyword: "#미리알림 오늘 오후 다섯시 피트니스 가기")
+        PianoKeyword(keyword: "사진"),
+        PianoKeyword(keyword: "링크"),
+        PianoKeyword(keyword: "주소"),
+        PianoKeyword(keyword: "연락처"),
+        PianoKeyword(keyword: "파일"),
+        PianoKeyword(keyword: "일정"),
+        PianoKeyword(keyword: "미리알림")
     ]
     
 

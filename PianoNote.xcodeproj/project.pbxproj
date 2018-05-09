@@ -611,11 +611,11 @@
 		16DBA3082097E97C008C45B9 /* MainNote */ = {
 			isa = PBXGroup;
 			children = (
+				16DBA30C2097E97C008C45B9 /* NoteViewController.swift */,
 				7CB60351209AA5F6000713BF /* NoteViewController_TableViewDataSource.swift */,
 				16DBA3092097E97C008C45B9 /* NoteViewController_NavigationItems.swift */,
 				16DBA30A2097E97C008C45B9 /* NoteViewController_Keyboard.swift */,
 				16DBA30B2097E97C008C45B9 /* NoteViewController_TextViewDelegate.swift */,
-				16DBA30C2097E97C008C45B9 /* NoteViewController.swift */,
 				16DBA30D2097E97C008C45B9 /* NoteViewController_InteractiveDelegate.swift */,
 				16DBA30E2097E97C008C45B9 /* NoteViewController_NSTextStorageDelegate.swift */,
 				16DBA30F2097E97C008C45B9 /* NoteViewController_CloudSharingDelegate.swift */,

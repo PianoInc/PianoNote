@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension NoteViewController : UITableViewDataSource {
+extension PianoTextView : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PianoAssistTableViewCell.reuseIdentifier) as! PianoAssistTableViewCell
         configure(cell, indexPath: indexPath)
@@ -17,7 +17,7 @@ extension NoteViewController : UITableViewDataSource {
     
     private func configure(_ cell: PianoAssistTableViewCell, indexPath: IndexPath) {
         cell.titleLabel.text = matchedKeywords[indexPath.row].keyword
-        cell.subTitleLabel.text = matchedKeywords[indexPath.row].subKeyword
+//        cell.subTitleLabel.text = matchedKeywords[indexPath.row].subKeyword
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -25,6 +25,8 @@ extension NoteViewController : UITableViewDataSource {
     }
 }
 
-extension NoteViewController: UITableViewDelegate {
-
+extension PianoTextView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        replaceProcess()
+    }
 }

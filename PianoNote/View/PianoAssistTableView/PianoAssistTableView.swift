@@ -9,67 +9,50 @@
 import UIKit
 
 class PianoAssistTableView: UITableView {
+    
+    let width: CGFloat = 150
+    let margin: CGFloat = 10
+    let cellHeight: CGFloat = 40
+    let minimumHeight: CGFloat = 130
+    
+    internal func setPosition(textView: UITextView, at caretRect: CGRect) {
+        
+        //가로 좌표 결정
+        if textView.frame.width - caretRect.origin.x <= width {
+            self.frame.origin.x = textView.frame.width - (width + margin)
+        } else {
+            self.frame.origin.x = caretRect.origin.x
+        }
+        
+        //세로 좌표 + 높이 결정
+        let heightBelowCaret = textView.frame.height - (caretRect.origin.y - textView.contentOffset.y + caretRect.height)
+        
+        if heightBelowCaret > minimumHeight {
+            
+            self.frame.origin.y = caretRect.origin.y + caretRect.height
+            self.frame.size.height = min(cellHeight * CGFloat(numberOfRows(inSection: 0)), heightBelowCaret)
+            
+        } else {
+            
+            self.frame.size.height = min(cellHeight * CGFloat(numberOfRows(inSection: 0)), caretRect.origin.y - textView.contentOffset.y)
+            self.frame.origin.y = caretRect.origin.y - self.frame.size.height
+            
+        }
+        
+        self.frame.size.width = width
+        
+    }
+    
+    internal func setup(textView: PianoTextView) {
+        
+        let cellNib = UINib(nibName: PianoAssistTableViewCell.reuseIdentifier, bundle: nil)
+        register(cellNib, forCellReuseIdentifier: PianoAssistTableViewCell.reuseIdentifier)
+        dataSource = textView
+        delegate = textView
+        reloadData()
+        let indexPath = IndexPath(row: 0, section: 0)
+        selectRow(at: indexPath, animated: false, scrollPosition: .none)
+    }
 
-    let regex = "^\\s*(#)(?=)"
-    
-    
-//    func showIfNeeded(textView: UITextView, at location: CGPoint) {
-//        
-//        guard let text = textView.text else { return }
-//        let selectedRange = textView.selectedRange
-//        
-//        let paraRange = (text as NSString).paragraphRange(for: selectedRange)
-//        if let (_, range) = text.detect(searchRange: paraRange, regex: regex) {
-//            if selectedRange.location >= range.location + 1 {
-//                let textRange = NSMakeRange(range.location + 1,
-//                                            selectedRange.location - (range.location + 1))
-//                let matchedText = (text as NSString).substring(with: textRange)
-//                show(matchedText)
-//                return
-//            }
-//        }
-//        hide()
-//        
-//    }
-    
-    
-    //TODO: 히든 상태라면 히든 풀기, text가 빈 문자열이면 모든 키워드 보여주고, 키워드 안에 text가 포함되면 해당 키워드들을 보여주기, 포함되지 않는다면 히든시키기
-//    func show(_ text: String) {
-//
-//        matchedKeywords = []
-//
-//        if self.isHidden {
-//            isHidden = false
-//        }
-//
-//        //text가 빈 문자열이면 모든 키워드 보여주기
-//        if text.isEmpty {
-//            matchedKeywords = PianoCard.keywords
-//            self.frame.size.height = CGFloat(40 * matchedKeywords.count)
-//            reloadData()
-//            return
-//        }
-//
-//        for pianoKeyword in PianoCard.keywords {
-//            if pianoKeyword.keyword.contains(text) {
-//                //TODO: 일치하는 글자에 형광색 표시를 하며 일치하는 키워드를 보여줘야함
-//                matchedKeywords.append(pianoKeyword)
-//            }
-//        }
-//
-//        if matchedKeywords.isEmpty {
-//            hide()
-//            return
-//        }
-//
-//        self.frame.size.height = CGFloat(40 * matchedKeywords.count)
-//        reloadData()
-//
-//    }
-//
-//    func hide() {
-//        matchedKeywords = []
-//        isHidden = true
-//    }
 
 }

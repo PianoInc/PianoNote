@@ -24,20 +24,6 @@ class NoteViewController: UIViewController {
     var notificationToken: NotificationToken?
     internal var keyboardToken: NSKeyValueObservation?
     
-    var matchedKeywords: [PianoKeyword] = []
-    
-    lazy var assistTableView: PianoAssistTableView =  {
-        let nib = UINib(nibName: "PianoAssistTableView", bundle: nil)
-        
-        let assistTableView = PianoAssistTableView(
-            frame: CGRect(origin: CGPoint.zero,
-                          size: CGSize(width: 330, height: 40)))
-        assistTableView.dataSource = self
-        assistTableView.delegate = self
-        let cellNib = UINib(nibName: PianoAssistTableViewCell.reuseIdentifier, bundle: nil)
-        assistTableView.register(cellNib, forCellReuseIdentifier: PianoAssistTableViewCell.reuseIdentifier)
-        return assistTableView
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -282,7 +268,6 @@ class NoteViewController: UIViewController {
             
             if !strongSelf.textView.isEditable {
                 strongSelf.textView.attachControl()
-                
                 
             }
         }

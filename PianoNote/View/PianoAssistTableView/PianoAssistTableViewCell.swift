@@ -11,6 +11,5 @@ import UIKit
 class PianoAssistTableViewCell: UITableViewCell, Reusable {
 
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var subTitleLabel: UILabel!
 
 }
