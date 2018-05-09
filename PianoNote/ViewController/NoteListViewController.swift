@@ -52,9 +52,16 @@ class NoteListViewController: UIViewController {
 
         let tag = RealmTagsModel.tagSeparator + navTitle + RealmTagsModel.tagSeparator
 
-        results = realm.objects(RealmNoteModel.self)
-                    .filter("tags CONTAINS[cd] %@ AND isInTrash = false", tag)
-                    .sorted(by: sortDescriptors)
+        if navTitle == "모든 메모" {
+            results = realm.objects(RealmNoteModel.self)
+                .filter("isInTrash = false", tag)
+                .sorted(by: sortDescriptors)
+        } else {
+            results = realm.objects(RealmNoteModel.self)
+                .filter("tags CONTAINS[cd] %@ AND isInTrash = false", tag)
+                .sorted(by: sortDescriptors)
+        }
+        
         //set results
 
         notificationToken = results?.observe { [weak self] change in
@@ -62,9 +69,10 @@ class NoteListViewController: UIViewController {
             switch change {
                 case .initial: tableView.reloadData()
                 case .update(_, _, _, _):
-                    tableView.beginUpdates()
-                    tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
-                    tableView.endUpdates()
+//                    tableView.beginUpdates()
+                    tableView.reloadData()
+//                    tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+//                    tableView.endUpdates()
                 case .error(let error):
                     fatalError("Error!! \(error)")
             }
@@ -99,7 +107,9 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            return tableView.dequeueReusableCell(withIdentifier: "noteListNewCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "noteListNewCell", for: indexPath) as! NoteListNewCell
+            cell.delegate = self
+            return cell
         } else {
             let cell = tableView
                 .dequeueReusableCell(withIdentifier: "noteListCell",
@@ -153,6 +163,7 @@ extension NoteListViewController: UIScrollViewDelegate {
 }
 
 extension NoteListViewController: NoteListCellDelegate {
+    
     func didTap(noteID: String) {
         guard let vc = UIStoryboard(name: "Main1", bundle: nil)
                 .instantiateViewController(withIdentifier: "NoteViewController") as? NoteViewController
@@ -160,5 +171,44 @@ extension NoteListViewController: NoteListCellDelegate {
         
         vc.noteID = noteID
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func requestDelete(noteID: String) {
+        alertWithOKAction(message: "삭제하시겠습니까?") { (_) in
+            ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: [Schema.Note.isInTrash: true])
+        }
+    }
+    
+    func requestPin(noteID: String) {
+        guard let realm = try? Realm(),
+            let currentModel = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) else {return}
+        
+        let isPinned = currentModel.isPinned
+        let message = !isPinned ? "고정 하시겠습니까?" : "고정 해제 하시겠습니까?"
+        alertWithOKAction(message: message) { (_) in
+            ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: [Schema.Note.isPinned: !isPinned])
+        }
+    }
+    
+    func requestLock(noteID: String) {
+        
+    }
+}
+
+extension NoteListViewController: NoteListNewCellDelegate {
+    func didTapNew() {
+        let tagName = navTitle == "전체 메모" ? "" : navTitle
+        let newModel = RealmNoteModel.getNewModel(content: "", categoryRecordName: tagName)
+        let id = newModel.id
+        ModelManager.saveNew(model: newModel) { [weak self] _ in
+            DispatchQueue.main.async {
+                guard let vc = UIStoryboard(name: "Main1", bundle: nil)
+                    .instantiateViewController(withIdentifier: "NoteViewController") as? NoteViewController
+                    else { return }
+                
+                vc.noteID = id
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
 }
