@@ -108,8 +108,8 @@ extension PianoTextView: Effectable {
     internal func addCoverView(rect: CGRect) {
         var correctRect = rect
         correctRect.origin.y += textContainerInset.top
-        let coverView = subView(tag: ViewTag.PianoCoverView)
-        let control = subView(tag: ViewTag.PianoControl)
+        let coverView = createSubviewIfNeeded(tag: ViewTag.PianoCoverView)
+        let control = createSubviewIfNeeded(tag: ViewTag.PianoControl)
         coverView.backgroundColor = self.backgroundColor
         coverView.frame = correctRect
         insertSubview(coverView, belowSubview: control)
@@ -118,7 +118,7 @@ extension PianoTextView: Effectable {
     
     internal func removeCoverView(){
         
-        let coverView = subView(tag: ViewTag.PianoCoverView)
+        let coverView = createSubviewIfNeeded(tag: ViewTag.PianoCoverView)
         coverView.removeFromSuperview()
         
     }
