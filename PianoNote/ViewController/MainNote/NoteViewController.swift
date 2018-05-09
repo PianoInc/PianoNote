@@ -221,7 +221,7 @@ class NoteViewController: UIViewController {
         DispatchQueue.global().async {
             let jsonEncoder = JSONEncoder()
             guard let data = try? jsonEncoder.encode(attributes) else {self.isSaving = false;return}
-            let kv: [String: Any] = ["content": string, "attributes": data]
+            let kv: [String: Any] = ["content": string, "attributes": data, "isModified": Date()]
             
             let completion: ((Error?) -> Void)? = isDeallocating ? nil : { [weak self] error in
                 if let error = error {print(error)}
@@ -240,7 +240,7 @@ class NoteViewController: UIViewController {
         let (string, attributes) = textView.get()
         let noteID = self.noteID ?? ""
         guard let data = try? JSONEncoder().encode(attributes) else {isSaving = false;return}
-        let kv: [String: Any] = ["content": string, "attributes": data]
+        let kv: [String: Any] = ["content": string, "attributes": data, "isModified": Date()]
         
         ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: nil)
     }

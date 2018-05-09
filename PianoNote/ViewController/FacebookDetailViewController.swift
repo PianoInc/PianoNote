@@ -17,6 +17,7 @@ class FacebookDetailViewController: DRViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nodeCtrl.isHidden = true
         nodeCtrl.postData = postData
         view.addSubnode(nodeCtrl)
         attachData()
@@ -26,6 +27,7 @@ class FacebookDetailViewController: DRViewController {
     /// Data의 변화를 감지하여 listView에 이어 붙인다.
     private func attachData() {
         DRFBService.share.rxComment.subscribe { [weak self] data in
+            self?.nodeCtrl.isHidden = false
             data.enumerated().forEach {
                 self?.nodeCtrl.data.append($1)
                 self?.nodeCtrl.listNode.insertSections(IndexSet(integer: $0))
@@ -38,6 +40,13 @@ class FacebookDetailViewController: DRViewController {
         nodeCtrl.frame = view.frame
     }
     
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        coordinator.animate(alongsideTransition: { _ in
+            self.nodeCtrl.listNode.contentInset.bottom = self.toolHeight
+        })
+    }
+    
     override func willMove(toParentViewController parent: UIViewController?) {
         super.willMove(toParentViewController: parent)
         DRFBService.share.resetComment()
@@ -48,6 +57,7 @@ class FacebookDetailViewController: DRViewController {
 class FacebookDetailNodeController: ASDisplayNode, FBDetailSectionDelegates {
     
     fileprivate let listNode = ASCollectionNode(collectionViewLayout: UICollectionViewFlowLayout())
+    fileprivate let lineNode = ASDisplayNode()
     fileprivate let facebookNode = ASButtonNode()
     
     fileprivate var postData = (id : "", title : "")
@@ -56,30 +66,39 @@ class FacebookDetailNodeController: ASDisplayNode, FBDetailSectionDelegates {
     override init() {
         super.init()
         automaticallyManagesSubnodes = true
+        backgroundColor = UIColor(hex6: "f9f9f9")
         
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
-        listNode.backgroundColor = .clear
+        listNode.contentInset.bottom = toolHeight
         listNode.view.alwaysBounceVertical = true
         listNode.contentInset.top = 16.fit
+        listNode.backgroundColor = .clear
         listNode.allowsSelection = false
         listNode.layoutInspector = self
         listNode.dataSource = self
         listNode.delegate = self
         
+        lineNode.backgroundColor = UIColor(hex6: "dfe0e2")
+        
         facebookNode.setImage(#imageLiteral(resourceName: "info"), for: .normal)
         let facebookFont = UIFont.systemFont(ofSize: 16.fit)
-        facebookNode.setAttributedTitle(NSAttributedString(string: "facebookVisit".locale, attributes: [.font : facebookFont, .foregroundColor : UIColor(hex6: "007aff")]), for: .normal)
+        facebookNode.setTitle("facebookVisit".locale, with: facebookFont, with: UIColor(hex6: "007aff"), for: .normal)
         facebookNode.addTarget(self, action: #selector(action(facebook:)), forControlEvents: .touchUpInside)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         listNode.style.flexGrow = 1
+        
+        lineNode.style.flexShrink = 0
+        lineNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimensionAuto, height: ASDimension(unit: .points, value: 0.5))
+        
         facebookNode.style.flexShrink = 0
         facebookNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimensionAuto, height: ASDimension(unit: .points, value: 45.fit))
+        
         let vStack = ASStackLayoutSpec.vertical()
-        vStack.children = [listNode, facebookNode]
+        vStack.children = [listNode, lineNode, facebookNode]
         return ASInsetLayoutSpec(insets: safeArea(from: constrainedSize.max.width), child: vStack)
     }
     
