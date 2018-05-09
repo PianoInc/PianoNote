@@ -8,11 +8,14 @@
 
 import UIKit
 import AsyncDisplayKit
+import RealmSwift
 
+fileprivate let allFolderName = "모든 메모"
 class FolderViewController: DRViewController {
     
     private let nodeCtrl = FolderNodeController()
     private let newFolderButton = UIButton(type: .system)
+    fileprivate var notificationToken: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +28,66 @@ class FolderViewController: DRViewController {
         initConst()
         initData()
         initNavi()
+        setNotificationToken()
+        nodeCtrl.viewController = self
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToNoteList" {
+            (segue.destination as? NoteListViewController)?.navTitle = sender as! String
+        }
+    }
+    
+    private func setNotificationToken () {
+        guard let realm = try? Realm(),
+            let tagsModel = realm.objects(RealmTagsModel.self).first else { return }
+        notificationToken = tagsModel.observe { [weak self] change in
+            switch change {
+            case .change(let changes):
+                changes.forEach {
+                    if $0.name == Schema.Tags.tags {
+                        guard let newTags = $0.newValue as? String else {return}
+                        var tags = newTags.components(separatedBy: RealmTagsModel.tagSeparator)
+                        tags[0] = allFolderName
+                        self?.tagsUpdated(newTags: tags)
+                    }
+                }
+            default: break
+            }
+        }
+    }
+    
+    private func tagsUpdated(newTags: [String]) {
+        guard let oldTags = nodeCtrl.data[0].row else { return }
+
+        var inserted: [IndexPath] = []
+        var changed: [IndexPath] = []
+        var deleted: [IndexPath] = []
+
+        let minLength = min(oldTags.count, newTags.count)
+
+        for i in 0..<minLength {
+            if oldTags[i] != newTags[i] {
+                changed.append(IndexPath(item: i, section: 0))
+            }
+        }
+
+        if oldTags.count > newTags.count {
+            deleted = (minLength..<oldTags.count).map { IndexPath(item: $0, section: 0)}
+        } else {
+            inserted = (minLength..<newTags.count).map { IndexPath(item: $0, section: 0)}
+        }
+
+        nodeCtrl.listNode.reloadItems(at: changed)
+
+        if !deleted.isEmpty {
+            nodeCtrl.listNode.deleteItems(at: deleted)
+        }
+
+        if !inserted.isEmpty {
+            nodeCtrl.listNode.insertItems(at: inserted)
+        }
+        
     }
     
     private func initConst() {
@@ -36,7 +99,16 @@ class FolderViewController: DRViewController {
     
     private func initData() {
         var data = [FolderData]()
-        data.append(FolderData(section: "폴더", row: ["모든 메모", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]))
+        if let realm = try? Realm(),
+            let tagsModel = realm.objects(RealmTagsModel.self).first {
+            var tags = tagsModel.tags.components(separatedBy: RealmTagsModel.tagSeparator)
+            tags[0] = allFolderName
+            data.append(FolderData(section: "폴더", row: tags))
+        } else {
+            ModelManager.saveNew(model: RealmTagsModel.getNewModel())
+            data.append(FolderData(section: "폴더", row: [allFolderName]))
+        }
+        
         data.append(FolderData(section: "삭제된 메모", row: nil))
         data.append(FolderData(section: "커뮤니티", row: nil))
         data.append(FolderData(section: "Info", row: nil))
@@ -85,6 +157,7 @@ class FolderViewController: DRViewController {
     }
     
     @IBAction private func tool(delete button: UIBarButtonItem) {
+        //TODO: delete button
         nodeCtrl.data[0].row = nodeCtrl.data[0].row!.filter({
             return !nodeCtrl.removeCandidate.contains($0)
         })
@@ -100,8 +173,15 @@ class FolderViewController: DRViewController {
         let alert = UIAlertController(title: "newFolder".locale, message: "newFolderSubText".locale, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "cancel".locale, style: .cancel))
         alert.addAction(UIAlertAction(title: "create".locale, style: .default) { _ in
-            self.nodeCtrl.data[0].row!.append(alert.textFields![0].text!)
-            self.nodeCtrl.listNode.insertItems(at: [IndexPath(row: self.nodeCtrl.data[0].row!.count - 1, section: 0)])
+            guard let realm = try? Realm(),
+                let tagsModel = realm.objects(RealmTagsModel.self).first else { return }
+
+            var tags = self.nodeCtrl.data[0].row!
+            tags[0] = ""
+            tags.append(alert.textFields![0].text!)
+
+            ModelManager.update(id: tagsModel.id, type: RealmTagsModel.self,
+                    kv: [Schema.Tags.tags: tags.joined(separator: RealmTagsModel.tagSeparator)])
         })
         alert.addTextField {
             $0.placeholder = "name".locale
@@ -134,6 +214,8 @@ class FolderNodeController: ASDisplayNode {
     
     fileprivate let countBinder = DRBinder(0)
     fileprivate var isEdit = false
+    fileprivate var viewController: UIViewController?
+    var realm: Realm?
     
     override init() {
         super.init()
@@ -150,6 +232,7 @@ class FolderNodeController: ASDisplayNode {
         listNode.dataSource = self
         listNode.delegate = self
         initListGesture()
+        realm = try? Realm()
     }
     
     private func initListGesture() {
@@ -166,17 +249,23 @@ class FolderNodeController: ASDisplayNode {
     }
     
     @objc private func action(tap: UITapGestureRecognizer) {
-        guard isEdit else {return}
-        let point = tap.location(in: listNode.view)
-        guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
-        guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
-        guard let title = item.titleNode.attributedText?.string else {return}
-        if removeCandidate.contains(title) {
-            removeCandidate.remove(at: removeCandidate.index(where: {$0 == title})!)
+        if isEdit {
+            let point = tap.location(in: listNode.view)
+            guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
+            guard let item = listNode.nodeForItem(at: indexPath) as? FolderRowNode else {return}
+            guard let title = item.titleNode.attributedText?.string else {return}
+            if removeCandidate.contains(title) {
+                removeCandidate.remove(at: removeCandidate.index(where: {$0 == title})!)
+            } else {
+                removeCandidate.append(title)
+            }
+            listNode.reloadItems(at: [indexPath])
         } else {
-            removeCandidate.append(title)
+            let point = tap.location(in: listNode.view)
+            guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
+            let data = self.data[indexPath.section].row![indexPath.item]
+            self.viewController?.performSegue(withIdentifier: "goToNoteList", sender: data)
         }
-        listNode.reloadItems(at: [indexPath])
     }
     
     @objc private func action(longPress: UILongPressGestureRecognizer) {
@@ -254,15 +343,22 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         let data = self.data[indexPath.section].row!
+        let tag = RealmTagsModel.tagSeparator + data[indexPath.row] + RealmTagsModel.tagSeparator
+        var count: Int? = nil
+        if let results = realm?.objects(RealmNoteModel.self)
+            .filter("tags CONTAINS[cd] %@ AND isInTrash = false", tag) {
+            count = results.count
+        }
         return { () -> ASCellNode in
-            let rowNode = FolderRowNode(title: data[indexPath.row], count: String(data.count))
+            let rowNode = FolderRowNode(title: data[indexPath.row], count: String(count ?? 0))
+            
             guard indexPath.row != 0 else {return rowNode}
             rowNode.isSelect = self.removeCandidate.contains(data[indexPath.row])
             rowNode.isEdit = self.isEdit
             return rowNode
         }
     }
-    
+
 }
 
 class FolderSectionNode: ASCellNode {

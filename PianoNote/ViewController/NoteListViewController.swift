@@ -14,6 +14,7 @@ class NoteListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var results: Results<RealmNoteModel>?
     var notificationToken: NotificationToken?
+    var navTitle = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +23,18 @@ class NoteListViewController: UIViewController {
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 221
+        tableView.contentInset = UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
+        
+        navigationItem.title = navTitle
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
         
         registerToken()
+    }
+
+    deinit {
+        notificationToken?.invalidate()
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,27 +44,57 @@ class NoteListViewController: UIViewController {
     
     func registerToken() {
         guard let realm = try? Realm() else {return}
+
+        //tagname is navTitle
+
+        let sortDescriptors = [SortDescriptor(keyPath: "isPinned", ascending: false),
+                               SortDescriptor(keyPath: "isModified", ascending: false)]
+
+        let tag = RealmTagsModel.tagSeparator + navTitle + RealmTagsModel.tagSeparator
+
+        results = realm.objects(RealmNoteModel.self)
+                    .filter("tags CONTAINS[cd] %@ AND isInTrash = false", tag)
+                    .sorted(by: sortDescriptors)
         //set results
-        //TODO: sort it
-//        notificationToken = realm.objects(RealmNoteModel.self).observe { (change) in
-//            switch change {
-//                case .initial(<#T##CollectionType#>)
-//            }
-//        }
+
+        notificationToken = results?.observe { [weak self] change in
+            guard let tableView = self?.tableView else {return}
+            switch change {
+                case .initial: tableView.reloadData()
+                case .update(_, _, _, _):
+                    tableView.beginUpdates()
+                    tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                    tableView.endUpdates()
+                case .error(let error):
+                    fatalError("Error!! \(error)")
+            }
+        }
+
     }
+    
     
     
 
 }
 
 extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func isSameGroup(current currentModel: RealmNoteModel, previous previousModel: RealmNoteModel) -> Bool {
+        if previousModel.isPinned {
+            return currentModel.isPinned
+        } else {
+            return previousModel.isModified.timeFormat == currentModel.isModified.timeFormat
+        }
+    }
+    
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6//(results?.count ?? 0) + 1
+        return (results?.count ?? 0) + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,12 +105,22 @@ extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
                 .dequeueReusableCell(withIdentifier: "noteListCell",
                                      for: indexPath) as! NoteListCell
             cell.cellGestureRecognizer?.delegate = self
-            //TODO: configure cells
-            
+
+            let currentModelIndex = indexPath.row - 1
+            guard let results = results else {return cell}
+            let currentNoteModel = results[currentModelIndex]
+
+            let isTop = currentModelIndex == 0 || !isSameGroup(current: currentNoteModel, previous: results[currentModelIndex-1])
+            let isBottom = currentModelIndex == results.count - 1 || !isSameGroup(current: results[currentModelIndex+1], previous: currentNoteModel)
+
+            cell.configure(isTop: isTop, isBottom: isBottom, currentModel: currentNoteModel)
+            cell.delegate = self
+
             return cell
         }
         
     }
+    
 }
 
 extension NoteListViewController: UIGestureRecognizerDelegate {
@@ -98,5 +149,16 @@ extension NoteListViewController: UIScrollViewDelegate {
             cell.cellGestureRecognizer?.reset()
             cell.animateToDefault()
         }
+    }
+}
+
+extension NoteListViewController: NoteListCellDelegate {
+    func didTap(noteID: String) {
+        guard let vc = UIStoryboard(name: "Main1", bundle: nil)
+                .instantiateViewController(withIdentifier: "NoteViewController") as? NoteViewController
+            else { return }
+        
+        vc.noteID = noteID
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
