@@ -34,8 +34,15 @@ class FolderViewController: DRViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToNoteList" {
+            
             (segue.destination as? NoteListViewController)?.navTitle = sender as! String
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        nodeCtrl.listNode.reloadSections(IndexSet(integer: 0))
     }
     
     private func setNotificationToken () {
@@ -77,6 +84,7 @@ class FolderViewController: DRViewController {
         } else {
             inserted = (minLength..<newTags.count).map { IndexPath(item: $0, section: 0)}
         }
+        nodeCtrl.data[0].row = newTags
 
         nodeCtrl.listNode.reloadItems(at: changed)
 
@@ -157,16 +165,24 @@ class FolderViewController: DRViewController {
     }
     
     @IBAction private func tool(delete button: UIBarButtonItem) {
-        //TODO: delete button
-        nodeCtrl.data[0].row = nodeCtrl.data[0].row!.filter({
+        
+        var datas = nodeCtrl.data[0].row!
+        datas[0] = ""
+        datas = datas.filter({
             return !nodeCtrl.removeCandidate.contains($0)
         })
+        
+        let tags = datas.joined(separator: RealmTagsModel.tagSeparator)
         nodeCtrl.removeCandidate.removeAll()
-        if nodeCtrl.data[0].row!.count > 1 {
-            nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
-        } else {
-            navi(edit: button)
-        }
+        
+        guard let realm = try? Realm(),
+            let tagsModel = realm.objects(RealmTagsModel.self).first else {return}
+        ModelManager.update(id: tagsModel.id, type: RealmTagsModel.self, kv: [Schema.Tags.tags: tags])
+//        if nodeCtrl.data[0].row!.count > 1 {
+//            nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
+//        } else {
+//            navi(edit: button)
+//        }
     }
     
     @objc private func action(newFolder: ASButtonNode) {
@@ -262,7 +278,7 @@ class FolderNodeController: ASDisplayNode {
             listNode.reloadItems(at: [indexPath])
         } else {
             let point = tap.location(in: listNode.view)
-            guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
+            guard let indexPath = listNode.indexPathForItem(at: point) else {return}
             let data = self.data[indexPath.section].row![indexPath.item]
             self.viewController?.performSegue(withIdentifier: "goToNoteList", sender: data)
         }
@@ -293,6 +309,14 @@ class FolderNodeController: ASDisplayNode {
         default:
             if let delete = data[0].row?.remove(at: moveItem.origin.row) {
                 data[0].row?.insert(delete, at: moveItem.dest.row)
+                
+                var tags = data[0].row!
+                tags[0] = ""
+                guard let realm = try? Realm(),
+                    let tagsModel = realm.objects(RealmTagsModel.self).first else {return}
+                
+                ModelManager.update(id: tagsModel.id, type: RealmTagsModel.self,
+                                    kv: [Schema.Tags.tags: tags.joined(separator: RealmTagsModel.tagSeparator)])
             }
             listNode.reloadSections(IndexSet(integer: moveItem.origin.section))
             moveItem.item.removeFromSuperview()
@@ -345,10 +369,18 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
         let data = self.data[indexPath.section].row!
         let tag = RealmTagsModel.tagSeparator + data[indexPath.row] + RealmTagsModel.tagSeparator
         var count: Int? = nil
-        if let results = realm?.objects(RealmNoteModel.self)
-            .filter("tags CONTAINS[cd] %@ AND isInTrash = false", tag) {
-            count = results.count
+        
+        if data[indexPath.row] == allFolderName {
+            if let results = realm?.objects(RealmNoteModel.self).filter("isInTrash = false") {
+                count = results.count
+            }
+        } else {
+            if let results = realm?.objects(RealmNoteModel.self)
+                .filter("tags CONTAINS[cd] %@ AND isInTrash = false", tag) {
+                count = results.count
+            }
         }
+        
         return { () -> ASCellNode in
             let rowNode = FolderRowNode(title: data[indexPath.row], count: String(count ?? 0))
             
