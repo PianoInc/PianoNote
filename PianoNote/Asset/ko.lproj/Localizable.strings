@@ -40,4 +40,16 @@
 "requestPhoto" = "사진 기능을 사용하려면 접근관한을 허용해야 합니다.";
 "albumNoTitle" = "이름없음";
 "authReason" = "폴더 잠금 해제";
+"deleteMemo" = "삭제된 메모";
+"community" = "커뮤니티";
+"info" = "Info";
+"allMemo" = "모든 메모";
+"category" = "카테고리";
+"company" = "회사";
+"member" = "팀원";
+"goal" = "목표";
+"contact" = "문의하기";
+"app" = "앱";
+"version" = "버전정보";
+"licence" = "라이센스";
 

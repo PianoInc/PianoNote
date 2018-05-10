@@ -10,7 +10,9 @@ import UIKit
 import AsyncDisplayKit
 
 class FacebookDetailViewController: DRViewController {
-    
+  
+    @IBOutlet private var indicator: UIActivityIndicatorView!
+  
     private let nodeCtrl = FacebookDetailNodeController()
     
     var postData = (id : "", title : "")
@@ -22,6 +24,9 @@ class FacebookDetailViewController: DRViewController {
         view.addSubnode(nodeCtrl)
         attachData()
         DRFBService.share.facebook(comment: postData.id)
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = false
+        }
     }
     
     /// Data의 변화를 감지하여 listView에 이어 붙인다.
@@ -73,7 +78,6 @@ class FacebookDetailNodeController: ASDisplayNode, FBDetailSectionDelegates {
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
         listNode.contentInset.bottom = toolHeight
         listNode.view.alwaysBounceVertical = true
-        listNode.contentInset.top = 16.fit
         listNode.backgroundColor = .clear
         listNode.allowsSelection = false
         listNode.layoutInspector = self

@@ -26,9 +26,7 @@ class NoteListViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
         
         navigationItem.title = navTitle
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-        }
+        navigationController?.navigationBar.alpha = 1
         
         registerToken()
     }
@@ -80,7 +78,10 @@ class NoteListViewController: UIViewController {
 
     }
     
-    
+    @IBAction private func navi(left: UIBarButtonItem) {
+        let viewCtrl = UIStoryboard.view(type: FolderViewController.self)
+        navigationController?.pushViewController(viewCtrl, animated: true)
+    }
     
 
 }
