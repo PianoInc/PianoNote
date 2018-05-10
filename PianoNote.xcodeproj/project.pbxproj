@@ -146,6 +146,8 @@
 		7CA419CF20A41D5A0017450F /* PianoTextView_Assistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA419CE20A41D5A0017450F /* PianoTextView_Assistable.swift */; };
 		7CA419D120A41D640017450F /* PianoTextView_TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA419D020A41D640017450F /* PianoTextView_TableViewDataSource.swift */; };
 		7CA419D320A41D6C0017450F /* Assistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA419D220A41D6C0017450F /* Assistable.swift */; };
+		7CA419D620A440400017450F /* Pianoable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA419D520A440400017450F /* Pianoable.swift */; };
+		7CA419D820A446F30017450F /* PianoTextView_Pianoable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA419D720A446F30017450F /* PianoTextView_Pianoable.swift */; };
 		7CD3EA44206A043D00B0DD31 /* PianoCoverView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CD3EA43206A043D00B0DD31 /* PianoCoverView.xib */; };
 		7CD8813D2064C76F009C6C5F /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8813C2064C76F009C6C5F /* AppNavigator.swift */; };
 		7CD881462064CC1D009C6C5F /* PianoSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD881442064CC1D009C6C5F /* PianoSegmentControl.swift */; };
@@ -158,9 +160,8 @@
 		7CD881562065BD78009C6C5F /* AnimatableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD881552065BD78009C6C5F /* AnimatableText.swift */; };
 		7CD881582065BD92009C6C5F /* PianoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD881572065BD92009C6C5F /* PianoResult.swift */; };
 		7CD8815B2065BE33009C6C5F /* TextAnimatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8815A2065BE33009C6C5F /* TextAnimatable.swift */; };
-		7CD8815D2065BE3A009C6C5F /* Effectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8815C2065BE3A009C6C5F /* Effectable.swift */; };
 		7CD881652068778C009C6C5F /* PianoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD881642068778C009C6C5F /* PianoTextView.swift */; };
-		7CD8816720687D5D009C6C5F /* PianoSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8816620687D5D009C6C5F /* PianoSetup.swift */; };
+		7CD8816720687D5D009C6C5F /* PianoableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8816620687D5D009C6C5F /* PianoableType.swift */; };
 		7CD881712068DACC009C6C5F /* DivisionLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8816B2068DACB009C6C5F /* DivisionLine.swift */; };
 		AC0FAE4C9A74B6BC50C0949B /* Pods_PianoNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */; };
 /* End PBXBuildFile section */
@@ -364,10 +365,12 @@
 		7C7D8EEE20968DE60055757F /* PianoAssistTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoAssistTableView.swift; sourceTree = "<group>"; };
 		7C8B882E2097F02300A5AC15 /* PianoAssistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoAssistTableViewCell.swift; sourceTree = "<group>"; };
 		7C9926D120649293000327AD /* TempImageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TempImageView.xib; sourceTree = "<group>"; };
-		7CA419C420A41CF60017450F /* PianoAssistData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PianoAssistData.swift; path = InteractiveTextEngine/Common/FormManager/PianoAssistData.swift; sourceTree = SOURCE_ROOT; };
+		7CA419C420A41CF60017450F /* PianoAssistData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PianoAssistData.swift; path = PianoNote/Util/Assistable/PianoAssistData.swift; sourceTree = SOURCE_ROOT; };
 		7CA419CE20A41D5A0017450F /* PianoTextView_Assistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextView_Assistable.swift; sourceTree = "<group>"; };
 		7CA419D020A41D640017450F /* PianoTextView_TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextView_TableViewDataSource.swift; sourceTree = "<group>"; };
 		7CA419D220A41D6C0017450F /* Assistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assistable.swift; sourceTree = "<group>"; };
+		7CA419D520A440400017450F /* Pianoable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pianoable.swift; sourceTree = "<group>"; };
+		7CA419D720A446F30017450F /* PianoTextView_Pianoable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoTextView_Pianoable.swift; sourceTree = "<group>"; };
 		7CD3EA43206A043D00B0DD31 /* PianoCoverView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PianoCoverView.xib; sourceTree = "<group>"; };
 		7CD8813C2064C76F009C6C5F /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		7CD881442064CC1D009C6C5F /* PianoSegmentControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoSegmentControl.swift; sourceTree = "<group>"; };
@@ -380,9 +383,8 @@
 		7CD881552065BD78009C6C5F /* AnimatableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableText.swift; sourceTree = "<group>"; };
 		7CD881572065BD92009C6C5F /* PianoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoResult.swift; sourceTree = "<group>"; };
 		7CD8815A2065BE33009C6C5F /* TextAnimatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnimatable.swift; sourceTree = "<group>"; };
-		7CD8815C2065BE3A009C6C5F /* Effectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effectable.swift; sourceTree = "<group>"; };
 		7CD881642068778C009C6C5F /* PianoTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoTextView.swift; sourceTree = "<group>"; };
-		7CD8816620687D5D009C6C5F /* PianoSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoSetup.swift; sourceTree = "<group>"; };
+		7CD8816620687D5D009C6C5F /* PianoableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoableType.swift; sourceTree = "<group>"; };
 		7CD8816B2068DACB009C6C5F /* DivisionLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DivisionLine.swift; sourceTree = "<group>"; };
 		DA927F2A7BA45CA6512CF273 /* Pods-widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-widget.release.xcconfig"; path = "Pods/Target Support Files/Pods-widget/Pods-widget.release.xcconfig"; sourceTree = "<group>"; };
 		E91A1ED79729DF5EF532D2BD /* Pods-PianoNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote.debug.xcconfig"; sourceTree = "<group>"; };
@@ -512,8 +514,10 @@
 		168D19CA20632998005AA85F /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				7CA419D420A43ACD0017450F /* Assistable */,
 				7CA419C120A41CCC0017450F /* Card */,
 				7CD881762068DACF009C6C5F /* FormManager */,
+				7CA419D920A48CCB0017450F /* Pianoable */,
 				7CD881592065BDB3009C6C5F /* Piano */,
 				6C72709820730257003A4640 /* TextEngineModels */,
 				6C7270732072F4C5003A4640 /* RealmModels */,
@@ -620,6 +624,7 @@
 				7C9926C420647AB6000327AD /* MainNote */,
 				6CEB8AF5209AC6E600115A94 /* NoteListCell.swift */,
 				6CEB8AF7209AC8C200115A94 /* NoteListNewCell.swift */,
+				7CD881642068778C009C6C5F /* PianoTextView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -828,21 +833,29 @@
 		7CA419C120A41CCC0017450F /* Card */ = {
 			isa = PBXGroup;
 			children = (
-				7CA419D220A41D6C0017450F /* Assistable.swift */,
-				7CA419D020A41D640017450F /* PianoTextView_TableViewDataSource.swift */,
-				7CA419CE20A41D5A0017450F /* PianoTextView_Assistable.swift */,
 				7C495E0520969CFE00D6E3E7 /* PianoCard.swift */,
-				7CA419C420A41CF60017450F /* PianoAssistData.swift */,
-				7C495E092097EA3B00D6E3E7 /* PianoAssistTableView */,
 			);
 			path = Card;
 			sourceTree = "<group>";
 		};
-		7CD881592065BDB3009C6C5F /* Piano */ = {
+		7CA419D420A43ACD0017450F /* Assistable */ = {
 			isa = PBXGroup;
 			children = (
-				7CD8816620687D5D009C6C5F /* PianoSetup.swift */,
-				7CD881642068778C009C6C5F /* PianoTextView.swift */,
+				7CA419D220A41D6C0017450F /* Assistable.swift */,
+				7CA419D020A41D640017450F /* PianoTextView_TableViewDataSource.swift */,
+				7CA419CE20A41D5A0017450F /* PianoTextView_Assistable.swift */,
+				7CA419C420A41CF60017450F /* PianoAssistData.swift */,
+				7C495E092097EA3B00D6E3E7 /* PianoAssistTableView */,
+			);
+			path = Assistable;
+			sourceTree = "<group>";
+		};
+		7CA419D920A48CCB0017450F /* Pianoable */ = {
+			isa = PBXGroup;
+			children = (
+				7CA419D520A440400017450F /* Pianoable.swift */,
+				7CA419D720A446F30017450F /* PianoTextView_Pianoable.swift */,
+				7CD8816620687D5D009C6C5F /* PianoableType.swift */,
 				7CD8814F2064E1AA009C6C5F /* PianoAttributes.swift */,
 				7CD881552065BD78009C6C5F /* AnimatableText.swift */,
 				7CD881572065BD92009C6C5F /* PianoResult.swift */,
@@ -853,8 +866,14 @@
 				7CD881452064CC1D009C6C5F /* PianoSegmentControl.xib */,
 				7CD881442064CC1D009C6C5F /* PianoSegmentControl.swift */,
 				7CD8815A2065BE33009C6C5F /* TextAnimatable.swift */,
-				7CD8815C2065BE3A009C6C5F /* Effectable.swift */,
 				7CD3EA43206A043D00B0DD31 /* PianoCoverView.xib */,
+			);
+			path = Pianoable;
+			sourceTree = "<group>";
+		};
+		7CD881592065BDB3009C6C5F /* Piano */ = {
+			isa = PBXGroup;
+			children = (
 				6C8851C9208DB6E600822B69 /* PianoTextView_Pasteboard.swift */,
 				6CBE4D0D209003B300C598DE /* PianoNoteSizeInspector.swift */,
 			);
@@ -1243,7 +1262,7 @@
 				7CA419D120A41D640017450F /* PianoTextView_TableViewDataSource.swift in Sources */,
 				163199C32097DC6300140AC1 /* FacebookDetailViewController.swift in Sources */,
 				167A1CFA207C93210029E797 /* ViewController+Alert.swift in Sources */,
-				7CD8816720687D5D009C6C5F /* PianoSetup.swift in Sources */,
+				7CD8816720687D5D009C6C5F /* PianoableType.swift in Sources */,
 				167A1D0A207C93210029E797 /* Window.swift in Sources */,
 				6C72708F207300F4003A4640 /* LinkAttribute.swift in Sources */,
 				16722B89207CA70E0041ED1E /* DRViewController.swift in Sources */,
@@ -1267,7 +1286,6 @@
 				168D19DE20632998005AA85F /* Util.swift in Sources */,
 				6C8851CA208DB6E600822B69 /* PianoTextView_Pasteboard.swift in Sources */,
 				6CE16F92207200EC00231863 /* RealmDataModel.swift in Sources */,
-				7CD8815D2065BE3A009C6C5F /* Effectable.swift in Sources */,
 				7CD881652068778C009C6C5F /* PianoTextView.swift in Sources */,
 				6C5CD4A9207C4A6A002C0CA4 /* PianoTextReminderCell.swift in Sources */,
 				7C7A314F208EA80500063576 /* FormAttributes.swift in Sources */,
@@ -1301,10 +1319,12 @@
 				163199BF2097DC5200140AC1 /* RecycleViewController.swift in Sources */,
 				6C72709120730139003A4640 /* AddressAttribute.swift in Sources */,
 				6C2862822097FCB200FBB282 /* DynamicParagraphStyle.swift in Sources */,
+				7CA419D820A446F30017450F /* PianoTextView_Pianoable.swift in Sources */,
 				7CA419CF20A41D5A0017450F /* PianoTextView_Assistable.swift in Sources */,
 				167A1D05207C93210029E797 /* Color.swift in Sources */,
 				167A1D10207C93480029E797 /* DRFBService.swift in Sources */,
 				6C7270812072FFBD003A4640 /* AttributeModel.swift in Sources */,
+				7CA419D620A440400017450F /* Pianoable.swift in Sources */,
 				167A1CFB207C93210029E797 /* Layer.swift in Sources */,
 				6C7270952073016F003A4640 /* EventAttribute.swift in Sources */,
 				167A1CFC207C93210029E797 /* SegueIdentifer.swift in Sources */,

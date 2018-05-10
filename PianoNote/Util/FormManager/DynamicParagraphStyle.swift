@@ -41,11 +41,12 @@ class DynamicParagraphStyle: NSMutableParagraphStyle {
     override var firstLineHeadIndent: CGFloat {
         set{}
         get {
-            switch bulletType{
+            switch bulletType {
                 case .number: return FormAttributes.headIndent - (numberingWidth + punctuationMarkWidth + spaceWidth)
                 default:
-                    let bulletWidth = NSAttributedString(string: bulletString,
-                            attributes: [.font: PianoFontAttribute.standard().getFont()]).size().width
+                    let bulletWidth = (bulletString as NSString)
+                        .size(withAttributes: [.font: PianoFontAttribute.standard().getFont()]).width
+                    
                     return bulletWidth > numberingWidth + punctuationMarkWidth ?
                                 FormAttributes.headIndent - (spaceWidth + bulletWidth) :
                             FormAttributes.headIndent - (spaceWidth + (numberingWidth + punctuationMarkWidth + bulletWidth)/2)

@@ -283,19 +283,3 @@ class NoteViewController: UIViewController {
     
 }
 
-extension NoteViewController {
-    internal func setup(pianoMode: Bool) {
-        
-        setNavigationController(for: pianoMode)
-        
-        guard let pianoView = view.createSubviewIfNeeded(viewTag: ViewTag.PianoView) as? PianoView,
-            let segmentControl = view.createSubviewIfNeeded(viewTag: ViewTag.PianoSegmentControl) as? PianoSegmentControl else { return }
-        
-        pianoView.setup(for: pianoMode, to: view)
-        segmentControl.setup(for: pianoMode, to: view)
-        textView.setup(for: pianoMode, to: view)
-        
-    }
-    
-}
-

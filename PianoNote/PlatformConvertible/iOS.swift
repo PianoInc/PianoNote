@@ -26,4 +26,5 @@ public typealias TextStorageEditActions = NSTextStorageEditActions
 public typealias TableViewDataSource = UITableViewDataSource
 public typealias TableViewDelegate = UITableViewDelegate
 public typealias KeyCommand = UIKeyCommand
+public typealias BarButtonItem = UIBarButtonItem
 

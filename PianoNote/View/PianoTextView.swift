@@ -9,7 +9,7 @@
 import UIKit
 import InteractiveTextEngine_iOS
 
-class PianoTextView: InteractiveTextView, Assistable {
+class PianoTextView: InteractiveTextView, Assistable, Pianoable {
 
     var isSyncing: Bool = false
     var noteID: String = ""
