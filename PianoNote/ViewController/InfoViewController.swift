@@ -9,7 +9,7 @@
 import UIKit
 import AsyncDisplayKit
 
-typealias InfoData = (section: String, row: [String]?)
+typealias InfoData = (section: String, row: [(title: String, image: UIImage)]?)
 
 enum InfoPlace {
     case top, halfTop, middle, bottom, single
@@ -22,14 +22,13 @@ class InfoViewController: DRViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubnode(nodeCtrl)
+        navigationItem.title = "info".locale
         initData()
     }
     
     private func initData() {
-        nodeCtrl.data.append(InfoData(section: "Info", row: nil))
-        nodeCtrl.data.append(InfoData(section: "회사", row: ["팀원", "목표", "문의하기"]))
-        nodeCtrl.data.append(InfoData(section: "앱", row: ["버전정보", "라이센스"]))
-        nodeCtrl.data.append(InfoData(section: "야호", row: ["뚜루룻"]))
+        nodeCtrl.data.append(InfoData(section: "company".locale, row: [(title: "member".locale, image: #imageLiteral(resourceName: "team")), (title: "goal".locale, image: #imageLiteral(resourceName: "goal")),(title: "contact".locale, image: #imageLiteral(resourceName: "qustion"))]))
+        nodeCtrl.data.append(InfoData(section: "app".locale, row: [(title: "version".locale, image: #imageLiteral(resourceName: "version")),(title: "licence".locale, image: #imageLiteral(resourceName: "license"))]))
     }
     
     override func viewDidLayoutSubviews() {
@@ -121,14 +120,14 @@ extension InfoNodeController: ASCollectionDelegate, ASCollectionDataSource {
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
             let title = self.data[indexPath.section].section
-            return InfoSectionNode(title: title, isHeader: indexPath.section == 0)
+            return InfoSectionNode(title: title)
         }
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
             guard let data = self.data[indexPath.section].row else {return ASCellNode()}
-            let rowNode = InfoRowNode(title: data[indexPath.row])
+            let rowNode = InfoRowNode(data: data[indexPath.row])
             rowNode.place = self.node(place: indexPath)
             return rowNode
         }
@@ -161,14 +160,13 @@ class InfoSectionNode: ASCellNode {
     
     fileprivate let titleNode = ASTextNode()
     
-    init(title: String, isHeader: Bool) {
+    init(title: String) {
         super.init()
         automaticallyManagesSubnodes = true
         
         titleNode.isLayerBacked = true
-        let titleFont = UIFont.systemFont(ofSize: isHeader ? 34.fit : 14.fit,
-                                          weight: isHeader ? .semibold : .regular)
-        let titleColor = isHeader ? .black : UIColor(hex8: "0a0a0acc")
+        let titleFont = UIFont.systemFont(ofSize: 14.fit, weight: .regular)
+        let titleColor = UIColor(hex8: "0a0a0acc")
         titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : titleFont, .foregroundColor : titleColor])
     }
     
@@ -190,18 +188,18 @@ class InfoRowNode: ASCellNode {
     
     fileprivate var place = InfoPlace.single
     
-    init(title: String) {
+    init(data: (title: String, image: UIImage)) {
         super.init()
         automaticallyManagesSubnodes = true
         topLineNode.isLayerBacked = true
         topLineNode.backgroundColor = UIColor(hex6: "c9c8cc")
         
         imageNode.contentMode = .scaleAspectFit
-        imageNode.image = #imageLiteral(resourceName: "info")
+        imageNode.image = data.image
         
         titleNode.isLayerBacked = true
         let titleFont = UIFont.systemFont(ofSize: 16.fit)
-        titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : titleFont])
+        titleNode.attributedText = NSAttributedString(string: data.title, attributes: [.font : titleFont])
         
         bottomLineNode.isLayerBacked = true
         bottomLineNode.backgroundColor = UIColor(hex6: "c9c8cc")
