@@ -61,7 +61,7 @@ class ModelManager {
             try? realm.write{ realm.add(model, update: true) }
         })
         
-        let database: RxCloudDatabase = model.isShared ? CloudManager.shared.sharedDatabase:
+        let database: RxCloudDatabase = model.isInSharedDB ? CloudManager.shared.sharedDatabase:
             CloudManager.shared.privateDatabase
         
         database.upload(record: record) { conflicted, error in
@@ -94,7 +94,7 @@ class ModelManager {
         guard let record = CKRecord(coder: coder) else {fatalError("Data polluted!!")}
         coder.finishDecoding()
         
-        if recordable.isShared {
+        if recordable.isInSharedDB {
             CloudManager.shared.sharedDatabase.delete(recordIDs: [record.recordID], completion: cloudCompletion)
         } else {
             CloudManager.shared.privateDatabase.delete(recordIDs: [record.recordID], completion: cloudCompletion)
@@ -107,7 +107,7 @@ class ModelManager {
             guard let model = realm.object(ofType: type, forPrimaryKey: id)
                 else {return completion?(ModelManagerError.objectNotFound) ?? () }
             
-            let database: RxCloudDatabase = (model as? Recordable)!.isShared ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
+            let database: RxCloudDatabase = (model as? Recordable)!.isInSharedDB ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
             let isShared = database.database.databaseScope == .shared
             let ancestorRecord = (model as? Recordable)?.getRecord?()
             let ref = ThreadSafeReference(to: (model as Object))
@@ -120,7 +120,7 @@ class ModelManager {
                 guard let realm = try? Realm(),
                     let model = realm.object(ofType: type.self, forPrimaryKey: id) as? (Object & Recordable),
                     let record = model.getRecord?()else {return completion?(ModelManagerError.objectNotFound) ?? ()}
-                
+                //TODO:If note & If is locked and pinned, Ignore it
                 
                 database.upload(record: record, ancestorRecord: ancestorRecord) { conflicted, error in
                     if let error = error {
@@ -147,7 +147,7 @@ class ModelManager {
             let realm = try Realm()
             let model = realm.objects(type).filter(predicate)
             
-            let database: RxCloudDatabase = (model as? Recordable)!.isShared ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
+            let database: RxCloudDatabase = (model as? Recordable)!.isInSharedDB ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
             let isShared = database.database.databaseScope == .shared
             
             let ref = ThreadSafeReference(to: model)

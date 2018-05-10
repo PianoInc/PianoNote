@@ -42,6 +42,8 @@ extension RealmNoteModel {
         
         record[scheme.tags] = self.tags as CKRecordValue
         record[scheme.isPinned] = (self.isPinned ? 1 : 0) as CKRecordValue
+        record[scheme.isLocked] = (self.isLocked ? 1 : 0) as CKRecordValue
+        
         record[scheme.isInTrash] = (self.isInTrash ? 1 : 0) as CKRecordValue
         record[scheme.colorThemeCode] = self.colorThemeCode as CKRecordValue
         
@@ -91,6 +93,7 @@ extension CKRecord {
             case RealmTagsModel.recordTypeString: return parseTagsRecord()
             case RealmNoteModel.recordTypeString: return parseNoteRecord(isShared: isShared)
             case RealmImageModel.recordTypeString: return parseImageRecord(isShared: isShared)
+            case RealmCKShare.recordTypeString: return parseShare(isShared: isShared)
             case RealmRecordTypeString.latestEvent.rawValue:
                 //special case!
                 if let date = self[Schema.LatestEvent.date] as? Date {
@@ -135,11 +138,23 @@ extension CKRecord {
         newNoteModel.ckMetaData = self.getMetaData()
         newNoteModel.isModified = self.modificationDate ?? Date()
         newNoteModel.tags = tags
-        newNoteModel.isPinned = isPinned == 1
-        newNoteModel.isInTrash = isInTrash == 1
+        
+        if isShared {
+            if let realm = try? Realm(),
+                let currentModel = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: id) {
+                newNoteModel.isPinned = currentModel.isPinned
+                newNoteModel.isLocked = currentModel.isLocked
+            }
+        } else {
+            newNoteModel.isPinned = isPinned == 1
+            newNoteModel.isInTrash = isInTrash == 1
+        }
+        
         newNoteModel.colorThemeCode = colorThemeCode
 
-        newNoteModel.isShared = isShared
+        newNoteModel.isInSharedDB = isShared
+        
+        newNoteModel.shareRecordName = share?.recordID.recordName
         
         return newNoteModel
     }
@@ -159,7 +174,7 @@ extension CKRecord {
         newImageModel.noteRecordName = noteReference.recordID.recordName
         newImageModel.recordName = self.recordID.recordName
         newImageModel.ckMetaData = self.getMetaData()
-        newImageModel.isShared = isShared
+        newImageModel.isInSharedDB = isShared
 
         defer {
             try? FileManager.default.removeItem(at: imageAsset.fileURL)
@@ -168,5 +183,14 @@ extension CKRecord {
         return newImageModel
     }
     
+    private func parseShare(isShared: Bool) -> RealmCKShare? {
+        let newShareModel = RealmCKShare()
+        
+        guard let share = self as? CKShare else {return nil}
+        newShareModel.recordName = share.recordID.recordName
+        newShareModel.shareData = self.archieve()
+        
+        return newShareModel
+    }
 }
 

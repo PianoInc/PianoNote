@@ -23,7 +23,7 @@ class NoteSynchronizer {
             let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: textView.noteID) else {return nil}
         self.recordName = note.recordName
         self.id = note.id
-        self.isShared = note.isShared
+        self.isShared = note.isInSharedDB
         self.textView = textView
     }
     

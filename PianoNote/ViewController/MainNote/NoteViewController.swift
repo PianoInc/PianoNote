@@ -198,7 +198,7 @@ class NoteViewController: UIViewController {
         
         let deletedImageRecordIDs = Array<String>(initialImageRecordNames).map{ CKRecordID(recordName: $0, zoneID: record.recordID.zoneID)}
 
-        if note.isShared {
+        if note.isInSharedDB {
             CloudManager.shared.sharedDatabase.delete(recordIDs: deletedImageRecordIDs) { error in
                 guard error == nil else { return }
             }

@@ -31,6 +31,7 @@ struct Schema {
         
         static let tags = "tags"
         static let isPinned = "isPinned"
+        static let isLocked = "isLocked"
         static let isInTrash = "isInTrash"
     }
     
@@ -48,12 +49,14 @@ enum RealmRecordTypeString: String {
     case note = "Note"
     case image = "Image"
     case latestEvent = "LatestEvent"
+    case ckshare = "cloudkit.share"
 
     func getType() -> Object.Type? {
         switch self {
             case .tags: return RealmTagsModel.self
             case .note: return RealmNoteModel.self
             case .image: return RealmImageModel.self
+            case .ckshare: return RealmCKShare.self
             default: return nil
         }
     }
@@ -95,6 +98,7 @@ extension RxCloudDatabase {
         case .tags, .latestEvent: break //Not gonna happen!
         case .note: deleteNoteRecord(recordID.recordName)
         case .image: deleteImageRecord(recordID.recordName)
+        case .ckshare: deleteCKShare(recordID.recordName)
         }
     }
 
@@ -102,6 +106,7 @@ extension RxCloudDatabase {
         guard let object = record.parseRecord(isShared: isShared) else {return}
 
         if record.recordType == RealmNoteModel.recordTypeString {
+//            print(record.share)
             if let synchronizer = synchronizers[record.recordID.recordName] {
                 synchronizer.serverContentChanged(record)
             }
@@ -143,6 +148,18 @@ extension RxCloudDatabase {
         LocalDatabase.shared.commit(action: { realm in
             guard let image = realm.resolve(ref) else {return}
             try? realm.write{realm.delete(image)}
+        })
+    }
+    
+    private func deleteCKShare(_ recordName: String) {
+        guard let realm = try? Realm(),
+            let shareModel = realm.object(ofType: RealmCKShare.self, forPrimaryKey: recordName) else {return}
+        
+        let ref = ThreadSafeReference(to: shareModel)
+        
+        LocalDatabase.shared.commit(action: { (realm) in
+            guard let share = realm.resolve(ref) else {return}
+            try? realm.write{realm.delete(share)}
         })
     }
 }
