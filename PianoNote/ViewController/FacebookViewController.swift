@@ -12,6 +12,7 @@ import FBSDKCoreKit
 
 class FacebookViewController: DRViewController {
     
+    @IBOutlet private var indicator: UIActivityIndicatorView!
     @IBOutlet private var facebookLabel: UILabel! { didSet {
         facebookLabel.font = UIFont.systemFont(ofSize: 23.fit, weight: .bold)
         facebookLabel.text = "facebookNotice".locale
@@ -34,11 +35,18 @@ class FacebookViewController: DRViewController {
         super.viewDidLoad()
         nodeCtrl.isHidden = true
         view.addSubnode(nodeCtrl)
+        navigationItem.title = "interact".locale
         initConst()
         device(orientationDidChange: { [weak self] _ in self?.initConst()})
         attachData()
         
         if FBSDKAccessToken.current() != nil {
+            view.bringSubview(toFront: indicator)
+            view.bringSubview(toFront: facebookLabel)
+            view.bringSubview(toFront: facebookButton)
+            indicator.isHidden = true
+            facebookButton.isHidden = true
+            facebookButton.isHidden = true
             DRFBService.share.facebook(post: PianoPageID)
         } else {
             facebookLabel.isHidden = false
@@ -63,6 +71,13 @@ class FacebookViewController: DRViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         nodeCtrl.frame = view.frame
@@ -82,7 +97,6 @@ class FacebookViewController: DRViewController {
     
     /// Data의 변화를 감지하여 listView에 이어 붙인다.
     private func attachData() {
-        nodeCtrl.data.append(["interact".locale : [DRFBPost(create: Date(), id: "", title: "", msg: "")]])
         DRFBService.share.rxPost.subscribe { [weak self] data in
             self?.nodeCtrl.isHidden = false
             self?.group(time: data)
@@ -119,6 +133,10 @@ class FacebookViewController: DRViewController {
     @IBAction private func action(login: UIButton) {
         DRFBService.share.facebook(login: self) {
             guard $0 else {return}
+            self.view.bringSubview(toFront: self.indicator)
+            self.view.bringSubview(toFront: self.facebookLabel)
+            self.view.bringSubview(toFront: self.facebookButton)
+            self.indicator.isHidden = true
             self.facebookLabel.isHidden = true
             self.facebookButton.isHidden = true
             DRFBService.share.facebook(post: PianoPageID)
@@ -142,7 +160,6 @@ class FacebookNodeController: ASDisplayNode {
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
         listNode.contentInset.bottom = toolHeight
         listNode.view.alwaysBounceVertical = true
-        listNode.contentInset.top = 16.fit
         listNode.backgroundColor = .clear
         listNode.allowsSelection = false
         listNode.layoutInspector = self
@@ -209,14 +226,14 @@ extension FacebookNodeController: ASCollectionDelegate, ASCollectionDataSource {
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, numberOfItemsInSection section: Int) -> Int {
-        return (section == 0) ? 0 : (data[section].first?.value.count ?? 0)
+        return data[section].first?.value.count ?? 0
     }
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
             guard !self.data.isEmpty else {return ASCellNode()}
             let title = self.data[indexPath.section].first!.key
-            return FacebookSectionNode(title: title, isHeader: indexPath.section == 0)
+            return FacebookSectionNode(title: title)
         }
     }
     
@@ -263,11 +280,11 @@ class FacebookSectionNode: ASCellNode {
     
     fileprivate let titleNode = ASTextNode()
     
-    init(title: String, isHeader: Bool) {
+    init(title: String) {
         super.init()
         automaticallyManagesSubnodes = true
         titleNode.isLayerBacked = true
-        let font = UIFont.systemFont(ofSize: isHeader ? 34.fit: 23.fit, weight: .bold)
+        let font = UIFont.systemFont(ofSize: 23.fit, weight: .bold)
         titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : font])
     }
     
