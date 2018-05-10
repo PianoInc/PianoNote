@@ -1,5 +1,5 @@
 //
-//  PianoKeyword.swift
+//  PianoAssistData.swift
 //  PianoNote
 //
 //  Created by Kevin Kim on 01/05/2018.
@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct PianoKeyword {
+struct PianoAssistData {
     
     let keyword: String
+    var input: String
 
 }

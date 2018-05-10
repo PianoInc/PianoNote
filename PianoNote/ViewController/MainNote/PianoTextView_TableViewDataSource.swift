@@ -7,21 +7,29 @@
 //
 
 import UIKit
+import Highlighter
 
-extension PianoTextView : UITableViewDataSource {
+extension PianoTextView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PianoAssistTableViewCell.reuseIdentifier) as! PianoAssistTableViewCell
         configure(cell, indexPath: indexPath)
         return cell
     }
-    
+
     private func configure(_ cell: PianoAssistTableViewCell, indexPath: IndexPath) {
-        cell.titleLabel.text = matchedKeywords[indexPath.row].keyword
-//        cell.subTitleLabel.text = matchedKeywords[indexPath.row].subKeyword
+        
+        cell.titleLabel.text = assistDataSource[indexPath.row].keyword
+
+        let normalAttributes = cell.titleLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
+        var highlightAttributes = normalAttributes
+        highlightAttributes?[NSAttributedStringKey.backgroundColor] = UIColor.yellow.withAlphaComponent(0.5)
+
+        cell.highlight(text: assistDataSource[indexPath.row].input, normal: normalAttributes, highlight: highlightAttributes)
+
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return matchedKeywords.count
+        return assistDataSource.count
     }
 }
 

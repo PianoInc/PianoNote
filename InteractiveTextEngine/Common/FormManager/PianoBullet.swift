@@ -132,24 +132,4 @@ public struct PianoBullet {
     
 }
 
-extension PianoBullet {
-    
-}
-
-extension String {
-    public func detect(searchRange: NSRange, regex: String) -> (String, NSRange)? {
-        
-        do {
-            let regularExpression = try NSRegularExpression(pattern: regex, options: .anchorsMatchLines)
-            guard let result = regularExpression.matches(in: self, options: .withTransparentBounds, range: searchRange).first else { return nil }
-            let range = result.range(at: 1)
-            let string = (self as NSString).substring(with: range)
-            return (string, range)
-        } catch {
-            print(error.localizedDescription)
-        }
-        return nil
-        
-    }
-}
 

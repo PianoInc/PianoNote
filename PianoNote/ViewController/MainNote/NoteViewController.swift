@@ -288,8 +288,8 @@ extension NoteViewController {
         
         setNavigationController(for: pianoMode)
         
-        guard let pianoView = view.subView(tag: ViewTag.PianoView) as? PianoView,
-            let segmentControl = view.subView(tag: ViewTag.PianoSegmentControl) as? PianoSegmentControl else { return }
+        guard let pianoView = view.createSubviewIfNeeded(viewTag: ViewTag.PianoView) as? PianoView,
+            let segmentControl = view.createSubviewIfNeeded(viewTag: ViewTag.PianoSegmentControl) as? PianoSegmentControl else { return }
         
         pianoView.setup(for: pianoMode, to: view)
         segmentControl.setup(for: pianoMode, to: view)

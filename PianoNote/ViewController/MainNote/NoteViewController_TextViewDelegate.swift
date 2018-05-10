@@ -48,21 +48,11 @@ extension NoteViewController: UITextViewDelegate {
   
     
     func textViewDidChange(_ textView: UITextView) {
-        
-        if let pianoTextView = textView as? PianoTextView,
-            let position = textView.selectedTextRange?.end {
-            let rect = textView.caretRect(for: position)
-            pianoTextView.showAssistViewIfNeeded(textView, caretRect: rect)
-        }
-
+        (textView as? Assistable)?.showAssistViewIfNeeded()
     }
     
     func textViewDidChangeSelection(_ textView: UITextView) {
-        
-        if let pianoTextView = textView as? PianoTextView {
-            pianoTextView.hideAssistViewIfNeeded()
-        }
-        
+        (textView as? Assistable)?.hideAssistViewIfNeeded()
     }
     
 

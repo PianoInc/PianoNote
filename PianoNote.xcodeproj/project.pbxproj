@@ -135,14 +135,18 @@
 		7C495E0B2097ECA100D6E3E7 /* PianoAssistTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C495E0A2097ECA100D6E3E7 /* PianoAssistTableView.xib */; };
 		7C495E0D2097ED1D00D6E3E7 /* PianoAssistTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C495E0C2097ED1D00D6E3E7 /* PianoAssistTableViewCell.xib */; };
 		7C495E0F2097EF3300D6E3E7 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C495E0E2097EF3300D6E3E7 /* Reusable.swift */; };
+		7C65241620A4034200271DC5 /* UIView_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C65241520A4034200271DC5 /* UIView_Extension.swift */; };
 		7C7A314A208EA6FC00063576 /* iOS&mac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A3148208EA6FB00063576 /* iOS&mac.swift */; };
 		7C7A314B208EA6FC00063576 /* iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A3149208EA6FB00063576 /* iOS.swift */; };
 		7C7A314F208EA80500063576 /* FormAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A314E208EA80500063576 /* FormAttributes.swift */; };
 		7C7A3151208EA81C00063576 /* PianoBullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A3150208EA81B00063576 /* PianoBullet.swift */; };
 		7C7D8EEF20968DE60055757F /* PianoAssistTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7D8EEE20968DE60055757F /* PianoAssistTableView.swift */; };
 		7C8B882F2097F02300A5AC15 /* PianoAssistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B882E2097F02300A5AC15 /* PianoAssistTableViewCell.swift */; };
-		7C8B88312097FC1700A5AC15 /* PianoKeyword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B88302097FC1700A5AC15 /* PianoKeyword.swift */; };
 		7C9926D220649293000327AD /* TempImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C9926D120649293000327AD /* TempImageView.xib */; };
+		7CA419C520A41CF70017450F /* PianoAssistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA419C420A41CF60017450F /* PianoAssistData.swift */; };
+		7CA419CF20A41D5A0017450F /* PianoTextView_Assistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA419CE20A41D5A0017450F /* PianoTextView_Assistable.swift */; };
+		7CA419D120A41D640017450F /* PianoTextView_TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA419D020A41D640017450F /* PianoTextView_TableViewDataSource.swift */; };
+		7CA419D320A41D6C0017450F /* Assistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA419D220A41D6C0017450F /* Assistable.swift */; };
 		7CD3EA44206A043D00B0DD31 /* PianoCoverView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CD3EA43206A043D00B0DD31 /* PianoCoverView.xib */; };
 		7CD8813D2064C76F009C6C5F /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8813C2064C76F009C6C5F /* AppNavigator.swift */; };
 		7CD881462064CC1D009C6C5F /* PianoSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD881442064CC1D009C6C5F /* PianoSegmentControl.swift */; };
@@ -159,7 +163,6 @@
 		7CD881652068778C009C6C5F /* PianoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD881642068778C009C6C5F /* PianoTextView.swift */; };
 		7CD8816720687D5D009C6C5F /* PianoSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8816620687D5D009C6C5F /* PianoSetup.swift */; };
 		7CD881712068DACC009C6C5F /* DivisionLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD8816B2068DACB009C6C5F /* DivisionLine.swift */; };
-		7CE86CA820A2D14100D50B9C /* PianoTextView_TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE86CA720A2D14100D50B9C /* PianoTextView_TableViewDataSource.swift */; };
 		AC0FAE4C9A74B6BC50C0949B /* Pods_PianoNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 606BBFCF5C3B4D8B7813AA0E /* Pods_PianoNoteTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -355,14 +358,18 @@
 		7C495E0A2097ECA100D6E3E7 /* PianoAssistTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PianoAssistTableView.xib; sourceTree = "<group>"; };
 		7C495E0C2097ED1D00D6E3E7 /* PianoAssistTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PianoAssistTableViewCell.xib; sourceTree = "<group>"; };
 		7C495E0E2097EF3300D6E3E7 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		7C65241520A4034200271DC5 /* UIView_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView_Extension.swift; sourceTree = "<group>"; };
 		7C7A3148208EA6FB00063576 /* iOS&mac.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "iOS&mac.swift"; sourceTree = "<group>"; };
 		7C7A3149208EA6FB00063576 /* iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS.swift; sourceTree = "<group>"; };
 		7C7A314E208EA80500063576 /* FormAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormAttributes.swift; sourceTree = "<group>"; };
 		7C7A3150208EA81B00063576 /* PianoBullet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoBullet.swift; sourceTree = "<group>"; };
 		7C7D8EEE20968DE60055757F /* PianoAssistTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoAssistTableView.swift; sourceTree = "<group>"; };
 		7C8B882E2097F02300A5AC15 /* PianoAssistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoAssistTableViewCell.swift; sourceTree = "<group>"; };
-		7C8B88302097FC1700A5AC15 /* PianoKeyword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PianoKeyword.swift; path = ../../../InteractiveTextEngine/Common/FormManager/PianoKeyword.swift; sourceTree = "<group>"; };
 		7C9926D120649293000327AD /* TempImageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TempImageView.xib; sourceTree = "<group>"; };
+		7CA419C420A41CF60017450F /* PianoAssistData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PianoAssistData.swift; path = InteractiveTextEngine/Common/FormManager/PianoAssistData.swift; sourceTree = SOURCE_ROOT; };
+		7CA419CE20A41D5A0017450F /* PianoTextView_Assistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextView_Assistable.swift; sourceTree = "<group>"; };
+		7CA419D020A41D640017450F /* PianoTextView_TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextView_TableViewDataSource.swift; sourceTree = "<group>"; };
+		7CA419D220A41D6C0017450F /* Assistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assistable.swift; sourceTree = "<group>"; };
 		7CD3EA43206A043D00B0DD31 /* PianoCoverView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PianoCoverView.xib; sourceTree = "<group>"; };
 		7CD8813C2064C76F009C6C5F /* AppNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		7CD881442064CC1D009C6C5F /* PianoSegmentControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoSegmentControl.swift; sourceTree = "<group>"; };
@@ -379,7 +386,6 @@
 		7CD881642068778C009C6C5F /* PianoTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoTextView.swift; sourceTree = "<group>"; };
 		7CD8816620687D5D009C6C5F /* PianoSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoSetup.swift; sourceTree = "<group>"; };
 		7CD8816B2068DACB009C6C5F /* DivisionLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DivisionLine.swift; sourceTree = "<group>"; };
-		7CE86CA720A2D14100D50B9C /* PianoTextView_TableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoTextView_TableViewDataSource.swift; sourceTree = "<group>"; };
 		DA927F2A7BA45CA6512CF273 /* Pods-widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-widget.release.xcconfig"; path = "Pods/Target Support Files/Pods-widget/Pods-widget.release.xcconfig"; sourceTree = "<group>"; };
 		E91A1ED79729DF5EF532D2BD /* Pods-PianoNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PianoNote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -508,6 +514,7 @@
 		168D19CA20632998005AA85F /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				7CA419C120A41CCC0017450F /* Card */,
 				7CD881762068DACF009C6C5F /* FormManager */,
 				7CD881592065BDB3009C6C5F /* Piano */,
 				6C72709820730257003A4640 /* TextEngineModels */,
@@ -578,6 +585,7 @@
 				6C0F73842085CFDA004AACF7 /* NSObject.swift */,
 				75E998B1C40736A977C35943 /* CKDatabaseScope.swift */,
 				75E99898FE167CCA04C3BF85 /* NSAttributedStringKey.swift */,
+				7C65241520A4034200271DC5 /* UIView_Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -613,7 +621,6 @@
 			isa = PBXGroup;
 			children = (
 				7C9926C420647AB6000327AD /* MainNote */,
-				7C495E092097EA3B00D6E3E7 /* PianoAssistTableView */,
 				6CEB8AF5209AC6E600115A94 /* NoteListCell.swift */,
 				6CEB8AF7209AC8C200115A94 /* NoteListNewCell.swift */,
 			);
@@ -821,6 +828,19 @@
 			path = MainNote;
 			sourceTree = "<group>";
 		};
+		7CA419C120A41CCC0017450F /* Card */ = {
+			isa = PBXGroup;
+			children = (
+				7CA419D220A41D6C0017450F /* Assistable.swift */,
+				7CA419D020A41D640017450F /* PianoTextView_TableViewDataSource.swift */,
+				7CA419CE20A41D5A0017450F /* PianoTextView_Assistable.swift */,
+				7C495E0520969CFE00D6E3E7 /* PianoCard.swift */,
+				7CA419C420A41CF60017450F /* PianoAssistData.swift */,
+				7C495E092097EA3B00D6E3E7 /* PianoAssistTableView */,
+			);
+			path = Card;
+			sourceTree = "<group>";
+		};
 		7CD881592065BDB3009C6C5F /* Piano */ = {
 			isa = PBXGroup;
 			children = (
@@ -840,7 +860,6 @@
 				7CD3EA43206A043D00B0DD31 /* PianoCoverView.xib */,
 				6C8851C9208DB6E600822B69 /* PianoTextView_Pasteboard.swift */,
 				6CBE4D0D209003B300C598DE /* PianoNoteSizeInspector.swift */,
-				7CE86CA720A2D14100D50B9C /* PianoTextView_TableViewDataSource.swift */,
 			);
 			path = Piano;
 			sourceTree = "<group>";
@@ -851,8 +870,6 @@
 				7CD8816B2068DACB009C6C5F /* DivisionLine.swift */,
 				7C7A314E208EA80500063576 /* FormAttributes.swift */,
 				7C7A3150208EA81B00063576 /* PianoBullet.swift */,
-				7C495E0520969CFE00D6E3E7 /* PianoCard.swift */,
-				7C8B88302097FC1700A5AC15 /* PianoKeyword.swift */,
 				6C2862812097FCB200FBB282 /* DynamicParagraphStyle.swift */,
 			);
 			path = FormManager;
@@ -872,7 +889,6 @@
 				168D19FA20632A5F005AA85F /* Embed App Extensions */,
 				3D1FE22250FA16777E933F82 /* [CP] Embed Pods Frameworks */,
 				6C7270862072FFF3003A4640 /* Embed Frameworks */,
-				DF9EFCB08B19240CCEBEAB03 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -892,8 +908,6 @@
 				168D19942063294A005AA85F /* Sources */,
 				168D19952063294A005AA85F /* Frameworks */,
 				168D19962063294A005AA85F /* Resources */,
-				4A17B9E599222B51125F8BD2 /* [CP] Embed Pods Frameworks */,
-				22D7EE1951CE566A7C578200 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -913,8 +927,6 @@
 				168D199F2063294A005AA85F /* Sources */,
 				168D19A02063294A005AA85F /* Frameworks */,
 				168D19A12063294A005AA85F /* Resources */,
-				D6EDBE1893C2AAE54893E5ED /* [CP] Embed Pods Frameworks */,
-				E8E1524C9E0B627750C21C7B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -934,7 +946,6 @@
 				168D19E520632A5F005AA85F /* Sources */,
 				168D19E620632A5F005AA85F /* Frameworks */,
 				168D19E720632A5F005AA85F /* Resources */,
-				FCC101EEDE28586D5A03C111 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1069,21 +1080,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		22D7EE1951CE566A7C578200 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3D1FE22250FA16777E933F82 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1095,6 +1091,7 @@
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Highlighter/Highlighter.framework",
 				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
 				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
 				"${BUILT_PRODUCTS_DIR}/PINRemoteImage/PINRemoteImage.framework",
@@ -1113,6 +1110,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlighter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINRemoteImage.framework",
@@ -1128,21 +1126,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4A17B9E599222B51125F8BD2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteTests/Pods-PianoNoteTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6C80613AAED3F682BF180363 /* [CP] Check Pods Manifest.lock */ = {
@@ -1217,66 +1200,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D6EDBE1893C2AAE54893E5ED /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DF9EFCB08B19240CCEBEAB03 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNote/Pods-PianoNote-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E8E1524C9E0B627750C21C7B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PianoNoteUITests/Pods-PianoNoteUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FCC101EEDE28586D5A03C111 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-widget/Pods-widget-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1292,7 +1215,6 @@
 				16DBA3292097E97C008C45B9 /* NoteViewController_TextViewDelegate.swift in Sources */,
 				167A1D55207C94890029E797 /* SplashViewController.swift in Sources */,
 				16BABD9C2092EFA500E15FDB /* FolderViewController.swift in Sources */,
-				7CE86CA820A2D14100D50B9C /* PianoTextView_TableViewDataSource.swift in Sources */,
 				6C7270A32073033B003A4640 /* ContactAttachment.swift in Sources */,
 				163199C12097DC5C00140AC1 /* FacebookViewController.swift in Sources */,
 				6C72708A207300A6003A4640 /* AttachmentAttribute.swift in Sources */,
@@ -1322,6 +1244,7 @@
 				1636A10E209A8D5900FCEA7B /* Text.swift in Sources */,
 				6C3C3E78207B4D5B00A087B7 /* SearchCell.swift in Sources */,
 				7C495E0F2097EF3300D6E3E7 /* Reusable.swift in Sources */,
+				7CA419D120A41D640017450F /* PianoTextView_TableViewDataSource.swift in Sources */,
 				163199C32097DC6300140AC1 /* FacebookDetailViewController.swift in Sources */,
 				167A1CFA207C93210029E797 /* ViewController+Alert.swift in Sources */,
 				7CD8816720687D5D009C6C5F /* PianoSetup.swift in Sources */,
@@ -1336,6 +1259,7 @@
 				169789992099533E000D6E8B /* InfoViewController.swift in Sources */,
 				7CD8813D2064C76F009C6C5F /* AppNavigator.swift in Sources */,
 				16DBA3272097E97C008C45B9 /* NoteViewController_NavigationItems.swift in Sources */,
+				7CA419C520A41CF70017450F /* PianoAssistData.swift in Sources */,
 				6C5CD4AD207C7023002C0CA4 /* UIImageView+Letters.swift in Sources */,
 				7CD8815B2065BE33009C6C5F /* TextAnimatable.swift in Sources */,
 				16DBA32D2097E97C008C45B9 /* NoteViewController_CloudSharingDelegate.swift in Sources */,
@@ -1364,6 +1288,7 @@
 				6CEB8AF4209AC65E00115A94 /* NoteListViewController.swift in Sources */,
 				167A1CFD207C93210029E797 /* UIImage+resize.swift in Sources */,
 				6CE16F94207202E900231863 /* CloudManager.swift in Sources */,
+				7C65241620A4034200271DC5 /* UIView_Extension.swift in Sources */,
 				6CE16FA02072183900231863 /* Sync.swift in Sources */,
 				16DBA32A2097E97C008C45B9 /* NoteViewController.swift in Sources */,
 				6C5CD49D207C33D2002C0CA4 /* PianoTextAddressCell.swift in Sources */,
@@ -1380,8 +1305,8 @@
 				163199BF2097DC5200140AC1 /* RecycleViewController.swift in Sources */,
 				6C72709120730139003A4640 /* AddressAttribute.swift in Sources */,
 				6C2862822097FCB200FBB282 /* DynamicParagraphStyle.swift in Sources */,
+				7CA419CF20A41D5A0017450F /* PianoTextView_Assistable.swift in Sources */,
 				167A1D05207C93210029E797 /* Color.swift in Sources */,
-				7C8B88312097FC1700A5AC15 /* PianoKeyword.swift in Sources */,
 				167A1D10207C93480029E797 /* DRFBService.swift in Sources */,
 				6C7270812072FFBD003A4640 /* AttributeModel.swift in Sources */,
 				167A1CFB207C93210029E797 /* Layer.swift in Sources */,
@@ -1396,6 +1321,7 @@
 				6CBE4D0E209003B300C598DE /* PianoNoteSizeInspector.swift in Sources */,
 				75E99565C2D701A6E52B3D67 /* CKDatabaseScope.swift in Sources */,
 				75E99470C19AF984654A35A1 /* RxCloudDatabase_Subscription.swift in Sources */,
+				7CA419D320A41D6C0017450F /* Assistable.swift in Sources */,
 				75E995ED54D3FB044498ECF1 /* NSAttributedStringKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

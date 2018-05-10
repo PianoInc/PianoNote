@@ -43,12 +43,12 @@ class PianoAssistTableView: UITableView {
         
     }
     
-    internal func setup(textView: PianoTextView) {
+    internal func setup(assistable: Assistable & UITableViewDataSource & UITableViewDelegate) {
         
         let cellNib = UINib(nibName: PianoAssistTableViewCell.reuseIdentifier, bundle: nil)
         register(cellNib, forCellReuseIdentifier: PianoAssistTableViewCell.reuseIdentifier)
-        dataSource = textView
-        delegate = textView
+        dataSource = assistable
+        delegate = assistable
         reloadData()
         let indexPath = IndexPath(row: 0, section: 0)
         selectRow(at: indexPath, animated: false, scrollPosition: .none)

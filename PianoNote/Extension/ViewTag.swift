@@ -9,56 +9,14 @@
 import Foundation
 
 
-enum ViewTag: Int {
-    case PianoButton = 1000
-    case PianoSegmentControl = 1001
-    case PianoView = 1002
-    case PianoControl = 1003
-    case PianoTextView = 1004
-    case PianoCoverView = 1005
-    
-    case PianoAssistTableView = 2000
-    
-    var identifier: String {
-        return String(describing: self)
-    }
+//TODO: 피아노로 태그들 빼고, 여기에는 공백 스트럭트로만 남겨두기
+struct ViewTag {
+    static let PianoButton = "PianoButton"
+    static let PianoSegmentControl = "PianoButton"
+    static let PianoView = "PianoButton"
+    static let PianoControl = "PianoButton"
+    static let PianoTextView = "PianoButton"
+    static let PianoCoverView = "PianoButton"
 }
 
-extension View {
-    
-    internal func hasSubView(tag: ViewTag) -> Bool {
-        return self.viewWithTag(tag.rawValue) != nil ? true : false
-    }
-    
-//    internal func subView(tag: ViewTag) -> View {
-//
-//        if let view = self.viewWithTag(tag.rawValue) {
-//            return view
-//        }
-//        let nib = Nib(nibName: tag.identifier, bundle: nil)
-//        let view = nib.instantiate(withOwner: nil, options: nil).first as! View
-//        view.tag = tag.rawValue
-//
-//        return view
-//
-//    }
-    
-    internal func subView(tag: ViewTag) -> View? {
-        return viewWithTag(tag.rawValue)
-        
-    }
-    
-    internal func createSubviewIfNeeded(tag: ViewTag) -> View {
-        
-        if let view = self.viewWithTag(tag.rawValue) {
-            return view
-        }
-        
-        let nib = Nib(nibName: tag.identifier, bundle: nil)
-        let view = nib.instantiate(withOwner: nil, options: nil).first as! View
-        view.tag = tag.rawValue
-        return view
-        
-    }
 
-}

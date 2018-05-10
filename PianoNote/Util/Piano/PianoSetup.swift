@@ -32,8 +32,8 @@ extension PianoTextView: PianoSetup {
     
     internal func attachControl() {
         
-        guard let control = subView(tag: ViewTag.PianoControl) as? PianoControl,
-            let pianoView = superview?.subView(tag: ViewTag.PianoView) as? PianoView else { return }
+        guard let control = createSubviewIfNeeded(viewTag: ViewTag.PianoControl) as? PianoControl,
+            let pianoView = superview?.createSubviewIfNeeded(viewTag: ViewTag.PianoView) as? PianoView else { return }
         control.removeFromSuperview()
         control.textAnimatable = pianoView
         control.effectable = self
@@ -47,7 +47,7 @@ extension PianoTextView: PianoSetup {
     
     internal func detachControl() {
         
-        guard let control = subView(tag: ViewTag.PianoControl) as? PianoControl else { return }
+        guard let control = subView(viewTag: ViewTag.PianoControl) as? PianoControl else { return }
         control.removeFromSuperview()
     }
     
@@ -78,7 +78,7 @@ extension PianoView: PianoSetup {
     func setup(for pianoMode: Bool, to view: UIView) {
         
         if pianoMode {
-            guard let pianoView = view.subView(tag: ViewTag.PianoView) as? PianoView else { return }
+            guard let pianoView = view.createSubviewIfNeeded(viewTag: ViewTag.PianoView) as? PianoView else { return }
             view.addSubview(pianoView)
             pianoView.snp.makeConstraints({ (make) in
                 make.top.bottom.equalTo(view)
@@ -90,7 +90,7 @@ extension PianoView: PianoSetup {
                 }
             })
         } else {
-            guard let pianoView = view.subView(tag: ViewTag.PianoView) as? PianoView else { return }
+            guard let pianoView = view.subView(viewTag: ViewTag.PianoView) as? PianoView else { return }
             pianoView.removeFromSuperview()
         }
         
@@ -101,9 +101,9 @@ extension PianoSegmentControl: PianoSetup {
     func setup(for pianoMode: Bool, to view: UIView) {
         
         if pianoMode {
-            guard let segmentControl = view.subView(tag: ViewTag.PianoSegmentControl) as? PianoSegmentControl,
-                let pianoView = view.subView(tag: ViewTag.PianoView) as? PianoView,
-                let textView = view.subView(tag: ViewTag.PianoTextView) as? PianoTextView else { return }
+            guard let segmentControl = view.createSubviewIfNeeded(viewTag: ViewTag.PianoSegmentControl) as? PianoSegmentControl,
+                let pianoView = view.createSubviewIfNeeded(viewTag: ViewTag.PianoView) as? PianoView,
+                let textView = view.createSubviewIfNeeded(viewTag: ViewTag.PianoTextView) as? PianoTextView else { return }
             view.insertSubview(segmentControl, belowSubview: textView)
             segmentControl.pianoView = pianoView
             segmentControl.snp.makeConstraints({ (make) in
@@ -113,7 +113,7 @@ extension PianoSegmentControl: PianoSetup {
             })
             
         } else {
-            guard let segmentControl = view.subView(tag: ViewTag.PianoSegmentControl) as? PianoSegmentControl else { return }
+            guard let segmentControl = view.subView(viewTag: ViewTag.PianoSegmentControl) as? PianoSegmentControl else { return }
             UIView.animate(withDuration: 0.33, animations: {
                 view.constraints.forEach { (constraint) in
                     if let identifier = constraint.identifier,
@@ -136,9 +136,9 @@ extension PianoControl: PianoSetup {
     func setup(for pianoMode: Bool, to view: UIView) {
 
         if pianoMode {
-            guard let controlView = view.subView(tag: ViewTag.PianoControl) as? PianoControl,
-                let pianoView = view.subView(tag: ViewTag.PianoView) as? PianoView,
-                let textView = view.subView(tag: ViewTag.PianoTextView) as? PianoTextView else { return }
+            guard let controlView = view.createSubviewIfNeeded(viewTag: ViewTag.PianoControl) as? PianoControl,
+                let pianoView = view.createSubviewIfNeeded(viewTag: ViewTag.PianoView) as? PianoView,
+                let textView = view.createSubviewIfNeeded(viewTag: ViewTag.PianoTextView) as? PianoTextView else { return }
             controlView.textAnimatable = pianoView
             controlView.effectable = textView
             controlView.snp.makeConstraints({ (make) in
