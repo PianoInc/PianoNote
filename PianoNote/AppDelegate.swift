@@ -34,6 +34,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let newModel = RealmNoteModel.getNewModel(content: "", categoryRecordName: "")
 //        ModelManager.saveNew(model: newModel)
         
+        //Fetch tags, textconfigurations & if they don't exist. Make one
+        guard let realm = try? Realm() else {return true}
+        if realm.objects(RealmTagsModel.self).count == 0 {
+            
+            class FlagReference {
+                var flag = false
+            }
+            
+            let tagFlag = FlagReference()
+            
+            CloudManager.shared.privateDatabase.query(for: RealmTagsModel.recordTypeString, recordFetchedBlock: { (record) in
+                if tagFlag.flag == false {
+                    CloudManager.shared.privateDatabase.syncChanged(record: record, isShared: false)
+                }
+                tagFlag.flag = true
+            }) { (_, _) in
+                if !tagFlag.flag {
+                    ModelManager.saveNew(model: RealmTagsModel.getNewModel())
+                }
+            }
+            
+        }
+        
         return true
     }
     
@@ -43,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             fileURL: url,
             // Set the new schema version. This must be greater than the previously used
             // version (if you've never set a schema version before, the version is 0).
-            schemaVersion: 30,
+            schemaVersion: 31,
             
             // Set the block which will be called automatically when opening a Realm with
             // a schema version lower than the one set above

@@ -113,7 +113,6 @@ class FolderViewController: DRViewController {
             tags[0] = allFolderName
             data.append(FolderData(section: "폴더", row: tags))
         } else {
-            ModelManager.saveNew(model: RealmTagsModel.getNewModel())
             data.append(FolderData(section: "폴더", row: [allFolderName]))
         }
         
