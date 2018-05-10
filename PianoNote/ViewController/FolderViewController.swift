@@ -10,7 +10,8 @@ import UIKit
 import AsyncDisplayKit
 import RealmSwift
 
-fileprivate let allFolderName = "모든 메모"
+fileprivate let allFolderName = "allMemo".locale
+
 class FolderViewController: DRViewController {
     
     @IBOutlet private var newFolderButton: UIButton!
@@ -21,6 +22,8 @@ class FolderViewController: DRViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nodeCtrl.isHidden = true
+        nodeCtrl.viewController = self
         view.addSubnode(nodeCtrl)
         newFolderButton.titleLabel?.font = UIFont.systemFont(ofSize: 17.fit, weight: .regular)
         newFolderButton.setTitle("newFolder".locale, for: .normal)
@@ -29,13 +32,29 @@ class FolderViewController: DRViewController {
         initData()
         initNavi()
         setNotificationToken()
-        nodeCtrl.viewController = self
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToNoteList" {
-            (segue.destination as? NoteListViewController)?.navTitle = sender as! String
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nodeCtrl.listNode.reloadSections(IndexSet(integer: 0))
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        fadePush()
+    }
+    
+    private func fadePush() {
+        guard nodeCtrl.isHidden else {return}
+        UIView.transition(with: navigationController!.view, duration: 0.5, options: [.transitionCrossDissolve], animations: {
+            let noteListViewCtrl = UIStoryboard.view(type: NoteListViewController.self)
+            noteListViewCtrl.navTitle = "allMemo".locale
+            self.present(view: noteListViewCtrl, animated: false)
+        }, completion: { _ in
+            self.nodeCtrl.isHidden = false
+            self.nodeCtrl.listNode.contentInset.bottom = self.toolHeight
+            self.newFolderButton.isHidden = false
+        })
     }
     
     private func setNotificationToken () {
@@ -77,6 +96,7 @@ class FolderViewController: DRViewController {
         } else {
             inserted = (minLength..<newTags.count).map { IndexPath(item: $0, section: 0)}
         }
+        nodeCtrl.data[0].row = newTags
 
         nodeCtrl.listNode.reloadItems(at: changed)
 
@@ -103,20 +123,22 @@ class FolderViewController: DRViewController {
             let tagsModel = realm.objects(RealmTagsModel.self).first {
             var tags = tagsModel.tags.components(separatedBy: RealmTagsModel.tagSeparator)
             tags[0] = allFolderName
-            data.append(FolderData(section: "폴더", row: tags))
+            data.append(FolderData(section: "category".locale, row: tags))
         } else {
             ModelManager.saveNew(model: RealmTagsModel.getNewModel())
-            data.append(FolderData(section: "폴더", row: [allFolderName]))
+            data.append(FolderData(section: "category".locale, row: [allFolderName]))
         }
         
-        data.append(FolderData(section: "삭제된 메모", row: nil))
-        data.append(FolderData(section: "커뮤니티", row: nil))
-        data.append(FolderData(section: "Info", row: nil))
+        data.append(FolderData(section: "deleteMemo".locale, row: nil))
+        data.append(FolderData(section: "community".locale, row: nil))
+        data.append(FolderData(section: "info".locale, row: nil))
         nodeCtrl.data = data
     }
     
     private func initNavi() {
         navi { (navi, item) in
+            navi.navigationBar.alpha = 0
+            item.title = "category".locale
             item.rightBarButtonItem?.title = "edit".locale
             navi.toolbarItems = toolbarItems
             navi.toolbarItems![1].title = String(format: "selectFolderCount".locale, 0)
@@ -158,16 +180,24 @@ class FolderViewController: DRViewController {
     }
     
     @IBAction private func tool(delete button: UIBarButtonItem) {
-        //TODO: delete button
-        nodeCtrl.data[0].row = nodeCtrl.data[0].row!.filter({
+        
+        var datas = nodeCtrl.data[0].row!
+        datas[0] = ""
+        datas = datas.filter({
             return !nodeCtrl.removeCandidate.contains($0)
         })
+        
+        let tags = datas.joined(separator: RealmTagsModel.tagSeparator)
         nodeCtrl.removeCandidate.removeAll()
-        if nodeCtrl.data[0].row!.count > 1 {
-            nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
-        } else {
-            navi(edit: button)
-        }
+        
+        guard let realm = try? Realm(),
+            let tagsModel = realm.objects(RealmTagsModel.self).first else {return}
+        ModelManager.update(id: tagsModel.id, type: RealmTagsModel.self, kv: [Schema.Tags.tags: tags])
+//        if nodeCtrl.data[0].row!.count > 1 {
+//            nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
+//        } else {
+//            navi(edit: button)
+//        }
     }
     
     @IBAction private func action(newFolder: ASButtonNode) {
@@ -215,7 +245,7 @@ class FolderNodeController: ASDisplayNode {
     
     fileprivate let countBinder = DRBinder(0)
     fileprivate var isEdit = false
-    fileprivate var viewController: UIViewController?
+    fileprivate weak var viewController: UIViewController?
     var realm: Realm?
     
     fileprivate let uDetectNode = ASDisplayNode()
@@ -232,7 +262,6 @@ class FolderNodeController: ASDisplayNode {
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
-        listNode.contentInset.bottom = toolHeight
         listNode.view.alwaysBounceVertical = true
         listNode.backgroundColor = .clear
         listNode.allowsSelection = false
@@ -270,9 +299,10 @@ class FolderNodeController: ASDisplayNode {
             listNode.reloadItems(at: [indexPath])
         } else {
             let point = tap.location(in: listNode.view)
-            guard let indexPath = listNode.indexPathForItem(at: point), indexPath.row != 0 else {return}
-            let data = self.data[indexPath.section].row![indexPath.item]
-            self.viewController?.performSegue(withIdentifier: "goToNoteList", sender: data)
+            guard let indexPath = listNode.indexPathForItem(at: point) else {return}
+            let noteListViewCtrl = UIStoryboard.view(type: NoteListViewController.self)
+            noteListViewCtrl.navTitle = data[indexPath.section].row![indexPath.row]
+            viewController?.present(view: noteListViewCtrl)
         }
     }
     
@@ -308,6 +338,14 @@ class FolderNodeController: ASDisplayNode {
             guard !moveItem.origin.isEmpty else {return}
             if let delete = data[0].row?.remove(at: moveItem.origin.row) {
                 data[0].row?.insert(delete, at: moveItem.dest.row)
+                
+                var tags = data[0].row!
+                tags[0] = ""
+                guard let realm = try? Realm(),
+                    let tagsModel = realm.objects(RealmTagsModel.self).first else {return}
+                
+                ModelManager.update(id: tagsModel.id, type: RealmTagsModel.self,
+                                    kv: [Schema.Tags.tags: tags.joined(separator: RealmTagsModel.tagSeparator)])
             }
             listNode.reloadSections(IndexSet(integer: moveItem.origin.section))
             moveItem.item.removeFromSuperview()
@@ -389,7 +427,7 @@ extension FolderNodeController: ASCollectionViewLayoutInspecting {
     }
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForSupplementaryNodeOfKind kind: String, at indexPath: IndexPath) -> ASSizeRange {
-        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: 80.fit))
+        return ASSizeRange(min: .zero, max: CGSize(width: collectionView.bounds.width, height: (indexPath.section == 0) ? 15.fit : 80.fit))
     }
     
     func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
@@ -411,8 +449,8 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> ASCellNodeBlock {
         let data = self.data[indexPath.section]
         return { () -> ASCellNode in
-            let sectionNode = FolderSectionNode(title: data.section, isFolder: (data.row != nil))
-            guard indexPath.section != 0 else {return sectionNode}
+            guard indexPath.section != 0 else {return ASCellNode()}
+            let sectionNode = FolderSectionNode(title: data.section)
             sectionNode.isEdit = self.isEdit
             return sectionNode
         }
@@ -422,10 +460,18 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
         let data = self.data[indexPath.section].row!
         let tag = RealmTagsModel.tagSeparator + data[indexPath.row] + RealmTagsModel.tagSeparator
         var count: Int? = nil
-        if let results = realm?.objects(RealmNoteModel.self)
-            .filter("tags CONTAINS[cd] %@ AND isInTrash = false", tag) {
-            count = results.count
+        
+        if data[indexPath.row] == allFolderName {
+            if let results = realm?.objects(RealmNoteModel.self).filter("isInTrash = false") {
+                count = results.count
+            }
+        } else {
+            if let results = realm?.objects(RealmNoteModel.self)
+                .filter("tags CONTAINS[cd] %@ AND isInTrash = false", tag) {
+                count = results.count
+            }
         }
+        
         return { () -> ASCellNode in
             let rowNode = FolderRowNode(title: data[indexPath.row], count: String(count ?? 0))
             
@@ -443,25 +489,27 @@ class FolderSectionNode: ASCellNode {
     fileprivate let titleNode = ASTextNode()
     fileprivate let arrowNode = ASImageNode()
     
-    fileprivate var isFolder = true
     fileprivate var isEdit = false
     
-    init(title: String, isFolder: Bool) {
-        self.isFolder = isFolder
+    init(title: String) {
         super.init()
         automaticallyManagesSubnodes = true
         
         titleNode.isLayerBacked = true
-        let titleFont = UIFont.systemFont(ofSize: isFolder ? 34.fit: 22.fit, weight: .bold)
+        let titleFont = UIFont.systemFont(ofSize:22.fit, weight: .bold)
         titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : titleFont])
         
-        arrowNode.isHidden = isFolder
         arrowNode.image = #imageLiteral(resourceName: "nextArrow")
+        
+        ASMainSerialQueue().performBlock {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(self.action(select:)))
+            self.view.addGestureRecognizer(tap)
+        }
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         let titleCenter = ASCenterLayoutSpec(centeringOptions: .XY, sizingOptions: .minimumXY, child: titleNode)
-        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: isFolder ? 24.5.fit: 16.5.fit), child: titleCenter)
+        let titleInset = ASInsetLayoutSpec(insets: UIEdgeInsets(l: 16.5.fit), child: titleCenter)
         
         arrowNode.style.preferredLayoutSize = ASLayoutSize(width: ASDimension(unit: .points, value: 8.fit), height: ASDimension(unit: .points, value: 13.fit))
         let arrowCenter = ASCenterLayoutSpec(centeringOptions: .XY, sizingOptions: .minimumXY, child: arrowNode)
@@ -469,7 +517,7 @@ class FolderSectionNode: ASCellNode {
         
         let hStack = ASStackLayoutSpec.horizontal()
         hStack.style.preferredSize = constrainedSize.max
-        if !isFolder {hStack.style.preferredSize.height -= 20.fit}
+        hStack.style.preferredSize.height -= 20.fit
         hStack.justifyContent = .spaceBetween
         hStack.children = [titleInset, arrowInset]
         return hStack
@@ -478,6 +526,17 @@ class FolderSectionNode: ASCellNode {
     override func layout() {
         super.layout()
         alpha = isEdit ? 0.2 : 1
+    }
+
+    @objc private func action(select: UITapGestureRecognizer) {
+        guard let currentVC = UIWindow.topVC, let indexPath = indexPath else {return}
+        if indexPath.section == 1 {
+            currentVC.present(id: "RecycleViewController")
+        } else if indexPath.section == 2 {
+            currentVC.present(id: "FacebookViewController")
+        } else if indexPath.section == 3 {
+            currentVC.present(id: "InfoViewController")
+        }
     }
     
 }

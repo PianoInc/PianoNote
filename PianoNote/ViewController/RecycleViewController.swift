@@ -22,7 +22,6 @@ class RecycleViewController: DRViewController {
     
     private func initData() {
         var data = [NoteData]()
-        data.append(NoteData(section: "삭제된 메모", row: nil))
         data.append(NoteData(section: "오늘", row: [""]))
         data.append(NoteData(section: "오늘", row: ["", ""]))
         data.append(NoteData(section: "1월 18일", row: ["", "", ""]))
@@ -31,6 +30,7 @@ class RecycleViewController: DRViewController {
     
     private func initNavi() {
         navi { (navi, item) in
+            item.title = "deleteMemo".locale
             item.rightBarButtonItem?.title = "selectAll".locale
             navi.toolbarItems = toolbarItems
             navi.toolbarItems?[0].title = "restore".locale
@@ -54,7 +54,7 @@ class RecycleViewController: DRViewController {
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { _ in
-            self.nodeCtrl.listNode.contentInset.bottom = self.toolHeight * 2
+            self.nodeCtrl.listNode.contentInset.bottom = self.toolHeight
         })
     }
     
@@ -111,7 +111,7 @@ class RecycleNodeController: ASDisplayNode {
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing = 0
         (listNode.view.collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing = 0
         listNode.registerSupplementaryNode(ofKind: UICollectionElementKindSectionHeader)
-        listNode.contentInset.bottom = toolHeight * 2
+        listNode.contentInset.bottom = toolHeight
         listNode.view.alwaysBounceVertical = true
         listNode.backgroundColor = .clear
         listNode.allowsSelection = false
@@ -180,7 +180,7 @@ extension RecycleNodeController: ASCollectionDelegate, ASCollectionDataSource {
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
             let title = self.data[indexPath.section].section
-            let recycleSectionNode = RecycleSectionNode(title: title, isHeader: indexPath.section == 0)
+            let recycleSectionNode = RecycleSectionNode(title: title)
             return recycleSectionNode
         }
     }
@@ -216,12 +216,12 @@ class RecycleSectionNode: ASCellNode {
     
     fileprivate let titleNode = ASTextNode()
     
-    init(title: String, isHeader: Bool) {
+    init(title: String) {
         super.init()
         automaticallyManagesSubnodes = true
         
         titleNode.isLayerBacked = true
-        let titleFont = UIFont.systemFont(ofSize: isHeader ? 34.fit: 23.fit, weight: .bold)
+        let titleFont = UIFont.systemFont(ofSize: 23.fit, weight: .bold)
         titleNode.attributedText = NSAttributedString(string: title, attributes: [.font : titleFont])
     }
     
