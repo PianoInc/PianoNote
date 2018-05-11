@@ -10,7 +10,7 @@ import CoreText
 
 
 open class InteractiveTextView: UITextView {
-    let dispatcher = InteractiveAttachmentCellDispatcher()
+    let dispatcher = InteractiveAttachmentCellDispatcher() //cell frame delegate
     private var contentOffsetObserver: NSKeyValueObservation?
     private var boundsObserver: NSKeyValueObservation?
     var displayLink: CADisplayLink?

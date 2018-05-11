@@ -113,7 +113,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="일기" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wkj-Yh-oiM">
-                                                                    <rect key="frame" x="14" y="41" width="48.5" height="33.5"/>
+                                                                    <rect key="frame" x="14" y="41" width="295" height="33.5"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -138,7 +138,7 @@
                                                                 <constraint firstItem="tZL-3Y-TEa" firstAttribute="top" secondItem="lag-jg-O4u" secondAttribute="top" constant="15" id="ayE-uG-OCh"/>
                                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="CTa-00-bSX" secondAttribute="bottom" constant="5" id="f2D-Tm-yIT"/>
                                                                 <constraint firstAttribute="trailing" secondItem="CTa-00-bSX" secondAttribute="trailing" constant="20" id="nLa-p2-4bX"/>
-                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Wkj-Yh-oiM" secondAttribute="trailing" constant="14" id="rI4-x9-Ft8"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Wkj-Yh-oiM" secondAttribute="trailing" constant="14" id="rI4-x9-Ft8"/>
                                                                 <constraint firstItem="ZuK-Br-PXR" firstAttribute="leading" secondItem="lag-jg-O4u" secondAttribute="leading" constant="15" id="w8U-H9-BC3"/>
                                                                 <constraint firstItem="Wkj-Yh-oiM" firstAttribute="top" secondItem="ZuK-Br-PXR" secondAttribute="bottom" constant="12" id="ws9-8Y-Zpc"/>
                                                                 <constraint firstAttribute="height" priority="800" constant="128" id="xi8-OE-WmT"/>
@@ -279,7 +279,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DDh-d9-W9R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1524" y="134"/>
+            <point key="canvasLocation" x="1524" y="133.5832083958021"/>
         </scene>
         <!--Clear Navigation Controller-->
         <scene sceneID="Rbl-DM-2pa">
