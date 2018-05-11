@@ -44,8 +44,8 @@ class PianoNoteSizeInspector {
     private let key = "sizeKey"
     
     private init() {
-        let level = UserDefaults.standard.integer(forKey: key)
-        if let size = PianoNoteSize(level: level) {
+        if let level = UserDefaults.standard.value(forKey: key) as? Int,
+            let size = PianoNoteSize(level: level) {
             currentSize = size
         }
     }

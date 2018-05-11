@@ -55,14 +55,19 @@ extension RxCloudDatabase {
 }
 
 extension RxCloudDatabase {
-    func query(for recordType: String) {
+    func query(for recordType: String, recordFetchedBlock: ((CKRecord) -> Void)? = nil,
+               completion: ((CKQueryCursor?, Error?) -> Void)? = nil) {
         let query = CKQuery(recordType: recordType, predicate: NSPredicate(value: true))
         let isShared = self.database.databaseScope == .shared
 
         let operation = CKQueryOperation(query: query)
-        operation.recordFetchedBlock = {[weak self] (record) in
+        
+        operation.recordFetchedBlock = recordFetchedBlock ?? {[weak self] (record) in
             self?.syncChanged(record: record, isShared: isShared)
         }
+        
+        operation.queryCompletionBlock = completion
+        
         operation.qualityOfService = .utility
 
         database.add(operation)

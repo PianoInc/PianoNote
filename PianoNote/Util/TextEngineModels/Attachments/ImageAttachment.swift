@@ -35,6 +35,7 @@ class ImageAttachment: InteractiveTextAttachment, AttributeContainingAttachment 
         super.init(coder: aDecoder)
     }
     
+    ///This is a substitution of copy() function. It's used when dragging cell
     override func getCopyForDragInteraction() -> InteractiveTextAttachment {
         return ImageAttachment(attachment: self)
     }

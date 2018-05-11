@@ -11,7 +11,7 @@ import CloudKit
 
 @objc protocol Recordable {
     var recordName: String {get set}
-    var isShared: Bool {get set}
+    var isInSharedDB: Bool {get set}
     var ckMetaData: Data {get set}
     @objc optional func getRecord() -> CKRecord
 }
@@ -25,7 +25,7 @@ class RealmTagsModel: Object, Recordable {
     @objc dynamic var tags = ""
     @objc dynamic var recordName = ""
     @objc dynamic var ckMetaData = Data()
-    @objc dynamic var isShared = false
+    @objc dynamic var isInSharedDB = false
     
     override static func primaryKey() -> String? {
         return "id"
@@ -69,9 +69,11 @@ class RealmNoteModel: Object, Recordable {
     @objc dynamic var ckMetaData = Data()
     @objc dynamic var isModified = Date()
     
-    @objc dynamic var isShared = false
+    @objc dynamic var isInSharedDB = false
+    @objc dynamic var shareRecordName: String? = nil
     
     @objc dynamic var isPinned = false
+    @objc dynamic var isLocked = false
     @objc dynamic var isInTrash = false
     
     @objc dynamic var tags = ""
@@ -116,7 +118,7 @@ class RealmImageModel: Object, Recordable {
     @objc dynamic var recordName = ""
     @objc dynamic var ckMetaData = Data()
     
-    @objc dynamic var isShared = false
+    @objc dynamic var isInSharedDB = false
     
     @objc dynamic var noteRecordName = ""
     
@@ -145,10 +147,26 @@ class RealmImageModel: Object, Recordable {
         newModel.recordName = record.recordID.recordName
         newModel.ckMetaData = Data(referencing: data)
         newModel.id = id
-        newModel.isShared = sharedZoneID != nil
+        newModel.isInSharedDB = sharedZoneID != nil
         newModel.noteRecordName = noteRecordName
         newModel.image = UIImageJPEGRepresentation(image, 1.0) ?? Data()
         
         return newModel
+    }
+}
+
+class RealmCKShare: Object {
+    
+    static let recordTypeString = "cloudkit.share"
+    
+    @objc var recordName = ""
+    @objc var shareData = Data()
+    
+    override static func primaryKey() -> String? {
+        return "recordName"
+    }
+    
+    override static func ignoredProperties() -> [String] {
+        return ["recordTypeString"]
     }
 }
