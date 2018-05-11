@@ -20,21 +20,12 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setTableView()
         setObserver()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-
-    private func setTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        tableView.estimatedRowHeight = 93
-        tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     private func setObserver() {

@@ -18,17 +18,12 @@ class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 221
-        tableView.contentInset = UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
         
         navigationItem.title = navTitle
         navigationController?.navigationBar.alpha = 1
         
         registerToken()
+
     }
 
     deinit {
@@ -83,7 +78,13 @@ class NoteListViewController: UIViewController {
         navigationController?.pushViewController(viewCtrl, animated: true)
     }
     
-
+    @IBAction func tapSearch(_ sender: Any) {
+        
+        guard let searchViewController = UIStoryboard(name: "Main2", bundle: nil).instantiateInitialViewController() as? SearchViewController else { return }
+        
+        present(view: searchViewController, animated: true)
+    }
+    
 }
 
 extension NoteListViewController: UITableViewDataSource, UITableViewDelegate {
@@ -160,7 +161,13 @@ extension NoteListViewController: UIScrollViewDelegate {
             cell.cellGestureRecognizer?.reset()
             cell.animateToDefault()
         }
+        
+        
+        
+        //navBarHeight == 96 이므로 이거를 기준으로 더 커질 때를 트래킹해서 검색 바 띄워주기
+        
     }
+
 }
 
 extension NoteListViewController: NoteListCellDelegate {

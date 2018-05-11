@@ -18,12 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUV-i7-rYO">
-                                <rect key="frame" x="0.0" y="116" width="375" height="551"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUV-i7-rYO">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="noteListNewCell" rowHeight="71" id="b1q-u3-wh7" customClass="NoteListNewCell" customModule="PianoNote" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="1" width="375" height="71"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="71"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="b1q-u3-wh7" id="E47-Oy-15c">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="71"/>
@@ -74,13 +74,14 @@
                                                 <constraint firstAttribute="trailing" secondItem="uxv-Bk-y6i" secondAttribute="trailing" constant="20" id="fXv-FR-wPm"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="backView" destination="uxv-Bk-y6i" id="NWj-1C-wwx"/>
                                             <outlet property="messageLabel" destination="ztB-lz-Hnn" id="8N8-Vj-C0b"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="noteListCell" rowHeight="221" id="o5u-i7-CfG" customClass="NoteListCell" customModule="PianoNote" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="375" height="221"/>
+                                        <rect key="frame" x="0.0" y="99" width="375" height="221"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="o5u-i7-CfG" id="uwc-UR-NCf">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="221"/>
@@ -244,6 +245,7 @@
                                                 <constraint firstItem="4AL-1k-ao9" firstAttribute="top" secondItem="uwc-UR-NCf" secondAttribute="top" id="xS0-KH-euo"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="backView" destination="0Ye-6f-7Gx" id="vdv-V8-mZX"/>
                                             <outlet property="categoryLabel" destination="ZuK-Br-PXR" id="6NG-PD-emr"/>
@@ -262,17 +264,28 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="gXX-ac-ge3" id="03j-52-x1o"/>
+                                    <outlet property="delegate" destination="gXX-ac-ge3" id="Sca-bq-Y3Y"/>
+                                </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="zUV-i7-rYO" firstAttribute="leading" secondItem="pnB-z0-JLI" secondAttribute="leading" id="1Aq-hs-YdQ"/>
                             <constraint firstItem="pnB-z0-JLI" firstAttribute="trailing" secondItem="zUV-i7-rYO" secondAttribute="trailing" id="EBu-Jk-OIA"/>
-                            <constraint firstItem="zUV-i7-rYO" firstAttribute="top" secondItem="pnB-z0-JLI" secondAttribute="top" id="Kwa-eF-loN"/>
+                            <constraint firstItem="zUV-i7-rYO" firstAttribute="top" secondItem="Siz-FC-22D" secondAttribute="top" id="V4y-G3-cXI"/>
                             <constraint firstItem="pnB-z0-JLI" firstAttribute="bottom" secondItem="zUV-i7-rYO" secondAttribute="bottom" id="cf6-Fn-VkF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pnB-z0-JLI"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Zrh-0s-K1e">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="0jc-CV-GEx">
+                            <connections>
+                                <action selector="tapSearch:" destination="gXX-ac-ge3" id="ZWT-VH-GPg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="zUV-i7-rYO" id="NtY-9h-uu4"/>
                     </connections>
