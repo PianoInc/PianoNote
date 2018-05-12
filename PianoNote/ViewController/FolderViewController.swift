@@ -22,7 +22,7 @@ class FolderViewController: DRViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         nodeCtrl.isHidden = true
-        nodeCtrl.viewController = self
+        nodeCtrl.viewCtrl = self
         view.addSubnode(nodeCtrl)
         newFolderButton.titleLabel?.font = UIFont.systemFont(ofSize: 17.fit, weight: .regular)
         newFolderButton.setTitle("newFolder".locale, for: .normal)
@@ -234,6 +234,8 @@ typealias FolderData = (section: String, row: [String]?)
 
 class FolderNodeController: ASDisplayNode {
     
+    fileprivate weak var viewCtrl: UIViewController?
+    
     typealias MoveItemSpec = (origin: IndexPath, dest: IndexPath, item: UIView)
     fileprivate var moveItem = MoveItemSpec(origin: IndexPath(), dest: IndexPath(), item: UIView())
     
@@ -246,8 +248,7 @@ class FolderNodeController: ASDisplayNode {
     
     fileprivate let countBinder = DRBinder(0)
     fileprivate var isEdit = false
-    fileprivate weak var viewController: UIViewController?
-    var realm: Realm?
+    fileprivate var realm: Realm?
     
     fileprivate let uDetectNode = ASDisplayNode()
     fileprivate let dDetectNode = ASDisplayNode()
@@ -313,7 +314,7 @@ class FolderNodeController: ASDisplayNode {
             guard let indexPath = listNode.indexPathForItem(at: point) else {return}
             let noteListViewCtrl = UIStoryboard.view(type: NoteListViewController.self)
             noteListViewCtrl.navTitle = data[indexPath.section].row![indexPath.row]
-            viewController?.present(view: noteListViewCtrl)
+            viewCtrl?.present(view: noteListViewCtrl)
         }
     }
     
