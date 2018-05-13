@@ -12,8 +12,8 @@ import RealmSwift
 class NoteListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    var results: Results<RealmNoteModel>?
-    var notificationToken: NotificationToken?
+    private var results: Results<RealmNoteModel>?
+    private var notificationToken: NotificationToken?
     var navTitle = ""
     
     override func viewDidLoad() {
@@ -34,11 +34,6 @@ class NoteListViewController: UIViewController {
     deinit {
         notificationToken?.invalidate()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-    }
     
     func registerToken() {
         guard let realm = try? Realm() else {return}
@@ -50,7 +45,7 @@ class NoteListViewController: UIViewController {
 
         let tag = RealmTagsModel.tagSeparator + navTitle + RealmTagsModel.tagSeparator
 
-        if navTitle == "모든 메모" {
+        if navTitle == "AllMemo".locale {
             results = realm.objects(RealmNoteModel.self)
                 .filter("isInTrash = false", tag)
                 .sorted(by: sortDescriptors)

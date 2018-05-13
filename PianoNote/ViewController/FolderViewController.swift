@@ -22,7 +22,7 @@ class FolderViewController: DRViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         nodeCtrl.isHidden = true
-        nodeCtrl.viewController = self
+        nodeCtrl.viewCtrl = self
         view.addSubnode(nodeCtrl)
         newFolderButton.titleLabel?.font = UIFont.systemFont(ofSize: 17.fit, weight: .regular)
         newFolderButton.setTitle("newFolder".locale, for: .normal)
@@ -77,32 +77,32 @@ class FolderViewController: DRViewController {
     
     private func tagsUpdated(newTags: [String]) {
         guard let oldTags = nodeCtrl.data[0].row else { return }
-
+        
         var inserted: [IndexPath] = []
         var changed: [IndexPath] = []
         var deleted: [IndexPath] = []
-
+        
         let minLength = min(oldTags.count, newTags.count)
-
+        
         for i in 0..<minLength {
             if oldTags[i] != newTags[i] {
                 changed.append(IndexPath(item: i, section: 0))
             }
         }
-
+        
         if oldTags.count > newTags.count {
             deleted = (minLength..<oldTags.count).map { IndexPath(item: $0, section: 0)}
         } else {
             inserted = (minLength..<newTags.count).map { IndexPath(item: $0, section: 0)}
         }
         nodeCtrl.data[0].row = newTags
-
+        
         nodeCtrl.listNode.reloadItems(at: changed)
-
+        
         if !deleted.isEmpty {
             nodeCtrl.listNode.deleteItems(at: deleted)
         }
-
+        
         if !inserted.isEmpty {
             nodeCtrl.listNode.insertItems(at: inserted)
         }
@@ -111,8 +111,10 @@ class FolderViewController: DRViewController {
     
     private func initConst() {
         makeConst(newFolderButton) {
-            $0.bottom.equalTo(-(self.safeInset.bottom + 5.fit))
-            $0.trailing.equalTo(-(self.safeInset.right + 15.fit))
+            $0.bottom.equalTo(-self.safeInset.bottom)
+            $0.trailing.equalTo(-self.safeInset.right)
+            $0.width.equalTo(120.fit)
+            $0.height.equalTo(40.fit)
         }
     }
     
@@ -191,11 +193,11 @@ class FolderViewController: DRViewController {
         guard let realm = try? Realm(),
             let tagsModel = realm.objects(RealmTagsModel.self).first else {return}
         ModelManager.update(id: tagsModel.id, type: RealmTagsModel.self, kv: [Schema.Tags.tags: tags])
-//        if nodeCtrl.data[0].row!.count > 1 {
-//            nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
-//        } else {
-//            navi(edit: button)
-//        }
+        //        if nodeCtrl.data[0].row!.count > 1 {
+        //            nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 0...(nodeCtrl.data.count - 1)))
+        //        } else {
+        //            navi(edit: button)
+        //        }
     }
     
     @IBAction private func action(newFolder: ASButtonNode) {
@@ -204,13 +206,13 @@ class FolderViewController: DRViewController {
         alert.addAction(UIAlertAction(title: "create".locale, style: .default) { _ in
             guard let realm = try? Realm(),
                 let tagsModel = realm.objects(RealmTagsModel.self).first else { return }
-
+            
             var tags = self.nodeCtrl.data[0].row!
             tags[0] = ""
             tags.append(alert.textFields![0].text!)
-
+            
             ModelManager.update(id: tagsModel.id, type: RealmTagsModel.self,
-                    kv: [Schema.Tags.tags: tags.joined(separator: RealmTagsModel.tagSeparator)])
+                                kv: [Schema.Tags.tags: tags.joined(separator: RealmTagsModel.tagSeparator)])
         })
         alert.addTextField {
             $0.placeholder = "name".locale
@@ -231,6 +233,8 @@ typealias FolderData = (section: String, row: [String]?)
 
 class FolderNodeController: ASDisplayNode {
     
+    fileprivate weak var viewCtrl: UIViewController?
+    
     typealias MoveItemSpec = (origin: IndexPath, dest: IndexPath, item: UIView)
     fileprivate var moveItem = MoveItemSpec(origin: IndexPath(), dest: IndexPath(), item: UIView())
     
@@ -243,12 +247,21 @@ class FolderNodeController: ASDisplayNode {
     
     fileprivate let countBinder = DRBinder(0)
     fileprivate var isEdit = false
-    fileprivate weak var viewController: UIViewController?
-    var realm: Realm?
+    fileprivate var realm: Realm?
     
     fileprivate let uDetectNode = ASDisplayNode()
     fileprivate let dDetectNode = ASDisplayNode()
     fileprivate var scroller: Timer!
+    
+    fileprivate var visibleFirst: Bool {
+        let firstIndex = IndexPath(row: 0, section: 0)
+        return listNode.indexPathsForVisibleItems.contains(firstIndex)
+    }
+    
+    fileprivate var visibleEnd: Bool {
+        let endIndex = IndexPath(row: self.listNode.numberOfItems(inSection: 0) - 1, section: 0)
+        return listNode.indexPathsForVisibleItems.contains(endIndex)
+    }
     
     override init() {
         super.init()
@@ -300,7 +313,7 @@ class FolderNodeController: ASDisplayNode {
             guard let indexPath = listNode.indexPathForItem(at: point) else {return}
             let noteListViewCtrl = UIStoryboard.view(type: NoteListViewController.self)
             noteListViewCtrl.navTitle = data[indexPath.section].row![indexPath.row]
-            viewController?.present(view: noteListViewCtrl)
+            viewCtrl?.present(view: noteListViewCtrl)
         }
     }
     
@@ -348,21 +361,20 @@ class FolderNodeController: ASDisplayNode {
             listNode.reloadSections(IndexSet(integer: moveItem.origin.section))
             moveItem.item.removeFromSuperview()
             moveItem = MoveItemSpec(origin: IndexPath(), dest: IndexPath(), item: UIView())
-            autoScroll(prepare: false, with: true)
+            autoScroll(prepare: false, remove: true)
         }
     }
-    
-    private func autoScroll(prepare: Bool, with detector: Bool = false) {
+    private func autoScroll(prepare: Bool, remove: Bool = false) {
         if prepare {
-            uDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + naviHeight,
+            uDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + naviHeight - safeInset.top,
                                        width: listNode.bounds.width, height: 40.fit)
             listNode.addSubnode(uDetectNode)
-            let offset = listNode.bounds.height - 40.fit - toolHeight
-            dDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + offset,
+            let offsetY = listNode.bounds.height - toolHeight - 40.fit
+            dDetectNode.frame = CGRect(x: 0, y: listNode.contentOffset.y + offsetY,
                                        width: listNode.bounds.width, height: 40.fit)
             listNode.addSubnode(dDetectNode)
         } else {
-            if detector {
+            if remove {
                 uDetectNode.removeFromSupernode()
                 dDetectNode.removeFromSupernode()
             }
@@ -374,13 +386,13 @@ class FolderNodeController: ASDisplayNode {
     
     private func autoScroll(move point: CGPoint) -> Bool {
         if uDetectNode.frame.contains(point) {
-            if scroller == nil {
+            if scroller == nil && !visibleFirst {
                 scroller = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                     let offsetY = self.listNode.contentOffset.y - 40.fit
-                    guard offsetY > -self.naviHeight else {
+                    guard !self.visibleFirst else {
+                        self.moveItem.item.center.y -= 40.fit
+                        self.listNode.setContentOffset(CGPoint(x: 0, y: offsetY), animated: false)
                         self.scroller.invalidate()
-                        self.moveItem.item.center.y -= self.naviHeight + self.listNode.contentOffset.y
-                        self.listNode.setContentOffset(CGPoint(x: 0, y: -self.naviHeight), animated: false)
                         return
                     }
                     self.moveItem.item.center.y -= 40.fit
@@ -388,14 +400,13 @@ class FolderNodeController: ASDisplayNode {
                 }
             }
         } else if dDetectNode.frame.contains(point) {
-            if scroller == nil {
+            if scroller == nil && !visibleEnd {
                 scroller = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                     let offsetY = self.listNode.contentOffset.y + 40.fit
-                    let max = self.listNode.view.contentSize.height - self.listNode.bounds.height + self.toolHeight * 2
-                    guard offsetY < max else {
+                    guard !self.visibleEnd else {
+                        self.moveItem.item.center.y += 40.fit
+                        self.listNode.setContentOffset(CGPoint(x: 0, y: offsetY), animated: false)
                         self.scroller.invalidate()
-                        self.moveItem.item.center.y += max - self.listNode.contentOffset.y
-                        self.listNode.setContentOffset(CGPoint(x: 0, y: max), animated: false)
                         return
                     }
                     self.moveItem.item.center.y += 40.fit
@@ -411,9 +422,9 @@ class FolderNodeController: ASDisplayNode {
 extension FolderNodeController: ASCollectionViewLayoutInspecting {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        uDetectNode.frame.origin.y = naviHeight + scrollView.contentOffset.y
-        let offset = listNode.bounds.height - 40.fit - toolHeight
-        dDetectNode.frame.origin.y = offset + scrollView.contentOffset.y
+        uDetectNode.frame.origin.y = scrollView.contentOffset.y + naviHeight - safeInset.top
+        let offsetY = listNode.bounds.height - toolHeight - 40.fit
+        dDetectNode.frame.origin.y = scrollView.contentOffset.y + offsetY
     }
     
     func scrollableDirections() -> ASScrollDirection {
@@ -479,7 +490,7 @@ extension FolderNodeController: ASCollectionDelegate, ASCollectionDataSource {
             return rowNode
         }
     }
-
+    
 }
 
 class FolderSectionNode: ASCellNode {
@@ -525,7 +536,7 @@ class FolderSectionNode: ASCellNode {
         super.layout()
         alpha = isEdit ? 0.2 : 1
     }
-
+    
     @objc private func action(select: UITapGestureRecognizer) {
         guard let currentVC = UIWindow.topVC, let indexPath = indexPath else {return}
         if indexPath.section == 1 {

@@ -7,31 +7,76 @@
 //
 
 import UIKit
+import RealmSwift
 import AsyncDisplayKit
 
 class RecycleViewController: DRViewController {
     
     private let nodeCtrl = RecycleNodeController()
+    private var results: Results<RealmNoteModel>?
+    private var notificationToken: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nodeCtrl.viewCtrl = self
         view.addSubnode(nodeCtrl)
-        initData()
         initNavi()
+        registerToken()
     }
     
-    private func initData() {
+    deinit {
+        notificationToken?.invalidate()
+    }
+    
+    func registerToken() {
+        guard let realm = try? Realm() else {return}
+        
+        //tagname is navTitle
+        
+        let sortDescriptors = [SortDescriptor(keyPath: "isPinned", ascending: false),
+                               SortDescriptor(keyPath: "isModified", ascending: false)]
+        
+        let tag = RealmTagsModel.tagSeparator + "AllMemo".locale + RealmTagsModel.tagSeparator
+        
+        results = realm.objects(RealmNoteModel.self)
+            .filter("isInTrash = true", tag)
+            .sorted(by: sortDescriptors)
+        
+        //set results
+        
         var data = [NoteData]()
-        data.append(NoteData(section: "오늘", row: [""]))
-        data.append(NoteData(section: "오늘", row: ["", ""]))
-        data.append(NoteData(section: "1월 18일", row: ["", "", ""]))
+        guard let results = results else {return}
+        for model in results {
+            let rowData = ["id" : model.id, "tag" : folder(with: model.tags), "con" : model.content]
+            if data.contains(where: {$0.section == model.isModified.timeFormat}) {
+                let index = data.index(where: {$0.section == model.isModified.timeFormat})!
+                data[index].row?.append(rowData)
+            } else {
+                data.append(NoteData(section: model.isModified.timeFormat, row: [rowData]))
+            }
+        }
         nodeCtrl.data = data
+    }
+    
+    private func folder(with data: String) -> String {
+        var folder = ""
+        let tags = data.components(separatedBy: RealmTagsModel.tagSeparator)
+        for (idx, tag) in tags.enumerated() {
+            guard idx != 0 && idx != (tags.count - 1) else {continue}
+            if !tag.isEmpty {
+                folder.append(tag)
+            } else {
+                folder.append(", ")
+            }
+        }
+        return folder
     }
     
     private func initNavi() {
         navi { (navi, item) in
             item.title = "deleteMemo".locale
-            item.rightBarButtonItem?.title = "selectAll".locale
+            item.rightBarButtonItem?.title = "edit".locale
+            navi.isToolbarHidden = true
             navi.toolbarItems = toolbarItems
             navi.toolbarItems?[0].title = "restore".locale
             navi.toolbarItems?[2].title = String(format: "selectFolderCount".locale, 0)
@@ -39,11 +84,6 @@ class RecycleViewController: DRViewController {
         nodeCtrl.countBinder.subscribe { [weak self] in
             self?.navigationController?.toolbarItems?[2].title = String(format: "selectFolderCount".locale, $0)
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.isToolbarHidden = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -63,7 +103,7 @@ class RecycleViewController: DRViewController {
         navigationController?.isToolbarHidden = true
     }
     
-    @IBAction private func navi(selectAll button: UIBarButtonItem) {
+    @objc private func navi(selectAll button: UIBarButtonItem) {
         let indexPath = nodeCtrl.data.enumerated().compactMap({ (section, data) in
             data.row?.enumerated().map({ (row, data) in
                 IndexPath(row: row, section: section)
@@ -74,22 +114,35 @@ class RecycleViewController: DRViewController {
         } else {
             nodeCtrl.candidate.removeAll()
         }
+        guard !nodeCtrl.data.isEmpty else {return}
         nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 1...(nodeCtrl.data.count - 1)))
+    }
+    
+    @IBAction private func navi(edit button: UIBarButtonItem) {
+        nodeCtrl.isEditMode = !nodeCtrl.isEditMode
+        navigationController?.isToolbarHidden = !nodeCtrl.isEditMode
+        navigationItem.rightBarButtonItem?.title = nodeCtrl.isEditMode ? "cancel".locale : "edit".locale
+        navigationItem.leftBarButtonItem = nil
+        if nodeCtrl.isEditMode {
+            let barButton = UIBarButtonItem(title: "selectAll".locale, style: .plain,
+                                            target: self, action: #selector(navi(selectAll:)))
+            navigationItem.leftBarButtonItem = barButton
+        }
     }
     
     @IBAction private func tool(restore button: UIBarButtonItem) {
         nodeCtrl.candidate.removeAll()
-        nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 1...(nodeCtrl.data.count - 1)))
+        //nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 1...(nodeCtrl.data.count - 1)))
     }
     
     @IBAction private func tool(remove button: UIBarButtonItem) {
         nodeCtrl.candidate.removeAll()
-        nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 1...(nodeCtrl.data.count - 1)))
+        //nodeCtrl.listNode.reloadSections(IndexSet(integersIn: 1...(nodeCtrl.data.count - 1)))
     }
     
 }
 
-typealias NoteData = (section: String, row: [String]?)
+typealias NoteData = (section: String, row: [[String : String]]?)
 
 enum NodePlace {
     case top, middle, bottom, single
@@ -97,12 +150,16 @@ enum NodePlace {
 
 class RecycleNodeController: ASDisplayNode {
     
+    fileprivate weak var viewCtrl: UIViewController?
+    
     fileprivate let listNode = ASCollectionNode(collectionViewLayout: UICollectionViewFlowLayout())
     fileprivate var data = [NoteData]()
     fileprivate var candidate = [IndexPath]() {
         didSet {countBinder.value = candidate.count}
     }
     fileprivate let countBinder = DRBinder(0)
+    
+    fileprivate var isEditMode = false
     
     override init() {
         super.init()
@@ -134,15 +191,24 @@ class RecycleNodeController: ASDisplayNode {
     }
     
     @objc private func action(tap: UITapGestureRecognizer) {
-        let point = tap.location(in: listNode.view)
-        guard let indexPath = listNode.indexPathForItem(at: point) else {return}
-        guard listNode.nodeForItem(at: indexPath) is RecycleRowNode else {return}
-        if candidate.contains(indexPath) {
-            candidate.remove(at: candidate.index(where: {$0 == indexPath})!)
+        if isEditMode {
+            let point = tap.location(in: listNode.view)
+            guard let indexPath = listNode.indexPathForItem(at: point) else {return}
+            guard listNode.nodeForItem(at: indexPath) is RecycleRowNode else {return}
+            if candidate.contains(indexPath) {
+                candidate.remove(at: candidate.index(where: {$0 == indexPath})!)
+            } else {
+                candidate.append(indexPath)
+            }
+            listNode.reloadItems(at: [indexPath])
         } else {
-            candidate.append(indexPath)
+            let point = tap.location(in: listNode.view)
+            guard let indexPath = listNode.indexPathForItem(at: point) else {return}
+            guard let noteViewCtrl = UIStoryboard(name: "Main1", bundle: nil)
+                .instantiateViewController(withIdentifier: "NoteViewController") as? NoteViewController else {return}
+            noteViewCtrl.noteID = data[indexPath.section].row![indexPath.row]["id"]
+            viewCtrl?.present(view: noteViewCtrl)
         }
-        listNode.reloadItems(at: [indexPath])
     }
     
 }
@@ -187,10 +253,11 @@ extension RecycleNodeController: ASCollectionDelegate, ASCollectionDataSource {
     
     func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
         return { () -> ASCellNode in
-            let recycleRowNode = RecycleRowNode(folder: "\(indexPath.row)")
+            guard let data = self.data[indexPath.section].row?[indexPath.row] else {return ASCellNode()}
+            let recycleRowNode = RecycleRowNode(folder: data["tag"]!)
             recycleRowNode.place = self.node(place: indexPath)
             recycleRowNode.isSelect = self.candidate.contains(indexPath)
-            recycleRowNode.content = "12345678901234567890111213141516171819202122232425262728293031323334353637383940"
+            recycleRowNode.content = data["con"]
             return recycleRowNode
         }
     }
@@ -243,7 +310,7 @@ class RecycleRowNode: ASCellNode {
     
     fileprivate var place = NodePlace.single
     fileprivate var isSelect = false
-    fileprivate var content = ""
+    fileprivate var content: String?
     
     init(folder: String) {
         super.init()
@@ -310,13 +377,16 @@ class RecycleRowNode: ASCellNode {
     }
     
     private func continuousText() {
+        guard let content = content else {return}
         let titleFont = UIFont.systemFont(ofSize: 29.2.fit, weight: .bold)
         let titleAttStr = NSAttributedString(string: content, attributes: [.font : titleFont])
-        titleNode.attributedText = titleAttStr.firstLine(width: titleNode.frame.width)
+        let trimTitle = titleAttStr.firstLine(width: titleNode.frame.width).string.trimmingCharacters(in: .whitespacesAndNewlines)
+        titleNode.attributedText = NSAttributedString(string: trimTitle, attributes: [.font : titleFont])
         
         let contentText = titleAttStr.string.sub(titleNode.attributedText!.length...)
+        let trimContent = contentText.trimmingCharacters(in: .whitespacesAndNewlines)
         let contentFont = UIFont.systemFont(ofSize: 16.8.fit)
-        contentNode.attributedText = NSAttributedString(string: contentText, attributes: [.font : contentFont])
+        contentNode.attributedText = NSAttributedString(string: trimContent, attributes: [.font : contentFont])
     }
     
     private func selectionBorder() {
