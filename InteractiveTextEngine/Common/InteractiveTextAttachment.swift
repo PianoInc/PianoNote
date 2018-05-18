@@ -18,7 +18,7 @@ open class InteractiveTextAttachment: NSTextAttachment {
     weak var delegate: InteractiveTextAttachmentDelegate?
 
     //overridable cell reuse identifier
-    open var identifier: String {
+    open var cellIdentifier: String {
         return ""
     }
     

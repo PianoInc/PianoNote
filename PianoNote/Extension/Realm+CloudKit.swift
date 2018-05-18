@@ -36,9 +36,11 @@ extension RealmNoteModel {
         guard let record = CKRecord(coder: coder) else {fatalError("Data poluted!!")}
         coder.finishDecoding()
         
+        guard let asset = try? CKAsset(data: self.attributes) else { fatalError() }
+        
         record[scheme.id] = self.id as CKRecordValue
         record[scheme.content] = self.content as CKRecordValue
-        record[scheme.attributes] = self.attributes as CKRecordValue
+        record[scheme.attributes] = asset as CKRecordValue
         
         record[scheme.tags] = self.tags as CKRecordValue
         record[scheme.isPinned] = (self.isPinned ? 1 : 0) as CKRecordValue
@@ -125,7 +127,8 @@ extension CKRecord {
         
         guard let id = self[schema.id] as? String,
                 let content = self[schema.content] as? String,
-                let attributes = self[schema.attributes] as? Data,
+                let attributesAsset = self[schema.attributes] as? CKAsset,
+                let attributes = try? Data(contentsOf: attributesAsset.fileURL),
                 let tags = self[schema.tags] as? String,
                 let isPinned = self[schema.isPinned] as? Int,
                 let isInTrash = self[schema.isInTrash] as? Int,
@@ -138,6 +141,10 @@ extension CKRecord {
         newNoteModel.ckMetaData = self.getMetaData()
         newNoteModel.isModified = self.modificationDate ?? Date()
         newNoteModel.tags = tags
+        
+        defer {
+            try? FileManager.default.removeItem(at: attributesAsset.fileURL)
+        }
         
         if isShared {
             if let realm = try? Realm(),

@@ -11,18 +11,20 @@ import InteractiveTextEngine_iOS
 class PianoTextImageCell: InteractiveAttachmentCell, AttributeModelConfigurable {
     
     @IBOutlet weak var imageView: UIImageView!
+
+    static let reuseIdentifier = "pianoImageCell"
     
     override func prepareForReuse() {
         super.prepareForReuse()
     }
 
     //Note: This scope has no responsibility for reload logic
-    func configure(with attribute: AttachmentAttribute) {
-        if case let .image(imageAttribute) = attribute {
-            if let image = LocalImageCache.shared.getImage(id: imageAttribute.id + "thumb") {
-                imageView.image = image
-            }
-        }
+    func configure(with id: String) {
+//        if case let .image(imageAttribute) = attribute {
+//            if let image = LocalImageCache.shared.getImage(id: imageAttribute.id + "thumb") {
+//                imageView.image = image
+//            }
+//        }
     }
     
 }

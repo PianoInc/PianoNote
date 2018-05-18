@@ -149,12 +149,12 @@ class NoteViewController: UIViewController {
 
     private func registerNibs() {
 
-        textView.register(nib: UINib(nibName: "PianoTextImageCell", bundle: nil), forCellReuseIdentifier: ImageAttachment.cellIdentifier)
-        textView.register(nib: UINib(nibName: "PianoTextLinkCell", bundle: nil), forCellReuseIdentifier: LinkAttachment.cellIdentifier)
-        textView.register(nib: UINib(nibName: "PianoTextAddressCell", bundle: nil), forCellReuseIdentifier: AddressAttachment.cellIdentifier)
-        textView.register(nib: UINib(nibName: "PianoTextContactCell", bundle: nil), forCellReuseIdentifier: ContactAttachment.cellIdentifier)
-        textView.register(nib: UINib(nibName: "PianoTextEventCell", bundle: nil), forCellReuseIdentifier: EventAttachment.cellIdentifier)
-        textView.register(nib: UINib(nibName: "PianoTextReminderCell", bundle: nil), forCellReuseIdentifier: ReminderAttachment.cellIdentifier)
+        textView.register(nib: UINib(nibName: "PianoTextImageCell", bundle: nil), forCellReuseIdentifier: PianoTextImageCell.reuseIdentifier)
+//        textView.register(nib: UINib(nibName: "PianoTextLinkCell", bundle: nil), forCellReuseIdentifier: LinkAttachment.cellIdentifier)
+//        textView.register(nib: UINib(nibName: "PianoTextAddressCell", bundle: nil), forCellReuseIdentifier: AddressAttachment.cellIdentifier)
+//        textView.register(nib: UINib(nibName: "PianoTextContactCell", bundle: nil), forCellReuseIdentifier: ContactAttachment.cellIdentifier)
+//        textView.register(nib: UINib(nibName: "PianoTextEventCell", bundle: nil), forCellReuseIdentifier: EventAttachment.cellIdentifier)
+//        textView.register(nib: UINib(nibName: "PianoTextReminderCell", bundle: nil), forCellReuseIdentifier: ReminderAttachment.cellIdentifier)
         
     }
     
@@ -165,9 +165,10 @@ class NoteViewController: UIViewController {
             let attributes = try JSONDecoder().decode([AttributeModel].self, from: note.attributes)
             
             textView.set(string: note.content, with: attributes)
-            
+
             let imageRecordNames = attributes.compactMap { attribute -> String? in
-                if case let .attachment(.image(imageAttribute)) = attribute.style {return imageAttribute.id}
+                if case let .attachment(reuseIdentifier, id) = attribute.style,
+                    reuseIdentifier == PianoTextImageCell.reuseIdentifier {return id}
                 else {return nil}
             }
             
@@ -189,7 +190,8 @@ class NoteViewController: UIViewController {
         let (_, attributes) = textView.attributedText.getStringWithPianoAttributes()
         
         let imageRecordNames = attributes.map { attribute -> String in
-            if case let .attachment(.image(imageAttribute)) = attribute.style {return imageAttribute.id}
+            if case let .attachment(reuseIdentifier, id) = attribute.style,
+                reuseIdentifier == PianoTextImageCell.reuseIdentifier {return id}
             else {return ""}
             }.filter{!$0.isEmpty}
         
