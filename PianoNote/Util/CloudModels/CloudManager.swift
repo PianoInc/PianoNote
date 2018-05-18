@@ -18,7 +18,7 @@ class CloudManager {
     private static let userIDKey = "CKCurrentUserID"
     public let privateDatabase: CloudPrivateDatabase
     public let sharedDatabase: CloudSharedDatabase
-    public let publicDatabase: CloudPublicDatabase
+    public let publicDatabase: CloudPublicDatabase //Facebook 게시물 최근 Date()
     public var userID: CKRecordID?
     
     private init() {
@@ -54,7 +54,7 @@ class CloudManager {
     }
     
     
-    /*
+    /**
      * This function enables every offline local change operation to wait for reconnect
      * and resumes them all at once whenever the connection is made again
      */
@@ -82,28 +82,6 @@ class CloudManager {
         notificationCenter.addObserver(self, selector: #selector(accountDidChange(_:)), name: Notification.Name.CKAccountChanged, object: nil)
         
     }
-    
-//    func loadRecordsFromPrivateDBWithID(recordNames: [String], completion handler: @escaping(([CKRecordID: CKRecord]?, Error?) -> Void)) {
-//        privateDatabase.loadRecords(recordNames: recordNames, completion: handler)
-//    }
-//
-//
-//    func uploadRecordToPrivateDB(record: CKRecord, completion: @escaping ((CKRecord?, Error?) -> Void)) {
-//        privateDatabase.saveRecord(record: record, completion: completion)
-//    }
-//
-//    func uploadRecordToSharedDB(record: CKRecord, completion: @escaping ((CKRecord?, Error?) -> Void)) {
-//        sharedDatabase.saveRecord(record: record, completion: completion)
-//    }
-//
-//    func deleteInPrivateDB(recordNames:[String], completion: @escaping ((Error?) -> Void)) {
-//        privateDatabase.deleteRecords(recordNames: recordNames, completion: completion)
-//    }
-//
-//    func deleteInSharedDB(recordNames:[String], in zone: CKRecordZoneID, completion: @escaping ((Error?) -> Void)) {
-//        sharedDatabase.deleteRecords(recordNames: recordNames, in: zone, completion: completion)
-//
-//    }
     
     func requestUserInfo() {
         let container = CKContainer.default()

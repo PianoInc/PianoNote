@@ -65,7 +65,7 @@ extension SearchViewController: UISearchResultsUpdating {
         guard let realm = try? Realm() else { fatalError("Something went wrong!") }
         
         noteFilteredResults = realm.objects(RealmNoteModel.self)
-            .filter("title CONTAINS[cd] %@ OR content CONTAINS[cd] %@", searchText, searchText)
+            .filter("content CONTAINS[cd] %@", searchText)
         
         setObserver()
     }

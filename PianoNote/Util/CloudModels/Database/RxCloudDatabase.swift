@@ -24,7 +24,7 @@ class RxCloudDatabase {
         subscribeToObservers()
     }
 
-    //Subscribe to save\delete observables to perform batch operation
+    ///Subscribe to save&delete observables to perform batch operation
     private func subscribeToObservers() {
         saveSubject.window(timeSpan: 0.1, count: 1, scheduler: MainScheduler.instance)
             .flatMap{ return $0 }.asObservable()
@@ -111,15 +111,17 @@ class RxCloudDatabase {
         saveSubject.onNext(([record],cloudCompletion))
     }
 
+    /// record: array
     func upload(records: [CKRecord], completion: @escaping CloudSaveHandler) {
         saveSubject.on(.next((records, completion)))
-//        saveSubject.on(.next(records, completion))
     }
 
+    /// recordID: array
     func delete(recordIDs: [CKRecordID], completion: @escaping CloudDeleteHandler) {
         deleteSubject.on(.next((recordIDs, completion)))
     }
 
+    /// recordID: array
     func load(recordIDs: [CKRecordID], completion: @escaping (([CKRecordID: CKRecord]?,Error?) -> Void)) {
         let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
         operation.fetchRecordsCompletionBlock = { recordDic, error in

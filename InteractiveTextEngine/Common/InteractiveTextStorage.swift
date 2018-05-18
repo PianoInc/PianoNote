@@ -36,7 +36,6 @@ class InteractiveTextStorage: NSTextStorage {
     
     func set(attributedString: NSAttributedString) {
         attachmentChanged(newAttString: attributedString)
-        
         beginEditing()
         backingStore.setAttributedString(attributedString)
         edited([.editedCharacters, .editedAttributes], range: NSMakeRange(0, 0), changeInLength: attributedString.length)

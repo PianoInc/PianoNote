@@ -14,13 +14,22 @@ class ModelManager {
         case objectNotFound
     }
     
+    /**
+     Saving new Tags model
+     - example:
+     
+     let newModel = RealmTagsModel.getNewModel()
+     ModelManager.shared.saveNew(model: newModel) { (error) in
+        //Do something with error!
+     }
+     */
     static func saveNew(model: RealmTagsModel, completion: ((Error?) -> Void)? = nil) {
         let record = model.getRecord()
         
         LocalDatabase.shared.commit(action: { (realm) in
             try? realm.write{realm.add(model, update: true)}
         })
-
+        
         CloudManager.shared.privateDatabase.upload(record: record) { (conflicted, error) in
             if let error = error {
                 return completion?(error) ?? ()
@@ -33,6 +42,15 @@ class ModelManager {
         }
     }
     
+    /**
+     Saving new Note model
+     - example:
+     
+            let newModel = RealmNoteModel.getNewModel()
+            ModelManager.shared.saveNew(model: newModel) { (error) in
+                //Do something with error!
+            }
+     */
     static func saveNew(model: RealmNoteModel, completion: ((Error?) -> Void)? = nil) {
         
         let record = model.getRecord()
@@ -53,7 +71,15 @@ class ModelManager {
         CloudManager.shared.privateDatabase.upload(record: record, completion: cloudCompletion)
     }
     
-    
+    /**
+     Saving new Image model
+     - example:
+     
+            let newModel = RealmImageModel.getNewModel()
+            ModelManager.shared.saveNew(model: newModel) { (error) in
+                //Do something with error!
+            }
+     */
     static func saveNew(model: RealmImageModel, completion: ((Error?) -> Void)? = nil) {
         
         let (url, record) = model.getRecord()
@@ -73,6 +99,12 @@ class ModelManager {
         }
     }
     
+    /**
+     - parameters:
+        - id: 삭제할 object의 ID
+        - type: 삭제할 object의 타입 (eg. RealmNoteModel.self)
+        - completion: completion handler
+     */
     static func delete(id: String, type: Object.Type, completion: ((Error?) -> Void)? = nil) {
         guard let realm = try? Realm(),
             let model = realm.object(ofType: type.self, forPrimaryKey: id),
@@ -101,6 +133,14 @@ class ModelManager {
         }
     }
     
+    
+    /**
+     - parameters:
+        - id: update할 object의 ID
+        - type: update할 object의 타입 (eg. RealmNoteModel.self)
+        - kv: update할 key와 value dictionary (eg. ["content": "가나다라"])
+        - completion: completion handler
+     */
     static func update(id: String, type: Object.Type, kv: [String: Any], completion: ((Error?) -> Void)? = nil) {
         do {
             let realm = try Realm()
@@ -116,12 +156,14 @@ class ModelManager {
                 guard let model = realm.resolve(ref) else {return completion?(ModelManagerError.objectNotFound) ?? ()}
                 try? realm.write { model.setValuesForKeys(kv) }
             }, completion: { error in
-                print("I;m out")
                 guard let realm = try? Realm(),
                     let model = realm.object(ofType: type.self, forPrimaryKey: id) as? (Object & Recordable),
-                    let record = model.getRecord?()else {return completion?(ModelManagerError.objectNotFound) ?? ()}
-                //TODO:If note & If is locked and pinned, Ignore it
+                    let record = model.getRecord?() else {return completion?(ModelManagerError.objectNotFound) ?? ()}
                 
+                if isShared && (kv.keys.contains(Schema.Note.isPinned) || kv.keys.contains(Schema.Note.isLocked)) {
+                    return
+                    //Don't upload it to cloud
+                }
                 database.upload(record: record, ancestorRecord: ancestorRecord) { conflicted, error in
                     if let error = error {
                         return completion?(error) ?? ()
@@ -142,6 +184,13 @@ class ModelManager {
         } catch { completion?(error) }
     }
     
+    /**
+     - parameters:
+     - predicate: update할 object들을 filter할 predicate
+     - type: update할 object의 타입 (eg. RealmNoteModel.self)
+     - kv: update할 key와 value dictionary (eg. ["content": "가나다라"])
+     - completion: completion handler
+     */
     static func update(predicate: NSPredicate, type: Object.Type, kv: [String: Any], completion: ((Error?) -> Void)? = nil) {
         do {
             let realm = try Realm()
@@ -156,7 +205,6 @@ class ModelManager {
                 guard let model = realm.resolve(ref) else {return completion?(ModelManagerError.objectNotFound) ?? ()}
                 try? realm.write { model.setValuesForKeys(kv) }
             }, completion: { error in
-                print("I;m out")
                 guard let realm = try? Realm() else {return completion?(ModelManagerError.objectNotFound) ?? ()}
                 let model = realm.objects(type).filter(predicate)
                 var records: [CKRecord] = []

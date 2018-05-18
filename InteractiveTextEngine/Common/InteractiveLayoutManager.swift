@@ -24,6 +24,7 @@ class InteractiveLayoutManager: NSLayoutManager {
             //Fix bounds for attachment!!
 
             let currentBounds = self.boundingRect(forGlyphRange: currentGlyphRange, in: container)
+                                            
             attachment.currentBounds = currentBounds
         }
 

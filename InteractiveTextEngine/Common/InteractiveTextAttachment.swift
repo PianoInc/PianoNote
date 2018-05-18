@@ -9,14 +9,15 @@ import Foundation
 
 open class InteractiveTextAttachment: NSTextAttachment {
 
-    public let uniqueID = UUID().uuidString
+    public let uniqueID = UUID().uuidString // cell dispatcher가 사용하는 unique ID
 
-    private var isVisible = false
-    private var currentCharacterIndex: Int!
+    private var isVisible = false //현재 텍스트뷰에서 visible한가
+    private var currentCharacterIndex: Int!// 현재 textview의 character index
 
     weak var relatedCell: InteractiveAttachmentCell?
     weak var delegate: InteractiveTextAttachmentDelegate?
 
+    //overridable cell reuse identifier
     open var cellIdentifier: String {
         return ""
     }
@@ -26,6 +27,7 @@ open class InteractiveTextAttachment: NSTextAttachment {
         super.init(data: nil, ofType: nil)
     }
     
+    //Drag delegate용
     public init(attachment: InteractiveTextAttachment) {
         super.init(data: nil, ofType: nil)
         
@@ -37,6 +39,7 @@ open class InteractiveTextAttachment: NSTextAttachment {
         super.init(coder: aDecoder)
     }
     
+    //container내에서의 bounds
     var currentBounds: CGRect? {
         didSet {
             if oldValue == nil {
@@ -49,12 +52,14 @@ open class InteractiveTextAttachment: NSTextAttachment {
         }
     }
     
+    //저희용
     open var currentSize: CGSize! {
         didSet {
             delegate?.invalidateDisplay(range: NSMakeRange(currentCharacterIndex, 1))
         }
     }
     
+    //Drag delegate용
     public func getPreviewForDragInteraction() -> UIImage? {
         return relatedCell?.getScreenShot()
     }
@@ -62,7 +67,10 @@ open class InteractiveTextAttachment: NSTextAttachment {
     open func getCopyForDragInteraction() -> InteractiveTextAttachment {
         return InteractiveTextAttachment(attachment: self)
     }
-
+    
+    
+    //refactor 되면 좋은부분
+    //textview의 visible bounds
     func checkForVisibility(visibleBounds: CGRect) {
         if let currentBounds = currentBounds {
             if currentBounds.intersects(visibleBounds) {

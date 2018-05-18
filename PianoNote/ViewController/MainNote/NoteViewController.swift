@@ -35,10 +35,11 @@ class NoteViewController: UIViewController {
         }
         setFormAttributes()
         setDelegates()
-        registerNibs()
+        registerNibs() //카드관련
 
         textView.noteID = noteID
         textView.typingAttributes = FormAttributes.defaultTypingAttributes
+        
         synchronizer = NoteSynchronizer(textView: textView)
         synchronizer?.registerToCloud()
         
@@ -58,7 +59,6 @@ class NoteViewController: UIViewController {
         synchronizer?.unregisterFromCloud()
         notificationToken?.invalidate()
         removeGarbageImages()
-        saveWhenDeallocating()
     }
 
     private func setFormAttributes() {
@@ -241,7 +241,9 @@ class NoteViewController: UIViewController {
         let (string, attributes) = textView.get()
         let noteID = self.noteID ?? ""
         guard let data = try? JSONEncoder().encode(attributes) else {isSaving = false;return}
-        let kv: [String: Any] = ["content": string, "attributes": data, "isModified": Date()]
+        let kv: [String: Any] = [Schema.Note.content: string,
+                                 Schema.Note.attributes: data,
+                                 "isModified": Date()]
         
         ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: nil)
     }
@@ -256,6 +258,7 @@ class NoteViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         
         super.viewWillDisappear(animated)
+        saveWhenDeallocating()
         unRegisterKeyboardNotification()
         
     }
