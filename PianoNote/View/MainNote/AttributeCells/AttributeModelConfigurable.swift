@@ -7,10 +7,6 @@ import InteractiveTextEngine_iOS
 
 ///Protocol confirmed by cells
 protocol AttributeModelConfigurable {
-    func configure(with attribute: AttachmentAttribute)
+    func configure(with id: String)
 }
 
-///Protocol confirmed by attachmentsma
-protocol AttributeContainingAttachment {
-    var attribute: AttachmentAttribute! {get set}
-}
