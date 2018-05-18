@@ -110,6 +110,8 @@ extension RxCloudDatabase {
             if let synchronizer = synchronizers[record.recordID.recordName] {
                 synchronizer.serverContentChanged(record)
             }
+            let asset = record[Schema.Note.attributes] as! CKAsset
+            try? FileManager.default.removeItem(at: asset.fileURL)
         }
 
         LocalDatabase.shared.commit(action: { realm in
