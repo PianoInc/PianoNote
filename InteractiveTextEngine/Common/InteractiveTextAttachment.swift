@@ -17,7 +17,7 @@ open class InteractiveTextAttachment: NSTextAttachment {
     weak var relatedCell: InteractiveAttachmentCell?
     weak var delegate: InteractiveTextAttachmentDelegate?
 
-    open var identifier: String {
+    open var cellIdentifier: String {
         return ""
     }
     

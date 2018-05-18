@@ -85,7 +85,7 @@ enum Style {
     case strikethrough
     case underline
     case font(PianoFontAttribute)
-    case attachment(AttachmentAttribute)
+    case attachment(String, String)// reuseIdentifier, id for data
     case paragraphStyle(Int, String, Int, Int)//bullet type, bullet string, space count ,tab count
 
     init?(from attribute: (key: NSAttributedStringKey, value: Any)) {
@@ -110,9 +110,8 @@ enum Style {
                     FontManager.shared.fontAttribute(for: font) != PianoFontAttribute.standard() else {return nil}
             self = .font(FontManager.shared.fontAttribute(for: font))
         case .attachment:
-            guard let attachment = attribute.value as? InteractiveTextAttachment & AttributeContainingAttachment,
-                let attribute = AttachmentAttribute(attachment: attachment) else {return nil}
-            self = .attachment(attribute)
+            guard let attachment = attribute.value as? CardAttachment else {return nil}
+            self = .attachment(attachment.cellIdentifier, attachment.idForModel)
 
         case .paragraphStyle:
             guard let paragraphStyle = attribute.value as? DynamicParagraphStyle,
@@ -130,7 +129,8 @@ enum Style {
         case .strikethrough: return [.strikethroughStyle: 1, .strikethroughColor: ColorManager.shared.underLine()]
         case .underline: return [.underlineStyle: 1, .underlineColor: ColorManager.shared.underLine()]
         case .font(let fontAttribute): return [.pianoFontInfo: fontAttribute, .font: fontAttribute.getFont()]
-        case .attachment(let attachmentAttribute): return attachmentAttribute.toNSAttribute()
+        case .attachment(let reuseIdentifier, let idForModel):
+            return [.attachment: CardAttachment(idForModel: idForModel, cellIdentifier: reuseIdentifier)]
         case .paragraphStyle(let bulletType, let bulletString, let spaceCount, let tabCount):
             return [.paragraphStyle:
                             DynamicParagraphStyle(bulletType: PianoBullet.PianoBulletType(rawValue: bulletType)!,
@@ -148,7 +148,7 @@ extension Style: Hashable {
         case .strikethrough: return "strikethrough".hashValue
         case .underline: return "underline".hashValue
         case .font(let fontAttribute): return fontAttribute.hashValue
-        case .attachment(let attachmentAttribute): return attachmentAttribute.hashValue
+        case .attachment(let reuseIdentifier, let id): return reuseIdentifier.hashValue ^ id.hashValue
         case .paragraphStyle(let t, let str, let sc, let tc): return t ^ str.hashValue ^ sc ^ tc
         }
     }
@@ -168,9 +168,9 @@ extension Style: Hashable {
                 return fontAttribute.hashValue == rFontAttribute.hashValue
             }
             return false
-        case .attachment(let attachmentAttribute):
-            if case let .attachment(rAttachmentAttribute) = rhs {
-                return attachmentAttribute == rAttachmentAttribute
+        case .attachment(let reuseIdentifier, let id):
+            if case let .attachment(rReuseIdentifier, rID) = rhs {
+                return reuseIdentifier == rReuseIdentifier && id == rID
             }
             return false
         case .paragraphStyle(let type, let str, let sc, let tc):
@@ -225,8 +225,9 @@ extension Style: Codable {
             return
         }
         
-        if let attachmentAttribute = try? values.decode(AttachmentAttribute.self, forKey: .attachment) {
-            self = .attachment(attachmentAttribute)
+        if let attachmentAttribute = try? values.decode(String.self, forKey: .attachment) {
+            let chunks = attachmentAttribute.components(separatedBy: "|")
+            self = .attachment(chunks[0], chunks[1])
             return
         }
 
@@ -254,7 +255,7 @@ extension Style: Codable {
         case .strikethrough: try container.encode("", forKey: .strikeThrough)
         case .underline: try container.encode("", forKey: .underline)
         case .font(let fontDescriptor): try container.encode(fontDescriptor, forKey: .font)
-        case .attachment(let attachmentAttribute): try container.encode(attachmentAttribute, forKey: .attachment)
+        case .attachment(let reuseIdentifier, let id): try container.encode("\(reuseIdentifier)|\(id)", forKey: .attachment)
         case .paragraphStyle(let type, let str, let sc, let tc): try container.encode("\(type)|\(str)|\(sc)|\(tc)", forKey: .paragraphStyle)
         }
     }
