@@ -85,8 +85,8 @@ enum Style {
     case strikethrough
     case underline
     case font(PianoFontAttribute)
-    case attachment(AttachmentAttribute)
     case paragraphStyle(Int, String, Int, Int)//bullet type, bullet string, space count ,tab count
+    case attachment(AttachmentAttribute)
 
     init?(from attribute: (key: NSAttributedStringKey, value: Any)) {
         switch attribute.key {

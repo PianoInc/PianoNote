@@ -16,6 +16,41 @@ import CloudKit
     @objc optional func getRecord() -> CKRecord
 }
 
+
+/*
+ Adding new field
+ 
+ 1 RealmDataModel
+ 2. Sync scheme
+ 3. Realm+Cloudkit -> getRecord() & parse__Record()
+ 4. Appdelegate -> increment MigrationNumber
+ 
+*/
+
+/*
+ How Notificaiton works
+ 
+ 1. object observe notification
+    switch {
+    case .change(let [propertyList]):
+        changeList.forEach {
+            $0.name
+            $0.newValue
+            $0.oldValue
+        }
+    case .error
+    case .deleted
+    }
+ 
+ 2. result(List) observe notification
+ 
+ switch {
+    case .change(let objects, let deletes, let insertions, let modifications)
+    case .initial
+    case .error
+ }
+*/
+
 class RealmTagsModel: Object, Recordable {
     static let recordTypeString = "Tags"
     static let tagSeparator = "|"

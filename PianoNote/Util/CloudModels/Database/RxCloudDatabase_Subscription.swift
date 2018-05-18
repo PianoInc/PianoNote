@@ -55,6 +55,7 @@ extension RxCloudDatabase {
 }
 
 extension RxCloudDatabase {
+    ///public database
     func query(for recordType: String, recordFetchedBlock: ((CKRecord) -> Void)? = nil,
                completion: ((CKQueryCursor?, Error?) -> Void)? = nil) {
         let query = CKQuery(recordType: recordType, predicate: NSPredicate(value: true))
@@ -73,6 +74,7 @@ extension RxCloudDatabase {
         database.add(operation)
     }
 
+    ///private db, shared db
     func fetchZoneChanges(in recordZoneIDs: [CKRecordZoneID]) {
         let userID = CloudManager.shared.userID?.recordName ?? ""
         var optionDic: [CKRecordZoneID: CKFetchRecordZoneChangesOptions] = [:]

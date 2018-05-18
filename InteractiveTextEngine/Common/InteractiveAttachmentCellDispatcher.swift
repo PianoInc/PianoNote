@@ -15,16 +15,20 @@ class InteractiveAttachmentCellDispatcher {
     private var nibs: [String: UINib] = [:]
     
     // identifier: array of cells
+    //[reuseIdentifier: [uniqueiD: cell]]
     private var idleCells: [String: [String: InteractiveAttachmentCell]] = [:]
 
     // identifier: array of cells
+    //[reuseIdentifier: [uniqueiD: cell]]
     private var workingCells: [String: [String: InteractiveAttachmentCell]] = [:]
 
     // List of attachments
+    //[uniqueiD: attachment]
     private var attachments: [String: InteractiveTextAttachment] = [:]
 
     func visibleRectChanged(rect: CGRect) {
         //Notify!
+        //TODO:Notification
         attachments.values.forEach{ $0.checkForVisibility(visibleBounds: rect) }
     }
 
