@@ -15,7 +15,7 @@ class PianoTextView: InteractiveTextView, Assistable, Pianoable {
     var noteID: String = ""
     var assistDataSource: [PianoAssistData] = []
     var assistDatas: [PianoAssistData] = {
-        PianoCard.keywords.map {
+        InteractiveAttachmentModel.keywords.map {
             return PianoAssistData(keyword: $0, input: "")
         }
     }()

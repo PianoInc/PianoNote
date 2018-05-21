@@ -59,8 +59,8 @@ struct InteractiveAttachmentModel {
     
     
     //TODO: 이부분 만들어야함
-    public func attachment() -> InteractiveTextAttachment {
-        
-        return InteractiveTextAttachment()
-    }
+//    public func attachment() -> InteractiveTextAttachment {
+//        
+//        return InteractiveTextAttachment()
+//    }
 }

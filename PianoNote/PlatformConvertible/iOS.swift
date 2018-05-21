@@ -8,8 +8,8 @@
 
 import UIKit
 
-typealias Nib = UINib
-typealias View = UIView
+public typealias Nib = UINib
+public typealias View = UIView
 public typealias Font = UIFont
 public typealias Color = UIColor
 public typealias MutableParagraphStyle = NSMutableParagraphStyle
@@ -27,4 +27,5 @@ public typealias TableViewDataSource = UITableViewDataSource
 public typealias TableViewDelegate = UITableViewDelegate
 public typealias KeyCommand = UIKeyCommand
 public typealias BarButtonItem = UIBarButtonItem
+public typealias BezierPath = UIBezierPath
 

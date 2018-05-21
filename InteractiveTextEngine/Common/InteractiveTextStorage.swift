@@ -72,6 +72,8 @@ class InteractiveTextStorage: NSTextStorage {
                 return
             }
             
+            
+            /*
 
             if let card = PianoCard(
                 text: string,
@@ -90,11 +92,9 @@ class InteractiveTextStorage: NSTextStorage {
                 return
             }
             
-            //create card logic
-            //            if let card = PianoCard(bullet 생성자처럼 값 대입) {
-            //                attachCard(...)
-            //                endEditing()
-            //            }
+            */
+            
+            
             
             
         }

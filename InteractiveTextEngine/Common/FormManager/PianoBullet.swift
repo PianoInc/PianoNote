@@ -17,10 +17,27 @@ public struct PianoBullet {
         case value
     }
     
+    static var customBullet: [String : String] = ["1":"■", "2": "□", "3": "•", "4": "◦"]
+    static let customKeys: String = {
+        var keys = ""
+        for key in PianoBullet.customBullet.keys {
+            keys.append(key)
+        }
+        return keys
+    }()
+    
+    static let customValues: String = {
+       var values = ""
+        for value in PianoBullet.customBullet.values {
+            values.append(value)
+        }
+        return values
+    }()
+    
     private let regexs: [(type: PianoBulletType, regex: String)] = [
         (.number, "^\\s*(\\d+)(?=\\. )"),
-        (.key, "^\\s*([1234])(?= )"),
-        (.value, "^\\s*([■□•◦])(?= )")
+        (.key, "^\\s*([\(PianoBullet.customKeys)])(?= )"),
+        (.value, "^\\s*([\(PianoBullet.customValues)])(?= )")
     ]
     
     public let type: PianoBulletType
@@ -43,31 +60,9 @@ public struct PianoBullet {
         case .number:
             return string
         case .key:
-            switch string {
-            case "1":
-                return "■"
-            case "2":
-                return "□"
-            case "3":
-                return "•"
-            case "4":
-                return "◦"
-            default:
-                return nil
-            }
+            return PianoBullet.customBullet[string]
         case .value:
-            switch string {
-            case "■":
-                return "1"
-            case "□":
-                return "2"
-            case "•":
-                return "3"
-            case "◦":
-                return "4"
-            default:
-                return nil
-            }
+            return PianoBullet.customBullet.filter{ $0.value == string }.keys.first
         }
     }
     
