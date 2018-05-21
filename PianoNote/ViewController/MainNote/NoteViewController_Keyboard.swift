@@ -44,7 +44,7 @@ extension NoteViewController {
                 if constraint.identifier == ConstraintIdentifier.pianoTextViewBottom {
                     constraint.constant = -kbHeight
                     self?.view.layoutIfNeeded()
-                    return
+                return
                 }
             })
         })

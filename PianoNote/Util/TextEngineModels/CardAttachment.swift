@@ -33,6 +33,7 @@ class CardAttachment: InteractiveTextAttachment {
     init(attachment: CardAttachment) {
         super.init(attachment: attachment)
         self.idForModel = attachment.idForModel
+        self.privateCellIdentifier = attachment.cellIdentifier
     }
 
     required init?(coder aDecoder: NSCoder) {

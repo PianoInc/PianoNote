@@ -15,6 +15,9 @@ open class InteractiveAttachmentCell: UIView {
     
     weak var relatedAttachment: InteractiveTextAttachment?
     
+    var leadingConstraint: NSLayoutConstraint?
+    var topConstraint: NSLayoutConstraint?
+    
     func getScreenShot() -> UIImage {
         let renderer = UIGraphicsImageRenderer(bounds: bounds)
         return renderer.image { rendererContext in

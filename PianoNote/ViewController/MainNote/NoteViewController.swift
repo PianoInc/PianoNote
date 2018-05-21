@@ -51,6 +51,9 @@ class NoteViewController: UIViewController {
 //        navigationController?.navigationBar.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         
+//        textView.translatesAutoresizingMaskIntoConstraints = false
+//        textView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        textView.autoresizesSubviews = false
         setNoteContents()
         subscribeToChange()
     }
@@ -251,7 +254,7 @@ class NoteViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-        registerKeyboardNotification()
+//        registerKeyboardNotification()
         
     }
     
@@ -272,7 +275,6 @@ class NoteViewController: UIViewController {
             
             if !strongSelf.textView.isEditable {
                 strongSelf.textView.attachControl()
-                
                 
             }
         }

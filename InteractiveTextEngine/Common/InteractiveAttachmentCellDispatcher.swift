@@ -67,11 +67,18 @@ class InteractiveAttachmentCellDispatcher {
         
             for object in nib.instantiate(withOwner: nil, options: nil) {
                 if let cell = object as? InteractiveAttachmentCell {
-                    cell.frame = CGRect.zero
+                    
                     
                     cell.isUserInteractionEnabled = true
                     
                     textView.addSubview(cell)
+                    
+                    cell.leadingConstraint = NSLayoutConstraint(item: textView, attribute: .leading, relatedBy: .equal,
+                                                               toItem: cell, attribute: .leading, multiplier: 1.0, constant: 0.0)
+                    cell.topConstraint = NSLayoutConstraint(item: textView, attribute: .top, relatedBy: .equal,
+                                                            toItem: cell, attribute: .top, multiplier: 1.0, constant: 0.0)
+                    
+                    textView.addConstraints([cell.leadingConstraint!, cell.topConstraint!])
                     
                     idleCells[identifier]?[cell.uniqueID] = cell
                     cell.reuseIdentifier = identifier
@@ -96,7 +103,6 @@ class InteractiveAttachmentCellDispatcher {
 extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate {
     
     func needToDisplay(attachment: InteractiveTextAttachment) {
-        
         if attachment.relatedCell != nil { return }
         //get cell from delegate
         guard let textView = superView,
@@ -116,7 +122,9 @@ extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate
         //sync frame
         
         let containerInset = textView.textContainerInset
-        cell.frame = currentBounds.offsetBy(dx: 1 + containerInset.left, dy: containerInset.top)
+        cell.leadingConstraint?.constant = currentBounds.offsetBy(dx: 1 + containerInset.left, dy: containerInset.top).minX
+        cell.topConstraint?.constant = currentBounds.offsetBy(dx: 1 + containerInset.left, dy: containerInset.top).minY
+        
         cell.isHidden = false
         
         //didDisplayCell
