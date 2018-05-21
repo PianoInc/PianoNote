@@ -14,6 +14,7 @@ import CloudKit
     var isInSharedDB: Bool {get set}
     var ckMetaData: Data {get set}
     @objc optional func getRecord() -> CKRecord
+    @objc optional func getRecordWithURL() -> NSDictionary
 }
 
 
@@ -28,7 +29,7 @@ import CloudKit
 */
 
 /*
- How Notificaiton works
+ How Notification works
  
  1. object observe notification
     switch {
@@ -75,16 +76,10 @@ class RealmTagsModel: Object, Recordable {
         let id = Util.share.getUniqueID()
         let record = CKRecord(recordType: RealmTagsModel.recordTypeString, zoneID: zone.zoneID)
         
-        let data = NSMutableData()
-        let coder = NSKeyedArchiver(forWritingWith: data)
-        coder.requiresSecureCoding = true
-        record.encodeSystemFields(with: coder)
-        coder.finishEncoding()
-        
         let newModel = RealmTagsModel()
         newModel.id = id
         newModel.recordName = record.recordID.recordName
-        newModel.ckMetaData = Data(referencing: data)
+        newModel.ckMetaData = record.getMetaData()
         
         return newModel
     }
@@ -125,16 +120,10 @@ class RealmNoteModel: Object, Recordable {
         let zone = CKRecordZone(zoneName: RxCloudDatabase.privateRecordZoneName)
         let id = Util.share.getUniqueID()
         let record = CKRecord(recordType: RealmNoteModel.recordTypeString, zoneID: zone.zoneID)
-        
-        let data = NSMutableData()
-        let coder = NSKeyedArchiver(forWritingWith: data)
-        coder.requiresSecureCoding = true
-        record.encodeSystemFields(with: coder)
-        coder.finishEncoding()
-        
+
         let newModel = RealmNoteModel()
         newModel.recordName = record.recordID.recordName
-        newModel.ckMetaData = Data(referencing: data)
+        newModel.ckMetaData = record.getMetaData()
         newModel.id = id
         newModel.tags = categoryRecordName.isEmpty ? "" : "\(RealmTagsModel.tagSeparator)\(categoryRecordName)\(RealmTagsModel.tagSeparator)"
         newModel.content = content
@@ -143,52 +132,6 @@ class RealmNoteModel: Object, Recordable {
     }
 }
 
-class RealmImageModel: Object, Recordable {
-    
-    static let recordTypeString = "Image"
-    
-    @objc dynamic var id = ""
-    @objc dynamic var image = Data()
-    
-    @objc dynamic var recordName = ""
-    @objc dynamic var ckMetaData = Data()
-    
-    @objc dynamic var isInSharedDB = false
-    
-    @objc dynamic var noteRecordName = ""
-    
-    override static func primaryKey() -> String? {
-        return "id"
-    }
-    
-    override static func ignoredProperties() -> [String] {
-        return ["recordTypeString"]
-    }    
-    
-    
-    static func getNewModel(sharedZoneID: CKRecordZoneID? = nil, noteRecordName: String, image: UIImage) -> RealmImageModel {
-        let zone = CKRecordZone(zoneName: RxCloudDatabase.privateRecordZoneName)
-        let id = Util.share.getUniqueID()
-        let zoneID = sharedZoneID ?? zone.zoneID
-        let record = CKRecord(recordType: RealmImageModel.recordTypeString, zoneID: zoneID)
-        
-        let data = NSMutableData()
-        let coder = NSKeyedArchiver(forWritingWith: data)
-        coder.requiresSecureCoding = true
-        record.encodeSystemFields(with: coder)
-        coder.finishEncoding()
-        
-        let newModel = RealmImageModel()
-        newModel.recordName = record.recordID.recordName
-        newModel.ckMetaData = Data(referencing: data)
-        newModel.id = id
-        newModel.isInSharedDB = sharedZoneID != nil
-        newModel.noteRecordName = noteRecordName
-        newModel.image = UIImageJPEGRepresentation(image, 1.0) ?? Data()
-        
-        return newModel
-    }
-}
 
 class RealmCKShare: Object {
     
@@ -205,3 +148,4 @@ class RealmCKShare: Object {
         return ["recordTypeString"]
     }
 }
+

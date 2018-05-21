@@ -27,36 +27,35 @@ extension RealmTagsModel {
 }
 
 extension RealmNoteModel {
-    
-    func getRecord() -> CKRecord {
+
+    func getRecordWithURL() -> NSDictionary {
         let scheme = Schema.Note.self
-        
+
         let coder = NSKeyedUnarchiver(forReadingWith: self.ckMetaData)
         coder.requiresSecureCoding = true
         guard let record = CKRecord(coder: coder) else {fatalError("Data poluted!!")}
         coder.finishDecoding()
-        
+
         guard let asset = try? CKAsset(data: self.attributes) else { fatalError() }
-        
+
         record[scheme.id] = self.id as CKRecordValue
         record[scheme.content] = self.content as CKRecordValue
         record[scheme.attributes] = asset as CKRecordValue
-        
+
         record[scheme.tags] = self.tags as CKRecordValue
         record[scheme.isPinned] = (self.isPinned ? 1 : 0) as CKRecordValue
         record[scheme.isLocked] = (self.isLocked ? 1 : 0) as CKRecordValue
-        
+
         record[scheme.isInTrash] = (self.isInTrash ? 1 : 0) as CKRecordValue
         record[scheme.colorThemeCode] = self.colorThemeCode as CKRecordValue
-        
-        return record
-        
+
+        return NSDictionary(dictionary: [Schema.dicURLsKey: [asset.fileURL], Schema.dicRecordKey: record])
     }
 }
 
 extension RealmImageModel {
     
-    func getRecord() -> (URL, CKRecord) {
+    func getRecordWithURL() -> NSDictionary {
         let scheme = Schema.Image.self
         
         let coder = NSKeyedUnarchiver(forReadingWith: self.ckMetaData)
@@ -72,8 +71,8 @@ extension RealmImageModel {
         
         record[scheme.noteRecordName] = CKReference(recordID: noteRecordID, action: .deleteSelf)
         record.setParent(noteRecordID)
-        
-        return (asset.fileURL, record)
+
+        return NSDictionary(dictionary: [Schema.dicURLsKey: [asset.fileURL], Schema.dicRecordKey: record])
     }
 }
 

@@ -12,6 +12,9 @@ import RealmSwift
 
 
 struct Schema {
+
+    static let dicRecordKey = "record"
+    static let dicURLsKey = "url"
     
     struct LatestEvent {
         static let key = "UserDefaultsLatestEvent"

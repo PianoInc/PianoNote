@@ -13,92 +13,51 @@ class ModelManager {
     enum ModelManagerError: Error {
         case objectNotFound
     }
-    
+
     /**
-     Saving new Tags model
+     Saving new model
      - example:
-     
+
      let newModel = RealmTagsModel.getNewModel()
      ModelManager.shared.saveNew(model: newModel) { (error) in
         //Do something with error!
      }
      */
-    static func saveNew(model: RealmTagsModel, completion: ((Error?) -> Void)? = nil) {
-        let record = model.getRecord()
-        
+    static func saveNew(model: Object & Recordable, completion: ((Error?) -> Void)? = nil) {
+        let record: CKRecord
+        var cloudCompletion = completion
+        if model.getRecord != nil {
+            //ordinary
+            record = model.getRecord!()
+
+        } else if model.getRecordWithURL != nil {
+            //dic with url
+            let dic = model.getRecordWithURL!()
+            record = dic.object(forKey: Schema.dicRecordKey) as! CKRecord
+
+            cloudCompletion = { error in
+                (dic.object(forKey: Schema.dicURLsKey) as! [URL]).forEach {
+                    print("delete")
+                    try? FileManager.default.removeItem(at: $0)
+                }
+                completion?(error)
+            }
+        } else {
+            return
+        }
+
         LocalDatabase.shared.commit(action: { (realm) in
             try? realm.write{realm.add(model, update: true)}
         })
-        
-        CloudManager.shared.privateDatabase.upload(record: record) { (conflicted, error) in
-            if let error = error {
-                return completion?(error) ?? ()
-            } else if let conflictedModel = conflicted?.parseRecord(isShared: false) {
-                LocalDatabase.shared.commit(action: {realm in
-                    try? realm.write{realm.add(conflictedModel, update: true)}
-                })
-            }
-            completion?(nil)
-        }
-    }
-    
-    /**
-     Saving new Note model
-     - example:
-     
-            let newModel = RealmNoteModel.getNewModel()
-            ModelManager.shared.saveNew(model: newModel) { (error) in
-                //Do something with error!
-            }
-     */
-    static func saveNew(model: RealmNoteModel, completion: ((Error?) -> Void)? = nil) {
-        
-        let record = model.getRecord()
-        LocalDatabase.shared.commit(action: { realm in
-            try? realm.write {realm.add(model, update: true)}
-        })
-        
-        let cloudCompletion: (CKRecord?, Error?) -> Void = { (conflicted, error) in
-            if let error = error {
-                return completion?(error) ?? ()
-            } else if let conflictedModel = conflicted?.parseRecord(isShared: false) {
-                LocalDatabase.shared.commit(action: { realm in
-                    try? realm.write {realm.add(conflictedModel, update: true)}
-                })
-            }
-            completion?(nil)
-        }
-        CloudManager.shared.privateDatabase.upload(record: record, completion: cloudCompletion)
-    }
-    
-    /**
-     Saving new Image model
-     - example:
-     
-            let newModel = RealmImageModel.getNewModel()
-            ModelManager.shared.saveNew(model: newModel) { (error) in
-                //Do something with error!
-            }
-     */
-    static func saveNew(model: RealmImageModel, completion: ((Error?) -> Void)? = nil) {
-        
-        let (url, record) = model.getRecord()
-        LocalDatabase.shared.commit(action: { realm in
-            try? realm.write{ realm.add(model, update: true) }
-        })
-        
+
         let database: RxCloudDatabase = model.isInSharedDB ? CloudManager.shared.sharedDatabase:
             CloudManager.shared.privateDatabase
-        
-        database.upload(record: record) { conflicted, error in
-            if let error = error {
-                return completion?(error) ?? ()
-            }
-            completion?(nil)
-            try? FileManager.default.removeItem(at: url)
+
+        database.upload(record: record) { (conflicted, error) in
+            cloudCompletion?(error)
         }
     }
-    
+
     /**
      - parameters:
         - id: 삭제할 object의 ID

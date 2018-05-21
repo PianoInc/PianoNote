@@ -31,7 +31,7 @@ extension NoteViewController: UICloudSharingControllerDelegate, UIPopoverPresent
         return UIImageJPEGRepresentation(textView.getScreenShot(), 1.0)
     }
     
-    private func share(rootRecord: CKRecord, completion: @escaping (CKShare?, CKContainer?, Error?) -> Void) {
+    private func share(rootRecord: CKRecord, urls: [URL], completion: @escaping (CKShare?, CKContainer?, Error?) -> Void) {
         let shareRecord = CKShare(rootRecord: rootRecord)
         let recordsToSave = [rootRecord, shareRecord]
         
@@ -40,11 +40,14 @@ extension NoteViewController: UICloudSharingControllerDelegate, UIPopoverPresent
             if let error = error {
                 print(error)
             } else {
-                //TODO: sync metadata with share
+                CloudManager.shared.privateDatabase.syncChanged(record: record, isShared: false)
             }
         }
         
         operation.modifyRecordsCompletionBlock = { (savedRecords, deletedRecordIDs, error) in
+            urls.forEach {
+                try? FileManager.default.removeItem(at: $0)
+            }
             if let error = error {
                 completion(nil,nil,error)
             } else {
@@ -59,11 +62,13 @@ extension NoteViewController: UICloudSharingControllerDelegate, UIPopoverPresent
     func presentShare(_ sender: UIBarButtonItem) {
         guard let realm = try? Realm(),
             let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID) else {return}
-        
-        let record = note.getRecord()
+
+        let dic = note.getRecordWithURL()
+        let record = dic.object(forKey: Schema.dicRecordKey) as! CKRecord
+        let urls = dic.object(forKey: Schema.dicURLsKey) as! [URL]
         
         let cloudSharingController = UICloudSharingController { [weak self] (controller, completion: @escaping (CKShare?, CKContainer?, Error?) -> Void) in
-            self?.share(rootRecord: record, completion: completion)
+            self?.share(rootRecord: record, urls: urls, completion: completion)
         }
         
         cloudSharingController.availablePermissions = [.allowPrivate, .allowReadWrite]
