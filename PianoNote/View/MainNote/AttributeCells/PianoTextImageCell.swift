@@ -7,6 +7,7 @@
 //
 
 import InteractiveTextEngine_iOS
+import RealmSwift
 
 class PianoTextImageCell: InteractiveAttachmentCell, AttributeModelConfigurable {
     
@@ -18,13 +19,18 @@ class PianoTextImageCell: InteractiveAttachmentCell, AttributeModelConfigurable 
         super.prepareForReuse()
     }
 
-    //Note: This scope has no responsibility for reload logic
+    
     func configure(with id: String) {
-//        if case let .image(imageAttribute) = attribute {
-//            if let image = LocalImageCache.shared.getImage(id: imageAttribute.id + "thumb") {
-//                imageView.image = image
-//            }
-//        }
+        guard let realm = try? Realm(),
+            let imageModel = realm.object(ofType: RealmImageModel.self, forPrimaryKey: id)
+        else {return waitForReload(id: id)}
+        
+        guard let image = UIImage(data: imageModel.image) else {return}
+        imageView.image = image
+    }
+    
+    func waitForReload(id: String) {
+        
     }
     
 }
