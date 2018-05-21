@@ -44,13 +44,6 @@ struct Schema {
         
         static let noteRecordName = "noteRecordName"
     }
-
-    struct ImageList {
-        static let id = "id"
-        static let noteRecordName = "noteRecordName"
-
-        static let imageList = "imageList"
-    }
 }
 
 enum RealmRecordTypeString: String {
