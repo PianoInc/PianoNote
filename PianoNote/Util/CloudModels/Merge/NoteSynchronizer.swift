@@ -312,14 +312,19 @@ class NoteSynchronizer {
             let note = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: id) else {return completion?(SynchronizerError.saveError) ?? ()}
         let (text, pianoAttributes) = textView.attributedText.getStringWithPianoAttributes()
         let attributeData = (try? JSONEncoder().encode(pianoAttributes)) ?? Data()
-        
-        let localRecord = note.getRecord()
+
+        let dic = note.getRecordWithURL()
+        let localRecord = dic.object(forKey: Schema.dicRecordKey) as! CKRecord
+
         localRecord[Schema.Note.content] = text as CKRecordValue
         localRecord[Schema.Note.attributes] = attributeData as CKRecordValue
         
         let database:RxCloudDatabase = isShared ? CloudManager.shared.sharedDatabase : CloudManager.shared.privateDatabase
 
         database.upload(record: localRecord) { _, error in
+            (dic.object(forKey: Schema.dicURLsKey) as! [URL]).forEach {
+                try? FileManager.default.removeItem(at: $0)
+            }
             guard error == nil else { return completion?(error!) ?? () }
         }
     }
