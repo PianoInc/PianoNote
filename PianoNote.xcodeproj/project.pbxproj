@@ -117,6 +117,7 @@
 		75E9956121C1AF5375901F84 /* RxCloudDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E992FB261C00DC0E2FCF50 /* RxCloudDatabase.swift */; };
 		75E99565C2D701A6E52B3D67 /* CKDatabaseScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E998B1C40736A977C35943 /* CKDatabaseScope.swift */; };
 		75E995ED54D3FB044498ECF1 /* NSAttributedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99898FE167CCA04C3BF85 /* NSAttributedStringKey.swift */; };
+		75E9983CB905432206F7CC82 /* RealmCardDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E990A957D7593B401522B6 /* RealmCardDataModels.swift */; };
 		75E998A9948E29C41DA1829C /* AttributeModelConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E9944045F0FAB8F29AA9B6 /* AttributeModelConfigurable.swift */; };
 		7C7A314A208EA6FC00063576 /* iOS&mac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A3148208EA6FB00063576 /* iOS&mac.swift */; };
 		7C7A314B208EA6FC00063576 /* iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A3149208EA6FB00063576 /* iOS.swift */; };
@@ -310,6 +311,7 @@
 		6CF1BFF4207B60DC0013307D /* PianoTextLinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoTextLinkCell.swift; sourceTree = "<group>"; };
 		6CF1BFF6207B61080013307D /* PianoTextLinkCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PianoTextLinkCell.xib; sourceTree = "<group>"; };
 		6CF993F320AE6A00009DA6AB /* CardAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardAttachment.swift; sourceTree = "<group>"; };
+		75E990A957D7593B401522B6 /* RealmCardDataModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmCardDataModels.swift; sourceTree = "<group>"; };
 		75E992FB261C00DC0E2FCF50 /* RxCloudDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxCloudDatabase.swift; sourceTree = "<group>"; };
 		75E9944045F0FAB8F29AA9B6 /* AttributeModelConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeModelConfigurable.swift; sourceTree = "<group>"; };
 		75E99898FE167CCA04C3BF85 /* NSAttributedStringKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSAttributedStringKey.swift; sourceTree = "<group>"; };
@@ -629,6 +631,7 @@
 				6C7270742072F4D6003A4640 /* LocalDatabase.swift */,
 				6CEC5CB1207CE25F00AE356F /* RealmImageObserver.swift */,
 				6CEC5CB3207CE2E100AE356F /* LocalImageCache.swift */,
+				75E990A957D7593B401522B6 /* RealmCardDataModels.swift */,
 			);
 			path = RealmModels;
 			sourceTree = "<group>";
@@ -1193,6 +1196,7 @@
 				75E99565C2D701A6E52B3D67 /* CKDatabaseScope.swift in Sources */,
 				75E99470C19AF984654A35A1 /* RxCloudDatabase_Subscription.swift in Sources */,
 				75E995ED54D3FB044498ECF1 /* NSAttributedStringKey.swift in Sources */,
+				75E9983CB905432206F7CC82 /* RealmCardDataModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
