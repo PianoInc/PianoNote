@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 extension View {
     
@@ -14,19 +15,6 @@ extension View {
         
         return self.viewWithTag(viewTag.hashValue) != nil ? true : false
     }
-    
-    //    internal func subView(tag: ViewTag) -> View {
-    //
-    //        if let view = self.viewWithTag(tag.rawValue) {
-    //            return view
-    //        }
-    //        let nib = Nib(nibName: tag.identifier, bundle: nil)
-    //        let view = nib.instantiate(withOwner: nil, options: nil).first as! View
-    //        view.tag = tag.rawValue
-    //
-    //        return view
-    //
-    //    }
     
     internal func subView(viewTag: String) -> View? {
         return viewWithTag(viewTag.hashValue)
@@ -40,10 +28,14 @@ extension View {
         }
         
         let nib = Nib(nibName: viewTag, bundle: nil)
-        let view = nib.instantiate(withOwner: nil, options: nil).first as! View
-        view.tag = viewTag.hashValue
-        return view
+        for object in nib.instantiate(withOwner: nil, options: nil) {
+            if let view = object as? View {
+                view.tag = viewTag.hashValue
+                return view
+            }
+        }
         
+        fatalError("can't create view with this ViewTag")
     }
     
 }
