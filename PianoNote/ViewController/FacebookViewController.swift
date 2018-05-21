@@ -41,12 +41,6 @@ class FacebookViewController: DRViewController {
         attachData()
         
         if FBSDKAccessToken.current() != nil {
-            view.bringSubview(toFront: indicator)
-            view.bringSubview(toFront: facebookLabel)
-            view.bringSubview(toFront: facebookButton)
-            indicator.isHidden = true
-            facebookButton.isHidden = true
-            facebookButton.isHidden = true
             DRFBService.share.facebook(post: PianoPageID)
         } else {
             facebookLabel.isHidden = false
@@ -98,7 +92,6 @@ class FacebookViewController: DRViewController {
     /// Data의 변화를 감지하여 listView에 이어 붙인다.
     private func attachData() {
         DRFBService.share.rxPost.subscribe { [weak self] data in
-            self?.nodeCtrl.isHidden = false
             self?.group(time: data)
         }
     }
@@ -108,6 +101,14 @@ class FacebookViewController: DRViewController {
      - parameter data: Non-grouped data.
      */
     private func group(time data: [DRFBPost]) {
+        view.bringSubview(toFront: indicator)
+        view.bringSubview(toFront: facebookLabel)
+        view.bringSubview(toFront: facebookButton)
+        indicator.isHidden = true
+        facebookButton.isHidden = true
+        facebookButton.isHidden = true
+        nodeCtrl.isHidden = false
+        
         var appendPath = [IndexPath]()
         for post in data {
             let key = post.create.timeFormat

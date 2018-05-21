@@ -56,7 +56,7 @@ extension SearchViewController: UISearchResultsUpdating {
         guard let realm = try? Realm() else { fatalError("Something went wrong!") }
         
         noteFilteredResults = realm.objects(RealmNoteModel.self)
-            .filter("title CONTAINS[cd] %@ OR content CONTAINS[cd] %@", searchText, searchText)
+            .filter("content CONTAINS[cd] %@", searchText)
         
         setObserver()
     }
@@ -71,14 +71,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
         guard let note = noteFilteredResults?[indexPath.row],
-            let searchCell = cell as? SearchCell,
-            let creationDate = note.getRecord().creationDate else {return cell}
+            let searchCell = cell as? SearchCell else {return cell}
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd"
         
         searchCell.contentLabel.text = nil
-        searchCell.dateLabel.text = dateFormatter.string(from: creationDate)
+//        searchCell.dateLabel.text = dateFormatter.string(from: creationDate)
         
         guard let range = note.content.lowercased().range(of: searchText.lowercased()) else {return cell}
         let startIndex = note.content.index(range.lowerBound, offsetBy: -10, limitedBy: note.content.startIndex) ?? note.content.startIndex

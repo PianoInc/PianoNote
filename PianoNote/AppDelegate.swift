@@ -72,7 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // a schema version lower than the one set above
             migrationBlock: { migration, oldSchemaVersion in
                 // We haven’t migrated anything yet, so oldSchemaVersion == 0
-                
                 if (oldSchemaVersion < 1) {
                     // Nothing to do!
                     // Realm will automatically detect new properties and removed properties
@@ -159,6 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             error in
             print(error ?? "good")
             print("share was accepted")
+//            CloudManager.shared.privateDatabase.syncChanged(record: share, isShared: true)
         }
         acceptShareOperation.acceptSharesCompletionBlock = {
             error in

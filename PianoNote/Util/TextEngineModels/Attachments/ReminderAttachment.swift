@@ -6,6 +6,11 @@
 //  Copyright © 2018년 piano. All rights reserved.
 //
 
+//**NSAttachment -> TextView에 attribute string넣는 객체
+
+//**Attribute -> Attachment의 datasource. imageID, address -- Cloud sync attachment attribute
+//**cell -> 붙는 뷰
+
 import InteractiveTextEngine_iOS
 import EventKit
 
@@ -24,6 +29,7 @@ class ReminderAttachment: InteractiveTextAttachment, AttributeContainingAttachme
         self.currentSize = attribute.size
     }
 
+    //drag
     init(attachment: ReminderAttachment) {
         super.init(attachment: attachment)
         self.attribute = attachment.attribute

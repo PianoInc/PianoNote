@@ -27,11 +27,11 @@ class PianoTextAddressCell: InteractiveAttachmentCell, AttributeModelConfigurabl
     override func prepareForReuse() {
         super.prepareForReuse()
     }
-    
-    func configure(with attribute: AttachmentAttribute) {
-        if case let .address(addressAttribute) = attribute {
-            titleLabel.text = addressAttribute.placeName
-            addressLabel.text = addressAttribute.address
-        }
+
+    func configure(with id: String) {
+//        if case let .address(addressAttribute) = attribute {
+//            titleLabel.text = addressAttribute.placeName
+//            addressLabel.text = addressAttribute.address
+//        }
     }
 }

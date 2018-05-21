@@ -40,19 +40,7 @@ class PianoTextLinkCell: InteractiveAttachmentCell {
         OGDataProvider.shared.cancelLoad(uuid, stopTask: true)
     }
     
-    func configure(with attribute: AttachmentAttribute) {
-        if case let .link(linkAttribute) = attribute {
-            urlLabel.text = linkAttribute.link
-            activityIndicator.startAnimating()
-            uuid = OGDataProvider.shared.fetchOGData(urlString: linkAttribute.link, completion: { [weak self] (ogData, error) in
-                self?.activityIndicator.stopAnimating()
-                if let imageURL = ogData.imageUrl {
-                    self?.urlImageView.loadImage(urlString: imageURL.absoluteString)
-                }
-                if let title = ogData.pageTitle {
-                    self?.titleLabel.text = title
-                }
-            })
-        }
+    func configure(with id: String) {
+
     }
 }

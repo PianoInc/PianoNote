@@ -27,34 +27,35 @@ extension RealmTagsModel {
 }
 
 extension RealmNoteModel {
-    
-    func getRecord() -> CKRecord {
+
+    func getRecordWithURL() -> NSDictionary {
         let scheme = Schema.Note.self
-        
+
         let coder = NSKeyedUnarchiver(forReadingWith: self.ckMetaData)
         coder.requiresSecureCoding = true
         guard let record = CKRecord(coder: coder) else {fatalError("Data poluted!!")}
         coder.finishDecoding()
-        
+
+        guard let asset = try? CKAsset(data: self.attributes) else { fatalError() }
+
         record[scheme.id] = self.id as CKRecordValue
         record[scheme.content] = self.content as CKRecordValue
-        record[scheme.attributes] = self.attributes as CKRecordValue
-        
+        record[scheme.attributes] = asset as CKRecordValue
+
         record[scheme.tags] = self.tags as CKRecordValue
         record[scheme.isPinned] = (self.isPinned ? 1 : 0) as CKRecordValue
         record[scheme.isLocked] = (self.isLocked ? 1 : 0) as CKRecordValue
-        
+
         record[scheme.isInTrash] = (self.isInTrash ? 1 : 0) as CKRecordValue
         record[scheme.colorThemeCode] = self.colorThemeCode as CKRecordValue
-        
-        return record
-        
+
+        return NSDictionary(dictionary: [Schema.dicURLsKey: [asset.fileURL], Schema.dicRecordKey: record])
     }
 }
 
 extension RealmImageModel {
     
-    func getRecord() -> (URL, CKRecord) {
+    func getRecordWithURL() -> NSDictionary {
         let scheme = Schema.Image.self
         
         let coder = NSKeyedUnarchiver(forReadingWith: self.ckMetaData)
@@ -70,8 +71,8 @@ extension RealmImageModel {
         
         record[scheme.noteRecordName] = CKReference(recordID: noteRecordID, action: .deleteSelf)
         record.setParent(noteRecordID)
-        
-        return (asset.fileURL, record)
+
+        return NSDictionary(dictionary: [Schema.dicURLsKey: [asset.fileURL], Schema.dicRecordKey: record])
     }
 }
 
@@ -125,7 +126,8 @@ extension CKRecord {
         
         guard let id = self[schema.id] as? String,
                 let content = self[schema.content] as? String,
-                let attributes = self[schema.attributes] as? Data,
+                let attributesAsset = self[schema.attributes] as? CKAsset,
+                let attributes = try? Data(contentsOf: attributesAsset.fileURL),
                 let tags = self[schema.tags] as? String,
                 let isPinned = self[schema.isPinned] as? Int,
                 let isInTrash = self[schema.isInTrash] as? Int,
@@ -138,6 +140,10 @@ extension CKRecord {
         newNoteModel.ckMetaData = self.getMetaData()
         newNoteModel.isModified = self.modificationDate ?? Date()
         newNoteModel.tags = tags
+        
+        defer {
+            try? FileManager.default.removeItem(at: attributesAsset.fileURL)
+        }
         
         if isShared {
             if let realm = try? Realm(),

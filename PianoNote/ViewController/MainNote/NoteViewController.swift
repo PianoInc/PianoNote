@@ -36,10 +36,11 @@ class NoteViewController: UIViewController {
         }
         setFormAttributes()
         setDelegates()
-        registerNibs()
+        registerNibs() //카드관련
 
         textView.noteID = noteID
         textView.typingAttributes = FormAttributes.defaultTypingAttributes
+        
         synchronizer = NoteSynchronizer(textView: textView)
         synchronizer?.registerToCloud()
         
@@ -59,7 +60,6 @@ class NoteViewController: UIViewController {
         synchronizer?.unregisterFromCloud()
         notificationToken?.invalidate()
         removeGarbageImages()
-        saveWhenDeallocating()
     }
 
     private func setFormAttributes() {
@@ -150,12 +150,12 @@ class NoteViewController: UIViewController {
 
     private func registerNibs() {
 
-        textView.register(nib: UINib(nibName: "PianoTextImageCell", bundle: nil), forCellReuseIdentifier: ImageAttachment.cellIdentifier)
-        textView.register(nib: UINib(nibName: "PianoTextLinkCell", bundle: nil), forCellReuseIdentifier: LinkAttachment.cellIdentifier)
-        textView.register(nib: UINib(nibName: "PianoTextAddressCell", bundle: nil), forCellReuseIdentifier: AddressAttachment.cellIdentifier)
-        textView.register(nib: UINib(nibName: "PianoTextContactCell", bundle: nil), forCellReuseIdentifier: ContactAttachment.cellIdentifier)
-        textView.register(nib: UINib(nibName: "PianoTextEventCell", bundle: nil), forCellReuseIdentifier: EventAttachment.cellIdentifier)
-        textView.register(nib: UINib(nibName: "PianoTextReminderCell", bundle: nil), forCellReuseIdentifier: ReminderAttachment.cellIdentifier)
+        textView.register(nib: UINib(nibName: "PianoTextImageCell", bundle: nil), forCellReuseIdentifier: PianoTextImageCell.reuseIdentifier)
+//        textView.register(nib: UINib(nibName: "PianoTextLinkCell", bundle: nil), forCellReuseIdentifier: LinkAttachment.cellIdentifier)
+//        textView.register(nib: UINib(nibName: "PianoTextAddressCell", bundle: nil), forCellReuseIdentifier: AddressAttachment.cellIdentifier)
+//        textView.register(nib: UINib(nibName: "PianoTextContactCell", bundle: nil), forCellReuseIdentifier: ContactAttachment.cellIdentifier)
+//        textView.register(nib: UINib(nibName: "PianoTextEventCell", bundle: nil), forCellReuseIdentifier: EventAttachment.cellIdentifier)
+//        textView.register(nib: UINib(nibName: "PianoTextReminderCell", bundle: nil), forCellReuseIdentifier: ReminderAttachment.cellIdentifier)
         
     }
     
@@ -166,9 +166,10 @@ class NoteViewController: UIViewController {
             let attributes = try JSONDecoder().decode([AttributeModel].self, from: note.attributes)
             
             textView.set(string: note.content, with: attributes)
-            
+
             let imageRecordNames = attributes.compactMap { attribute -> String? in
-                if case let .attachment(.image(imageAttribute)) = attribute.style {return imageAttribute.id}
+                if case let .attachment(reuseIdentifier, id) = attribute.style,
+                    reuseIdentifier == PianoTextImageCell.reuseIdentifier {return id}
                 else {return nil}
             }
             
@@ -190,7 +191,8 @@ class NoteViewController: UIViewController {
         let (_, attributes) = textView.attributedText.getStringWithPianoAttributes()
         
         let imageRecordNames = attributes.map { attribute -> String in
-            if case let .attachment(.image(imageAttribute)) = attribute.style {return imageAttribute.id}
+            if case let .attachment(reuseIdentifier, id) = attribute.style,
+                reuseIdentifier == PianoTextImageCell.reuseIdentifier {return id}
             else {return ""}
             }.filter{!$0.isEmpty}
         
@@ -240,7 +242,9 @@ class NoteViewController: UIViewController {
         let (string, attributes) = textView.get()
         let noteID = self.noteID ?? ""
         guard let data = try? JSONEncoder().encode(attributes) else {isSaving = false;return}
-        let kv: [String: Any] = ["content": string, "attributes": data, "isModified": Date()]
+        let kv: [String: Any] = [Schema.Note.content: string,
+                                 Schema.Note.attributes: data,
+                                 "isModified": Date()]
         
         ModelManager.update(id: noteID, type: RealmNoteModel.self, kv: kv, completion: nil)
     }
@@ -255,6 +259,7 @@ class NoteViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         
         super.viewWillDisappear(animated)
+        saveWhenDeallocating()
         unRegisterKeyboardNotification()
         
     }

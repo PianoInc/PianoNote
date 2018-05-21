@@ -25,10 +25,8 @@
 		6CEB8AF2209AA1D800115A94 /* InteractiveAttachmentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEB8AF1209AA1D800115A94 /* InteractiveAttachmentModel.swift */; };
 		75E9936964F92376D8CB5393 /* InteractiveAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */; };
 		75E993D477DF5EB52A338D44 /* InteractiveAttachmentCellDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */; };
-		75E99413B60226CA8BCE5EAA /* InteractiveBackgroundLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99B0E985E8E1A77D477F7 /* InteractiveBackgroundLayer.swift */; };
 		75E9964E0AABC9510D2B8E04 /* InteractiveAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */; };
 		75E998269299F6921E98F788 /* InteractiveAttachmentCellDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */; };
-		75E99B7726A4DC3110A7364B /* InteractiveBackgroundLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E99B0E985E8E1A77D477F7 /* InteractiveBackgroundLayer.swift */; };
 		7C31E8CF2092B87B00470A90 /* PianoBullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A3136208EA53C00063576 /* PianoBullet.swift */; };
 		7C31E8D02092B88500470A90 /* FormAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A313A208EA5B300063576 /* FormAttributes.swift */; };
 		7C31E8D32092BA8300470A90 /* InteractiveImageScrollView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C31E8D22092BA8300470A90 /* InteractiveImageScrollView.xib */; };
@@ -333,7 +331,6 @@
 				6CEB8AF2209AA1D800115A94 /* InteractiveAttachmentModel.swift in Sources */,
 				7CA419B020A40F510017450F /* String.swift in Sources */,
 				7C7A3138208EA53C00063576 /* PianoBullet.swift in Sources */,
-				75E99B7726A4DC3110A7364B /* InteractiveBackgroundLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,7 +348,6 @@
 				75E998269299F6921E98F788 /* InteractiveAttachmentCellDispatcher.swift in Sources */,
 				6C3130D5206374AD001E7E0F /* InteractiveTextView_macOS.swift in Sources */,
 				6C31310720649891001E7E0F /* InteractiveTextStorage.swift in Sources */,
-				75E99413B60226CA8BCE5EAA /* InteractiveBackgroundLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

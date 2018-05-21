@@ -20,9 +20,9 @@ extension PianoTextView {
         selectedAttributedString.enumerateAttribute(.attachment, in: NSMakeRange(0, selectedAttributedString.length),
                                                     options: .longestEffectiveRangeNotRequired)
         { value, range, _ in
-            if let attachment = value as? ImageAttachment,
-                case let .image(imageAttribute)? = attachment.attribute,
-                let imageModel = realm.object(ofType: RealmImageModel.self, forPrimaryKey: imageAttribute.id),
+            if let attachment = value as? CardAttachment,
+                attachment.cellIdentifier == PianoTextImageCell.reuseIdentifier,
+                let imageModel = realm.object(ofType: RealmImageModel.self, forPrimaryKey: attachment.idForModel),
                 let image = UIImage(data: imageModel.image) {
                 
                 let resizedImage: UIImage!
@@ -41,10 +41,10 @@ extension PianoTextView {
                 let replacement = NSAttributedString(attachment: newAttachment)
                 
                 selectedAttributedString.replaceCharacters(in: range, with: replacement)
-            } else if let attachment = value as? AttributeContainingAttachment {
+            } else if let attachment = value as? CardAttachment {
                 
                 let newAttachment = NSTextAttachment()
-                newAttachment.contents = try! JSONEncoder().encode(attachment.attribute)
+                newAttachment.contents = try! JSONEncoder().encode(["id": attachment.idForModel, "identifier": attachment.cellIdentifier])
                 newAttachment.fileType = "Attribute"
                 
                 let replacement = NSAttributedString(attachment: newAttachment)
@@ -92,24 +92,20 @@ extension PianoTextView {
                         let newImageModel = RealmImageModel.getNewModel(noteRecordName: noteModel.recordName, image: resizedImage)
                         ModelManager.saveNew(model: newImageModel) { error in }
                         
-                        let imageAttribute = ImageAttribute(id: newImageModel.id, size: resizedImage.size)
-                        let newAttachment = ImageAttachment(attribute: imageAttribute)
+                        let newAttachment = CardAttachment(idForModel: newImageModel.id, cellIdentifier: PianoTextImageCell.reuseIdentifier)
 
                         let attachString = NSAttributedString(attachment: newAttachment)
                         
                         pasteString.replaceCharacters(in: range, with: attachString)
                     } else if let data = attachment.fileWrapper?.regularFileContents {
-                        let style = try! JSONDecoder().decode(AttachmentAttribute.self, from: data)
-                        var newAttachment: InteractiveTextAttachment? = nil
-                        switch style {
-                        case .event(let eventAttribute): newAttachment = EventAttachment(attribute: eventAttribute)
-                        default: break
-                        }
-                        if let newAttachment = newAttachment {
-                            let attachString = NSAttributedString(attachment: newAttachment)
-                            pasteString.replaceCharacters(in: range, with: attachString)
-                        }
-                        //attachment init해서 replace 하는식으로~
+                        let style = try! JSONDecoder().decode([String: String].self, from: data)
+                        let id = style["id"]!
+                        let cellIdentifier = style["identifier"]!
+                        let newAttachment = CardAttachment(idForModel: id, cellIdentifier: cellIdentifier)
+
+                        let attachString = NSAttributedString(attachment: newAttachment)
+                        pasteString.replaceCharacters(in: range, with: attachString)
+
                     }
                 }
             })
