@@ -254,8 +254,7 @@ class NoteViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-//        registerKeyboardNotification()
-        
+        registerKeyboardNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
