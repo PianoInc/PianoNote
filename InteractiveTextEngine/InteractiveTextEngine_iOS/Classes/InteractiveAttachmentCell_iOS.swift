@@ -11,12 +11,13 @@ open class InteractiveAttachmentCell: UIView {
 
     let uniqueID = UUID().uuidString
     var reuseIdentifier: String!
-    let lineFragmentPadding: CGFloat = 8.0
     
     weak var relatedAttachment: InteractiveTextAttachment?
     
     var leadingConstraint: NSLayoutConstraint?
     var topConstraint: NSLayoutConstraint?
+    var widthConstraint: NSLayoutConstraint?
+    var heightConstraint: NSLayoutConstraint?
     
     func getScreenShot() -> UIImage {
         let renderer = UIGraphicsImageRenderer(bounds: bounds)

@@ -81,7 +81,11 @@ extension NoteViewController {
     }
     
     @objc func tapSetting(sender: Any) {
-        performSegue(withIdentifier: SegueIdentifer.NoteSettingViewController, sender: textView)
+        
+        
+        let newAttachment = CardAttachment(idForModel: "SomeID", cellIdentifier: PianoTextImageCell.reuseIdentifier)
+        textView.textStorage.append(NSAttributedString(attachment: newAttachment))
+//        performSegue(withIdentifier: SegueIdentifer.NoteSettingViewController, sender: textView)
     }
     
     

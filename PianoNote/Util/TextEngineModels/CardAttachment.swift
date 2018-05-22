@@ -51,7 +51,7 @@ class CardAttachment: InteractiveTextAttachment {
         let height: CGFloat
 
         switch identifier {
-            default: height = 50
+            default: height = 100
         }
 
         return CGSize(width: width, height: height)

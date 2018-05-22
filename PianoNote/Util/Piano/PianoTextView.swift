@@ -116,7 +116,6 @@ class PianoTextView: InteractiveTextView {
     override func updateConstraints() {
         
         super.updateConstraints()
-        resetConstraints()
         
     }
     

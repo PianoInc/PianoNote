@@ -51,9 +51,9 @@ class NoteViewController: UIViewController {
 //        navigationController?.navigationBar.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         
-//        textView.translatesAutoresizingMaskIntoConstraints = false
-//        textView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        textView.autoresizesSubviews = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
         setNoteContents()
         subscribeToChange()
     }
