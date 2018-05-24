@@ -22,8 +22,8 @@ extension NoteViewController {
     @objc func keyboardWillShow(notification: Notification) {
 
         guard let userInfo = notification.userInfo,
-            let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height,
-            let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+            let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height
+        else { return }
         
         keyboardToken =  UIApplication.shared
             .windows[1].subviews
@@ -31,23 +31,29 @@ extension NoteViewController {
             .first?.layer.observe(\.position,
                            changeHandler: { [weak self] (layer, change) in
                             guard let strongSelf = self else { return }
-                            strongSelf.view.constraints.forEach({ (constraint) in
-                                if constraint.identifier == ConstraintIdentifier.pianoTextViewBottom {
-                                    constraint.constant = max(strongSelf.view.bounds.height - layer.position.y, 0)
-                                }
-                            })
+                            //change inset
+                            let currentInset = strongSelf.textView.contentInset
+                            let currentScrollInset = strongSelf.textView.scrollIndicatorInsets
+                            
+                            strongSelf.textView.contentInset = UIEdgeInsets(top: currentInset.top,
+                                                                            left: currentInset.left,
+                                                                            bottom: max(strongSelf.view.bounds.height - layer.position.y, 0),
+                                                                            right: currentInset.right)
+                            strongSelf.textView.scrollIndicatorInsets = UIEdgeInsets(top: currentScrollInset.top,
+                                                                                     left: currentScrollInset.left,
+                                                                                     bottom: max(strongSelf.view.bounds.height - layer.position.y, 0),
+                                                                                     right: currentScrollInset.right)
             })
         
-        UIView.animate(withDuration: duration, animations: { [weak self] in
-            self?.view.constraints.forEach({ (constraint) in
-                if constraint.identifier == ConstraintIdentifier.pianoTextViewBottom {
-                    constraint.constant = kbHeight
-                    self?.view.layoutIfNeeded()
-                    return
-                }
-            })
-        })
 
+
+        let currentInset = textView.contentInset
+        let currentScrollInset = textView.scrollIndicatorInsets
+        
+        textView.contentInset = UIEdgeInsets(top: currentInset.top, left: currentInset.left,
+                                             bottom: currentInset.bottom + kbHeight, right: currentInset.right)
+        textView.scrollIndicatorInsets = UIEdgeInsets(top: currentScrollInset.top, left: currentScrollInset.left,
+                                                      bottom: currentScrollInset.bottom + kbHeight, right: currentScrollInset.right)
     }
     
     @objc func keyboardDidHide(notification: Notification) {

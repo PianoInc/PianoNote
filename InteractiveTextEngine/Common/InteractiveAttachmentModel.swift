@@ -13,7 +13,7 @@ struct InteractiveAttachmentModel {
     
     //TODO: regexs localized ex: regexString.localized
     private let regexs: [(type: InteractiveAttachmentType, regex: String)] = [
-        (.images, "^\\s*(#\(InteractiveAttachmentModel.keywords[0])\\s*)(?=)"),
+        (.image, "^\\s*(#\(InteractiveAttachmentModel.keywords[0])\\s*)(?=)"),
         (.url, "^\\s*(#\(InteractiveAttachmentModel.keywords[1])\\s*)(?=)"),
         (.address, "^\\s*(#\(InteractiveAttachmentModel.keywords[2])\\s*)(?=)"),
         (.contact, "^\\s*(#\(InteractiveAttachmentModel.keywords[3])\\s*)(?=)"),
@@ -25,8 +25,8 @@ struct InteractiveAttachmentModel {
     // replace해야하는 범위: 문단의 맨 앞 위치 <= 범위 <=커서의 위치
     
     
-    enum InteractiveAttachmentType {
-        case images
+    public enum InteractiveAttachmentType {
+        case image
         case url
         case address
         case contact
@@ -46,6 +46,7 @@ struct InteractiveAttachmentModel {
                 self.type = type
                 self.textRange = NSMakeRange(range.location + range.length,
                                              selectedRange.location - (range.location + range.length))
+                self.paraRange = paraRange
                 return
             }
         }
@@ -55,6 +56,7 @@ struct InteractiveAttachmentModel {
     
     public let range: NSRange
     public let textRange: NSRange
+    public let paraRange: NSRange
     public let type: InteractiveAttachmentType
     
     

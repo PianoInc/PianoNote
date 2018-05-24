@@ -87,8 +87,10 @@ class PianoTextView: InteractiveTextView, Assistable, Pianoable {
         
         
         newTextView.addConstraints(constraints)
-        newTextView.autoresizingMask = self.autoresizingMask
-        newTextView.translatesAutoresizingMaskIntoConstraints = self.translatesAutoresizingMaskIntoConstraints
+        newTextView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        newTextView.translatesAutoresizingMaskIntoConstraints = false
+//        newTextView.autoresizingMask = self.autoresizingMask
+//        newTextView.translatesAutoresizingMaskIntoConstraints = self.translatesAutoresizingMaskIntoConstraints
         
         
         newTextView.autocorrectionType = self.autocorrectionType
@@ -116,7 +118,6 @@ class PianoTextView: InteractiveTextView, Assistable, Pianoable {
     override func updateConstraints() {
         
         super.updateConstraints()
-        resetConstraints()
         
     }
     

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 extension NoteViewController: UITextViewDelegate {
     
@@ -54,6 +55,52 @@ extension NoteViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         (textView as? Assistable)?.hideAssistViewIfNeeded()
     }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        if text == "\n" {
+            if let attachment = InteractiveAttachmentModel(text: textView.text, selectedRange: textView.selectedRange) {
+                
+                if attachment.type == .image {
+                    
+                    guard let realm = try? Realm(), let noteRecordName = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID)?.recordName else { return true }
+                    
+                    let imageModel = RealmImageModel.getNewModel(noteRecordName: noteRecordName, image: UIImage(named: "addPeople")!)
+                    ModelManager.saveNew(model: imageModel)
+                    let cardAttachment = CardAttachment(idForModel: imageModel.id, cellIdentifier: PianoTextImageCell.reuseIdentifier)
+                    textView.textStorage.replaceCharacters(in: attachment.paraRange, with: NSAttributedString(attachment: cardAttachment))
+                    
+                }
+                
+                
+            }
+        }
+        return true
+        
+    }
+    
+
+    
+    /*
+     
+     if let card = PianoCard(
+     text: string,
+     selectedRange: NSMakeRange(cursorLocation, 0)) {
+     
+     //카드가 있다면 붙여주기
+     //                let attachment = card.attachment()
+     //개행을 추가해 붙이기
+     let newLine = "\n"
+     
+     //붙이기
+     //                backingStore.replaceCharacters(in: <#T##NSRange#>, with: <#T##NSAttributedString#>)
+     
+     
+     endEditing()
+     return
+     }
+     
+     */
     
 
    

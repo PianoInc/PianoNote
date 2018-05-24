@@ -11,26 +11,26 @@ import CoreGraphics
 
 extension View {
     
-    internal func hasSubView(viewTag: String) -> Bool {
+    internal func hasSubView(identifier: String) -> Bool {
         
-        return self.viewWithTag(viewTag.hashValue) != nil ? true : false
+        return self.viewWithTag(identifier.hashValue) != nil ? true : false
     }
     
-    internal func subView(viewTag: String) -> View? {
-        return viewWithTag(viewTag.hashValue)
+    internal func subView(identifier: String) -> View? {
+        return viewWithTag(identifier.hashValue)
         
     }
     
-    internal func createSubviewIfNeeded(viewTag: String) -> View {
+    internal func createSubviewIfNeeded(identifier: String) -> View {
         
-        if let view = self.viewWithTag(viewTag.hashValue) {
+        if let view = self.viewWithTag(identifier.hashValue) {
             return view
         }
         
-        let nib = Nib(nibName: viewTag, bundle: nil)
+        let nib = Nib(nibName: identifier, bundle: nil)
         for object in nib.instantiate(withOwner: nil, options: nil) {
             if let view = object as? View {
-                view.tag = viewTag.hashValue
+                view.tag = identifier.hashValue
                 return view
             }
         }

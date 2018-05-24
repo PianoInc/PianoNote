@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PianoTextImageListCell" customModule="PianoNote" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="174"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Lwj-DK-5CF">
+                    <rect key="frame" x="128.5" y="50" width="118" height="116"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5G9-0Y-81u">
+                    <rect key="frame" x="247.5" y="50" width="117.5" height="116"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jaA-i4-Cx2">
+                    <rect key="frame" x="337" y="16" width="22" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="22" id="tFS-PD-kJD"/>
+                        <constraint firstAttribute="height" constant="22" id="yMk-R5-elb"/>
+                    </constraints>
+                    <state key="normal" image="download"/>
+                    <connections>
+                        <action selector="saveButtonTouched" destination="iN0-l3-epB" eventType="touchUpInside" id="RTP-KU-1qy"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j72-Yr-4Vj">
+                    <rect key="frame" x="10" y="50" width="117.5" height="116"/>
+                </imageView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nZK-Ti-OHc">
+                    <rect key="frame" x="247.5" y="50" width="117.5" height="116"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M8d-u3-W66">
+                            <rect key="frame" x="44" y="45.5" width="29.5" height="26.5"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="M8d-u3-W66" firstAttribute="centerY" secondItem="nZK-Ti-OHc" secondAttribute="centerY" id="3Ci-ws-SA1"/>
+                        <constraint firstItem="M8d-u3-W66" firstAttribute="centerX" secondItem="nZK-Ti-OHc" secondAttribute="centerX" id="xVw-w1-zz2"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="5G9-0Y-81u" secondAttribute="trailing" constant="10" id="59A-G6-ePW"/>
+                <constraint firstItem="Lwj-DK-5CF" firstAttribute="leading" secondItem="j72-Yr-4Vj" secondAttribute="trailing" constant="1" id="ADe-mq-sfp"/>
+                <constraint firstItem="nZK-Ti-OHc" firstAttribute="width" secondItem="5G9-0Y-81u" secondAttribute="width" id="HK9-nN-uZ1"/>
+                <constraint firstItem="nZK-Ti-OHc" firstAttribute="leading" secondItem="5G9-0Y-81u" secondAttribute="leading" id="Hma-Lz-SLy"/>
+                <constraint firstItem="Lwj-DK-5CF" firstAttribute="width" secondItem="j72-Yr-4Vj" secondAttribute="width" id="IJc-uI-RS2"/>
+                <constraint firstItem="nZK-Ti-OHc" firstAttribute="height" secondItem="5G9-0Y-81u" secondAttribute="height" id="JAa-2z-wzp"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="jaA-i4-Cx2" secondAttribute="trailing" constant="16" id="M1c-bU-kJb"/>
+                <constraint firstItem="5G9-0Y-81u" firstAttribute="leading" secondItem="Lwj-DK-5CF" secondAttribute="trailing" constant="1" id="QIG-UV-dBS"/>
+                <constraint firstAttribute="bottom" secondItem="5G9-0Y-81u" secondAttribute="bottom" constant="8" id="R9z-Ix-vdK"/>
+                <constraint firstAttribute="bottom" secondItem="j72-Yr-4Vj" secondAttribute="bottom" constant="8" id="RXp-A0-rsm"/>
+                <constraint firstItem="5G9-0Y-81u" firstAttribute="top" secondItem="jaA-i4-Cx2" secondAttribute="bottom" constant="12" id="SFX-rL-l41"/>
+                <constraint firstItem="Lwj-DK-5CF" firstAttribute="top" secondItem="5G9-0Y-81u" secondAttribute="top" id="UwB-BY-o7B"/>
+                <constraint firstItem="5G9-0Y-81u" firstAttribute="width" secondItem="Lwj-DK-5CF" secondAttribute="width" id="Wsk-hk-XCY"/>
+                <constraint firstItem="nZK-Ti-OHc" firstAttribute="top" secondItem="5G9-0Y-81u" secondAttribute="top" id="X8v-S8-LT0"/>
+                <constraint firstItem="Lwj-DK-5CF" firstAttribute="top" secondItem="j72-Yr-4Vj" secondAttribute="top" id="eW5-Qm-sHt"/>
+                <constraint firstItem="j72-Yr-4Vj" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="jMh-as-U7j"/>
+                <constraint firstItem="jaA-i4-Cx2" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="16" id="nAa-gQ-m2g"/>
+                <constraint firstAttribute="bottom" secondItem="Lwj-DK-5CF" secondAttribute="bottom" constant="8" id="nXL-fI-mXQ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="filterView" destination="nZK-Ti-OHc" id="3Sh-eU-oVB"/>
+                <outlet property="firstImageView" destination="j72-Yr-4Vj" id="S63-mb-kux"/>
+                <outlet property="secondImageView" destination="Lwj-DK-5CF" id="myG-uX-tCX"/>
+                <outlet property="thirdImageView" destination="5G9-0Y-81u" id="J0x-oG-M9t"/>
+            </connections>
+            <point key="canvasLocation" x="68.5" y="162"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="download" width="14" height="14"/>
+    </resources>
+</document>
