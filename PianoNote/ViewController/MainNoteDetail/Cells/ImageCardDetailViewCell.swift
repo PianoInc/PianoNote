@@ -8,11 +8,35 @@
 
 import UIKit
 
-class ImageCardDetailViewCell: UICollectionViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+class ImageCardDetailViewCell: UICollectionViewCell, Reusable {
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var livePhotoBadgeImageView: UIImageView!
+    
+    var representedAssetIdentifier: String!
+    
+    var thumbnailImage: UIImage! {
+        didSet {
+            imageView.image = thumbnailImage
+        }
     }
+    
+    var livePhotoBadgeImage: UIImage! {
+        didSet {
+            livePhotoBadgeImageView.image = livePhotoBadgeImage
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        thumbnailImage = nil
+        livePhotoBadgeImageView.image = nil
+    }
+}
 
+protocol Reusable {}
+
+extension Reusable {
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
 }

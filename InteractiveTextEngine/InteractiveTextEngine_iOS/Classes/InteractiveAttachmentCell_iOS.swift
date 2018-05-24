@@ -25,4 +25,8 @@ open class InteractiveAttachmentCell: UIView {
             layer.render(in: rendererContext.cgContext)
         }
     }
+
+    open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return false
+    }
 }

@@ -21,17 +21,16 @@ class PianoTextImageCell: InteractiveAttachmentCell, AttributeModelConfigurable 
 
     
     func configure(with id: String) {
-        self.backgroundColor = UIColor.red
-//        guard let realm = try? Realm(),
-//            let imageModel = realm.object(ofType: RealmImageModel.self, forPrimaryKey: id)
-//        else {return waitForReload(id: id)}
-//        
-//        guard let image = UIImage(data: imageModel.image) else {return}
-//        imageView.image = image
+        guard let realm = try? Realm(),
+            let imageModel = realm.object(ofType: RealmImageModel.self, forPrimaryKey: id)
+        else {return}
+        
+        guard let image = UIImage(data: imageModel.image) else {return}
+        imageView.image = image
     }
     
-    func waitForReload(id: String) {
-        
-    }
+//    func waitForReload(id: String) {
+//
+//    }
     
 }
