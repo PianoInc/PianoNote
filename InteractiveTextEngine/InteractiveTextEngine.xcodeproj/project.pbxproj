@@ -61,7 +61,6 @@
 		6C72A895206326A000D124EA /* InteractiveTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveTextView.swift; sourceTree = "<group>"; };
 		6C72A8982063277800D124EA /* InteractiveTextAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveTextAttachment.swift; sourceTree = "<group>"; };
 		6CEB8AF1209AA1D800115A94 /* InteractiveAttachmentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveAttachmentModel.swift; sourceTree = "<group>"; };
-		75E99B0E985E8E1A77D477F7 /* InteractiveBackgroundLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveBackgroundLayer.swift; sourceTree = "<group>"; };
 		75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveAttachmentCell.swift; sourceTree = "<group>"; };
 		75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveAttachmentCellDispatcher.swift; sourceTree = "<group>"; };
 		7C31E8D22092BA8300470A90 /* InteractiveImageScrollView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InteractiveImageScrollView.xib; sourceTree = "<group>"; };
@@ -157,7 +156,6 @@
 				6C72A8982063277800D124EA /* InteractiveTextAttachment.swift */,
 				75E99E05B6B564EEBCA9B769 /* InteractiveAttachmentCell.swift */,
 				75E99E2B1CAE9919EFA187EC /* InteractiveAttachmentCellDispatcher.swift */,
-				75E99B0E985E8E1A77D477F7 /* InteractiveBackgroundLayer.swift */,
 				6CEB8AF1209AA1D800115A94 /* InteractiveAttachmentModel.swift */,
 				7C7A3152208EA82100063576 /* FormManager */,
 				7C31E8D42092BB0100470A90 /* View */,
