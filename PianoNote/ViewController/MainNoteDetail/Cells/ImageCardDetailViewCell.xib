@@ -29,21 +29,34 @@
                             <constraint firstAttribute="width" constant="28" id="OIV-hA-ZF8"/>
                         </constraints>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkIcon" translatesAutoresizingMaskIntoConstraints="NO" id="poW-3h-GgZ">
+                        <rect key="frame" x="85" y="10" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="7UN-Ic-TFw"/>
+                            <constraint firstAttribute="height" constant="24" id="Vi1-4X-YOI"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="Yd7-Sw-78p" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Cy5-Ok-EMy"/>
                 <constraint firstItem="ctT-qV-tzX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="0.5" id="Ggw-w6-OR3"/>
                 <constraint firstItem="Yd7-Sw-78p" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Kit-xJ-3bC"/>
+                <constraint firstItem="poW-3h-GgZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="LwM-Y0-pel"/>
                 <constraint firstAttribute="trailing" secondItem="Yd7-Sw-78p" secondAttribute="trailing" id="N0Z-fa-6T8"/>
+                <constraint firstAttribute="trailing" secondItem="poW-3h-GgZ" secondAttribute="trailing" constant="10" id="aeI-jb-AOC"/>
                 <constraint firstItem="ctT-qV-tzX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="0.5" id="bFX-qz-ZQQ"/>
                 <constraint firstAttribute="bottom" secondItem="Yd7-Sw-78p" secondAttribute="bottom" id="yEx-7t-a2l"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
+                <outlet property="checkImageView" destination="poW-3h-GgZ" id="vxm-L1-dFN"/>
                 <outlet property="imageView" destination="Yd7-Sw-78p" id="Lsg-pX-Duz"/>
                 <outlet property="livePhotoBadgeImageView" destination="ctT-qV-tzX" id="8hQ-fy-tVL"/>
             </connections>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="checkIcon" width="24" height="24"/>
+    </resources>
 </document>

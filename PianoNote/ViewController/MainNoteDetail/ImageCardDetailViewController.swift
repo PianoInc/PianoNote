@@ -9,6 +9,8 @@
 import UIKit
 import Photos
 import PhotosUI
+import RealmSwift
+import CloudKit
 
 private extension UICollectionView {
     func indexPathsForElements(in rect: CGRect) -> [IndexPath] {
@@ -25,6 +27,9 @@ class ImageCardDetailViewController: UIViewController {
     fileprivate var thumbnailSize: CGSize!
     fileprivate lazy var imageManager = PHCachingImageManager()
     fileprivate var previousPreheatRect = CGRect.zero
+    private var isSelectedArray: [Bool] = []
+    
+    var noteID: String!
     
     
     override func viewDidLoad() {
@@ -51,6 +56,41 @@ class ImageCardDetailViewController: UIViewController {
     }
     
     @IBAction func doneButtonTouched(_ sender: UIBarButtonItem) {
+        guard let realm = try? Realm(),
+                let noteModel = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID),
+                let result = allPhotos else {return}
+
+        let coder = NSKeyedUnarchiver(forReadingWith: noteModel.ckMetaData)
+        coder.requiresSecureCoding = true
+        guard let record = CKRecord(coder: coder) else {fatalError("Data poluted!!")}
+        coder.finishDecoding()
+
+        var ids: [String] = []
+        isSelectedArray.filter{ $0 }.enumerated().forEach { offset, _ in
+            let asset = result[offset]
+            let newImageModel = RealmImageModel.getNewModel(sharedZoneID: record.recordID.zoneID, noteRecordName: record.recordID.recordName)
+            let newID = newImageModel.id
+            ids.append(newID)
+            ModelManager.saveNew(model: newImageModel)
+
+            let requestOptions = PHImageRequestOptions()
+
+            requestOptions.resizeMode = PHImageRequestOptionsResizeMode.fast
+            requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.fastFormat
+            requestOptions.isSynchronous = false
+
+            PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: PHImageContentMode.default, options: requestOptions) { [weak self](image, dic) in
+                guard let wrappedImage = image,
+                        let imageData = UIImageJPEGRepresentation(wrappedImage, 1.0) else { return }
+
+                ModelManager.update(id: newID, type: RealmImageModel.self, kv: [Schema.Image.image: imageData])
+            }
+        }
+
+        let newImageListModel = RealmImageListModel.getNewModel(sharedZoneID: record.recordID.zoneID, noteRecordName: noteModel.recordName, imageIDs: ids)
+        ModelManager.saveNew(model: newImageListModel)
+        //get id & make card
+        
     }
     
     @IBAction func closeButtonTouched(_ sender: UIBarButtonItem) {
@@ -65,6 +105,7 @@ class ImageCardDetailViewController: UIViewController {
         allPhotosOptions.predicate = NSPredicate(format: "creationDate <= %@ && modificationDate <= %@", date as CVarArg, date as CVarArg)
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
+        isSelectedArray = [Bool](repeating: false, count: allPhotos!.count)
         
         PHPhotoLibrary.shared().register(self)
         
@@ -93,6 +134,9 @@ extension ImageCardDetailViewController: UICollectionViewDataSource {
                 cell.thumbnailImage = image
             }
         })
+        cell.imageView.alpha = isSelectedArray[indexPath.item] ? 0.6 : 1.0
+        cell.checkImageView.isHidden = !isSelectedArray[indexPath.item]
+        
         return cell
     }
     
@@ -108,21 +152,11 @@ extension ImageCardDetailViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let asset = allPhotos?.object(at: indexPath.item) else { return }
-        
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.resizeMode = PHImageRequestOptionsResizeMode.fast
-        requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.fastFormat
-        requestOptions.isSynchronous = false
-        
-        
-        PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: PHImageContentMode.default, options: requestOptions) { [weak self](image, dic) in
-            guard let wrappedImage = image else { return }
-            
-            guard let url = dic?["PHImageFileURLKey"] as? URL else {return}
-            print(url)
-//            self?.delegate?.photoView(url: url, image: wrappedImage)
-        }
+        isSelectedArray[indexPath.item] = !isSelectedArray[indexPath.item]
+        collectionView.reloadItems(at: [indexPath])
+//        guard let asset = allPhotos?.object(at: indexPath.item) else { return }
+//
+
     }
 }
 
@@ -228,6 +262,8 @@ extension ImageCardDetailViewController: PHPhotoLibraryChangeObserver {
         DispatchQueue.main.sync {
             // Hang on to the new fetch result.\
             allPhotos = changes.fetchResultAfterChanges
+            isSelectedArray = [Bool](repeating: false, count: allPhotos!.count)
+            
             if changes.hasIncrementalChanges {
                 // If we have incremental diffs, animate them in the collection view.
                 guard let collectionView = self.collectionView else { fatalError() }

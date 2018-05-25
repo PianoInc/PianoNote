@@ -43,7 +43,7 @@
                     <items>
                         <barButtonItem systemItem="edit" id="65j-Fn-9mo"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="g41-hy-J1F"/>
-                        <barButtonItem title="Item" id="1eV-em-vDM"/>
+                        <barButtonItem image="share" id="1eV-em-vDM"/>
                     </items>
                 </toolbar>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ZgJ-S4-KcA">
@@ -73,4 +73,7 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
         </view>
     </objects>
+    <resources>
+        <image name="share" width="19" height="26"/>
+    </resources>
 </document>
