@@ -221,7 +221,7 @@ class InteractiveTextStorage: NSTextStorage {
     }
     
     private func attachmentChanged(deletedRange: NSRange? = nil, newAttString: NSAttributedString? = nil) {
-        print(deletedRange, newAttString)
+//        print(deletedRange, newAttString)
         if let deletedRange = deletedRange {
             enumerateAttribute(.attachment, in: deletedRange, options: .longestEffectiveRangeNotRequired) { (value, _, _) in
                 guard let attachment = value as? InteractiveTextAttachment else {return}

@@ -25,6 +25,7 @@ class InteractiveLayoutManager: NSLayoutManager {
 
             let currentBounds = self.boundingRect(forGlyphRange: currentGlyphRange, in: container)
                                             
+            attachment.currentCharacterIndex = range.location
             attachment.currentBounds = currentBounds
         }
 

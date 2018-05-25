@@ -12,7 +12,7 @@ open class InteractiveTextAttachment: NSTextAttachment {
     public let uniqueID = UUID().uuidString // cell dispatcher가 사용하는 unique ID
 
     private var isVisible = false //현재 텍스트뷰에서 visible한가
-    private var currentCharacterIndex: Int!// 현재 textview의 character index
+    var currentCharacterIndex: Int!// 현재 textview의 character index
 
     weak var relatedCell: InteractiveAttachmentCell?
     weak var delegate: InteractiveTextAttachmentDelegate?
@@ -88,7 +88,6 @@ open class InteractiveTextAttachment: NSTextAttachment {
     }
 
     override open func attachmentBounds(for textContainer: NSTextContainer?, proposedLineFragment lineFrag: CGRect, glyphPosition position: CGPoint, characterIndex charIndex: Int) -> CGRect {
-        currentCharacterIndex = charIndex
         return CGRect(x: 0, y: 0, width: currentSize.width, height: currentSize.height)
     }
 

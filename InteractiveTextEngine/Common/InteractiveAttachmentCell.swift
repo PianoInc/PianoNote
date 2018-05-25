@@ -19,15 +19,15 @@ extension InteractiveAttachmentCell {
                                         dy: superView.textContainerInset.top)
                               .insetBy(dx: 1.5, dy: 0)
         
-        if newBounds.minX != leadingConstraint!.constant || newBounds.minY != topConstraint!.constant {
-            
-            DispatchQueue.main.async { [weak self] in
-                self?.leadingConstraint?.constant = newBounds.minX
-                self?.topConstraint?.constant = newBounds.minY
-                self?.widthConstraint?.constant = newBounds.width
-                self?.heightConstraint?.constant = newBounds.height
+        if newBounds.minX != leadingConstraint!.constant
+            || newBounds.minY != topConstraint!.constant
+            || newBounds.width != widthConstraint!.constant
+            || newBounds.height != heightConstraint!.constant {
 
-            }
+            leadingConstraint?.constant = newBounds.minX
+            topConstraint?.constant = newBounds.minY
+            widthConstraint?.constant = newBounds.width
+            heightConstraint?.constant = newBounds.height
         }
     }
     
