@@ -47,8 +47,8 @@ class CardAttachment: InteractiveTextAttachment {
 
     ///Set size for attachment!
     private func size(forIdentifier identifier: String) -> CGSize {
-        let edgeInsets = 53 // head == 30, tail == 20, inset == 3
-        let width = self.minSize - 53
+        let edgeInsets: CGFloat = 53 // head == 30, tail == 20, inset == 3
+        let width = self.minSize - edgeInsets
         let height: CGFloat
 
         switch identifier {
