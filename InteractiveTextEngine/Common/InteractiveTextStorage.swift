@@ -99,7 +99,9 @@ class InteractiveTextStorage: NSTextStorage {
         }
         
         //패러그랲 붙여주고, 그 패러그랲 서식검사하고 이 순서로 가기
-        let mutableAttrString = NSMutableAttributedString(string: attrString.string, attributes: FormAttributes.defaultAttributes)
+        let mutableAttrString = NSMutableAttributedString(attributedString: attrString)
+        mutableAttrString.addAttributes(FormAttributes.defaultAttributes, range: NSMakeRange(0, mutableAttrString.length))
+//        let mutableAttrString = NSMutableAttributedString(string: attrString.string, attributes: FormAttributes.defaultAttributes)
         var paraRange = (mutableAttrString.string as NSString).paragraphRange(for: NSMakeRange(0, 0))
         
         repeat {
@@ -219,6 +221,7 @@ class InteractiveTextStorage: NSTextStorage {
     }
     
     private func attachmentChanged(deletedRange: NSRange? = nil, newAttString: NSAttributedString? = nil) {
+//        print(deletedRange, newAttString)
         if let deletedRange = deletedRange {
             enumerateAttribute(.attachment, in: deletedRange, options: .longestEffectiveRangeNotRequired) { (value, _, _) in
                 guard let attachment = value as? InteractiveTextAttachment else {return}

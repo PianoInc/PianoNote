@@ -37,7 +37,6 @@ class ModelManager {
 
             cloudCompletion = { error in
                 (dic.object(forKey: Schema.dicURLsKey) as! [URL]).forEach {
-                    print("delete")
                     try? FileManager.default.removeItem(at: $0)
                 }
                 completion?(error)
@@ -117,7 +116,7 @@ class ModelManager {
             }, completion: { error in
                 guard let realm = try? Realm(),
                     let model = realm.object(ofType: type.self, forPrimaryKey: id) as? (Object & Recordable),
-                    let record = model.getRecord?() else {return completion?(ModelManagerError.objectNotFound) ?? ()}
+                    let record = model.getRecord?() else {return completion?(error) ?? ()}
                 
                 if isShared && (kv.keys.contains(Schema.Note.isPinned) || kv.keys.contains(Schema.Note.isLocked)) {
                     return

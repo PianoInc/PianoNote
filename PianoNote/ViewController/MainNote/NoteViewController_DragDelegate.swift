@@ -74,12 +74,16 @@ extension NoteViewController: UITextPasteDelegate {
             
             if let attachment = attributedString.attribute(.attachment, at: 0, effectiveRange: nil) as? InteractiveTextAttachment {
                 let newAttr = NSAttributedString(attachment: attachment.getCopyForDragInteraction())
-                return newAttr
+                let newMutableAttr = NSMutableAttributedString(attributedString: newAttr)
+                newMutableAttr.addAttributes(FormAttributes.defaultAttributes, range: NSMakeRange(0, newMutableAttr.length))
+                
+                return newMutableAttr
             }
         }
         
         return itemStrings.reduce(NSMutableAttributedString()) { (result, attr) -> NSMutableAttributedString in
             result.append(attr)
+            
             return result
         }
     }

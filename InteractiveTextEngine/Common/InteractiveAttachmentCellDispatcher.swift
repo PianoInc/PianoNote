@@ -67,12 +67,25 @@ class InteractiveAttachmentCellDispatcher {
         
             for object in nib.instantiate(withOwner: nil, options: nil) {
                 if let cell = object as? InteractiveAttachmentCell {
-                    cell.frame = CGRect.zero
+                    
                     
                     cell.isUserInteractionEnabled = true
+                    cell.translatesAutoresizingMaskIntoConstraints = false
+                    cell.autoresizingMask = [.flexibleWidth, .flexibleHeight]
                     
                     textView.addSubview(cell)
                     
+                    cell.leadingConstraint = NSLayoutConstraint(item: cell, attribute: .leading, relatedBy: .equal,
+                                                               toItem: textView, attribute: .leading, multiplier: 1.0, constant: 0.0)
+                    cell.topConstraint = NSLayoutConstraint(item: cell, attribute: .top, relatedBy: .equal,
+                                                            toItem: textView, attribute: .top, multiplier: 1.0, constant: 0.0)
+                    cell.widthConstraint = NSLayoutConstraint(item: cell, attribute: .width, relatedBy: .equal,
+                                                              toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0.0)
+                    cell.heightConstraint = NSLayoutConstraint(item: cell, attribute: .height, relatedBy: .equal,
+                                                               toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0.0)
+                    
+                    NSLayoutConstraint.activate([cell.leadingConstraint!, cell.topConstraint!,
+                                                 cell.widthConstraint!, cell.heightConstraint!])
                     idleCells[identifier]?[cell.uniqueID] = cell
                     cell.reuseIdentifier = identifier
                     
@@ -96,7 +109,6 @@ class InteractiveAttachmentCellDispatcher {
 extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate {
     
     func needToDisplay(attachment: InteractiveTextAttachment) {
-        
         if attachment.relatedCell != nil { return }
         //get cell from delegate
         guard let textView = superView,
@@ -116,7 +128,13 @@ extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate
         //sync frame
         
         let containerInset = textView.textContainerInset
-        cell.frame = currentBounds.offsetBy(dx: 1 + containerInset.left, dy: containerInset.top)
+        
+        let cellBounds = currentBounds.offsetBy(dx: containerInset.left, dy: containerInset.top).insetBy(dx: 1.5, dy: 0)
+        cell.leadingConstraint?.constant = cellBounds.minX
+        cell.topConstraint?.constant = cellBounds.minY
+        cell.widthConstraint?.constant = cellBounds.width
+        cell.heightConstraint?.constant = cellBounds.height
+        
         cell.isHidden = false
         
         //didDisplayCell
@@ -134,7 +152,11 @@ extension InteractiveAttachmentCellDispatcher: InteractiveTextAttachmentDelegate
         //willEndDisplayCell
         textView.interactiveDelegate?.textView?(textView, willEndDisplaying: cell)
         
-        cell.frame = CGRect.zero
+        cell.leadingConstraint?.constant = 0
+        cell.topConstraint?.constant = 0
+        cell.widthConstraint?.constant = 0
+        cell.heightConstraint?.constant = 0
+        
         cell.isHidden = true
         
         //get cell and put it in idle

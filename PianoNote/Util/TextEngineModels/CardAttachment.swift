@@ -33,6 +33,7 @@ class CardAttachment: InteractiveTextAttachment {
     init(attachment: CardAttachment) {
         super.init(attachment: attachment)
         self.idForModel = attachment.idForModel
+        self.privateCellIdentifier = attachment.cellIdentifier
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -46,11 +47,12 @@ class CardAttachment: InteractiveTextAttachment {
 
     ///Set size for attachment!
     private func size(forIdentifier identifier: String) -> CGSize {
-        let width = self.minSize
+        let edgeInsets: CGFloat = 53 // head == 30, tail == 20, inset == 3
+        let width = self.minSize - edgeInsets
         let height: CGFloat
 
         switch identifier {
-            default: height = 50
+            default: height = 100
         }
 
         return CGSize(width: width, height: height)

@@ -81,7 +81,15 @@ extension NoteViewController {
     }
     
     @objc func tapSetting(sender: Any) {
-        performSegue(withIdentifier: SegueIdentifer.NoteSettingViewController, sender: textView)
+
+        let vc = ImageCardDetailViewController()
+        
+        self.present(vc, animated: true, completion: nil)
+//        let imageModel = RealmImageModel.getNewModel(noteRecordName: "", image: UIImage())
+//
+//        let newAttachment = CardAttachment(idForModel: imageModel.id, cellIdentifier: PianoTextImageCell.reuseIdentifier)
+//        textView.textStorage.append(NSAttributedString(attachment: newAttachment))
+//        performSegue(withIdentifier: SegueIdentifer.NoteSettingViewController, sender: textView)
     }
     
     

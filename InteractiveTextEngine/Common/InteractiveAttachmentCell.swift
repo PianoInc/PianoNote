@@ -14,11 +14,20 @@ extension InteractiveAttachmentCell {
     }
 
     func sync(to bounds: CGRect) {
-        if bounds.offsetBy(dx: 0, dy: lineFragmentPadding).insetBy(dx: 1, dy: 0) != frame {
-            let padding = lineFragmentPadding
-            DispatchQueue.main.async { [weak self] in
-                self?.frame = bounds.offsetBy(dx: 0, dy: padding).insetBy(dx: 1, dy: 0)
-            }
+        guard let superView = superview as? InteractiveTextView else {return}
+        let newBounds = bounds.offsetBy(dx: superView.textContainerInset.left,
+                                        dy: superView.textContainerInset.top)
+                              .insetBy(dx: 1.5, dy: 0)
+        
+        if newBounds.minX != leadingConstraint!.constant
+            || newBounds.minY != topConstraint!.constant
+            || newBounds.width != widthConstraint!.constant
+            || newBounds.height != heightConstraint!.constant {
+
+            leadingConstraint?.constant = newBounds.minX
+            topConstraint?.constant = newBounds.minY
+            widthConstraint?.constant = newBounds.width
+            heightConstraint?.constant = newBounds.height
         }
     }
     

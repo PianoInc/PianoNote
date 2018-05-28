@@ -76,6 +76,26 @@ extension RealmImageModel {
     }
 }
 
+extension RealmImageListModel {
+
+    func getRecord() -> CKRecord {
+        let scheme = Schema.ImageList.self
+
+        let coder = NSKeyedUnarchiver(forReadingWith: self.ckMetaData)
+        coder.requiresSecureCoding = true
+        guard let record = CKRecord(coder: coder) else {fatalError("Data poluted!!")}
+        coder.finishDecoding()
+
+        let noteRecordID = CKRecordID(recordName: noteRecordName, zoneID: record.recordID.zoneID)
+
+        record[scheme.id] = self.id as CKRecordValue
+        record[scheme.noteRecordName] = CKReference(recordID: noteRecordID, action: .deleteSelf)
+        record[scheme.imageList] = self.imageIDs as CKRecordValue
+        record.setParent(noteRecordID)
+
+        return record
+    }
+}
 
 extension CKRecord {
 
@@ -187,6 +207,21 @@ extension CKRecord {
         }
         
         return newImageModel
+    }
+
+    private func parseImageListRecord(isShared: Bool) -> RealmImageListModel? {
+        let newImageListModel = RealmImageListModel()
+        let scheme = Schema.ImageList.self
+
+        guard let id = self[scheme.id] as? String,
+                let noteReference = self[scheme.noteRecordName] as? CKReference,
+                let imageList = self[scheme.imageList] as? String else { return nil}
+
+        newImageListModel.id = id
+        newImageListModel.noteRecordName = noteReference.recordID.recordName
+        newImageListModel.imageIDs = imageList
+
+        return newImageListModel
     }
     
     private func parseShare(isShared: Bool) -> RealmCKShare? {
