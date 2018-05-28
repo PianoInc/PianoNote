@@ -28,7 +28,8 @@ class RealmImageModel: Object, Recordable {
         return ["recordTypeString"]
     }
 
-    static func getNewModel(sharedZoneID: CKRecordZoneID? = nil, noteRecordName: String, image: UIImage) -> RealmImageModel {
+    
+    static func getNewModel(sharedZoneID: CKRecordZoneID? = nil, noteRecordName: String, image: UIImage? = nil) -> RealmImageModel {
         let zone = CKRecordZone(zoneName: RxCloudDatabase.privateRecordZoneName)
         let id = Util.share.getUniqueID()
         let zoneID = sharedZoneID ?? zone.zoneID
@@ -40,7 +41,9 @@ class RealmImageModel: Object, Recordable {
         newModel.id = id
         newModel.isInSharedDB = sharedZoneID != nil
         newModel.noteRecordName = noteRecordName
-        newModel.image = UIImageJPEGRepresentation(image, 1.0) ?? Data()
+        if let image = image {
+            newModel.image = UIImageJPEGRepresentation(image, 1.0) ?? Data()
+        }
 
         return newModel
     }
