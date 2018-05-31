@@ -56,6 +56,7 @@ class ImageCardDetailViewController: UIViewController {
     }
     
     @IBAction func doneButtonTouched(_ sender: UIBarButtonItem) {
+        //TODO: if count == 1, then make image card, not image list card.
         guard let realm = try? Realm(),
                 let noteModel = realm.object(ofType: RealmNoteModel.self, forPrimaryKey: noteID),
                 let result = allPhotos else {return}
@@ -79,7 +80,7 @@ class ImageCardDetailViewController: UIViewController {
             requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.fastFormat
             requestOptions.isSynchronous = false
 
-            PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: PHImageContentMode.default, options: requestOptions) { [weak self](image, dic) in
+            PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: PHImageContentMode.default, options: requestOptions) { (image, dic) in
                 guard let wrappedImage = image,
                         let imageData = UIImageJPEGRepresentation(wrappedImage, 1.0) else { return }
 
@@ -90,6 +91,8 @@ class ImageCardDetailViewController: UIViewController {
         let newImageListModel = RealmImageListModel.getNewModel(sharedZoneID: record.recordID.zoneID, noteRecordName: noteModel.recordName, imageIDs: ids)
         ModelManager.saveNew(model: newImageListModel)
         //get id & make card
+        
+        dismiss(animated: true, completion: nil)
         
     }
     
