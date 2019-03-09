@@ -9,28 +9,30 @@
 import UIKit
 import InteractiveTextEngine_iOS
 
-class PianoTextView: InteractiveTextView {
-    
-
-//    private(set) var inputViewManager: DRInputViewManager!
+class PianoTextView: InteractiveTextView, Assistable, Pianoable {
 
     var isSyncing: Bool = false
     var noteID: String = ""
+    var assistDataSource: [PianoAssistData] = []
+    var assistDatas: [PianoAssistData] = {
+        InteractiveAttachmentModel.keywords.map {
+            return PianoAssistData(keyword: $0, input: "")
+        }
+    }()
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-//        inputViewManager = DRInputViewManager(self)
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override var keyCommands: [UIKeyCommand]? {
+        
+        var commands: [UIKeyCommand] = []
+        commands.append(contentsOf: assistableKeyCommands)
+        
+        return commands
         
     }
     
-//    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-//        if inputViewManager.magnifyAccessoryView.magnifyView.state == .paste {
-//            return action == #selector(paste(_:))
-//        }
-//        inputViewManager.magnifyAccessoryView.magnifyView.cursor()
-//        return true
-//    }
 
     override var typingAttributes: [String : Any] {
         get {
@@ -48,7 +50,7 @@ class PianoTextView: InteractiveTextView {
         super.init(frame: frame, textContainer: textContainer)
         
         setup()
-        tag = ViewTag.PianoTextView.rawValue
+        tag = ViewTag.PianoTextView.hashValue
         noteID = ""
     }
     
@@ -103,7 +105,7 @@ class PianoTextView: InteractiveTextView {
         
         newTextView.setup()
         
-        newTextView.tag = ViewTag.PianoTextView.rawValue
+        newTextView.tag = ViewTag.PianoTextView.hashValue
         
         return newTextView
     }

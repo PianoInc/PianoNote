@@ -10,15 +10,15 @@ import UIKit
 
 class PianoControl: UIControl {
 
-    public weak var effectable: Effectable?
+    public weak var pianoable: Pianoable?
     public weak var textAnimatable: TextAnimatable?
 
     
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         
-        guard let effectable = self.effectable,
+        guard let pianoable = self.pianoable,
             let textAnimatable = self.textAnimatable else { return false }
-        let trigger = effectable.preparePiano(at: touch)
+        let trigger = pianoable.preparePiano(at: touch)
         textAnimatable.preparePiano(animatableTextsTrigger: trigger)
         textAnimatable.playPiano(at: touch)
         return true
@@ -27,20 +27,20 @@ class PianoControl: UIControl {
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         
-        guard let effectable = self.effectable,
+        guard let pianoable = self.pianoable,
             let textAnimatable = self.textAnimatable else { return }
         textAnimatable.endPiano { (result) in
-            effectable.endPiano(with: result)
+            pianoable.endPiano(with: result)
         }
         
     }
   
     override func cancelTracking(with event: UIEvent?) {
         
-        guard let effectable = self.effectable,
+        guard let pianoable = self.pianoable,
             let textAnimatable = self.textAnimatable else { return }
         textAnimatable.endPiano { (result) in
-            effectable.endPiano(with: result)
+            pianoable.endPiano(with: result)
         }
         
     }

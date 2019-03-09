@@ -9,34 +9,9 @@
 import Foundation
 
 
-enum ViewTag: Int {
-    case PianoButton = 1000
-    case PianoSegmentControl = 1001
-    case PianoView = 1002
-    case PianoControl = 1003
-    case PianoTextView = 1004
-    case PianoCoverView = 1005
+//TODO: 피아노로 태그들 빼고, 여기에는 공백 스트럭트로만 남겨두기
+struct ViewTag {
     
-    case TempImageView = 2000
-    
-    var identifier: String {
-        return String(describing: self)
-    }
 }
 
-extension View {
-    
-    internal func subView(tag: ViewTag) -> View {
-        
-        if let view = self.viewWithTag(tag.rawValue) {
-            return view
-        }
-        let nib = Nib(nibName: tag.identifier, bundle: nil)
-        let view = nib.instantiate(withOwner: nil, options: nil).first as! View
-        view.tag = tag.rawValue
 
-        return view
-        
-    }
-
-}

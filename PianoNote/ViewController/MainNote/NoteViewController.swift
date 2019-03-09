@@ -24,6 +24,7 @@ class NoteViewController: UIViewController {
     var notificationToken: NotificationToken?
     internal var keyboardToken: NSKeyValueObservation?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -285,22 +286,6 @@ class NoteViewController: UIViewController {
             guard let destVC = segue.destination as? NoteSettingViewController else {return}
             destVC.noteID = noteID
         }
-    }
-    
-}
-
-extension NoteViewController {
-    internal func setup(pianoMode: Bool) {
-        
-        setNavigationController(for: pianoMode)
-        
-        guard let pianoView = view.subView(tag: ViewTag.PianoView) as? PianoView,
-            let segmentControl = view.subView(tag: ViewTag.PianoSegmentControl) as? PianoSegmentControl else { return }
-        
-        pianoView.setup(for: pianoMode, to: view)
-        segmentControl.setup(for: pianoMode, to: view)
-        textView.setup(for: pianoMode, to: view)
-        
     }
     
 }

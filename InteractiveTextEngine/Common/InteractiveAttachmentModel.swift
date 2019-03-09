@@ -1,28 +1,32 @@
 //
-//  PianoCard.swift
+//  InteractiveAttachmentModel.swift
 //  InteractiveTextEngine_iOS
 //
 //  Created by Kevin Kim on 27/04/2018.
 //
 import Foundation
 
-struct PianoCard {
+struct InteractiveAttachmentModel {
     //TODO: regexs localized ex: regexString.localized
-    private let regexs: [(type: PianoCardType, regex: String)] = [
-        (.images, "^\\s*(#사진\\s*)(?=)"),
-        (.url, "^\\s*(#링크\\s*)(?=)"),
-        (.address, "^\\s*(#주소\\s*)(?=)"),
-        (.contact, "^\\s*(#연락처\\s*)(?=)"),
-        (.file, "^\\s*(#파일\\s*)(?=)"),
-        (.calendar, "^\\s*(#일정\\s*)(?=)"),
-        (.reminders, "^\\s*(#미리알림\\s*)(?=)")
+    
+    static let keywords = ["사진", "링크", "주소", "연락처", "파일", "일정", "미리알림"]
+    
+    //TODO: regexs localized ex: regexString.localized
+    private let regexs: [(type: InteractiveAttachmentType, regex: String)] = [
+        (.image, "^\\s*(#\(InteractiveAttachmentModel.keywords[0])\\s*)(?=)"),
+        (.url, "^\\s*(#\(InteractiveAttachmentModel.keywords[1])\\s*)(?=)"),
+        (.address, "^\\s*(#\(InteractiveAttachmentModel.keywords[2])\\s*)(?=)"),
+        (.contact, "^\\s*(#\(InteractiveAttachmentModel.keywords[3])\\s*)(?=)"),
+        (.file, "^\\s*(#\(InteractiveAttachmentModel.keywords[4])\\s*)(?=)"),
+        (.calendar, "^\\s*(#\(InteractiveAttachmentModel.keywords[5])\\s*)(?=)"),
+        (.reminders, "^\\s*(#\(InteractiveAttachmentModel.keywords[6])\\s*)(?=)")
     ]
     
     // replace해야하는 범위: 문단의 맨 앞 위치 <= 범위 <=커서의 위치
     
     
-    enum PianoCardType {
-        case images
+    public enum InteractiveAttachmentType {
+        case image
         case url
         case address
         case contact
@@ -42,6 +46,7 @@ struct PianoCard {
                 self.type = type
                 self.textRange = NSMakeRange(range.location + range.length,
                                              selectedRange.location - (range.location + range.length))
+                self.paraRange = paraRange
                 return
             }
         }
@@ -51,12 +56,13 @@ struct PianoCard {
     
     public let range: NSRange
     public let textRange: NSRange
-    public let type: PianoCardType
+    public let paraRange: NSRange
+    public let type: InteractiveAttachmentType
     
     
     //TODO: 이부분 만들어야함
-    public func attachment() -> InteractiveTextAttachment {
-        
-        return InteractiveTextAttachment()
-    }
+//    public func attachment() -> InteractiveTextAttachment {
+//        
+//        return InteractiveTextAttachment()
+//    }
 }

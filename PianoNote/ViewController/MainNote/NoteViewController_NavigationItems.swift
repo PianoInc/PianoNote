@@ -73,7 +73,7 @@ extension NoteViewController {
     }
     
     @objc func tapPiano(sender: Any) {
-        setup(pianoMode: true)
+        textView.beginPiano()
     }
     
     @objc func tapAddPeople(sender: UIBarButtonItem) {
@@ -90,38 +90,6 @@ extension NoteViewController {
 //        let newAttachment = CardAttachment(idForModel: imageModel.id, cellIdentifier: PianoTextImageCell.reuseIdentifier)
 //        textView.textStorage.append(NSAttributedString(attachment: newAttachment))
 //        performSegue(withIdentifier: SegueIdentifer.NoteSettingViewController, sender: textView)
-    }
-    
-    
-    internal func setNavigationController(for pianoMode: Bool) {
-        
-        navigationController?.setNavigationBarHidden(pianoMode, animated: true)
-        
-        let flexibleSpace = UIBarButtonItem(
-            barButtonSystemItem: .flexibleSpace,
-            target: nil,
-            action: nil)
-        let done = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(tapPianoDone(sender:)))
-        let info = UIBarButtonItem(
-            image: UIImage(named: "info"),
-            style: .plain,
-            target: self,
-            action: #selector(tapPianoInfo(sender:)))
-        
-        self.setToolbarItems([flexibleSpace, done, flexibleSpace, info], animated: true)
-        navigationController?.setToolbarHidden(!pianoMode, animated: true)
-        
-    }
-    
-    @objc func tapPianoDone(sender: Any) {
-        setup(pianoMode: false)
-    }
-    
-    @objc func tapPianoInfo(sender: Any) {
-        
     }
 
 }

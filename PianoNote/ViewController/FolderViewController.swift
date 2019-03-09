@@ -17,6 +17,7 @@ class FolderViewController: DRViewController {
     @IBOutlet private var newFolderButton: UIButton!
     
     private let nodeCtrl = FolderNodeController()
+//    private let newFolderButton = UIButton(type: .system)
     fileprivate var notificationToken: NotificationToken?
     
     override func viewDidLoad() {

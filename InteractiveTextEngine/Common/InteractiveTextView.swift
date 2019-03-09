@@ -24,6 +24,7 @@ extension InteractiveTextView {
         dispatcher.reload(attachmentID: attachmentID)
     }
     
+    
     public func startDisplayLink() {
         displayLink?.isPaused = false
         //백그라운드들을 저장!

@@ -75,4 +75,5 @@ extension UIColor {
 extension UIColor {
     static let point = UIColor(hex6: "007AFF")
     static let basic = UIColor(hex6: "000000")
+    static let background = UIColor(hex6: "F5F5F5")
 }

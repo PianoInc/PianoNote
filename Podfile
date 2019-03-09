@@ -17,6 +17,7 @@ target 'PianoNote' do
     pod 'FBSDKLoginKit'
     pod 'CryptoSwift'
     pod 'URLEmbeddedView', :git => 'https://github.com/PianoInc/URLEmbeddedView.git'
+    pod 'Highlighter'
     
     # Pods for testing
     target 'PianoNoteTests' do
@@ -38,7 +39,7 @@ post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
             config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
-			config.build_settings['GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS'] = 'NO'
+		config.build_settings['GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS'] = 'NO'
         end
     end
 end

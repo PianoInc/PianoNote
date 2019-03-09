@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 
 extension NoteViewController {
     
@@ -46,6 +45,8 @@ extension NoteViewController {
                                                                                      right: currentScrollInset.right)
             })
         
+
+
         let currentInset = textView.contentInset
         let currentScrollInset = textView.scrollIndicatorInsets
         
